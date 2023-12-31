@@ -1,0 +1,636 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All WR Tab</title>
+    <script src="./script.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+
+        <!-- Header (Tabs) Container -->
+      <div class="headerTabsContainer">
+            <div class="headerTab" id="all_wr_tab">
+                <div class="headerTabTextContainer">
+                    <h5>All&ensp;</h5>
+                    <h2>WR's</h2>
+                </div>
+            </div>
+            <div class="headerTab activeTab hidden" id="all_wr_tab_active">
+                <div class="headerTabTextContainer">
+                    <h5>All&ensp;</h5>
+                    <h5>WR's</h5>
+                </div>
+            </div>
+
+            <div class="headerTab" id="to_do_tab">
+                <div class="headerTabTextContainer">
+                    <h2>To-</h2>
+                    <h2>Do's</h2>
+                </div>   
+            </div>
+            <div class="headerTab activeTab hidden" id="to_do_tab_active">
+                <div class="headerTabTextContainer">
+                    <h2>To-</h2>
+                    <h2>Do's</h2>
+                </div>
+            </div>
+
+            <div class="headerTab" id="permits_tab"><h2>Permits</h2></div>
+            <div class="headerTab activeTab hidden" id="permits_tab_active"><h2>Permits</h2></div>
+
+            <div class="headerTab" id="easement_requests_tab">
+            <h2>Easement</h2>
+            <h2>Requests</h2>
+            </div>
+            <div class="headerTab activeTab hidden" id="easement_requests_tab_active">
+                <h2>Easement</h2>
+                <h2>Requests</h2>
+            </div>
+
+            <div class="headerTab" id="waiting_tab"><h2>Waiting</h2></div>
+            <div class="headerTab activeTab hidden" id="waiting_tab_active"><h2>Waiting</h2></div>
+
+            <div class="headerTab" id="tools_tab">
+            <h2>Tools</h2>
+            <h3>(Coming Soon)</h3>
+            </div>
+            <div class="headerTab activeTab hidden" id="tools_tab_active">
+                <h2>Tools</h2>
+                <h3>(Coming Soon)</h3>
+            </div>
+
+            <div class="headerTab hidden" id="add_tab"><h2>Add</h2></div>
+            <div class="headerTab activeTab " id="add_tab_active"><h2>Add</h2></div>
+
+            <div class="headerTab" id="upcoming_tab"><h2>Upcoming</h2></div>
+            <div class="headerTab activeTab hidden" id="upcoming_tab_active"><h2>Upcoming</h2></div>
+
+            <div class="headerTab" id="reminders_tab"><h2>Reminders</h2></div>
+            <div class="headerTab activeTab hidden" id="reminders_tab_active"><h2>Reminders</h2></div>
+      </div>
+
+      <!-- Middle Section (Filters and Display) Container -->
+      <div class="middleSectionContainer" id="middle_section_container">
+        <div class="leftSideContainer" id="left_side_container">
+            
+            <!-- Top Section of Filter Section -->
+            <div class="searchByBoxContainer filterSectionInactive hidden" id="seach_by_box_container">
+                <input type="checkbox" class="searchBySelectionCheckbox" id="search_by_selecetion_checkbox" name="search_by_selection_checkbox"/>
+                <div class="searchTextfieldContainer" id="search_textfield_container">
+                    <label for="search_by_selection_textfield" class="searchBySelectionTextfieldLabel" id="search_by_selection_textfield_label">Search:</label>
+                    <input type="text" class="searchBySelectionTextfield" id="search_by_selection_textfield" name="searchBySelectionTextfield"/>
+                </div>
+                <div class="searchBySelectionLowerContainer" id="search_by_selection_lower_container">
+                    <div class="searchBySelectionLowerContainerCheckboxesContainer" id="search_by_selection_lower_container_checkboxes_container">
+                        <div class="searchBySelectionLowerContainerCheckboxAndLabelContainer" id="search_by_selection_lower_container_checkbox_and_label_container_address">
+                            <input type="checkbox" class="searchBySelectionLowerContainerCheckbox" id="search_by_selection_lower_container_checkbox_address" name="search_by_selection_lower_container_checkbox_address"/>   
+                            <label for="search_by_selection_lower_container_checkbox_address" class="searchBySelectionLowerContainerCheckboxLabel" id="search_by_selection_lower_container_checkbox_address_label">By Address</label>
+                        </div>
+                        <div class="searchBySelectionLowerContainerCheckboxAndLabelContainer" id="search_by_selection_lower_container_checkbox_and_label_container_wr">
+                            <input type="checkbox" class="searchBySelectionLowerContainerCheckbox" id="search_by_selection_lower_container_checkbox_wr" name="search_by_selection_lower_container_checkbox_wr"/>   
+                            <label for="search_by_selection_lower_container_checkbox_wr" class="searchBySelectionLowerContainerCheckboxLabel" id="search_by_selection_lower_container_checkbox_wr_label">By WR #</label>
+                        </div>
+                    </div>
+                    <button type="button" class="searchTextfieldGoButton" id="search_textfield_go_button"> Go </button> 
+                </div>
+            </div>
+
+            <!-- Filter By Section -->
+            <div class="filterByBoxContainer hidden" id="all_wr_specific_filters_container">
+                <input type="checkbox" class="filterBySelectionCheckbox" id="filter_by_selecetion_checkbox" name="filter_by_selection_checkbox" checked/>
+                <div class="filterAndGoContainer" id="filter_and_go_container">
+                    <label for="filterGoButton" class="filterGoButtonLabel" id="filter_go_button_label">Filter By:</label>
+                    <button type="button" class="filterGoButton" id="filter_go_button"> Go</button>
+                </div>
+                
+                <!-- Generic Filters Container -->
+                <div class="genericFiltersContainer" id="generic_filters_container">
+                    <div class="filterContainer" id="filter_container_priority_number">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_priority_number" name="filter_checkbox_priority_number"/>
+                        <label for="filter_checkbox_priority_number" class="filterCheckboxLabel" id="filter_checkbox_priority_number_label">Priority Number</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_age_new_old">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_age_new_old" name="filter_checkbox_age_new_old"/>
+                        <label for="filter_checkbox_age_new_old" class="filterCheckboxLabel" id="filter_checkbox_age_new_old_label">Age (New -> Old) </label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_crd">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_crd" name="filter_checkbox_crd"/>
+                        <label for="filter_checkbox_crd" class="filterCheckboxLabel" id="filter_checkbox_crd_label">CRD </label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_age_old_new">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_age_old_new" name="filter_checkbox_age_old_new"/>
+                        <label for="filter_checkbox_age_old_new" class="filterCheckboxLabel" id="filter_checkbox_age_old_new_label">Age (Old -> New) </label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_rcd">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_rcd" name="filter_checkbox_rcd"/>
+                        <label for="filter_checkbox_rcd" class="filterCheckboxLabel" id="filter_checkbox_rcd_label">RCD </label>
+                    </div> 
+                </div>
+                <label class="filterSectionStatusLabel" id="filter_section_status_label">Status:</label>
+               
+                <!-- Status Filters Container -->
+                <div class="statusFiltersContainer" id="status_filters_container">
+                    <div class="filterContainer" id="filter_container_waiting_ll">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_waiting_ll" name="filter_checkbox_waiting_ll"/>
+                        <label for="filter_checkbox_waiting_ll" class="filterCheckboxLabel" id="filter_checkbox_waiting_ll_label">Waiting on LL,SP,etc.</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_need_to_visit">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_need_to_visit" name="filter_checkbox_need_to_visit"/>
+                        <label for="filter_checkbox_need_to_visit" class="filterCheckboxLabel" id="filter_checkbox_need_to_visit_label">Need to Visit</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_svc_calcs">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_svc_calcs" name="filter_checkbox_svc_calcs"/>
+                        <label for="filter_checkbox_svc_calcs" class="filterCheckboxLabel" id="filter_checkbox_svc_calcs_label">Service Calcs + Coding</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_check_permit">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_check_permit" name="filter_checkbox_check_permit"/>
+                        <label for="filter_checkbox_check_permit" class="filterCheckboxLabel" id="filter_checkbox_check_permit_label">Check / Apply - Permit</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_check_easement">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_check_easement" name="filter_checkbox_check_easement"/>
+                        <label for="filter_checkbox_check_easement" class="filterCheckboxLabel" id="filter_checkbox_check_easement_label">Check / Apply - Easement</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_design">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_design" name="filter_checkbox_design"/>
+                        <label for="filter_checkbox_design" class="filterCheckboxLabel" id="filter_checkbox_design_label">Design</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_review_peer">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_review_peer" name="filter_checkbox_review_peer"/>
+                        <label for="filter_checkbox_review_peer" class="filterCheckboxLabel" id="filter_checkbox_review_peer_label">Review - Peer</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_review_coordinator">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_review_coordinator" name="filter_checkbox_review_coordinator"/>
+                        <label for="filter_checkbox_review_coordinator" class="filterCheckboxLabel" id="filter_checkbox_review_coordinator_label">Review - Coordinator</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_revisions">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_revisions" name="filter_checkbox_revisions"/>
+                        <label for="filter_checkbox_revisions" class="filterCheckboxLabel" id="filter_checkbox_revisions_label">Revisions</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_waiting_customer_not_approved">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_waiting_customer_not_approved" name="filter_checkbox_waiting_customer_not_approved"/>
+                        <label for="filter_checkbox_waiting_customer_not_approved" class="filterCheckboxLabel" id="filter_checkbox_waiting_customer_not_approved_label">Waiting On Cust. - Not Approved</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_waiting_customer_approved">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_waiting_customer_approved" name="filter_checkbox_waiting_customer_approved"/>
+                        <label for="filter_checkbox_waiting_customer_approved" class="filterCheckboxLabel" id="filter_checkbox_waiting_customer_approved_label">Waiting On Cust. - Approved</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_flag">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_flag" name="filter_checkbox_flag"/>
+                        <label for="filter_checkbox_flag" class="filterCheckboxLabel" id="filter_checkbox_flag_label">Need to Flag</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_7010">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_7010" name="filter_checkbox_7010"/>
+                        <label for="filter_checkbox_7010" class="filterCheckboxLabel" id="filter_checkbox_7010_label">7010'd</label>
+                    </div>
+                    <div class="filterContainer" id="filter_container_cancled_other">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_cancled_other" name="filter_checkbox_cancled_other"/>
+                        <label for="filter_checkbox_cancled_other" class="filterCheckboxLabel" id="filter_checkbox_cancled_other_label">Cancled / Other</label>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="filterFooterContainerLabel hidden" id="trim_container_label">Trim By:</div>
+                
+            <!-- Trim Container -->
+            <div class="filterFooterContainer hidden" id="trim_container">
+                <div class="footerFilterContainer" id="footer_filter_container_not_7010">
+                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_not_7010" name="footer_filter_checkbox_not_7010" checked/>
+                    <label for="footer_filter_checkbox_not_7010" class="filterCheckboxLabel" id="footer_filter_checkbox_not_7010_label">Not 7010'd</label>
+                </div>
+                <div class="footerFilterContainer" id="footer_filter_container_all">
+                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_all" name="footer_filter_checkbox_all"/>
+                    <label for="footer_filter_checkbox_all" class="filterCheckboxLabel" id="footer_filter_checkbox_all_label">All</label>
+                </div>
+                <div class="footerFilterContainer" id="footer_filter_container_7010">
+                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_7010" name="footer_filter_checkbox_7010"/>
+                    <label for="footer_filter_checkbox_7010" class="filterCheckboxLabel" id="footer_filter_checkbox_7010_label">7010'd</label>
+                </div>
+            </div>
+
+            <!-- Add tab filter components -->
+            <div class="addTabFilterLabelContainer " id="add_tab_filter_label_container">
+                <div class="addTabFilterLabel">Add:</div>
+            </div>
+            <div class="addTypeContainer " id="add_type_container">
+                <div class="filterContainer" id="filter_container_add_wr">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_wr" name="filter_checkbox_add_wr" checked/>
+                    <label for="filter_checkbox_add_wr" class="filterCheckboxLabel" id="filter_checkbox_add_wr_label">Work Request</label>
+                </div>
+                <div class="filterContainer" id="filter_container_add_to_do">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_to_do" name="filter_checkbox_add_to_do"/>
+                    <label for="filter_checkbox_add_to_do" class="filterCheckboxLabel" id="filter_checkbox_add_to_do_label">To-Do</label>
+                </div>
+                <div class="filterContainer" id="filter_container_add_permit">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_permit" name="filter_checkbox_add_permit"/>
+                    <label for="filter_checkbox_add_permit" class="filterCheckboxLabel" id="filter_checkbox_add_permit_label">Permit</label>
+                </div>
+                <div class="filterContainerAddTab" id="filter_container_add_easement_request">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_easement_request" name="filter_checkbox_add_easement_request"/>
+                    <label for="filter_checkbox_add_easement_request" class="filterCheckboxLabelAddTab" id="filter_checkbox_add_easement_request_label">
+                        <div class="filterCheckboxLabel">Easement</div>
+                        <div class="filterCheckboxLabel">Request</div>
+                    </label>
+                </div>
+                <div class="filterContainer" id="filter_container_add_comment">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_comment" name="filter_checkbox_add_comment"/>
+                    <label for="filter_checkbox_add_comment" class="filterCheckboxLabel" id="filter_checkbox_add_comment_label">Comment</label>
+                </div>
+                <div class="filterContainer" id="filter_container_add_reminder">
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_reminder" name="filter_checkbox_add_reminder"/>
+                    <label for="filter_checkbox_add_reminder" class="filterCheckboxLabel" id="filter_checkbox_add_reminder_label">Reminder</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side (Display) Container -->
+        <div class="rightSideContainer" id="right_side_container">
+
+            <!-- All Wr Tab Display Container -->
+            <div class="allWrDisplayContainer hidden" id="all_wr_display_container">
+                <div class="addWrDisplayLabelContainer" id="all_wr_display_label_container">
+                    <div class="displayColLabel" id="display_col_priority_number_label">
+                        <div class="displayColLine" id="display_col_line_priority">Priority</div> 
+                        <div class="displayColLine" id="display_col_line_number">Number</div> 
+                    </div>
+                    <div class="displayColLabelText" id="display_col_wr_label">
+                        <div class="displayColLine" id="display_col_line_wr">WR # / Address</div> 
+                        <div class="displayColLine" id="display_col_line_type">/ Type</div> 
+                    </div>
+                    <div class="displayColLabel" id="display_col_crd_label">
+                        <div class="displayColLine" id="display_col_line_crd">CRD</div> 
+                    </div>
+                    <div class="displayColLabel" id="display_col_rcd_label">
+                        <div class="displayColLine" id="display_col_line_rcd">RCD</div> 
+                    </div>
+                    <div class="displayColLabel" id="display_col_status_general_label">
+                        <div class="displayColLine" id="display_col_line_status">Status</div> 
+                        <div class="displayColLineMed" id="display_col_line_general">(General)</div> 
+                    </div>
+                    <div class="displayColLabelText" id="display_col_to_dos_label">
+                        <div class="displayColLine" id="display_col_line_to_dos">To-Do's</div> 
+                    </div>
+                    <div class="displayColLabel" id="display_col_permit_status_label">
+                        <div class="displayColLine" id="display_col_line_permit_status_permit">Permit&ensp;</div> 
+                        <div class="displayColLine" id="display_col_line_permit_status_status">Status</div> 
+
+                    </div>
+                    <div class="displayColLabel" id="display_col_easement_status_label">
+                        <div class="displayColLine" id="display_col_line_easement_status_easement">Easement&ensp;</div> 
+                        <div class="displayColLine" id="display_col_line_easement_status_status">Status</div> 
+
+                    </div>
+                    <div class="displayColLabelBigText" id="display_col_comments_label">
+                        <div class="displayColLine" id="display_col_line_comments">Comments</div> 
+                    </div>
+                    <div class="displayColLabelText" id="display_col_pocs_label">
+                        <div class="displayColLine" id="display_col_line_pocs">P.O.C.('s)</div> 
+                    </div>
+
+                </div>
+
+                <!--<div class="displayCol" id="display_col_priotity_number">
+                    <div class="displayColLabel" id="display_col_priority_number_label">
+                        <div class="displayColLine" id="display_col_line_priority">Priority</div> 
+                        <div class="displayColLine" id="display_col_line_number">Number</div> 
+                    </div>
+                </div>
+                <div class="displayColText" id="display_col_wr">
+                    <div class="displayColLabel" id="display_col_wr_label">
+                        <div class="displayColLine" id="display_col_line_wr">WR # / Address</div> 
+                        <div class="displayColLine" id="display_col_line_type">/ Type</div> 
+                    </div>
+                </div>
+                <div class="displayCol" id="display_col_crd">
+                    <div class="displayColLabel" id="display_col_crd_label">
+                        <div class="displayColLine" id="display_col_line_crd">CRD</div> 
+                    </div>
+                </div>
+                <div class="displayCol" id="display_col_rcd">
+                    <div class="displayColLabel" id="display_col_rcd_label">
+                    <div class="displayColLine" id="display_col_line_rcd">RCD</div> 
+                    </div>
+                </div>
+                <div class="displayCol" id="display_col_status_general">
+                    <div class="displayColLabel" id="display_col_status_general_label">
+                        <div class="displayColLine" id="display_col_line_status">Status</div> 
+                        <div class="displayColLineMed" id="display_col_line_general">(General)</div> 
+                    </div>
+                </div>
+                <div class="displayColText" id="display_col_to_dos">
+                    <div class="displayColLabel" id="display_col_to_dos_label">
+                        <div class="displayColLine" id="display_col_line_to_dos">To-Do's</div> 
+                    </div>
+                </div>
+                <div class="displayCol" id="display_col_permit_status">
+                    <div class="displayColLabel" id="display_col_permit_status_label">
+                        <div class="displayColLine" id="display_col_line_permit_status">Permit Status</div> 
+                    </div>
+                </div>
+                <div class="displayCol" id="display_col_easement_status">
+                    <div class="displayColLabel" id="display_col_easement_status_label">
+                        <div class="displayColLine" id="display_col_line_easement_status">Easement Status</div> 
+                    </div>
+                </div>
+                <div class="displayColTextBig" id="display_col_comments">
+                    <div class="displayColLabel" id="display_col_comments_label">
+                        <div class="displayColLine" id="display_col_line_comments">Comments</div> 
+                    </div>
+                </div>
+                <div class="displayColText" id="display_col_pocs">
+                    <div class="displayColLabel" id="display_col_pocs_label">
+                        <div class="displayColLine" id="display_col_line_pocs">P.O.C.('s)</div> 
+                    </div>
+                </div>-->
+            </div>
+
+            <!-- Add Tab Display Container-->
+            <div class="addDisplayContainer " id="add_display_container">
+                <div class="addTabDisplayTop" id="add_tab_display_top">
+                    <div class="addTabDisplayLabel">Add New&ensp;</div>
+                    <div class="addTabDisplayLabel" id="add_tab_display_wr_label">"Work Request"</div>
+                    <div class="addTabDisplayLabel hidden" id="add_tab_display_to_do_label">"To-Do"</div>
+                    <div class="addTabDisplayLabel hidden" id="add_tab_display_permit_label">"Permit"</div>
+                    <div class="addTabDisplayLabel hidden" id="add_tab_display_easement_request_label">"Easement Request"</div>
+                    <div class="addTabDisplayLabel hidden" id="add_tab_display_comment_label">"Comment"</div>
+                    <div class="addTabDisplayLabel hidden" id="add_tab_display_Reminder_label">"Reminder"</div>
+                </div>
+                <div class="addTabDisplayTopMid" id="add_tab_display_top_mid">
+                    <div class="newWrNumContainer">
+                        <label for="new_work_request_number_textfield" class="newWorkRequestNumberTextfieldLabel" id="new_work_request_number_textfield_label"><b>New Work Request Number:&ensp;</b></label>
+                        <input type="text" class="newWrNumberTextfield" id="new_work_request_number_textfield" name="new_work_request_number_textfield"/>
+                    </div>
+                    <button type="button" class="addNewWrButton" id="add_new_wr_button"><b>ADD</b></button>
+                </div>
+                
+                <!-- Add Tab Display Specific - WR -->
+                <div class="addTabDisplayAddWr" id="add_tab_display_add_wr">
+                    
+                    <!-- Add Tab Display Bottom Mid -->
+                    <div class="addTabDisplayBottomMid" id="add_tab_display_bottom_mid">
+                        <div class="addressBox" id="addressBox">
+                            <label class="addressBoxLabel" id="address_box_label"><b>Address:</b></label>
+                            <div class="addressElementContainer">
+                                <label for="address_line_textfield_house_number" class="addressLineLabel" id="address_line_textfield_house_number_label">House Number:&ensp;</label>
+                                <input type="text" class="addressLineTextfield" id="address_line_textfield_house_number" name="address_line_textfield_house_number">
+                            </div>  
+                            <div class="addressElementContainer">
+                                <label for="address_line_textfield_street_name" class="addressLineLabel" id="address_line_textfield_street_name_label">Street Name:&ensp;</label>
+                                <input type="text" class="addressLineTextfield" id="address_line_textfield_street_name" name="address_line_textfield_street_name">
+                            </div> 
+                            <div class="addressElementContainer">
+                                <label for="address_line_textfield_county" class="addressLineLabel" id="address_line_textfield_county_label">County/City:&ensp;</label>
+                                <input type="text" class="addressLineTextfield" id="address_line_textfield_county" name="address_line_textfield_county">
+                            </div>
+                            <div class="addressElementContainer">
+                                <label for="address_line_textfield_zip" class="addressLineLabel" id="address_line_textfield_zip_label">Zip Code:&ensp;</label>
+                                <input type="text" class="addressLineTextfield" id="address_line_textfield_zip" name="address_line_textfield_zip">
+                            </div>
+                        </div>
+                        <div class="customerContactedContainer" id="customer_contacted_container">
+                            <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
+                            <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
+                                <label for="customer_contacted_checkbox_yes" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_yes_label">Y</label>
+                                <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_yes" name="customer_contacted_checkbox_yes"/>
+                            </div>
+                            <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_no">
+                                <label for="customer_contacted_checkbox_no" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_no_label">N</label>
+                                <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
+                            </div>
+                        </div>
+
+                        <!-- POC container -->
+                        <div class="pocContainer" id="poc_container">
+                            <div class="pocRowOneContainer" id="poc_row_one_container">
+                                <div class="pocRowOneLabelContainerBlank" id="poc_row_one_label_container_blank">BLANK</div>
+                                <div class="pocRowOneLabelContainer" id="poc_row_one_label_container_name"><b>Name:</b></div>
+                                <div class="pocRowOneLabelContainer" id="poc_row_one_label_container_number"><b>Number:</b></div>
+                                <div class="pocRowOneLabelContainerEmail" id="poc_row_one_label_container_email"><b>Email:</b></div>
+                            </div>
+                            <div class="pocRowTwoContainer" id="poc_row_two_container">
+                                <div class="pocColLabel" id="poc_col_label_owner">Owner</div>
+                                <input type="text" class="pocTextboxName" id="poc_textbox_owner_name" name="poc_textbox_name" value="N/A">
+                                <input type="text" class="pocTextboxNumber" id="poc_textbox_owner_number" name="poc_textbox_number" value="N/A">
+                                <input type="text" class="pocTextboxEmail" id="poc_textbox_owner_email" name="poc_textbox_email" value="N/A">
+                            </div>
+                            <div class="pocRowThreeContainer" id="poc_row_three_container">
+                                <div class="pocColLabelRowThree" id="poc_col_label_owner">Builder</div>
+                                <input type="text" class="pocTextboxName" id="poc_textbox_builder_name" name="poc_textbox_name" value="N/A">
+                                <input type="text" class="pocTextboxNumber" id="poc_textbox_builder_number" name="poc_textbox_number" value="N/A">
+                                <input type="text" class="pocTextboxEmail" id="poc_textbox_builder_email" name="poc_textbox_email" value="N/A">
+                            </div>
+                            <div class="pocRowFourContainer" id="poc_row_four_container">
+                                <div class="pocColLabelRowFour" id="poc_col_label_owner">Other</div>
+                                <input type="text" class="pocTextboxName" id="poc_textbox_other_name" name="poc_textbox_name" value="N/A">
+                                <input type="text" class="pocTextboxNumber" id="poc_textbox_other_number" name="poc_textbox_number" value="N/A">
+                                <input type="text" class="pocTextboxEmail" id="poc_textbox_other_email" name="poc_textbox_email" value="N/A">
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Add Tab Display Bottom -->
+                    <div class="addTabDisplayBottom" id="add_tab_display_bottom">
+
+                        <!-- Bottom Left Container -->
+                        <div class="addTabDisplayBottomLeftContainer" id="add_tab_display_bottom_left_container">
+                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_wr_type">
+                                <label for="dropdown_menu_add_tab_wr_type" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_type_label">Work Request Type:</label>
+                                <!-- Box Options -->
+                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_type">
+                                    <div class="dropdownMenuBoxOptionWrType hidden" id="dropdown_menu_box_option_add_tab_wr_type_drnu">
+                                        <b>DRNU</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionWrType hidden" id="dropdown_menu_box_option_add_tab_wr_type_drou">
+                                        <b>DROU</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionWrType hidden" id="dropdown_menu_box_option_add_tab_wr_type_drno">
+                                        <b>DRNO</b>
+                                    </div>
+                                </div>
+                                <div class="dropdownMenuWrType" id="dropdown_menu_box_add_tab_wr_type">
+                                    <button type="button" class="dropdownButtonAddTabWrType" id="dropdown_button_add_tab_wr_type"><b>\/</b></button>
+                                    <!-- Dropdown Options -->
+                                    <div class="dropdownMenuContentWrType" id="dropdown_menu_content_wr_type">
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_blank"></div>  
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drnu">DRNU</div>  
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drou">DROU</div>  
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drno">DRNO</div>  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_crd">
+                                <label for="add_tab_textfield_crd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
+                                <input type="text" class="addTabTextfield" id="add_tab_wr_textfield_crd" name="add_tab_wr_textfield_crd" value="TBD">
+                            </div>
+                            <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_rcd">
+                                <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
+                                <input type="text" class="addTabTextfield" id="add_tab_wr_textfield_rcd" name="add_tab_wr_textfield_rcd" value="TBD">
+                            </div>
+                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_general_status">
+                                
+                                <label for="dropdown_menu_add_tab_wr_general_status" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_general_status_label">General Status:</label>
+                               <!-- Box Options -->
+                                <div class="dropdownMenuBoxLarge" id="dropdown_menu_add_tab_wr_general_status">
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_waiting_ll">
+                                        <b>Waiting - LL/SP/ETC.</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_visit">
+                                        <b>Need to Visit</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_service_calcs">
+                                        <b>Service Calcs + Coding</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_check_permit">
+                                        <b>Check / Apply for Permit</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatusMed hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_check_easement_request">
+                                        <b>Check / Apply for Easement Request</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_design">
+                                        <b>Design</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_review_peer">
+                                        <b>Review - Peer</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_review_coordinator">
+                                        <b>Review - Coordinator</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_revisions">
+                                        <b>Revisions</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatusMed hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_waiting_customer_not_approved">
+                                        <b>Waiting On Customer - Not Approved</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatusMed hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_waiting_customer_approved">
+                                        <b>Waiting On Customer - Approved</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_flag">
+                                        <b>Need to Flag</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_7010">
+                                        <b>7010'd</b>
+                                    </div>
+                                    <div class="dropdownMenuBoxOptionGeneralStatus hidden" id="dropdown_menu_box_option_add_tab_wr_general_status_cancled">
+                                        <b>Cancled / Other</b>
+                                    </div>
+                                </div>
+                                <div class="dropdownMenuWrGeneralStatus" id="dropdown_menu_box_add_tab_wr_general_status">
+                                    <button type="button" class="dropdownButtonAddTabWrGeneralStatus" id="dropdown_button_add_tab_wr_general_status"><b>\/</b></button>
+                                    <!-- Dropdown Options -->
+                                    <div class="dropdownMenuContentWrGeneralStatus" id="dropdown_menu_content_general_status">
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_ll">Waiting - LL/SP/ETC.</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_visit">Need to Visit</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_service_calcs">Service Calcs + Coding</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_permit">Check / Apply for Permit</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_easement_request">Check / Apply for Easement Request</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_design">Design</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_peer">Review - Peer</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_coordinator">Review - Coordinator</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_revisions">Revisions</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_not_approved">Waiting On Customer - Not Approved</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_approved">Waiting On Customer - Approved</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_flag">Need to Flag</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_7010">7010'd</div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_cancled">Cancled / Other</div>
+                                        <div class="dropdownMenuOptionBlank" id="dropdown_menu_option_add_tab_wr_general_status_blank"></div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_permit_status">
+                                <label for="add_tab_textfield_permit_status" class="addTabTextfieldLabel" id="add_tab_textfield_permit_status_label">Permit Status:</label>
+                                <!-- Box Options -->
+                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_permit_status">
+                                    <div class="dropdownMenuBoxOptionPermitStatus hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_applied"><b>Applied</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatus hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_received"><b>Received</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatus hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_expiring_soon"><b>Expiring Soon</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatus hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_expired"><b>Expired</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatusMed hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_extension_submitted"><b>Extension Submitted</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatusMed hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_extension_received"><b>Extension Received</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatus hidden" id="dropdown_menu_box_option_add_tab_wr_permit_status_dont_need"><b>Don't Need</b></div>
+                                    <div class="dropdownMenuBoxOptionPermitStatusMed " id="dropdown_menu_box_option_add_tab_wr_permit_status_havent_checked"><b>Haven't Checked</b></div>
+                                </div>
+                                <div class="dropdownMenuWrPermitStatus" id="dropdown_menu_box_add_tab_wr_permit_status">
+                                    <button type="button" class="dropdownButtonAddTabWrPermitStatus" id="add_tab_dropdown_button_permit_status"><b>\/</b></button>
+                                    <!-- Dropdown Options -->
+                                    <div class="dropdownMenuContentWrPermitStatus" id="dropdown_menu_content_permit_status">
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_applied"><b>Applied</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_received"><b>Received</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expiring_soon"><b>Expiring Soon</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expired"><b>Expired</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_submitted"><b>Extension Submitted</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_received"><b>Extension Received</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_dont_need"><b>Don't Need</b></div>
+                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_havent_checked"><b>Haven't Checked</b></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_easement_request_status">
+                                <label for="add_tab_textfield_easement_request_status" class="addTabTextfieldLabel" id="add_tab_textfield_easement_request_status_label">Easement Request Status:</label>
+                                <!-- Box Options -->
+                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_easement_request_status">
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_need_submit"><b>Need to Submit</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_pending"><b>Pending</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_dont_need"><b>Don't Need</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_have_easement"><b>Have Easement</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_need_easement"><b>Need Easement</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_waiting_creation"><b>Waiting - Creation</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus hidden" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_waiting_customer"><b>Waiting - Customer</b></div>
+                                    <div class="dropdownMenuBoxOptionEasementRequestStatus" id="dropdown_menu_box_option_add_tab_wr_easement_request_status_havent_checked"><b>Haven't Checked</b></div>
+                                </div>
+                                <div class="dropdownMenuWrEasementRequestStatus" id="dropdown_menu_box_add_tab_wr_easement_request_status">
+                                    <button type="button" class="dropdownButtonAddTabWrEasementRequestStatus" id="add_tab_dropdown_button_easement_request_status"><b>\/</b></button>
+                                    <!-- Dropdown Options -->
+                                    <div class="dropdownMenuContentWrEasementRequestStatus" id="dropdown_menu_content_easement_request_status">
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_submit"><b>Need to Submit</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_pending"><b>Pending</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_dont_need"><b>Don't Need</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_have_easement"><b>Have Easement</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_easement"><b>Need Easement</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_creation"><b>Waiting - Creation</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_customer"><b>Waiting - Customer</b></div>
+                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_havent_checked"><b>Haven't Checked</b></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Right Container -->
+                        <div class="addTabDisplayBottomRightContainer" id="add_tab_display_bottom_right_container">
+                            <div class="addTabBottomRightRowOne" id="add_tab_bottom_right_row_one">
+                                <label for="add_tab_comments_add_button" class="addTabCommentsAddButtonLabel" id="add_tab_comments_add_button_label" name="add_tab_comments_add_button_label"><b>Comments (General):</b></label>
+                                <button type="button" class="addTabCommentsAddButton" id="add_tab_comments_add_button">+</button>
+                            </div>
+                            <div class="addTabBottomRightRowTwo" id="add_tab_bottom_right_row_two">
+                                <input type="text" class="addTabCommentsTextfield" id="add_tab_comments_textfield" name="add_tab_comments_textfield" value="Type Comment Here"/>
+                            </div>
+                            <div class="addTabBottomRightRowThree" id="add_tab_bottom_right_row_three">
+                                <!-- Empty List -->
+                                <div class="addTabCommentsToAddList " id="add_tab_wr_comments_to_add"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- Footer Container -->
+      <div class="footerContainer">
+        <div class="footerObject">Work Manager Tool - By John Connor</div>
+        <div class="loadSaveButtonsContainer" id="load_save_buttons_container">
+            <label for="data_from_value_date" class="dataFromValueDateLabel" id="data_from_value_date_label">Data From: </label>
+            <input type="date" id="data_from_value_date" name="data_from_value_date" value="2023-12-28" />
+            <label for="data_from_value_time" class="dataFromValueTimeLabel" id="data_from_value_time_label">At: </label>
+            <input type="time" id="data_from_value_time" name="data_from_value_time" value="16:04" />
+            <label for="data_from_value_time" class="dataFromValueAllLabel" id="data_from_value_all_label">(Time of Last Save)</label>
+            <button type="button" class="footerButton" id="footer_button_load">Load</button>
+            <button type="button" class="footerButton" id="footer_button_save">Save</button>
+        </div>
+        
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

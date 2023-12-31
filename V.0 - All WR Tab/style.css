@@ -1,0 +1,1026 @@
+/* My Generic CSS */
+
+html {
+  background-color: #ffffff;
+  font-size: 16px;
+  min-width: 300px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  /* these are specific to different browsers */
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family: ‘Segoe UI’, Candara, ‘Bitstream Vera Sans’, ‘DejaVu Sans’,
+    ‘Bitsream Vera Sans’, ‘Trebuchet MS’, Verdana, ‘Verdana Ref’, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: white;
+  max-height: 1920px;
+}
+
+form {
+  accent-color: hsla(120, 100%, 50%, 0.482);
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  flex: 1;
+}
+
+.box {
+  background-color: rgba(255, 166, 0, 0.8);
+  border: 2px solid black;
+  border-radius: 4px;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+  align-items: center;
+}
+
+
+
+.visible {
+  display: block;
+  visibility: visible;
+}
+
+form input {
+  /* This is a hack to make sure our boxes line up with one another nicely */
+  width: 100%;
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+
+  /* here we are setting white space correctly */
+  margin-bottom: 1rem;
+  height: 2rem;
+  border-radius: 4px;
+}
+
+form label {
+  width: 100%;
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+  align-items: flex-start;
+
+  display: block; /* this turns the label text into a box we can set margins on */
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  color: rgb(45, 21, 205);
+  font-size: xxx-large;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  color: rgb(45, 21, 205);
+  font-size: medium;
+}
+
+h4 {
+    font-size: x-large;
+}
+
+h5 {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    color: rgb(45, 21, 205);
+    font-size: xxx-large;
+  }
+
+
+/* My "More Customized" CSS*/
+
+/* Header Tabs CSS */
+
+.headerTabsContainer {
+  border: 2px solid black;
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+  /*padding-left: 1rem;*/
+  justify-content: space-evenly;
+  /*width: 100vw;*/
+}
+
+.headerTabTextContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.headerTab {
+  display: flex;
+  border-right: 2px solid black;
+  border-left: 2px solid black;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 12vh;
+}
+
+.headerTabLast {
+  display: flex;
+  border-right: 2px solid black;
+  padding-right: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.activeTab {
+    display: flex;
+    background-color: rgb(7, 233, 7);
+    /*padding-left: 1rem;*/
+}
+
+/* Filter & Display CSS */
+
+.middleSectionContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.leftSideContainer {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    min-width: 400px;
+    min-height: 81vh;
+}
+
+/* Top Section of Filter Section CSS */
+
+.searchByBoxContainer {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding-bottom: .5rem;
+}
+
+.filterSectionInactive {
+    color: rgba(70, 68, 68, 0.286);
+}
+
+.searchBySelectionCheckbox {
+    align-self: start;
+    height: 30px;
+    width: 30px;
+}
+
+.searchTextfieldContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.searchBySelectionTextfieldLabel {
+    font-size: xx-large;
+}
+
+.searchBySelectionTextfield {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: 2px solid black;
+}
+
+.searchBySelectionLowerContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.searchBySelectionLowerContainerCheckboxesContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchBySelectionLowerContainerCheckboxAndLabelContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: .5rem;
+}
+
+.searchBySelectionLowerContainerCheckbox {
+    height: 20px;
+    width: 20px;
+    margin-right: 1rem;
+}
+
+.searchBySelectionLowerContainerCheckboxLabel {
+    font-size: large;
+}
+
+.searchTextfieldGoButton {
+    height: 30px;
+    align-self: center;
+    margin-left: 6rem;
+    font-size: x-large;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Top Section of Add Tab Filter Section */
+
+.addTabFilterLabelContainer {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid black;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.addTabFilterLabel {
+    font-size: xxx-large;
+}
+
+.addTypeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Bottom Section of Filter Section */
+
+.filterByBoxContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.filterBySelectionCheckbox {
+    align-self: start;
+    height: 30px;
+    width: 30px;
+}
+
+.filterAndGoContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.filterGoButtonLabel {
+    font-size: xx-large;
+    margin-left: 1rem;
+}
+
+.filterGoButton {
+    height: 30px;
+    align-self: center;
+    margin-left: 7.5rem;
+    font-size: x-large;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.genericFiltersContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 400px;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: row;
+    width: 180px;
+    height: fit-content;
+    align-items: center;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+}
+
+.filterCheckbox {
+    display: flex;
+    width: 25px;
+    height: 25px;
+}
+
+.filterCheckboxLabel {
+    display: flex;
+    font-size: large;
+    margin-left: .5rem;
+}
+
+.filterSectionStatusLabel {
+    font-size: x-large;
+    margin-left: 1.5rem;
+}
+
+.statusFiltersContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 400px;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.filterFooterContainer {
+    display: flex;
+    flex-direction: row;
+    /*border-top: 2px solid black;*/
+    border-bottom: 2px solid black;
+    height: 35px;
+    align-items: center;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    justify-content: space-around;
+}
+
+.footerFilterContainer {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+}
+
+.filterFooterContainerLabel {
+    display: flex;
+    font-size: x-large;
+    padding-left: 1rem;
+    border-top: 2px solid black;
+}
+
+.filterCheckboxLabelAddTab {
+    display: flex;
+    font-size: large;
+    margin-left: .5rem;
+    flex-direction: row;
+}
+
+.filterContainerAddTab {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+    margin: .5rem;
+}
+
+/* Display CSS */
+
+.rightSideContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.displayColLabel {
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    height: 5vh;
+    width: 3vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.displayColLabelText {
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    height: 5vh;
+    width: 7.5vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.displayColLabelBigText {
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    height: 5vh;
+    width: 14vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.displayColLine{
+    display: flex;
+    flex-direction: column;
+}
+
+.displayColLineMed{
+    display: flex;
+    flex-direction: column;
+    font-size: medium;
+}
+
+.addWrDisplayLabelContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* Tab CSS */
+
+.allWrDisplayContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Add Tab */
+
+.addDisplayContainer {
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+}
+
+.addTabDisplayTop {
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+}
+
+.addTabDisplayLabel {
+    font-size: xx-large;
+}
+
+.addTabDisplayTopMid {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.newWrNumberTextfield {
+    border: 2px solid black;
+    margin: .5rem;
+}
+
+.newWorkRequestNumberTextfieldLabel {
+    font-size: x-large;
+    margin: .5rem;
+}
+
+.newWrNumContainer {
+    display: flex;
+}
+
+.addNewWrButton {
+    background-color: rgb(7, 217, 7);
+    margin: 1rem;
+    height: 40px;
+    width: 50px;
+    margin-left: 475px;
+}
+
+.addTabDisplayBottomMid {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    justify-content: space-evenly;
+}
+
+.addressBox {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    margin: 1rem;
+}
+
+.addressBoxLabel {
+    font-size: xx-large;
+}
+
+.addressElementContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.addressLineTextfield {
+    border: 2px solid black;
+    margin: .5rem
+}
+
+.addressLineLabel {
+    margin: .5rem;
+    font-size: x-large;
+}
+
+.customerContactedContainer {
+    display: flex;
+    flex-direction: row;
+    font-size: x-large;
+    align-items: center;
+    margin-bottom: 8rem;
+}
+
+.customerContactedLabel {
+    margin-right: 1.5rem;
+    margin-top: 2.3rem;
+}
+
+.customerContactedCheckboxContainer {
+    display: flex;
+    flex-direction: column;
+    font-size: x-large;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.customerContactedCheckbox {
+    height: 30px;
+    width: 30px;
+}
+
+.customerContactedCheckboxLabel {
+    font-size: x-large;
+}
+
+.pocContainer{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    height:fit-content
+}
+
+.pocRowOneContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.pocRowOneLabelContainer {
+    display: flex;
+    border: 2px solid black;
+    font-size: x-large;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.pocRowOneLabelContainerEmail {
+    display: flex;
+    border: 2px solid black;
+    font-size: x-large;
+    padding-left: 1rem;
+    padding-right: 4rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+/* Dummy Container for Table */
+.pocRowOneLabelContainerBlank {
+    display: flex;
+    border: 2px solid black;
+    font-size: x-large;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    color: white;
+}
+
+.pocRowTwoContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: .75rem;
+}
+
+.pocColLabel {
+    border: 2px solid black;
+    font-size: x-large;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.pocTextboxName {
+    border: 2px solid black;
+    width: 80px;
+    height: 40px;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: .75rem;
+    margin-right: 1rem;
+}
+
+.pocTextboxNumber {
+    border: 2px solid black;
+    width: 100px;
+    height: 40px;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: .5rem;
+    margin-right: 1rem;
+}
+
+.pocTextboxEmail {
+    border: 2px solid black;
+    width: 125px;
+    height: 40px;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
+.pocRowThreeContainer {
+    display: flex;
+    margin-top: .5rem;
+}
+
+.pocRowFourContainer {
+    display: flex;
+    margin-top: .5rem;
+}
+
+.pocColLabelRowThree {
+    border: 2px solid black;
+    font-size: x-large;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding-left: 1rem;
+    padding-right: .9rem;
+}
+
+.pocColLabelRowFour {
+    border: 2px solid black;
+    font-size: x-large;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    padding-left: 1.35rem;
+    padding-right: 1.35rem;
+}
+
+.addTabDisplayBottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 7vw;
+}
+
+.addTabDisplayBottomLeftContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.addTabTextfieldContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+}
+
+.addTabTextfield {
+    border: 2px solid black;
+    height: 40px;
+}
+
+.addTabTextfieldLabel {
+    font-size: x-large;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.addTabDisplayBottomRightContainer {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    width: 30vw;
+}
+
+.addTabBottomRightRowOne {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+}
+
+.addTabCommentsAddButton {
+    height: 40px;
+    width: 40px;
+    font-size: xx-large;
+    margin: 1rem;
+}
+
+.addTabCommentsAddButtonLabel {
+    display: flex;
+    font-size: xx-large;
+    margin-top: .75rem;
+    margin-left: 1rem;
+}
+
+.addTabBottomRightRowTwo {
+    display: flex;
+}
+
+.addTabCommentsTextfield {
+    border: 2px solid black;
+    width: 28vw;
+    height: 50px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: .5rem;
+}
+
+.addTabDisplayAddWr {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+.addTabCommentsToAddList {
+    border: 2px solid black;
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer CSS */
+
+.footerContainer {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    justify-content: space-between;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.footerObject {
+    display: flex;
+    flex-direction: row;
+    margin-left: .5rem;
+}
+
+.loadSaveButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    margin-right: 1rem;
+}
+
+.footerButton {
+    display: flex;
+    margin-left: 1rem;
+}
+
+.dataFromValueDateLabel {
+    display: flex;
+    padding-right: .5rem;
+}
+
+.dataFromValueTimeLabel {
+    display: flex;
+    padding-left: 1rem;
+    padding-right: .5rem;
+}
+
+.dataFromValueAllLabel {
+    display: flex;
+    padding-left: .5rem;
+    padding-right: 1rem;
+}
+
+/* Dropdown Menu - General */
+
+.dropdownMenuBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    height: 40px;
+    width: 120px;
+    border: 2px solid black;
+}
+
+.dropdownMenuBoxLarge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    height: 40px;
+    width: 170px;
+    border: 2px solid black;
+}
+
+.dropdownMenuOption {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+}
+.dropdownMenuOptionBlank {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    width: 80px;
+    height: 18px;
+}
+
+.dropdownMenuOption:hover {background-color:#ddd;}
+
+.dropdownMenuOptionBlank:hover {background-color:#ddd;}
+
+
+/* Dropdown Menu - Functionality - Specific Buttons */
+
+    /* Wr Type */
+.dropdownMenuWrType {
+    position: relative;
+    display: inline;
+}
+
+.dropdownMenuContentWrType {
+    display: none;
+    position: absolute;
+    background-color: rgb(150, 205, 219);
+    min-width: 70px;
+    z-index: 1;
+}
+
+.dropdownButtonAddTabWrType {
+    width: 30px;
+    height: 43px;
+    font-size: large;
+}
+
+.dropdownMenuWrType:hover .dropdownMenuContentWrType {display: block;}
+
+.dropdownMenuWrType:hover .dropdownButtonAddTabWrType {background-color: #3e8e41;}
+
+    /* General Status */
+.dropdownMenuWrGeneralStatus {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.dropdownMenuContentWrGeneralStatus {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: rgb(150, 205, 219);
+    width: 300px;
+    flex-wrap: wrap;
+    z-index: 1;
+    margin-bottom: 4vh;
+}
+
+.dropdownButtonAddTabWrGeneralStatus {
+    width: 30px;
+    height: 43px;
+    font-size: large;
+}
+
+.dropdownMenuBoxOptionGeneralStatus {
+    color: black;
+    text-decoration: none;
+    font-size: large;
+    display: flex;
+    padding: .5rem;
+}
+
+.dropdownMenuBoxOptionGeneralStatusMed {
+    color: black;
+    text-decoration: none;
+    font-size: medium;
+    display: flex;
+    padding: .5rem;
+}
+
+.dropdownMenuWrGeneralStatus:hover .dropdownMenuContentWrGeneralStatus {display: flex;}
+
+.dropdownMenuWrGeneralStatus:hover .dropdownButtonAddTabWrGeneralStatus {background-color: #3e8e41;}
+
+    /* Permit Status */
+.dropdownMenuBoxOptionPermitStatus {
+    font-size: large;
+}
+
+.dropdownMenuBoxOptionPermitStatusMed {
+    display: flex;
+    font-size: medium;
+    justify-content: center;
+    align-content: center;
+    padding-left: 1vw;
+}
+
+.dropdownMenuWrPermitStatus {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.dropdownButtonAddTabWrPermitStatus {
+    width: 30px;
+    height: 43px;
+    font-size: large;
+}
+
+.dropdownMenuContentWrPermitStatus {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: rgb(150, 205, 219);
+    width: 6vw;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    z-index: 1;
+    margin-bottom: 4vh;
+    align-items: center;
+}
+
+.dropdownMenuWrPermitStatus:hover .dropdownMenuContentWrPermitStatus {display: flex;}
+
+.dropdownMenuWrPermitStatus:hover .dropdownButtonAddTabWrPermitStatus {background-color: #3e8e41;}
+
+    /* Easement Request Status */
+.dropdownMenuBoxOptionEasementRequestStatus {
+    font-size: large;
+    margin: .5rem;
+}
+
+.dropdownMenuBoxOptionEasementRequestStatus {
+    display: flex;
+    font-size: medium;
+    justify-content: center;
+    align-content: center;
+    padding-left: 1vw;
+}
+
+.dropdownMenuWrEasementRequestStatus {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.dropdownButtonAddTabWrEasementRequestStatus {
+    width: 30px;
+    height: 43px;
+    font-size: large;
+}
+
+.dropdownMenuContentWrEasementRequestStatus {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: rgb(150, 205, 219);
+    width: 150px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    z-index: 1;
+    margin-bottom: 4vh;
+    align-items: center;
+}
+
+.dropdownMenuWrEasementRequestStatus:hover .dropdownMenuContentWrEasementRequestStatus {display: flex;}
+
+.dropdownMenuWrEasementRequestStatus:hover .dropdownButtonAddTabWrEasementRequestStatus {background-color: #3e8e41;}
+
+
+
+
+.hidden {
+    display: none;
+    
+
+}
