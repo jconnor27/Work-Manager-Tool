@@ -88,7 +88,7 @@ h2 {
   margin: 0;
   padding: 0;
   color: rgb(45, 21, 205);
-  font-size: xxx-large;
+  font-size: x-large;
 }
 
 h3 {
@@ -107,7 +107,7 @@ h5 {
     margin: 0;
     padding: 0;
     color: rgb(45, 21, 205);
-    font-size: xxx-large;
+    font-size: x-large;
   }
 
 
@@ -168,17 +168,20 @@ h5 {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
-    min-width: 400px;
+    width: 300px;
     min-height: 81vh;
+    padding-right: 5px;
 }
 
 /* Top Section of Filter Section CSS */
 
 .searchByBoxContainer {
+    width: 298px;
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
+    border: 1px solid black;
     padding-bottom: .5rem;
+    padding-right: 5px;
 }
 
 .filterSectionInactive {
@@ -187,8 +190,8 @@ h5 {
 
 .searchBySelectionCheckbox {
     align-self: start;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 }
 
 .searchTextfieldContainer {
@@ -198,7 +201,7 @@ h5 {
 }
 
 .searchBySelectionTextfieldLabel {
-    font-size: xx-large;
+    font-size: large;
 }
 
 .searchBySelectionTextfield {
@@ -214,7 +217,7 @@ h5 {
 
 .searchBySelectionLowerContainerCheckboxesContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .searchBySelectionLowerContainerCheckboxAndLabelContainer {
@@ -232,16 +235,19 @@ h5 {
 }
 
 .searchBySelectionLowerContainerCheckboxLabel {
-    font-size: large;
+    display: flex;
+    flex-direction: row;
+    font-size: medium;
+    width: 50px;
 }
 
 .searchTextfieldGoButton {
-    height: 30px;
     align-self: center;
-    margin-left: 6rem;
-    font-size: x-large;
-    padding-left: 1rem;
-    padding-right: 1rem;
+   /*margin-left: 6rem;*/
+    font-size: large;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    
 }
 
 /* Top Section of Add Tab Filter Section */
@@ -273,8 +279,8 @@ h5 {
 
 .filterBySelectionCheckbox {
     align-self: start;
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 }
 
 .filterAndGoContainer {
@@ -283,7 +289,7 @@ h5 {
 }
 
 .filterGoButtonLabel {
-    font-size: xx-large;
+    font-size: x-large;
     margin-left: 1rem;
 }
 
@@ -300,7 +306,7 @@ h5 {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 400px;
+    width: 300px;
     justify-content: flex-start;
     align-content: flex-start;
 }
@@ -308,24 +314,24 @@ h5 {
 .filterContainer {
     display: flex;
     flex-direction: row;
-    width: 180px;
+    width: 130px;
     height: fit-content;
     align-items: center;
     margin-left: .5rem;
-    margin-right: .5rem;
-    margin-top: .25rem;
-    margin-bottom: .25rem;
+    /*margin-right: .5rem;*/
+    margin-top: .2rem;
+    margin-bottom: .2rem;
 }
 
 .filterCheckbox {
     display: flex;
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
 }
 
 .filterCheckboxLabel {
     display: flex;
-    font-size: large;
+    font-size: small;
     margin-left: .5rem;
 }
 
@@ -395,77 +401,11 @@ h5 {
     flex-direction: row;
 }
 
-.displayColLabel {
-    display: flex;
-    flex-direction: column;
-    font-size: large;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid black;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    height: 5vh;
-    width: 3vw;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin-bottom: .5rem;
-}
 
-.displayColLabelText {
-    display: flex;
-    flex-direction: column;
-    font-size: large;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid black;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-
-    height: 5vh;
-    width: 7.5vw;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.displayColLabelBigText {
-    display: flex;
-    flex-direction: column;
-    font-size: large;
-    font-weight: bold;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 2px solid black;
-    border-right: 2px solid black;
-    height: 5vh;
-    width: 14vw;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-top: 2px solid black;
-}
-
-.displayColLine{
-    display: flex;
-    flex-direction: column;
-}
-
-.displayColLineMed{
-    display: flex;
-    flex-direction: column;
-    font-size: medium;
-}
 
 .allWrDisplayLabelContainer {
     display: flex;
     flex-direction: row;
-}
-
-.allWrDisplayWrContainer {
-    display: flex;
-    flex-direction: row;
-    width: 75vw;
-    flex-wrap: wrap;
 }
 
 .allWrDisplayWrRow {
@@ -610,7 +550,7 @@ h5 {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: 2rem;
+    margin-top: 25px;
 }
 
 .newWrNumberTextfield {
@@ -630,7 +570,7 @@ h5 {
 }
 
 .addNewWrButton {
-    background-color: rgb(7, 217, 7);
+    background-color: rgb(222, 246, 7);
     margin: 1rem;
     height: 40px;
     width: fit-content;
@@ -640,7 +580,7 @@ h5 {
 .addTabDisplayBottomMid {
     display: flex;
     flex-direction: row;
-    margin-top: 2rem;
+    margin-top: 1rem;
     justify-content: space-evenly;
 }
 
@@ -652,7 +592,7 @@ h5 {
 }
 
 .addressBoxLabel {
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 .addressElementContainer {
@@ -663,12 +603,13 @@ h5 {
 
 .addressLineTextfield {
     border: 2px solid black;
-    margin: .5rem
+    margin: .5rem;
+    height: 25px;
 }
 
 .addressLineLabel {
     margin: .5rem;
-    font-size: x-large;
+    font-size: medium;
 }
 
 .customerContactedPriorityContainer {
@@ -731,7 +672,8 @@ h5 {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
-    height:fit-content
+    height:fit-content;
+    margin-bottom: 5px;
 }
 
 .pocRowOneContainer {
@@ -742,7 +684,7 @@ h5 {
 .pocRowOneLabelContainer {
     display: flex;
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: .5rem;
@@ -752,7 +694,7 @@ h5 {
 .pocRowOneLabelContainerEmail {
     display: flex;
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     padding-left: 1rem;
     padding-right: 4rem;
     padding-top: .5rem;
@@ -763,7 +705,7 @@ h5 {
 .pocRowOneLabelContainerBlank {
     display: flex;
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: .5rem;
@@ -779,7 +721,7 @@ h5 {
 
 .pocColLabel {
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     margin-top: .5rem;
     margin-bottom: .5rem;
     padding-left: 1rem;
@@ -828,7 +770,7 @@ h5 {
 
 .pocColLabelRowThree {
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     margin-top: .5rem;
     margin-bottom: .5rem;
     padding-left: 1rem;
@@ -837,7 +779,7 @@ h5 {
 
 .pocColLabelRowFour {
     border: 2px solid black;
-    font-size: x-large;
+    font-size: large;
     margin-top: .5rem;
     margin-bottom: .5rem;
     padding-left: 1.35rem;
@@ -861,10 +803,16 @@ h5 {
     padding: .5rem;
 }
 
+.dateAddTabPermit {
+    border: 2px solid black;
+    padding: .5rem;
+}
+
 .addTabTextfieldContainer {
     display: flex;
     flex-direction: row;
     margin-top: 1rem;
+    align-items: center;
 }
 
 .addTabTextfield {
@@ -873,7 +821,7 @@ h5 {
 }
 
 .addTabTextfieldLabel {
-    font-size: x-large;
+    font-size: large;
     margin-left: 2rem;
     margin-right: 2rem;
 }
@@ -893,15 +841,18 @@ h5 {
 }
 
 .addTabCommentsAddButton {
-    height: 40px;
-    width: 40px;
-    font-size: xx-large;
+    height: 20px;
+    width: 20px;
+    font-size: large;
     margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .addTabCommentsAddButtonLabel {
     display: flex;
-    font-size: xx-large;
+    font-size: large;
     margin-top: .75rem;
     margin-left: 1rem;
 }
@@ -951,6 +902,7 @@ h5 {
     justify-content: space-between;
     padding-top: .5rem;
     padding-bottom: .5rem;
+    width: 1424px;
 }
 
 .footerObject {
@@ -993,8 +945,8 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: medium;
-    height: 40px;
+    font-size: small;
+    height: 25px;
     width: 120px;
     border: 2px solid black;
 }
@@ -1003,8 +955,8 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: xx-large;
-    height: 40px;
+    font-size: large;
+    height: 25px;
     width: 120px;
     border: 2px solid black;
 }
@@ -1014,7 +966,7 @@ h5 {
     justify-content: center;
     align-items: center;
     font-size: large;
-    height: 40px;
+    height: 25px;
     width: 170px;
     border: 2px solid black;
 }
@@ -1057,7 +1009,7 @@ h5 {
 
 .dropdownButtonAddTabWrType {
     width: 30px;
-    height: 43px;
+    height: 29px;
     font-size: large;
 }
 
@@ -1084,7 +1036,7 @@ h5 {
 
 .dropdownButtonAddTabWrGeneralStatus {
     width: 30px;
-    height: 43px;
+    height: 29px;
     font-size: large;
 }
 
@@ -1129,7 +1081,7 @@ h5 {
 
 .dropdownButtonAddTabWrPermitStatus {
     width: 30px;
-    height: 43px;
+    height: 29px;
     font-size: large;
 }
 
@@ -1172,7 +1124,7 @@ h5 {
 
 .dropdownButtonAddTabWrEasementRequestStatus {
     width: 30px;
-    height: 43px;
+    height: 29px;
     font-size: large;
 }
 
@@ -1193,7 +1145,18 @@ h5 {
 
 .dropdownMenuWrEasementRequestStatus:hover .dropdownButtonAddTabWrEasementRequestStatus {background-color: #3e8e41;}
 
-.ddMenu{
+.allWrStatusDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding: 1rem;
+    width: 30px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
+.permitStatusDDMenu{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -1202,27 +1165,172 @@ h5 {
     
 }
 
-.ddMenuBox {
+.permitStatusDDMenuBox {
     display: flex;
     border: 2px solid black;
-    padding: 1rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 50px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+
 }
 
-.ddMenuContentBox {
+.generalStatusDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 50px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
+.easementStatusDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 50px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
+.permitStatusDDMenuContentBox {
     display: none;
     flex-direction: column;
     padding: .5rem;
     border: 2px solid black;
 }
 
-.ddMenuContentItem {
+.permitStatusDDMenuContentItem {
     display: flex;
     padding: .5rem;
 }
 
-.ddMenuButton {
+.permitStatusDDMenuButton {
+    width: 25px;
+    height: 46px;
+    font-size: large;
+}
+
+.generalStatusDDMenuButton {
+    width: 25px;
+    height: 46px;
+    font-size: large;
+}
+
+.easementStatusDDMenuButton {
+    width: 25px;
+    height: 46px;
+    font-size: large;
+}
+
+.permitStatusRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.generalStatusRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.easementStatusRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.prevNextContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.currentPageBox {
+    display: flex;
+    border: 1px solid black;
+    width: 42px;
+    height: 42px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+}
+
+.addTabPriorityNumberTextfield {
+    display: flex;
+    width: 46px;
+    height: 30px;
+    border: 1px solid black;
+    padding-left: 15px;
+    font-size: large;
+}
+
+/* ddMenuSpecific */
+
+.ddMenuSpecific{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    
+}
+
+.ddMenuSpecificBox {
+    display: flex;
+    border: 2px solid black;
+    padding: 1rem;
     width: 30px;
-    height: 43px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.ddMenuSpecificContentBox {
+    display: none;
+    flex-direction: column;
+    padding: .5rem;
+    border: 2px solid black;
+}
+
+.ddMenuSpecificContentItem {
+    display: flex;
+    padding: .5rem;
+    font-size: small;
+}
+
+.ddMenuSpecificButton {
+    width: 25px;
+    height: 46px;
     font-size: large;
 }
 
@@ -1260,6 +1368,330 @@ h5 {
     display: flex;
     font-size: x-large;
     padding: .5rem;
+}
+
+.addTabDisplayAddPermitLeft, .addTabDisplayAddPermitRight {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.addTabDisplayAddPermitTop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.addTabDisplayAddPermitBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.dropdownMenuContentAddPermitStatus {
+    display: none;
+    position: absolute;
+    right: 0px;
+    background-color: rgb(150, 205, 219);
+    width: 6vw;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    z-index: 1;
+    align-items: center;
+    margin-top: 4vh;
+}
+
+.dropdownMenuAddPermitStatus {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdownMenuAddPermitStatus:hover .dropdownMenuContentAddPermitStatus {display: flex;}
+
+.dropdownMenuAddPermitStatus:hover .dropdownButtonAddTabWrPermitStatus {background-color: #3e8e41;}
+
+.smallText {
+    font-size: small;
+}
+
+.addTabPermitBottomRowOne {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px solid black;
+    width: 800px;
+}
+
+.addTabPermitBottomRowTwo {
+    display: flex;
+    width: 800px;
+}
+
+.addTabPermitBottomRowThree {
+    display: flex;
+    width: 800px;
+    padding-left: 2rem;
+}
+
+.addTabPermitCommentsAddButton {
+    height: 20px;
+    width: 20px;
+    font-size: large;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addTabPermitCommentsAddButtonLabel {
+    display: flex;
+    font-size: large;
+    margin-top: .75rem;
+    margin-left: 1rem;
+}
+
+.addTabPermitCommentsTextfield {
+    border: 2px solid black;
+    width: 800px;
+    height: 50px;
+    padding-left: 1rem;
+    
+}
+
+.addTabPermitCommentsListElement {
+    display: flex;
+    margin-left: 0;
+    margin-right: .5rem;
+}
+
+    /* All WR's Tab - Display - Headers */
+
+.allWrDisplayLabelContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+}
+
+.allWrTabDisplayHeader {
+    display: flex;
+    height: 92px;
+    width: 60px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.allWrTabDisplayHeaderBig {
+    display: flex;
+    height: 92px;
+    width: 160px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.allWrTabDisplayHeaderSmall {
+    display: flex;
+    height: 92px;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+    /* All WR's Tab - Display - Rows*/ 
+.allWrRowElementContainer {
+        display: flex;
+        height: 92px;
+        width: 92px;
+        align-items: center;
+        justify-content: center;
+        /*padding-left: 1rem;
+        padding-right: 1rem;*/
+        /*border-bottom: 2px solid black;*/
+        border-right: 2px solid black;
+        font-size: smaller;
+}
+    
+.allWrRowElementContainerSmall {
+        display: flex;
+        height: 92px;
+        width: 72px;
+        align-items: center;
+        justify-content: center;
+        /*padding-left: 1rem;
+        padding-right: 1rem;*/
+        /*border-bottom: 2px solid black;*/
+        border-right: 2px solid black;
+}
+    
+.allWrRowElementContainerBig {
+        display: flex;
+        height: 92px;
+        width: 192px;
+        align-items: center;
+        justify-content: center;
+        
+        /*border-bottom: 2px solid black;*/
+        border-right: 2px solid black;
+}
+    
+.allWrTabDisplayTextfieldSmall {
+        display: flex;
+        height: 30px;
+        width: 30px;
+        border: 1px solid black;
+        align-items: center;
+        justify-content: center;
+        padding: 10px; 
+}
+    
+.allWrTabDisplayTextfield {
+        display: flex;
+        height: 30px;
+        width: 92px;
+        border: 1px solid black;
+        align-items: center;
+        justify-content: center;
+        padding: 10px; 
+        font-size: small;
+}
+
+    /* Permits Tab - Display - Headers */
+
+.permitsDisplayContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.permitsTabDisplayHeaderContainer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+}
+
+.permitsTabDisplayHeader {
+    display: flex;
+    height: 92px;
+    width: 60px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.permitsTabDisplayHeaderBig {
+    display: flex;
+    height: 92px;
+    width: 180px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.permitsTabDisplayHeaderSmall {
+    display: flex;
+    height: 92px;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+}
+
+    /* Permits Tab - Display - Rows */
+
+.displayRow {
+    display: flex;
+    flex-direction: row;
+    /*border-left: 2px solid black;*/
+    border: 1px solid black;
+}
+
+.permitRowElementContainer {
+    display: flex;
+    height: 92px;
+    width: 92px;
+    align-items: center;
+    justify-content: center;
+    /*padding-left: 1rem;
+    padding-right: 1rem;*/
+    /*border-bottom: 2px solid black;*/
+    border-right: 2px solid black;
+}
+
+.permitRowElementContainerSmall {
+    display: flex;
+    height: 92px;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /*border-bottom: 2px solid black;*/
+    border-right: 2px solid black;}
+
+.permitRowElementContainerBig {
+    display: flex;
+    height: 92px;
+    width: 180px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /*border-bottom: 2px solid black;*/
+    border-right: 2px solid black;
+}
+
+.permitsTabDisplayTextfieldBig {
+    display: flex;
+    height: 70px;
+    width: 180px;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+.permitsTabDisplayTextfieldSmall {
+    display: flex;
+    height: 30px;
+    width: 50px;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; 
+}
+
+.permitsTabDisplayTextfield {
+    display: flex;
+    height: 30px;
+    width: 92px;
+    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; 
+    font-size: small;
 }
 
 .hidden {
