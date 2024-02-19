@@ -2,16 +2,36 @@ let allWrList = [];
 let currentPageAllWr = 0;
 let currentPagePermits = 0;
 
+class PermitDate {
+    constructor(curDate, type) {
+        this.curDate = curDate;
+        this.type = type;
+    }
+
+    makeRowElement() {
+        console.log("Entered - PermitDate - makeRowElement()");
+
+        let rowElement = document.createElement("permitDate" + type);
+
+        rowElement.classList.add("permitDate"); // Need to make this class in css
+
+        
+    }
+
+
+}
+
 class PermitStatusDDMenu {
-    constructor(rowNumber) {
+    constructor(tab, rowNumber) {
         this.curOption = "Not Set";
+        this.tab = tab;
         this.rowNumber = rowNumber;
     }
 
     makeRowElement() {
         console.log("Entered - PermitStatusDDMenu - makeRowElement()");
 
-        let rowElement = document.createElement("permitStatusDDMenu");
+        let rowElement = document.createElement("permitStatusDDMenu" + this.tab + "Tab" + "Row" + this.rowNumber);
 
         rowElement.classList.add("permitStatusRowElement");
 
@@ -31,16 +51,15 @@ class PermitStatusDDMenu {
         str.style.marginTop = '45px';
         str.style.backgroundColor = 'white'
         str.style.zIndex = 1;
-        str.id = "permit_status_dd_" + this.rowNumber + "_content";
+        str.id = "permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content";
 
-        rowElement.innerHTML = `<div class="permitStatusDDMenuBox" id="permit_status_dd_${this.rowNumber}_current">${this.curOption}</div>` +
+        rowElement.innerHTML = `<div class="permitStatusDDMenuBox" id="permit_status_dd_${this.tab}_tab_row_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type="button" class="permitStatusDDMenuButton" id="permit_status_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
 
         rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
 
-            const tempButton = document.getElementById("permit_status_dd_" + this.rowNumber + "_button"); //not used?
-            const tempContent = document.getElementById("permit_status_dd_" + this.rowNumber + "_content");            
+            const tempContent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content");            
 
             tempContent.style.display = 'flex';
             tempContent.style.flexDirection = 'column';
@@ -59,10 +78,10 @@ class PermitStatusDDMenu {
             console.log("Fired - clicked rowElement - " + this.rowNumber);
 
             if (event.target.innerHTML != "\\/") {
-                const tempCurrent = document.getElementById("permit_status_dd_" + this.rowNumber + "_current");
+                const tempCurrent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
     
-                const tempContent = document.getElementById("permit_status_dd_" + this.rowNumber + "_content");
+                //const tempContent = document.getElementById("permit_status_dd_" + this.rowNumber + "_content");
             }
             
         })
@@ -71,7 +90,7 @@ class PermitStatusDDMenu {
             console.log("Fired - moused off - " + this.rowNumber);
 
             /* Current value on page - not in list */
-            const tempCurrent = document.getElementById("permit_status_dd_" + this.rowNumber + "_current");
+            const tempCurrent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_current");
 
             const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
             const curWrIndex = parseInt(((page - 1) * 3) + parseInt(this.rowNumber) - 1); // Will need to change when more rows
@@ -99,7 +118,7 @@ class PermitStatusDDMenu {
             console.log("after if statement");
 
             /* Hiding DDMenu content */
-            const tempContent = document.getElementById("permit_status_dd_" + this.rowNumber + "_content");
+            const tempContent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content");
             tempContent.style.display = 'none';
         })
         
@@ -227,7 +246,7 @@ class GeneralStatusDDMenu {
 
         let str = document.createElement("generalStatusDDMenuContentBox");
 
-        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - LL, SP, Etc."}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - LL/SP/ Etc."}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Need to Visit"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"SVC Calcs + Coding"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ ApplyFor Permit"}</div>`);
@@ -324,99 +343,6 @@ class GeneralStatusDDMenu {
     }
 }
 
-class DDMenuSpecific {
-    constructor(curOption, allOptions, workRequestNumber, type){
-        this.curOption = curOption;
-        this.allOptions = allOptions;
-        this.workRequestNumber = workRequestNumber;
-        this.type = type;
-    }
-
-    makeRowElement() {
-        console.log("Entered - DDMenuSpecific - makeRowElement()");
-
-        let rowElement = document.createElement("ddMenuSpecific");
-
-        rowElement.style.display = 'flex';
-        rowElement.style.flexDirection = 'row';
-        rowElement.style.position = 'relative';
-        rowElement.style.alignItems = 'center';
-        rowElement.style.justifyContent = 'center';
-        rowElement.style.width = '150px';
-        rowElement.style.height = '96px';
-
-        let str = document.createElement("ddMenuSpecificContentBox");
-        
-
-        for (let i = 0; i < this.allOptions.length; i++) {
-            str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${this.allOptions[i]}</div>`); 
-        }
-
-        console.log("str is inner");
-        console.log(str.innerHTML);
-
-        str.style.display = 'none';
-        str.style.position = 'absolute';
-        str.style.marginTop = '45px';
-        str.id = this.workRequestNumber + "_" + this.type + "_dd_content";
-
-
-        rowElement.innerHTML = `<div class="ddMenuSpecificBox" id="${this.workRequestNumber + "_" + this.type}_dd_current">${this.curOption}</div>` + 
-        `<button type="button" class="ddMenuSpecificButton" id="${this.workRequestNumber + "_" + this.type}_dd_button">\\/</button>` + str.outerHTML;
-    
-        rowElement.addEventListener("mouseover", (event) => {
-            console.log("Fired - moused over rowElement");
-
-            const tempButton = document.getElementById(this.workRequestNumber + "_" + this.type + "_dd_button");
-            const tempContent = document.getElementById(this.workRequestNumber + "_" + this.type + "_dd_content");
-           
-
-            if (tempContent.style.display == 'flex') {
-                //tempContent.style.display = 'none';
-            } else {
-                tempContent.style.display = 'flex';
-                tempContent.style.flexDirection = 'column';
-                tempContent.style.border = '1px solid black';
-            
-                console.log("here");
-
-            }
-            
-           // rowElement.innerHTML.
-            //str.style.display = 'flex'; doesnt do anything
-        })    
-        
-        rowElement.addEventListener('click', (event) => {
-            if(event.target.innerHTML != "\\/") {
-                console.log("Fired - clicked rowElement");
-
-                console.log(event.target.innerHTML);
-                const tempCurrent = document.getElementById(this.workRequestNumber + "_" + this.type + "_dd_current");
-                tempCurrent.innerHTML = event.target.innerHTML;
-
-                const tempContent = document.getElementById(this.workRequestNumber + "_" + this.type + "_dd_content");
-                tempContent.style.display = 'none';
-                console.log("tempLoadingStorage = ");
-                console.log(document.getElementById('tempLoadingStorage').innerHTML);
-            }
-            
-        })
-
-        /*
-        rowElement.addEventListener("mouseout", (event) => {
-            console.log("Fired - moused off");
-
-            const tempContent = document.getElementById(this.workRequestNumber + "_" + this.type + "_dd_content");
-            tempContent.style.display = 'none';
-
-        })
-        */
-        return rowElement;
-    }
-
-
-}
-
 class Permit {
     constructor(workRequestNumber, permitStatus, dateSubmitted, dateApplied, priorityNumber, crd, rcd, startDate, endDate, creationDate) {
         this.workRequestNumber = workRequestNumber;
@@ -476,6 +402,17 @@ class Error {
 
         const temp = document.getElementById("add_tab_display_top_mid");
         temp.insertAdjacentHTML("afterbegin", `<div class="errorMessage" id="error_wr_not_found">Work Request Number Not Found</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_wr_not_found");
+            temp.remove();
+        }, 3000);
+    }
+
+    displayPermitNotFoundAddUpdate(wrNum) {
+        console.log("Entered - displayPermitNotFoundAddUpdate(" + wrNum + ")");
+
+        const temp = document.getElementById("add_tab_display_top_mid");
+        temp.insertAdjacentHTML("afterbegin", `<div class="errorMessage" id="error_wr_not_found">Permit for Work Request Number Not Found</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_wr_not_found");
             temp.remove();
@@ -721,6 +658,35 @@ class Paginated {
 
 }
 
+/* Takes in a date (as a string) in the format of "MM-DD-YYYY"
+   And returns a date (as a string) in the format of "YYYY-MM-DD" */
+function formatDate(date) {
+    console.log("Entered - formatDate(" + date + ")");
+
+    if (date.indexOf("-") == 4) {
+        return date;
+    } else {
+        const year = date.substring(6);
+    const month = date.substring(0,2);
+    const day = date.substring(3,5);
+
+    return year + "-" + month + "-" + day;
+    }
+    
+}
+
+/* Takes in a date (as a string) in any the format of "YYYY-MM-DD"
+   And returns a date (as a string) in the format of (MM-DD-YYYY) */
+function formatDateNormal(date) {
+    console.log("Entered - formatDateNormal(" + date + ")");
+
+    const year = date.substring(0, 4);
+    const month = date.substring(5,7);
+    const day = date.substring(8);
+
+    return month + "-" + day + "-" + "-" + year;
+}
+
 function setPermitRowValues(wr, rowNumber) {
     console.log("Entered - setPermitRowValues(" + wr + ", " + rowNumber + ")");
     console.log("wr =");
@@ -736,8 +702,33 @@ function setPermitRowValues(wr, rowNumber) {
         rowNumberText = "three";
     }
 
+    let tempDate = [];
+
     const priority = document.getElementById("permits_tab_row_" + rowNumberText + "_priority_textfield");
     priority.value = wr.priorityNumber;
+    priority.addEventListener("change", (event) => {
+        console.log("Changed - permits - Row " + rowNumber + "priority value changed to " + event.target.value);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList */
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.priorityNumber = event.target.value;
+
+        allWrList[curWrIndex] = currentWr;
+
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+
+        console.log("* Internal List Updated *");
+
+    })
 
     const address = document.getElementById("permits_tab_row_" + rowNumberText + "_address");
     address.innerText = wr.wrAddressType();
@@ -745,20 +736,84 @@ function setPermitRowValues(wr, rowNumber) {
     const submitted = document.getElementById("permits_tab_row_" + rowNumberText + "_submit");
     submitted.innerText = wr.permit.dateSubmitted;
 
-    const status = document.getElementById("permit_status_dd_" + rowNumber + "_current");
+    const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
 
     const startDate = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
-    startDate.value = wr.permit.startDate;
+    startDate.value = formatDate(wr.permit.startDate);
+    startDate.addEventListener("change", (event) => {
+        console.log("Changed - permits - Row " + rowNumber + "startDate value changed to " + event.target.value);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList */
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.startDate = event.target.value;
+
+        allWrList[curWrIndex] = currentWr;
+
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+
+        console.log("* Internal List Updated *");
+    })
+    /*
+    startDate.addEventListener("change", (event) => {
+        console.log("Changed - " + event.target.value);
+
+        tempDate = event.target.value;
+    })
+    startDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permits tab - row " + rowNumberText + " - startDate");
+
+        console.log("tempDate = ");
+        console.log(tempDate);
+
+        /* Current value on page is tempDate 
+        const tempCurrent = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
+        tempCurrent.value = tempDate;
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList 
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr 
+        let currentWr = allWrList[curWrIndex];
+
+
+
+        if (tempDate != currentWr.permit.startDate) {
+            console.log("* Saving page to list *");
+
+            /* Updating startDate and list 
+            currentWr.permit.startDate = tempDate;
+            allWrList[curWrIndex] = currentWr;
+
+            const tempAllWrList = document.getElementById("temp_all_wr_list");
+            tempAllWrList.innerHTML = allWrList;
+
+            console.log("* Internal list updated *");
+            setPermitRowValues(currentWr, rowNumber);
+        }
+        })*/
 
     const endDate = document.getElementById("permits_tab_row_" + rowNumberText + "_end_date");
-    endDate.value = wr.permit.endDate;
+    endDate.value = formatDate(wr.permit.endDate);
 
     const crd = document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date");
-    crd.value = wr.crd;
+    crd.value = formatDateNormal(wr.crd);
 
     const rcd = document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date");
-    rcd.value = wr.rcd;
+    rcd.value = formatDateNormal(wr.rcd);
 
     const comments = document.getElementById("permits_tab_row_" + rowNumberText + "_comments");
     // Will need to fill in when hooked up
@@ -941,15 +996,83 @@ function setAllWrRowValues(wr, rowNumber) {
 
     const priority = document.getElementById("all_wr_tab_row_" + rowNumberText + "_priority_textfield");
     priority.value = wr.priorityNumber;
+    priority.addEventListener("change", (event) => {
+        console.log("Changed - allWrsTab - Row " + rowNumber + "priority value changed to " + event.target.value);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList */
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.priorityNumber = event.target.value;
+
+        allWrList[curWrIndex] = currentWr;
+
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+
+        console.log("* Internal List Updated *");
+
+    })
 
     const address = document.getElementById("all_wr_tab_row_" + rowNumberText + "_address");
     address.innerText = wr.wrAddressType();
 
     const crd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd");
     crd.value = wr.crd;
+    crd.addEventListener("change", (event) => {
+        console.log("Changed - allWrsTab - Row " + rowNumber + " crd changed to " + event.target.value);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList */
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.crd = event.target.value;
+
+        allWrList[curWrIndex] = currentWr;
+
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+
+        console.log("* Internal List Updated *");
+    })
 
     const rcd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd");
     rcd.value = wr.rcd;
+    rcd.addEventListener("change", (event) => {
+        console.log("Changed - allWrsTab - Row " + rowNumber + " rcd changed to " + event.target.value);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNumber) - 1); // Will need to change when more rows
+
+        /* Current allWrList */
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.rcd = event.target.value;
+
+        allWrList[curWrIndex] = currentWr;
+
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+
+        console.log("* Internal List Updated *");
+    })
+    
 
     const generalStatus = document.getElementById("general_status_dd_" + rowNumber + "_current");
     generalStatus.innerText = wr.generalStatus;
@@ -957,7 +1080,7 @@ function setAllWrRowValues(wr, rowNumber) {
     const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_dos");
     // Need to fill in when hooked up
 
-    const permitStatus = document.getElementById("permit_status_dd_" + rowNumber + "_current");
+    const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
     
     permitStatus.innerText = wr.permit.permitStatus;
 
@@ -1247,7 +1370,6 @@ async function writeFile(contents) {
 async function saveFile(allWrList) {
     console.log("Entered - saveFile()");
     
-    
     const newHandle = await window.showSaveFilePicker();
     const writableStream = await newHandle.createWritable();
     const temp = new Blob(allWrList);
@@ -1322,6 +1444,18 @@ function getPermit(curPermitWrNum, allPermitsList) {
     console.log("Permit not found");
     permit[0] = false;
     return permit;
+}
+
+function permitExists(wrNum, allWrList) {
+    console.log("Entered - permitExists");
+
+    for (var i = 0; i < allWrList.length; i++) {
+        if (wrNum == allWrList[i].workRequestNumber) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 function injectHTMLAddTabWrComment(comment) {
@@ -1643,13 +1777,20 @@ async function mainEvent() {
     const allWrTabRowThreePermitStatus = document.querySelector("#all_wr_tab_row_three_permit_status");
     const allWrTabRowThreeEasementStatus = document.querySelector("#all_wr_tab_row_three_easement_status");
 
+    /* Next, Prev, Page Number */
+    //const prev = document.getElementById("all_wr_tab_page_prev_button");
+    //const next = document.getElementById("all_wr_tab_page_next_button");
+    //const cur = document.getElementById("all_wr_tab_current_page_box");
 
+
+    //const permitsTabRowOneStartDate = document.querySelector("#permits_tab_row_one_start_date")
 
     /* Variable */
     let addTabCommentsTextfieldInput = [];
     let addTabPermitCommentsTextfieldInput = [];
     let allWrList = [];
     let allPermitsList = [];
+    let tempDate = [];
     
 
 
@@ -1673,15 +1814,15 @@ async function mainEvent() {
         allWrTabRowThreeGeneralStatus.insertAdjacentElement("beforeend", ddRow);
 
             /* Permit Status DDs */
-        dd = new PermitStatusDDMenu("1");
+        dd = new PermitStatusDDMenu("allWr", "1");
         ddRow = dd.makeRowElement();
         allWrTabRowOnePermitStatus.insertAdjacentElement("beforeend", ddRow);
 
-        dd = new PermitStatusDDMenu("2");
+        dd = new PermitStatusDDMenu("allWr", "2");
         ddRow = dd.makeRowElement();
         allWrTabRowTwoPermitStatus.insertAdjacentElement("beforeend", ddRow);
 
-        dd = new PermitStatusDDMenu("3");
+        dd = new PermitStatusDDMenu("allWr", "3");
         ddRow = dd.makeRowElement();
         allWrTabRowThreePermitStatus.insertAdjacentElement("beforeend", ddRow);
 
@@ -1700,24 +1841,36 @@ async function mainEvent() {
 
         /* Permit Tab DDs */
 
-        dd = new PermitStatusDDMenu("1");
+        dd = new PermitStatusDDMenu("permits", "1");
         ddRow = dd.makeRowElement();
         permitsTabRowOneStatus.insertAdjacentElement("beforeend", ddRow);
 
-        dd = new PermitStatusDDMenu("2");
+        dd = new PermitStatusDDMenu("permits", "2");
         ddRow = dd.makeRowElement();
         permitsTabRowTwoStatus.insertAdjacentElement("beforeend", ddRow);
 
-        dd = new PermitStatusDDMenu("3");
+        dd = new PermitStatusDDMenu("permits", "3");
         ddRow = dd.makeRowElement();
         permitsTabRowThreeStatus.insertAdjacentElement("beforeend", ddRow);
-
-        /*
-        const dd = new DDMenuSpecific("curOp", ["test1", "test2", "test3"], "12345678", "testType");
-        const ddRow = dd.makeRowElement();
-        permitsTabRowOneStatus.insertAdjacentElement("beforeend", ddRow);
-        */
     };
+
+    
+    function displayPermitAddUpdate(wr) {
+        console.log("Entered - displayPermitAddUpdate");
+
+        addTabNewWorkRequestNumber.value = wr.workRequestNumber;
+        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${wr.permit.permitStatus}</div>`;
+        addTabPermitDateSubmitted.value = formatDate(wr.permit.dateSubmitted);
+        addTabPermitDateApplied.value = formatDate(wr.permit.dateApplied);
+        addTabPermitPriority.value = wr.priorityNumber;
+        addTabPermitCRD.value = formatDate(wr.crd);
+        addTabPermitRCD.value = formatDate(wr.rcd);
+        console.log("here");
+        console.log(wr.permit);
+        addTabPermitStart.value = formatDate(wr.permit.startDate);
+        addTabPermitExpiration.value = formatDate(wr.permit.endDate);
+        //addTabPermitWrCommentsToAdd = will fill in
+    }
 
     function displayWrAddUpdate(wr) {
         console.log("Entered - displayWrAddUpdate(" + wr + ")");
@@ -1832,15 +1985,10 @@ async function mainEvent() {
 
         const tempAllWrList = document.createElement("tempAllWrList");
 
-        console.log("Testing Here");
-        console.log(allWrList);
 
         tempAllWrList.classList.add("hidden");
         tempAllWrList.id = "temp_all_wr_list";
         tempAllWrList.innerHTML = allWrList;
-        //tempAllWrList.insertAdjacentHTML("beforeend", `<div>${allWrList}</div>`);
-
-        console.log(tempAllWrList);
 
         if (document.getElementById("temp_all_wr_list") == undefined) {
             document.getElementById('all_wr_tab').insertAdjacentElement("beforeend", tempAllWrList);
@@ -1890,7 +2038,38 @@ async function mainEvent() {
                 console.log("Work Request " + wr.workRequestNumber + " Updated");
             }
         } else if (filterCheckboxAddPermit.checked == true) {
-            /* Working on logic here */
+            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
+            let curWr = curWrData[1];
+            if (curWrData[0] != false) {
+                const curWrIndex = curWrData[2];
+                let newWr = new workRequest(curWr.workRequestNumber, curWr.addressLineTextfieldHouseNumber, curWr.addressLineTextfieldStreetName,
+                    curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
+                    curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, curWr.crd,
+                    curWr.rcd, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curWr.commentsGeneral, 
+                    curWr.customerContacted, curWr.creationDate);
+                const permit = new Permit(addTabNewWorkRequestNumber.value, dropdownMenuBoxAddTabPermitStatus.textContent.trim(), 
+                addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
+                addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
+                
+                const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+                const allWrList = parseWrString(allWrListRaw);
+
+                /* Prevents Double Add */
+                if (getWr(curWr.workRequestNumber, allWrList)[0] == 0) {
+                    allWrList[curWrIndex] = newWr;
+                    console.log("Permit for Work Request " + curWr.workRequestNumber + " Updated");
+                }
+
+                const tempAllWrList = document.getElementById("temp_all_wr_list");
+                tempAllWrList.innerHTML = allWrList;
+
+                console.log("test r test ");
+                console.log(allWrList);
+
+                injectHTMLAllWrTabDisplay(allWrList, 0);
+                console.log("allWrList added to internal list");
+
+            }
         }
         
     })
@@ -1911,7 +2090,25 @@ async function mainEvent() {
                 e.displayWrNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
             }
         } else if (filterCheckboxAddPermit.checked == true) {
-            /* Need to add */
+            const curWrNum = addTabNewWorkRequestNumber.value;
+
+            let wr = getWr(curWrNum, allWrList);
+
+            if (permitExists(curWrNum, allWrList) == true) {
+                displayPermitAddUpdate(wr[1]);
+            } else {
+                e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
+
+            }
+
+            /*
+            if (wr[0] != false) {
+                console.log("wr != 1 = true");
+                displayPermitAddUpdate(wr[1]);
+            } else {
+                e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
+            }
+            */
         }
         
     })
@@ -2505,6 +2702,7 @@ async function mainEvent() {
     })
 
 
+    /* Next and Prev Button + Page Number Textfield */
     
 
     /* Deslect Header Tab Functions */

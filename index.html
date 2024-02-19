@@ -12,13 +12,13 @@
 
         <!-- Header (Tabs) Container -->
       <div class="headerTabsContainer">
-            <div class="headerTab " id="all_wr_tab">
+            <div class="headerTab hidden" id="all_wr_tab">
                 <div class="headerTabTextContainer">
                     <h5>All&ensp;</h5>
                     <h2>WR's</h2>
                 </div>
             </div>
-            <div class="headerTab activeTab hidden" id="all_wr_tab_active">
+            <div class="headerTab activeTab " id="all_wr_tab_active">
                 <div class="headerTabTextContainer">
                     <h5>All&ensp;</h5>
                     <h5>WR's</h5>
@@ -38,8 +38,8 @@
                 </div>
             </div>
 
-            <div class="headerTab hidden" id="permits_tab"><h2>Permits</h2></div>
-            <div class="headerTab activeTab " id="permits_tab_active"><h2>Permits</h2></div>
+            <div class="headerTab " id="permits_tab"><h2>Permits</h2></div>
+            <div class="headerTab activeTab hidden" id="permits_tab_active"><h2>Permits</h2></div>
 
             <div class="headerTab" id="easement_requests_tab">
             <h2>Easement</h2>
@@ -134,7 +134,7 @@
                 <label class="filterSectionStatusLabel" id="filter_section_status_label">Status:</label>
                
                 <!-- Status Filters Container - All Wr -->
-                <div class="statusFiltersContainer hidden" id="all_wr_status_filters_container">
+                <div class="statusFiltersContainer " id="all_wr_status_filters_container">
                     <div class="filterContainer" id="filter_container_waiting_ll">
                         <input type="checkbox" class="filterCheckbox" id="filter_checkbox_waiting_ll" name="filter_checkbox_waiting_ll"/>
                         <label for="filter_checkbox_waiting_ll" class="filterCheckboxLabel" id="filter_checkbox_waiting_ll_label">Waiting on LL,SP,etc.</label>
@@ -194,7 +194,7 @@
                 </div>
 
                 <!-- Permit Status Filters Container -->
-                <div class="statusFiltersContainer " id="permit_status_filters_container">
+                <div class="statusFiltersContainer hidden" id="permit_status_filters_container">
                     <div class="filterContainer" id="filter_container_permit_applied">
                         <input type="checkbox" class="filterCheckbox"  id="filter_checkbox_permit_applied"/>
                         <label for="filter_checkbox_permit_applied" class="filterCheckboxLabel">Applied</label>
@@ -290,7 +290,7 @@
             <div class ="hidden" id="tempLoadingStorage"></div>
             
             <!-- All Wr Tab Display Container -->
-            <div class="allWrDisplayContainer hidden" id="all_wr_display_container">
+            <div class="allWrDisplayContainer " id="all_wr_display_container">
                 
                 <!-- allWr Tab Labels -->
                 <div class="allWrDisplayLabelContainer" id="all_wr_display_label_container">
@@ -421,16 +421,16 @@
             </div>
 
             <!-- Permits Tab Display Container -->
-            <div class="permitsTabDisplayContainer" id="permits_display_container">
+            <div class="permitsTabDisplayContainer hidden" id="permits_display_container">
                 
                 <!-- permits Tab Labels -->
                 <div class="permitsTabDisplayHeaderContainer">
                     <div class="permitsTabDisplayHeaderSmall">Priority<br>Number</div>
                     <div class="permitsTabDisplayHeaderBig">Wr# /<br>Address /<br>Type</div>
                     <div class="permitsTabDisplayHeader">Date<br>Submitted</div>
-                    <div class="permitsTabDisplayHeader">Status</div>
-                    <div class="permitsTabDisplayHeader">Start<br>Date</div>
-                    <div class="permitsTabDisplayHeader">End<br>Date</div>
+                    <div class="permitsTabDisplayHeader">Permit<br>Status</div>
+                    <div class="permitsTabDisplayHeader">Permit<br>Start<br>Date</div>
+                    <div class="permitsTabDisplayHeader">Permit<br>End<br>Date</div>
                     <div class="permitsTabDisplayHeader">CRD</div>
                     <div class="permitsTabDisplayHeader">RCD</div>
                     <div class="permitsTabDisplayHeaderBig">Comments</div>
@@ -450,16 +450,16 @@
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
                     <div class="permitRowElementContainer">
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_start_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfield" id="permits_tab_row_one_start_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_end_date" value="0001-01-01"/>
                     </div>
-                    <div class="permitRowElementContainer">
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_crd_date" value="0001-01-01"/>
+                    <div class="permitRowElementContainer id = permits_tab_row_one_crd_date">
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_one_crd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_rcd_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_one_rcd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_one_comments_textfield" value="Unset 1"/>
@@ -486,10 +486,10 @@
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_end_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_crd_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_two_crd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_rcd_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_two_rcd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_two_comments_textfield" value="Unset 2"/>
@@ -516,10 +516,10 @@
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_end_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_crd_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_three_crd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_rcd_date" value="0001-01-01"/>
+                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_three_rcd_date" value="0001-01-01" disabled="true"/>
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_three_comments_textfield" value="Unset 3"/>
