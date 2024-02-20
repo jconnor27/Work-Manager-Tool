@@ -1328,6 +1328,8 @@ h5 {
     font-size: small;
 }
 
+.ddMenuSpecificContentItem:hover .ddMenuSpecificContentItem {color: #3e8e41;}  /* Doesn't do anything */
+
 .ddMenuSpecificButton {
     width: 25px;
     height: 46px;
@@ -1510,6 +1512,7 @@ h5 {
     padding-right: 1rem;
     border-bottom: 2px solid black;
     border-right: 2px solid black;
+    font-size: small;
 }
 
     /* All WR's Tab - Display - Rows*/ 
@@ -1567,7 +1570,7 @@ h5 {
         align-items: center;
         justify-content: center;
         padding: 10px; 
-        font-size: small;
+        font-size: 8.5px;
 }
 
     /* Permits Tab - Display - Headers */
@@ -1617,6 +1620,7 @@ h5 {
     padding-right: 1rem;
     border-bottom: 2px solid black;
     border-right: 2px solid black;
+    font-size: small;
 }
 
     /* Permits Tab - Display - Rows */
@@ -1676,7 +1680,7 @@ h5 {
 .permitsTabDisplayTextfieldSmall {
     display: flex;
     height: 30px;
-    width: 50px;
+    width: 30px;
     border: 1px solid black;
     align-items: center;
     justify-content: center;
