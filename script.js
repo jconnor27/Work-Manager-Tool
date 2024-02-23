@@ -3306,7 +3306,6 @@ async function mainEvent() {
     function allWrTabGeneralStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - allWrTabGeneralStatusContainerClickFunction(" + rowNum + ")");
 
-        
         const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
 
         console.log("tempContent =");
@@ -3397,14 +3396,10 @@ async function mainEvent() {
         allWrTabGeneralStatusContainerClickFunction("3", event);
     })
             
-    
+    function allWrTabPermitStatusContainerMouseoverFunction(rowNum) {
+        console.log("Fired - moused over allWrTabPermitStatusMouseoverFunction(" + rowNum + ")");
 
-        /* Permit Status DDs */
-            /* mouseovers */
-    allWrTabRowOnePermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowOnePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_content");
 
         tempContent.style.display = 'flex';
         tempContent.style.flexDirection = 'column';
@@ -3417,47 +3412,77 @@ async function mainEvent() {
         } else {
             /* Will need to fill in when more than 3 work requests */
         }
-    })
-    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowTwoPermitStatus");
+    }
 
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
+    function allWrTabPermitStatusContainerClickFunction(rowNum, event) {
+        console.log("Entered - allWrTabPermitStatusContainerClickFunction(" + rowNum + ")");
 
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_content");
 
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-            tempContent.style.width = '90px';
+        if (tempContent.style.display == 'none') {
+            allWrTabPermitStatusContainerMouseoverFunction(rowNum);
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
         } else {
-            /* Will need to fill in when more than 3 work requests */
+            /* The below code block creates a temporary DDmenu to initialize a list to compare against
+                - Used to make sure the click doesn't add the ddMenu html element, only the items */
+            const tempElem = document.createElement("tempElem");
+            tempElem.id = "temp_elem";
+            tempElem.classList.add("hidden");
+            const tempDD = new PermitStatusDDMenu("test", "test");
+            const tempRowElement = tempDD.makeRowElement();
+            tempElem.insertAdjacentElement("beforeend", tempRowElement);
+            const tempStorage = document.getElementById("all_wr_tab_active");
+            tempStorage.insertAdjacentElement("beforeend", tempElem);
+            const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+            tempElem.remove();
+
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                allWrTabPermitStatusContainerMouseoutFunction(rowNum);
+            }
         }
-    })
-    allWrTabRowThreePermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowThreePermitStatus");
+    }
 
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
+    function allWrTabPermitStatusContainerMouseoutFunction(rowNum) {
+        console.log("Entered - allWrTabPermitStatusMouseoutClickFunction(" + rowNum + ")");
 
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_current");
 
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-            tempContent.style.width = '90px';
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNum) - 1); // Will need to change when more rows
 
-        } else {
-            /* Will need to fill in when more than 3 work requests */
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
         }
-    })
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_content");
+        tempContent.style.display = 'none';
+    }
+
+        /* Permit Status DDs */    
             /* clicks */
     allWrTabRowOnePermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOnePermitStatus");
 
-        const tempElem = document.createElement("tempElem");
+        allWrTabPermitStatusContainerClickFunction("1", event);
+        /*const tempElem = document.createElement("tempElem");
         tempElem.id = "temp_elem";
         tempElem.classList.add("hidden");
     
@@ -3477,12 +3502,13 @@ async function mainEvent() {
 
             const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
             //tempContent.style.display = 'none';
-        }
+        }*/
     })
     allWrTabRowTwoPermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoPermitStatus");
 
-        const tempElem = document.createElement("tempElem");
+        allWrTabPermitStatusContainerClickFunction("2", event);
+        /*const tempElem = document.createElement("tempElem");
         tempElem.id = "temp_elem";
         tempElem.classList.add("hidden");
     
@@ -3502,12 +3528,13 @@ async function mainEvent() {
 
             const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
             //tempContent.style.display = 'none';
-        }
+        }*/
     })
     allWrTabRowThreePermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreePermitStatus");
 
-        const tempElem = document.createElement("tempElem");
+        allWrTabPermitStatusContainerClickFunction("3", event);
+        /*const tempElem = document.createElement("tempElem");
         tempElem.id = "temp_elem";
         tempElem.classList.add("hidden");
     
@@ -3527,26 +3554,78 @@ async function mainEvent() {
 
             const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
             //tempContent.style.display = 'none';
-        }
+        }*/
     })
-            /* mouseouts */
-    allWrTabRowOnePermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowOnePermitStatus");
+    
+    function allWrTabEasementStatusContainerMouseoverFunction(rowNum) {
+        console.log("Entered - allWrTabEasementStatusContainerMouseoverFunction(" + rowNum + ")");
+
+        const tempContent = document.getElementById("easement_status_dd_" + rowNum + "_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '400px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    }
+
+    function allWrTabEasementStatusContainerClickFunction(rowNum, event) {
+        console.log("Entered - allWrTabEasementStatusContainerClickFunction(" + rowNum + ")");
+
+        const tempContent = document.getElementById("easement_status_dd_" + rowNum + "_content");
+
+        if (tempContent.style.display == 'none') {
+            allWrTabEasementStatusContainerMouseoverFunction(rowNum);
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            /* The below code block creates a temporary DDmenu to initialize a list to compare against
+                - Used to make sure the click doesn't add the ddMenu html element, only the items */
+            const tempElem = document.createElement("tempElem");
+            tempElem.id = "temp_elem";
+            tempElem.classList.add("hidden");
+            const tempDD = new EasementStatusDDMenu("test");
+            const tempRowElement = tempDD.makeRowElement();
+            tempElem.insertAdjacentElement("beforeend", tempRowElement);
+            const tempStorage = document.getElementById("all_wr_tab_active");
+            tempStorage.insertAdjacentElement("beforeend", tempElem);
+            const tempContent = document.getElementById("easement_status_dd_test_content");
+            tempElem.remove();
+        
+            
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("easement_status_dd_" + rowNum + "_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+        
+                allWrTabEasementStatusContainerMouseoutFunction(rowNum);
+            }
+        }
+
+    }
+
+    function allWrTabEasementStatusContainerMouseoutFunction(rowNum) {
+        console.log("Entered - allWrTabEasementStatusMouseoutClickFunction(" + rowNum + ")");
 
         /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
+        const tempCurrent = document.getElementById("easement_status_dd_" + rowNum + "_current");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNum) - 1); // Will need to change when more rows
 
         /* Current Wr */
         let currentWr = allWrList[curWrIndex];
 
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
             console.log("* Saving page to list *");
 
             /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            currentWr.easementRequestStatus = tempCurrent.innerHTML;
             allWrList[curWrIndex] = currentWr;
 
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
@@ -3556,150 +3635,22 @@ async function mainEvent() {
         }
 
         /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
+        const tempContent = document.getElementById("easement_status_dd_" + rowNum + "_content");
         tempContent.style.display = 'none';
-    })
-    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowTwoPermitStatus");
+    }
 
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowThreePermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowThreePermitStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
-        tempContent.style.display = 'none';
-    })
         /* Easement Status DDs */
-            /* mouseovers */
-    allWrTabRowOneEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowOneEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '380px';
-            tempContent.style.width = '90px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowTwoEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '380px';
-            tempContent.style.width = '90px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowThreeEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '380px';
-            tempContent.style.width = '90px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
             /* clicks */
     allWrTabRowOneEasementStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneEasementStatus");
 
-        const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new EasementStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("easement_status_dd_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("easement_status_dd_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_1_content");
-            //tempContent.style.display = 'none';
-        }
+        allWrTabEasementStatusContainerClickFunction("1", event);
     })
     allWrTabRowTwoEasementStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoEasementStatus");
 
-        const tempElem = document.createElement("tempElem");
+        allWrTabEasementStatusContainerClickFunction("2", event);
+        /*const tempElem = document.createElement("tempElem");
         tempElem.id = "temp_elem";
         tempElem.classList.add("hidden");
     
@@ -3719,12 +3670,13 @@ async function mainEvent() {
 
             const tempContent = document.getElementById("easement_status_dd_2_content");
             //tempContent.style.display = 'none';
-        }
+        }*/
     })
     allWrTabRowThreeEasementStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeEasementStatus");
 
-        const tempElem = document.createElement("tempElem");
+        allWrTabEasementStatusContainerClickFunction("3", event);
+        /*const tempElem = document.createElement("tempElem");
         tempElem.id = "temp_elem";
         tempElem.classList.add("hidden");
     
@@ -3744,97 +3696,9 @@ async function mainEvent() {
 
             const tempContent = document.getElementById("easement_status_dd_3_content");
             //tempContent.style.display = 'none';
-        }
+        }*/
     })
-            /* mouseouts */
-    allWrTabRowOneEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowOneEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_1_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_1_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowTwoEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_2_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_2_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowThreeEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_3_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_3_content");
-        tempContent.style.display = 'none';
-    })
-
+            
 
 
     /* permitsTab Row Element Event Listeners */
@@ -4004,223 +3868,105 @@ async function mainEvent() {
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "three");
         }
     })
+
+    function permitsTabPermitStatusContainerMouseoverFunction(rowNum) {
+        console.log("Fired - moused over permitsTabPermitStatusMouseoverFunction(" + rowNum + ")");
+
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '400px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    }
+
+    function permitsTabPermitStatusContainerClickFunction(rowNum, event) {
+        console.log("Entered - permitsTabPermitStatusContainerClickFunction(" + rowNum + ")");
+
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
+
+        if (tempContent.style.display == 'none') {
+            permitsTabPermitStatusContainerMouseoverFunction(rowNum);
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            /* The below code block creates a temporary DDmenu to initialize a list to compare against
+                - Used to make sure the click doesn't add the ddMenu html element, only the items */
+            const tempElem = document.createElement("tempElem");
+            tempElem.id = "temp_elem";
+            tempElem.classList.add("hidden");
+            const tempDD = new PermitStatusDDMenu("test", "test");
+            const tempRowElement = tempDD.makeRowElement();
+            tempElem.insertAdjacentElement("beforeend", tempRowElement);
+            const tempStorage = document.getElementById("all_wr_tab_active");
+            tempStorage.insertAdjacentElement("beforeend", tempElem);
+            const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+            tempElem.remove();
+
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                permitsTabPermitStatusContainerMouseoutFunction(rowNum);
+            }
+        }
+    }
+
+    function permitsTabPermitStatusContainerMouseoutFunction(rowNum) {
+        console.log("Entered - permitsTabPermitStatusMouseoutClickFunction(" + rowNum + ")");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNum) - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
+        tempContent.style.display = 'none';
+    }
     
-        /* Permit Status DDs */
-            /* mouseovers */
-    permitsTabRowOneStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowOnePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '320px';
-            //tempContent.style.marginRight = '30px';
-            //tempContent.style.width = '90px'
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    permitsTabRowTwoStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowTwoPermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '320px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    permitsTabRowThreeStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowThreePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '320px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
+        /* Permit Status DDs */    
             /* clicks */
     permitsTabRowOneStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowOnePermitStatus");
 
-        const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-        
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-            //tempContent.style.display = 'none';
-        }
+        permitsTabPermitStatusContainerClickFunction("1", event);
     })
     permitsTabRowTwoStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowTwoPermitStatus");
 
-        const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-        
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-            //tempContent.style.display = 'none';
-        }
+        permitsTabPermitStatusContainerClickFunction("2", event);
     })
     permitsTabRowThreeStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowThreePermitStatus");
 
-        const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-        
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-            //tempContent.style.display = 'none';
-        }
+        permitsTabPermitStatusContainerClickFunction("3", event);
     })
-            /* mouseouts */
-    permitsTabRowOneStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowOnePermitStatus");
         
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-        tempContent.style.display = 'none';
-    })
-    permitsTabRowTwoStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowTwoPermitStatus");
-        
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-        tempContent.style.display = 'none';
-    })
-    permitsTabRowThreeStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowThreePermitStatus");
-        
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-        tempContent.style.display = 'none';
-    })
 
         /* Start Dates */
     permitsTabRowOneStartDate.addEventListener("change", (event) => {
