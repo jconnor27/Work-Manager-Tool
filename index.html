@@ -79,8 +79,8 @@
         <div class="leftSideContainer" id="left_side_container">
             
             <!-- Top Section of Filter Section -->
-            <div class="searchByBoxContainer filterSectionInactive " id="seach_by_box_container">
-                <input type="checkbox" class="searchBySelectionCheckbox" id="search_by_selecetion_checkbox" name="search_by_selection_checkbox"/>
+            <div class="searchByBoxContainer  filterSectionInactive" id="search_by_box_container">
+                <input type="checkbox" class="searchBySelectionCheckbox" id="search_by_selection_checkbox" name="search_by_selection_checkbox"/>
                 <div class="searchTextfieldContainer" id="search_textfield_container">
                     <label for="search_by_selection_textfield" class="searchBySelectionTextfieldLabel" id="search_by_selection_textfield_label">Search By:</label>
                     <input type="text" class="searchBySelectionTextfield" id="search_by_selection_textfield" name="searchBySelectionTextfield" disabled/>
@@ -102,7 +102,7 @@
 
             <!-- Filter By Section - All Wr-->
             <div class="filterByBoxContainer " id="filter_by_box_container">
-                <input type="checkbox" class="filterBySelectionCheckbox" id="filter_by_selecetion_checkbox" name="filter_by_selection_checkbox" checked/>
+                <input type="checkbox" class="filterBySelectionCheckbox" id="filter_by_selection_checkbox" name="filter_by_selection_checkbox" checked/>
                 <div class="filterAndGoContainer" id="filter_and_go_container">
                     <label for="filterGoButton" class="filterGoButtonLabel" id="filter_go_button_label">Filter By:</label>
                     <button type="button" class="filterGoButton" id="filter_go_button"> Go</button>
@@ -207,16 +207,16 @@
                         <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expiring_soon"/>
                         <label for="filter_checkbox_permit_expiring_soon" class="filterCheckboxLabel">Expiring Soon</label>
                     </div>
-                    <div class="filterContainer" id="filter_container_permit_expiried">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expiried"/>
-                        <label for="filter_checkbox_permit_expiried" class="filterCheckboxLabel">Expiried</label>
+                    <div class="filterContainer" id="filter_container_permit_expired">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expired"/>
+                        <label for="filter_checkbox_permit_expired" class="filterCheckboxLabel">Expired</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_extension_submitted">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extenstion_submitted"/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extension_submitted"/>
                         <label for="filter_checkbox_permit_extenstion_submitted" class="filterCheckboxLabel">Extension Submitted</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_extension_received">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extenstion_received"/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extension_received"/>
                         <label for="filter_checkbox_permit_extenstion_received" class="filterCheckboxLabel">Extension Received</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_dont_need">
@@ -427,8 +427,8 @@
                 <div class="permitsTabDisplayHeaderContainer">
                     <div class="permitsTabDisplayHeaderSmall">Priority Number</div>
                     <div class="permitsTabDisplayHeaderBig">Wr# /<br>Address /<br>Type</div>
-                    <div class="permitsTabDisplayHeader">Date<br>Submitted</div>
                     <div class="permitsTabDisplayHeader">Permit<br>Status</div>
+                    <div class="permitsTabDisplayHeader">Date<br>Submitted</div>
                     <div class="permitsTabDisplayHeader">Permit<br>Start<br>Date</div>
                     <div class="permitsTabDisplayHeader">Permit<br>End<br>Date</div>
                     <div class="permitsTabDisplayHeader">CRD</div>
@@ -443,11 +443,11 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_one_address">
                         Unset 1
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_one_submit">
-                        Unset 1
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_one_status">
                         <!-- Will need to add dropdowns in javascript -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_one_submit">
+                        Unset 1
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_start_date" value="0001-01-01"/>
@@ -473,11 +473,11 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_two_address">
                         Unset 2
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_two_submit">
-                        Unset 2
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_two_status">
                         <!-- Adding DD in JS -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_two_submit">
+                        Unset 2
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_start_date" value="0001-01-01"/>
@@ -503,11 +503,11 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_three_address">
                         Unset 3
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_three_submit">
-                        Unset 3
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_three_status">
                         <!-- Adding DD in JS -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_three_submit">
+                        Unset 3
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_start_date" value="0001-01-01"/>
@@ -852,7 +852,7 @@
         
       </div>
     </div>
-    <script type="module" src="./script.js"></script>
+    <script  src="./script.js"></script>
 
 </body>
 </html>

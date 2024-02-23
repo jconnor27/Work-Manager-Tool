@@ -1330,6 +1330,7 @@ h5 {
 
 .ddMenuSpecificContentItem:hover .ddMenuSpecificContentItem {color: #3e8e41;}  /* Doesn't do anything */
 
+
 .ddMenuSpecificButton {
     width: 25px;
     height: 46px;
@@ -1527,6 +1528,7 @@ h5 {
         /*border-bottom: 2px solid black;*/
         border-right: 2px solid black;
         font-size: smaller;
+        flex-direction: column;
 }
     
 .allWrRowElementContainerSmall {
@@ -1642,6 +1644,7 @@ h5 {
     padding-right: 1rem;*/
     /*border-bottom: 2px solid black;*/
     border-right: 2px solid black;
+    flex-direction: column;
 }
 
 .permitRowElementContainerSmall {

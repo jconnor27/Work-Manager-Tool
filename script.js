@@ -53,7 +53,7 @@ class PermitStatusDDMenu {
         str.id = "permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content";
 
         rowElement.innerHTML = `<div class="permitStatusDDMenuBox" id="permit_status_dd_${this.tab}_tab_row_${this.rowNumber}_current">${this.curOption}</div>` +
-        `<button type="button" class="permitStatusDDMenuButton" id="permit_status_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+        `<button type="button" class="permitStatusDDMenuButton" id="permit_status_dd_${this.tab}_tab_row_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
 
         /*rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
@@ -161,7 +161,7 @@ class EasementStatusDDMenu {
         rowElement.innerHTML = `<div class="easementStatusDDMenuBox" id="easement_status_dd_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type="button" class="easementStatusDDMenuButton" id="easement_status_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
 
-        rowElement.addEventListener("mouseover", (event) => {
+        /*rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
 
             const tempButton = document.getElementById("easement_status_dd_" + this.rowNumber + "_button");
@@ -171,11 +171,11 @@ class EasementStatusDDMenu {
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
 
-            /* Below statement adjusts position of content box to above or below dd menu */
+            /* Below statement adjusts position of content box to above or below dd menu 
             if (this.rowNumber <= 3) {
                 tempContent.style.marginTop = '410px';
             } else {
-                /* Will need to fill in when more than 3 work requests */
+                /* Will need to fill in when more than 3 work requests 
             }
         })
 
@@ -188,28 +188,28 @@ class EasementStatusDDMenu {
 
                 const tempContent = document.getElementById("easement_status_dd_" + this.rowNumber + "_content");
             }
-        })
+        })*/
 
-        rowElement.addEventListener("mouseout", (event) => {
+        /*rowElement.addEventListener("mouseout", (event) => {
             console.log("Fired - moused off - " + this.rowNumber);
 
-            /* Current value on page - not in list */
+            /* Current value on page - not in list 
             const tempCurrent = document.getElementById("easement_status_dd_" + this.rowNumber + "_current");
            
             const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
             const curWrIndex = parseInt(((page - 1) * 3) + parseInt(this.rowNumber) - 1); // Will need to change when more rows
 
-            /* Current allWrList */
+            /* Current allWrList 
             const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
             const allWrList = parseWrString(allWrListRaw);
 
-            /* Current Wr */
+            /* Current Wr 
             const currentWr = allWrList[curWrIndex];
 
             if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
                 console.log("* Saving page to list * ");
 
-                /* Updating Status and List */
+                /* Updating Status and List 
                 currentWr.easementRequestStatus = tempCurrent.innerHTML;
                 allWrList[curWrIndex] = currentWr;
 
@@ -221,10 +221,10 @@ class EasementStatusDDMenu {
 
             console.log("after if statement");
 
-            /* Hiding DDMenu content */
+            /* Hiding DDMenu content 
             const tempContent = document.getElementById("easement_status_dd_" + this.rowNumber + "_content");
             tempContent.style.display = 'none';
-        })
+        })*/
 
         return rowElement;
     }
@@ -251,13 +251,13 @@ class GeneralStatusDDMenu {
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - LL/SP/ Etc."}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Need to Visit"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"SVC Calcs + Coding"}</div>`);
-        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ ApplyFor Permit"}</div>`);
-        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ ApplyFor Easement"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply For Permit"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply For Easement"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Design"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Review - Peer"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Review - Coordinator"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Revisions"}</div>`);
-        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting on Cust - Not Approved"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting on Cust - Not Aprvd"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting on Cust - Approved"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Need to Flag"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"7010'd"}</div>`);
@@ -305,10 +305,10 @@ class GeneralStatusDDMenu {
             }
         })*/
 
-        rowElement.addEventListener("mouseout", (event) => {
+        /*rowElement.addEventListener("mouseout", (event) => {
             console.log("Fired - moused off - " + this.rowNumber);
 
-            /* Current value on page - not in list */
+            /* Current value on page - not in list 
             const tempCurrent = document.getElementById("general_status_dd_" + this.rowNumber + "_current");
 
             const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
@@ -317,17 +317,17 @@ class GeneralStatusDDMenu {
             console.log("Testing Here - curWrIndex =");
             console.log(curWrIndex);
 
-            /* Current allWrList */
+            /* Current allWrList 
             const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
             const allWrList = parseWrString(allWrListRaw);
 
-            /* Current Wr */
+            /* Current Wr 
             const currentWr = allWrList[curWrIndex];
 
             if (tempCurrent.innerHTML != currentWr.generalStatus) {
                 console.log("* Saving page to list *");
 
-                /* Updating Status and List */
+                /* Updating Status and List 
                 currentWr.generalStatus = tempCurrent.innerHTML;
                 allWrList[curWrIndex] = currentWr;
 
@@ -339,10 +339,10 @@ class GeneralStatusDDMenu {
 
             console.log("after if statement");
 
-            /* Hiding DDMenu Content */
+            /* Hiding DDMenu Content 
             const tempContent = document.getElementById("general_status_dd_" + this.rowNumber + "_content");
             tempContent.style.display = 'none';
-        })
+        })*/
 
         return rowElement;
     }
@@ -492,7 +492,7 @@ class workRequest {
             this.crd = crd;
             this.rcd = rcd;
             this.generalStatus = generalStatus.trim();
-            this.permit = new Permit(workRequestNumber, permitStatus.trim(), "01-01-2024", "01-01-2024", "2", "01-01-2024", "01-01-2024", "01-01-2024", "01-01-2024", creationDate);
+            this.permit = new Permit(workRequestNumber, permitStatus.trim(), "0001-01-01", "0001-01-01", "2", "0001-01-01", "0001-01-01", "0001-01-01", "0001-01-01", creationDate);
             this.easementRequestStatus = easementRequestStatus.trim();
             this.commentsGeneral = commentsGeneral;
             this.customerContacted = customerContacted;
@@ -502,7 +502,6 @@ class workRequest {
     wrAddressType() {
         console.log("Entered - wrAddressType()");
 
-        console.log(this);
         let str = "";
 
         str += "WR#: " + this.workRequestNumber + "\n" + this.houseNumber + " " + this.streetName + ",\n" + this.countyCity + ", " + 
@@ -606,7 +605,7 @@ class Page {
 
 class Paginated {
     constructor(list){
-        console.log("Entered - Paginated - Constructor - List = " + list);
+        console.log("Entered - Paginated - Constructor - List = ");
         this.list = list;
         this.count = 0;
     }
@@ -685,8 +684,51 @@ function formatDateNormal(date) {
 }
 
 
+/* Compares creation dates - returns in order from oldest to newest */
+function quickSortAgeOld(arr) {
+    console.log("Entered - quickSortAgeOld");
 
+    if (arr.length <= 1) {
+        return arr;
+    }
 
+    let pivot = arr[0];
+    let leftArr = [];
+    let rightArr = [];
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i].creationDate > pivot.creationDate) {
+            leftArr.push(arr[i]);
+        } else {
+            rightArr.push(arr[i]);
+        }
+    }
+
+    return [...quickSortAgeNew(leftArr), pivot, ...quickSortAgeNew(rightArr)];
+}
+
+/* Compares creation dates - returns in order from newest to oldest */
+function quickSortAgeNew(arr) {
+    console.log("Entered - quickSortAgeNew");
+
+    if (arr.length <= 1) {
+        return arr;
+    }
+
+    let pivot = arr[0];
+    let leftArr = [];
+    let rightArr = [];
+
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i].creationDate < pivot.creationDate) {
+            leftArr.push(arr[i]);
+        } else {
+            rightArr.push(arr[i]);
+        }
+    }
+
+    return [...quickSortAgeNew(leftArr), pivot, ...quickSortAgeNew(rightArr)];
+}
 
 function quickSortRcd(arr) {
     console.log("Entered - quickSortRcd");
@@ -755,11 +797,9 @@ function quickSortPriorityNumber(arr) {
 }
 
 function setPermitRowValues(wr, rowNumber) {
-    console.log("Entered - setPermitRowValues(" + wr + ", " + rowNumber + ")");
-    console.log("wr =");
-    console.log(wr);
+    console.log("Entered - setPermitRowValues( + wr + ,  + rowNumber )");
 
-    let rowNumberText = ""; //convertNumText(rowNumber);
+    let rowNumberText = ""; 
 
     if (rowNumber == 1) {
         rowNumberText = "one";
@@ -782,20 +822,28 @@ function setPermitRowValues(wr, rowNumber) {
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
+    status.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus);
 
     const startDate = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
     startDate.value = formatDate(wr.permit.startDate);
+    //let date = new Date(wr.permit.startDate);
+    startDate.zIndex = 2;
+    startDate.style.backgroundColor = assessPermitStartDate(wr.permit.startDate, wr.permit.endDate);
 
     const endDate = document.getElementById("permits_tab_row_" + rowNumberText + "_end_date");
     endDate.value = formatDate(wr.permit.endDate);
+    let date = new Date(wr.permit.endDate);
+    endDate.style.backgroundColor = assessDate(date);
 
     const crd = document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date");
-    //crd.value = formatDateNormal(wr.crd);
     crd.value = wr.crd;
+    date = new Date(wr.crd);
+    crd.style.backgroundColor = assessDate(date);
 
     const rcd = document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date");
-    //rcd.value = formatDateNormal(wr.rcd);
     rcd.value = wr.rcd;
+    date = new Date(wr.rcd);
+    rcd.style.backgroundColor = assessDate(date);
 
     const comments = document.getElementById("permits_tab_row_" + rowNumberText + "_comments");
     // Will need to fill in when hooked up
@@ -843,8 +891,6 @@ function revealPermitRow(row) {
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
     console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
 
-    
-
     const pag = new Paginated(allWrList);
     const pages = pag.getPages();
 
@@ -881,24 +927,31 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
 
 function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
     console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ")");
-    console.log("currentPageAllWr =");
-    console.log(currentPageAllWr);
-
+    
     const pag = new Paginated(allWrList);
     const pages = pag.getPages();
 
     hideAllWrRows();
 
-    const tempAllWrList = document.getElementById("temp_all_wr_list");
-    tempAllWrList.innerHTML = allWrList;
+    if (document.getElementById("temp_all_wr_list") == null) {
+        const tempAllWrList = document.createElement("temp_all_wr_list");
+        tempAllWrList.id = "temp_all_wr_list";
+        tempAllWrList.classList.add("hidden");
+        tempAllWrList.innerHTML = allWrList;
+
+        const allWrTab = document.getElementById("all_wr_tab");
+        allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+
+        //injectHTMLAllWrTabDisplay(allWrList, 0);
+        //injectHTMLPermitsTabDisplay(allWrList, 0);
+    } else {
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+    }
+    //tempAllWrList.innerHTML = allWrList;
 
     for (var i = 0; i < pages[currentPageAllWr].content.length; i++) {
         
-        console.log("testing hree");
-        console.log("currentPageAllWr =")
-        console.log(currentPageAllWr);
-        console.log("pages = ");
-        console.log(pages);
         setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1);
         revealWrRow(i + 1);
     }
@@ -941,9 +994,7 @@ function revealWrRow(row) {
 }
 
 function setAllWrRowValues(wr, rowNumber) {
-    console.log("Entered - setAllWrRowValues(" + wr + ", " + rowNumber + ")");
-    console.log("wr = ");
-    console.log(wr);
+    console.log("Entered - setAllWrRowValues( + wr + ,  + rowNumber = " + rowNumber + ")");
 
     let rowNumberText = ""; //convertNumText(rowNumber);
     if (rowNumber == 1) {
@@ -962,22 +1013,32 @@ function setAllWrRowValues(wr, rowNumber) {
 
     const crd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd");
     crd.value = wr.crd;
+    let date = new Date(wr.crd);
+    crd.style.backgroundColor = assessDate(date);
 
     const rcd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd");
     rcd.value = wr.rcd;
+    date = new Date(wr.rcd);
+    rcd.style.backgroundColor = assessDate(date);
 
     const generalStatus = document.getElementById("general_status_dd_" + rowNumber + "_current");
     generalStatus.innerText = wr.generalStatus;
+    if (wr.generalStatus.includes("Waiting on Cust") == true || wr.generalStatus.includes("Cancled") == true || 
+    wr.generalStatus.includes("Coordinator") == true || wr.generalStatus.includes("Check/ Apply") == true ||
+    wr.generalStatus.includes("LL/SP") == true || wr.generalStatus.includes("SVC") == true) {
+        generalStatus.style.fontSize = 'smaller';
+    }
 
     const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_dos");
     // Need to fill in when hooked up
 
     const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
-    
     permitStatus.innerText = wr.permit.permitStatus;
+    permitStatus.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus);
 
     const easementStatus = document.getElementById("easement_status_dd_" + rowNumber + "_current");
     easementStatus.innerText = wr.easementRequestStatus;
+    easementStatus.style.backgroundColor = assessEasementStatus(wr.easementRequestStatus);
 
     const comments = document.getElementById("all_wr_tab_row_" + rowNumberText + "_comments");
     // Need to fill in when hooked up
@@ -1277,7 +1338,7 @@ function readFile() {
 
     var reader = new FileReader();
     reader.addEventListener("loadend", function() {
-        allWrList = parseWrString(reader.result);
+        let allWrList = parseWrString(reader.result);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
         document.getElementById("footer_button_sync").classList.remove("hidden");
     });
@@ -1286,7 +1347,7 @@ function readFile() {
     console.log("testing here");
     console.log(allWrList);
     
-}   
+}
 
 /* returns 0 if not found */
 function getWr(curWrNum, allWrList) {
@@ -1400,8 +1461,234 @@ function injectHTMLAddTabPermitComment(comment) {
 
 }
 
+/* Compares the date param to the current date in real life and
+   Returns a color to style the containers background */
+function assessDate(date) {
+    console.log("Entered - assessDate(date)");
 
+    console.log(date);
 
+    const curDate = new Date();
+    const temp = date - curDate;
+    const dateDifference = new Date(temp);
+    const data = convertDate(dateDifference);
+
+    /* NOTES: Have to cascade this conditional to assign colors properly */
+
+    if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
+        return '#dbea06ca';
+    } else if (date < curDate) {
+        return '#ed3939c3';
+    } else if (data <= 14) {
+        return '#ff3191cd';
+    } else if (data <= 31) {
+        return '#ea8f06ca'; // orangish
+    } else {
+        console.log("Data = ");
+        console.log(data);
+        return "white";
+    }
+    
+    
+
+}
+
+/* Helper for assessDate - takes in data as Date object and
+   Returns the data - as the number of days */
+function convertDate(dateDifference) {
+    console.log("Entered - convertDate(dateDifference)");
+
+    const month = dateDifference.getMonth();
+    let days = dateDifference.getDate() + 1;
+
+    if (dateDifference.getFullYear() - 1970 > 1) { // 1970 is the default value from data Object
+        console.log("leaving convertDate - more than 1 year away");
+        return 365;
+    } if (dateDifference.getFullYear() < 0) { // I assigned 01/01/0001 as default and the data value  is negative when it is passed in
+        return -9999;
+    } else {
+
+        /* This is for leap year - which it is this year */
+        const leapYear = new Date();
+        if (leapYear.getFullYear() % 4 == 0) {
+            console.log("Congrats, its a leap year");
+            days += 1;
+        }
+
+        if (month == 0) {
+            return days
+        } else if (month == 1) {
+            return 31 + days;
+        } else if (month == 2) {
+            return 59 + days;
+        } else if (month == 3) {
+            return 90 + days;
+        } else if (month == 4) {
+            return 120 + days;
+        } else if (month == 5) {
+            return 151 + days;
+        } else if (month == 6) {
+            return 181 + days;
+        } else if (month == 7) {
+            return 212 + days;
+        } else if (month == 8) {
+            return 243 + days;
+        } else if (month == 9) {
+            return 273 + days;
+        } else if (month == 10) {
+            return 304 + days;
+        } else if (month == 11) {
+            return 334 + days;
+        }
+    }
+    
+}
+
+function calculateCrdRcdDifference(dateDifference) {
+    console.log("Entered - calculateCrdRcdDifference(" + dateDifference + ")");
+
+    const data = new Date(dateDifference);
+    const month = data.getMonth();
+    let days = data.getDate() + 1;
+
+    if (data.getFullYear() - 1970 > 1) { // 1970 is the default value from data Object
+        console.log("leaving calculateCrdRcdDifferenct - more than 1 year apart");
+        return 365;
+    }
+    if (data.getFullYear() < 0) { // I assigned 01/01/0001 as default and the data value is negative when it is passed in
+        return -9999;
+    } else {
+
+        /* This is for leap year - which it is this year */
+        const leapYear = new Date();
+        if (leapYear.getFullYear() % 4 == 0) {
+            console.log("Congrats, its a leap year");
+            days += 1;
+        }
+
+        if (month == 0) {
+            return days
+        } else if (month == 1) {
+            return 31 + days;
+        } else if (month == 2) {
+            return 59 + days;
+        } else if (month == 3) {
+            return 90 + days;
+        } else if (month == 4) {
+            return 120 + days;
+        } else if (month == 5) {
+            return 151 + days;
+        } else if (month == 6) {
+            return 181 + days;
+        } else if (month == 7) {
+            return 212 + days;
+        } else if (month == 8) {
+            return 243 + days;
+        } else if (month == 9) {
+            return 273 + days;
+        } else if (month == 10) {
+            return 304 + days;
+        } else if (month == 11) {
+            return 334 + days;
+        }
+    }
+}
+
+function crdRcdCheck(crd, rcd, tab, row) {
+    console.log("Entered - crdRcdCheck(" + tab + " tab - row " + row + ")");
+
+    const crdDate = new Date(crd);
+    const rcdDate = new Date(rcd);
+    const difference = calculateCrdRcdDifference(rcdDate - crdDate);
+
+    if (difference < 35) {
+        insertRcdError(tab, row); 
+    } else {
+        removeRcdError(tab, row); 
+    }
+}
+
+function insertRcdError(tab, row) {
+    console.log("Entered - insertRcdError(" + tab +" tab - row " + row + ")");
+
+    const rcdError = document.createElement("rcdError");
+    rcdError.innerText = "* RCD is < 5 Weeks *";
+    rcdError.style.color = "red";
+    rcdError.style.fontSize = "smaller";
+    rcdError.id = tab + "_tab_row_" + row + "_rcd_error";
+
+    let temp = [];
+
+    if (tab == "permits") {
+        temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_date");
+    } else {
+        temp = document.getElementById(tab + "_tab_row_" + row + "_rcd");
+    }
+    
+    const str = new String(temp.innerHTML);
+    if (str.includes("rcdError") == false) {
+        temp.insertAdjacentElement("afterend", rcdError);
+
+    }
+}
+
+function removeRcdError(tab, row) {
+    console.log("Entered - removeRcdError(" + tab + " tab - row " + row + ")");
+
+    const temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_error");
+    temp.remove();
+}
+
+function assessPermitStartDate(startDate, endDate) {
+    console.log("Entered - assessPermitStartDate(startDate = " + startDate + " - endDate = " + endDate + ")");
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const cur = new Date();
+    const rawData = new Date(start - cur);
+    const data = convertDate(rawData);
+    
+    if (data == -9999) { // date not set - set as 01/01/0001 by me by default
+        return '#dbea06ca'; // yellowish
+    } else if (start >= end) { // Permit has expired
+        return '#ff3191cd'; // redish
+    } else if (start <= cur) {// Permit has started 
+        return 'rgba(87, 245, 43, 0.627)';
+    } else { // Permit date has been set but Permit has not started
+        return 'rgba(39, 252, 203, 0.83)'; // tealish
+    }
+}
+
+function assessPermitStatus(status) {
+    console.log("Entered - assessPermitStatus(" + status +")");
+
+    if (status == "Applied") {
+        return 'rgba(39, 252, 203, 0.83)'; // tealish
+    } else if (status == "Received" || status == "Extension Received" || status == "Don't Need") {
+        return 'rgba(87, 245, 43, 0.627)'; // green
+    } else if (status == "Expiring Soon" || status == "Extension Submitted") {
+        return '#ea8f06ca'; // orangish
+    } else if (status == "Expired") {
+        return '#ff3191cd'; // redish
+    } else {
+        // status must = "Haven't Checked"
+        return '#dbea06ca'; // yellowish
+    }
+}
+
+function assessEasementStatus(status) {
+    console.log("Entered - assessEasementStatus(" + status + ")");
+
+    if (status == "Need to Submit" || status == "Need Easement") {
+        return '#ff3191cd'; // redish
+    } else if (status == "Pending") {
+        return '#dbea06ca'; // yellowish
+    } else if (status == "Don't Need" || status == "Have Easement") {
+        return 'rgba(87, 245, 43, 0.627)'; // green
+    } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
+        return 'rgba(39, 252, 203, 0.83)'; // tealish
+    }
+}
 
 
 async function mainEvent() {
@@ -1439,7 +1726,7 @@ async function mainEvent() {
     const addTabUpdateButton = document.querySelector("#add_tab_update_button");
 
     /* Generic Tab Filter Containers */
-    const seachByBoxContainer = document.querySelector("#seach_by_box_container");
+    const searchByBoxContainer = document.querySelector("#search_by_box_container");
     const trimContainer = document.querySelector("#trim_container");
     const trimContainerLabel = document.querySelector("#trim_container_label");
 
@@ -1694,6 +1981,11 @@ async function mainEvent() {
     const allWrTabRowTwoRcd = document.querySelector("#all_wr_tab_row_two_rcd");
     const allWrTabRowThreeRcd = document.querySelector("#all_wr_tab_row_three_rcd");
 
+        /* Addresses */
+    const allWrTabRowOneAddress = document.querySelector("#all_wr_tab_row_one_address");
+    const allWrTabRowTwoAddress = document.querySelector("#all_wr_tab_row_two_address");
+    const allWrTabRowThreeAddress = document.querySelector("#all_wr_tab_row_three_address");
+
 
 
     /* permitsTab Row Element Event Listeners */
@@ -1701,6 +1993,13 @@ async function mainEvent() {
     const permitsTabRowOnePriority = document.querySelector("#permits_tab_row_one_priority_textfield");
     const permitsTabRowTwoPriority = document.querySelector("#permits_tab_row_two_priority_textfield");
     const permitsTabRowThreePriority = document.querySelector("#permits_tab_row_three_priority_textfield");
+
+        /* Addresses */
+    const permitsTabRowOneAddress = document.querySelector("#permits_tab_row_one_address");
+    const permitsTabRowTwoAddress = document.querySelector("#permits_tab_row_two_address");
+    const permitsTabRowThreeAddress = document.querySelector("#permits_tab_row_three_address");
+
+
 
         /* CRDs */
     const permitsTabRowOneCrd = document.querySelector("#permits_tab_row_one_crd_date");
@@ -1746,18 +2045,50 @@ async function mainEvent() {
     const filterCheckboxFlag = document.querySelector("#filter_checkbox_flag");
     const filterCheckbox7010 = document.querySelector("#filter_checkbox_7010");
     const filterCheckboxCancledOther = document.querySelector("#filter_checkbox_cancled_other");
+    const filterCheckboxAgeNew = document.querySelector("#filter_checkbox_age_new_old");
+    const filterCheckboxAgeOld = document.querySelector("#filter_checkbox_age_old_new");
 
+        /* Permits Tab */
+            /* Checkboxes */
+    const filterCheckboxPermitApplied = document.querySelector("#filter_checkbox_permit_applied");
+    const filterCheckboxPermitReceived = document.querySelector("#filter_checkbox_permit_received");
+    const filterCheckboxPermitExpiringSoon = document.querySelector("#filter_checkbox_permit_expiring_soon");
+    const filterCheckboxPermitExpired = document.querySelector("#filter_checkbox_permit_expired");
+    const filterCheckboxPermitExtensionSubmitted = document.querySelector("#filter_checkbox_permit_extension_submitted");
+    const filterCheckboxPermitExtensionReceived = document.querySelector("#filter_checkbox_permit_extension_received");
+    const filterCheckboxPermitDontNeed = document.querySelector("#filter_checkbox_permit_dont_need");
+    const filterCheckboxPermitHaventChecked = document.querySelector("#filter_checkbox_permit_havent_checked");
+            /* Containers */
+    const filterContainerPermitApplied = document.querySelector("#filter_container_permit_applied");
+    const filterContainerPermitReceived = document.querySelector("#filter_container_permit_received");
+    const filterContainerPermitExpiringSoon = document.querySelector("#filter_container_permit_expiring_soon");
+    const filterContainerPermitExpired = document.querySelector("#filter_container_permit_expired");
+    const filterContainerPermitExtensionSubmitted = document.querySelector("#filter_container_permit_extension_submitted");
+    const filterContainerPermitExtensionReceived = document.querySelector("#filter_container_permit_extension_received");
+    const filterContainerPermitDontNeed = document.querySelector("#filter_container_permit_dont_need");
+    const filterContainerPermitHaventChecked = document.querySelector("#filter_container_permit_havent_checked");
 
+    /* Footer Filter Checkboxes */
+    const trimByNot7010 = document.querySelector("#footer_filter_checkbox_not_7010");
+    const trimByAll = document.querySelector("#footer_filter_checkbox_all");
+    const trimBy7010 = document.querySelector("#footer_filter_checkbox_7010");
 
+    /* Footer Filter Containers */
+    const trimByNot7010Container = document.querySelector("#footer_filter_container_not_7010");
+    const trimByAllContainer = document.querySelector("#footer_filter_container_all");
+    const trimBy7010Container = document.querySelector("#footer_filter_container_7010");
 
+    /* Search By Checkboxes + Textfield + Button*/
+    const searchBySelectionCheckbox = document.querySelector("#search_by_selection_checkbox");
+    const searchBySelectionTextfield = document.querySelector("#search_by_selection_textfield");
+    const searchByAddressCheckbox = document.querySelector("#search_by_selection_lower_container_checkbox_address");
+    const searchByAddressContainer = document.querySelector("#search_by_selection_lower_container_checkbox_and_label_container_address");
+    const searchByWrCheckbox = document.querySelector("#search_by_selection_lower_container_checkbox_wr");
+    const searchByWrContainer = document.querySelector("#search_by_selection_lower_container_checkbox_and_label_container_wr");
+    const searchTextfieldGoButton = document.querySelector("#search_textfield_go_button");
 
-
-
-
-
-
-
-
+    /* Filter By Event Listeners */
+    const filterBySelectionCheckbox = document.querySelector("#filter_by_selection_checkbox");
 
     /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -1768,6 +2099,7 @@ async function mainEvent() {
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     
+    // green background highlight "rgba(87, 245, 43, 0.627)"
 
 
     /* Adds all dropdowns */
@@ -1779,93 +2111,69 @@ async function mainEvent() {
             /* General Status DDs */
         let dd = new GeneralStatusDDMenu("1");
         let ddRow = dd.makeRowElement();
+        allWrTabRowOneGeneralStatusContainer.innerHTML = "";
         allWrTabRowOneGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new GeneralStatusDDMenu("2");
         ddRow = dd.makeRowElement();
+        allWrTabRowTwoGeneralStatusContainer.innerHTML = "";
         allWrTabRowTwoGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new GeneralStatusDDMenu("3");
         ddRow = dd.makeRowElement();
+        allWrTabRowThreeGeneralStatusContainer.innerHTML = "";
         allWrTabRowThreeGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
             /* Permit Status DDs */
         dd = new PermitStatusDDMenu("allWr", "1");
         ddRow = dd.makeRowElement();
+        allWrTabRowOnePermitStatusContainer.innerHTML = "";
         allWrTabRowOnePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new PermitStatusDDMenu("allWr", "2");
         ddRow = dd.makeRowElement();
+        allWrTabRowTwoPermitStatusContainer.innerHTML = "";
         allWrTabRowTwoPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new PermitStatusDDMenu("allWr", "3");
         ddRow = dd.makeRowElement();
+        allWrTabRowThreePermitStatusContainer.innerHTML = "";
         allWrTabRowThreePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
             /* Easement Status DDs */
         dd = new EasementStatusDDMenu("1");
         ddRow = dd.makeRowElement();
+        allWrTabRowOneEasementStatusContainer.innerHTML = "";
         allWrTabRowOneEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new EasementStatusDDMenu("2");
         ddRow = dd.makeRowElement();
+        allWrTabRowTwoEasementStatusContainer.innerHTML = "";
         allWrTabRowTwoEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new EasementStatusDDMenu("3");
         ddRow = dd.makeRowElement();
+        allWrTabRowThreeEasementStatusContainer.innerHTML = "";
         allWrTabRowThreeEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         /* Permit Tab DDs */
 
         dd = new PermitStatusDDMenu("permits", "1");
         ddRow = dd.makeRowElement();
+        permitsTabRowOneStatusContainer.innerHTML = "";
         permitsTabRowOneStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new PermitStatusDDMenu("permits", "2");
         ddRow = dd.makeRowElement();
+        permitsTabRowTwoStatusContainer.innerHTML = "";
         permitsTabRowTwoStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         dd = new PermitStatusDDMenu("permits", "3");
         ddRow = dd.makeRowElement();
+        permitsTabRowThreeStatusContainer.innerHTML = "";
         permitsTabRowThreeStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
     };
-
-    filterGoButton.addEventListener("click", (event) => {
-        console.log("Fired - clicked filterGoButton");
-
-        let curAllWrList = assessSpecificStatus();
-
-        if (curAllWrList == undefined) {
-            /* Make an error to tell user no WR exists for the given filter or something */
-        } else {
-            let tempList = [];
-
-            if (filterCheckboxPriorityNumber.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_priority_number").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortPriorityNumber(curAllWrList);
-                //allWrList = tempList;
-                
-            } else if (filterCheckboxCrd.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_crd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortCrd(curAllWrList);
-                //allWrList = tempList;
-            } else if (filterCheckboxRcd.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_rcd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortRcd(curAllWrList);
-                //allWrList = tempList;
-            }
-    
-            injectHTMLAllWrTabDisplay(tempList, 0);
-            injectHTMLPermitsTabDisplay(tempList, 0)
-            currentPageAllWr = 0;
-            currentPagePermits = 0;
-        }
-        
-        
-    })
 
     function assessSpecificStatus() {
         console.log("Entered - assessSpecficiStatus(allWrList)");
@@ -1903,7 +2211,7 @@ async function mainEvent() {
                 uncolorAllWrFilterCheckboxes();
                 document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
                 for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ ApplyFor Permit") {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Permit") {
                         tempList.push(allWrList[i]);
                     }
                 }
@@ -1912,7 +2220,7 @@ async function mainEvent() {
                 uncolorAllWrFilterCheckboxes();
                 document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
                 for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ ApplyFor Easement") {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Easement") {
                         tempList.push(allWrList[i]);
                     }
                 }
@@ -1957,7 +2265,7 @@ async function mainEvent() {
                 uncolorAllWrFilterCheckboxes();
                 document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
                 for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Waiting on Cust - Not Approved") {
+                    if (allWrList[i].generalStatus == "Waiting on Cust - Not Aprvd") {
                         tempList.push(allWrList[i]);
                     }
                 }
@@ -2000,14 +2308,206 @@ async function mainEvent() {
                 return tempList;
             } else {
                 console.log("returning allWrList normal");
+                /* clearing highlights */
+                uncolorAllWrFilterCheckboxes();
                 return allWrList;
             }
         } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
-            /* Fill in permit filters */
+            if (filterCheckboxPermitApplied.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitApplied.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Applied") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitReceived.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Received") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExpiringSoon.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExpiringSoon.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Expiring Soon") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExpired.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExpired.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Expired") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExtensionSubmitted.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExtensionSubmitted.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Extension Submitted") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExtensionReceived.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExtensionReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Extension Received") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitDontNeed.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitDontNeed.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Don't Need") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitHaventChecked.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitHaventChecked.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Haven't Checked") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else {
+                console.log("returning allWrList normal");
+                /* Clearing Highlights */
+                uncolorPermitsTabSpecificCheckboxes();
+                return allWrList;
+            }
         } else { // nothing checked
                 console.log("returning allWrList normal2");
                 return allWrList;
         }
+    }
+
+    function assessTrimBy(filteredAllWrList) {
+        console.log("Entered - assessTrimBy(filteredAllWrList)");
+        let tempList = [];
+
+        if (document.getElementById("footer_filter_checkbox_not_7010").checked == true) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_checkbox_not_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            for (let i = 0; i < filteredAllWrList.length; i++) {
+                if (filteredAllWrList[i].generalStatus != "7010'd") {
+                    tempList.push(filteredAllWrList[i]);
+                }
+            }
+            return tempList;
+        } else if (document.getElementById("footer_filter_checkbox_7010").checked == true) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_checkbox_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627";
+            for (let i = 0; i < filteredAllWrList.length; i++) {
+                if (filteredAllWrList[i].generalStatus == "7010'd") {
+                    tempList.push(filteredAllWrList[i]);
+                }
+            }
+            return tempList;
+        } else {
+            console.log("All must be checked - returning filteredAllWrList as received");
+            return filteredAllWrList;
+        }
+    }
+
+    /* Deslect Header Tab Functions */
+
+    function deselectAllWrTab() {
+        console.log("Entered - clearAllWrTab");
+
+        allWrTabActive.classList.add("hidden");
+        
+        filterByBoxContainer.classList.add("hidden");
+        searchByBoxContainer.classList.add("hidden");
+        trimContainer.classList.add("hidden");
+        trimContainerLabel.classList.add("hidden");
+        allWrDisplayContainer.classList.add("hidden");
+        filterSectionStatusLabel.classList.add("hidden");
+        allWrStatusFiltersContainer.classList.add("hidden");
+        curPageAllWr.classList.add("hidden");
+
+        uncheckAllWrFilterCheckboxes();
+        uncolorAllWrFilterCheckboxes();
+        
+       
+        allWrTab.classList.remove("hidden");
+    }
+
+    function deselectAllAddTab() {
+        console.log("Entered - deselectAllAddTab");
+
+        addTabActive.classList.add("hidden");
+        addDisplayContainer.classList.add("hidden");
+        addTabFilterLabelContainer.classList.add("hidden");
+        addTypeContainer.classList.add("hidden");
+
+        addTab.classList.remove("hidden");
+    }
+
+    function deselectAllPermitsTab() {
+        console.log("Entered - deselectAllPermitsTab");
+
+        permitsTabActive.classList.add("hidden");
+        /* Fill in more as I go */
+        filterByBoxContainer.classList.add("hidden");
+        searchByBoxContainer.classList.add("hidden");
+        trimContainer.classList.add("hidden");
+        trimContainerLabel.classList.add("hidden");
+        permitsDisplayContainer.classList.add("hidden");
+        filterSectionStatusLabel.classList.add("hidden");
+        permitStatusFiltersContainer.classList.add("hidden");
+        curPagePermits.classList.add("hidden");
+
+        uncheckPermitsTabSpecificCheckboxes();
+        uncolorPermitsTabSpecificCheckboxes();
+
+        permitsTab.classList.remove("hidden");
+    }
+
+    function deselectAllTabs() {
+        console.log("Entered - deselectAllTabs");
+
+        deselectAllWrTab();
+        deselectAllAddTab();
+        deselectAllPermitsTab();
+
+        uncolorGenericFilterCheckboxes();
+        uncheckGenericFilterCheckboxes();
+        uncheckSearchByCheckboxes();
+        uncolorSearchByCheckboxes();
+        uncheckTrimByCheckboxes();
+        uncolorTrimByCheckboxes();
+    }
+
+    function uncolorTrimByCheckboxes() {
+        console.log("Entered - uncolorTrimByCheckboxes()");
+
+        document.getElementById("footer_filter_container_not_7010").style.backgroundColor = "white";
+        document.getElementById("footer_filter_container_all").style.backgroundColor = "white";
+        document.getElementById("footer_filter_container_7010").style.backgroundColor = "white";
+    }
+
+    function uncheckTrimByCheckboxes() {
+        console.log("Entered - uncheckTrimByCheckboxes()");
+
+        document.getElementById("footer_filter_checkbox_not_7010").checked = false;
+        document.getElementById("footer_filter_checkbox_all").checked = false;
+        document.getElementById("footer_filter_checkbox_7010").checked = false;
     }
 
     function uncheckAllWrFilterCheckboxes() {
@@ -2049,943 +2549,6 @@ async function mainEvent() {
         document.getElementById("filter_container_cancled_other").style.backgroundColor = "white"
     
     }
-
-    /* allWrTab Row Element Event Listeners */
-        /* Priority Numbers */
-    allWrTabRowOnePriority.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowOnePriority changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-    allWrTabRowTwoPriority.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowTwoPriority changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-    allWrTabRowThreePriority.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowThreePriority changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-        /* CRDs */
-    allWrTabRowOneCrd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowOneCrd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    allWrTabRowTwoCrd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowTwoCrd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    allWrTabRowThreeCrd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowThreeCrd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-        /* RCDs */
-    allWrTabRowOneRcd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowOneRcd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    allWrTabRowTwoRcd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowTwoRcd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    allWrTabRowThreeRcd.addEventListener("change", (event) => {
-        console.log("Changed - allWrTabRowThreeRcd changed to - " + event);
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-        /* General Status DDs */
-            /* mouseovers */
-    allWrTabRowOneGeneralStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowOneGeneralStatus");
-
-        const tempContent = document.getElementById("general_status_dd_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '325px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowTwoGeneralStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowTwoGeneralStatus");
-
-        const tempContent = document.getElementById("general_status_dd_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '325px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowThreeGeneralStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowThreeGeneralStatus");
-
-        const tempContent = document.getElementById("general_status_dd_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '325px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-            /* clicks */
-    allWrTabRowOneGeneralStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowOneGeneralStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("general_status_dd_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("general_status_dd_1_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowTwoGeneralStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowTwoGeneralStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("general_status_dd_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("general_status_dd_2_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowThreeGeneralStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowThreeGeneralStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("general_status_dd_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("general_status_dd_3_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-            /* mouseouts */
-    allWrTabRowOneGeneralStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowOneGeneralStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("general_status_dd_1_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.generalStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.generalStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("general_status_dd_1_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowTwoGeneralStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowTwoGeneralStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("general_status_dd_2_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.generalStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.generalStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("general_status_dd_2_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowThreeGeneralStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowThreeGeneralStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("general_status_dd_3_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.generalStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.generalStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("general_status_dd_3_content");
-        tempContent.style.display = 'none';
-    })
-        /* Permit Status DDs */
-            /* mouseovers */
-    allWrTabRowOnePermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowOnePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowTwoPermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowThreePermitStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowThreePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-            /* clicks */
-    allWrTabRowOnePermitStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowOnePermitStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowTwoPermitStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowTwoPermitStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowThreePermitStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowThreePermitStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-            /* mouseouts */
-    allWrTabRowOnePermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowOnePermitStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowTwoPermitStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowThreePermitStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowThreePermitStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
-        tempContent.style.display = 'none';
-    })
-        /* Easement Status DDs */
-            /* mouseovers */
-    allWrTabRowOneEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowOneEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowTwoEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over allWrTabRowThreeEasementStatus");
-
-        const tempContent = document.getElementById("easement_status_dd_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-            /* clicks */
-    allWrTabRowOneEasementStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowOneEasementStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("easement_status_dd_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_1_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowTwoEasementStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowTwoEasementStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("easement_status_dd_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_2_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    allWrTabRowThreeEasementStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked allWrTabRowThreeEasementStatus");
-
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("easement_status_dd_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_3_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-            /* mouseouts */
-    allWrTabRowOneEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowOneEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_1_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_1_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowTwoEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_2_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_2_content");
-        tempContent.style.display = 'none';
-    })
-    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off allWrTabRowThreeEasementStatus");
-
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("easement_status_dd_3_current");
-
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-
-        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-            console.log("* Saving page to list *");
-
-            /* Updating Status and List */
-            currentWr.easementRequestStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-
-            console.log("* Internal List Updated *");
-        }
-
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("easement_status_dd_3_content");
-        tempContent.style.display = 'none';
-    })
-
-    /* permitsTab Row Element Event Listeners */
-        /* Priority Numbers */
-    permitsTabRowOnePriority.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOnePriority changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-    permitsTabRowTwoPriority.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoPriority changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-    permitsTabRowThreePriority.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreePriority changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-        
-
-        currentWr.priorityNumber = event.target.value;
-        allWrList[curWrIndex] = currentWr;        
-    })
-        /* CRDs */
-    permitsTabRowOneCrd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneCrd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowTwoCrd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoCrd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowThreeCrd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeCrd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.crd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-        /* RCDs */
-    permitsTabRowOneRcd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneRcd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowTwoRcd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoRcd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowThreeRcd.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeRcd changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.rcd = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    
-        /* Permit Status DDs */
-            /* mouseovers */
-    permitsTabRowOneStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowOnePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    permitsTabRowTwoStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowTwoPermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-    permitsTabRowThreeStatusContainer.addEventListener("mouseover", (event) => {
-        console.log("Fired - moused over permitsTabRowThreePermitStatus");
-
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-
-        tempContent.style.display = 'flex';
-        tempContent.style.flexDirection = 'column';
-        tempContent.style.border = '1px solid black';
-
-        /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
-            tempContent.style.marginTop = '400px';
-        } else {
-            /* Will need to fill in when more than 3 work requests */
-        }
-    })
-            /* clicks */
-    permitsTabRowOneStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked permitsTabRowOnePermitStatus");
-        
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    permitsTabRowTwoStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked permitsTabRowTwoPermitStatus");
-        
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-    permitsTabRowThreeStatusContainer.addEventListener("click", (event) => {
-        console.log("Fired - clicked permitsTabRowThreePermitStatus");
-        
-        if (event.target.innerHTML != "\\/") {
-            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-        
-            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-            //tempContent.style.display = 'none';
-        }
-    })
-            /* mouseouts */
-    permitsTabRowOneStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowOnePermitStatus");
-        
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
-        tempContent.style.display = 'none';
-    })
-    permitsTabRowTwoStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowTwoPermitStatus");
-        
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
-        tempContent.style.display = 'none';
-    })
-    permitsTabRowThreeStatusContainer.addEventListener("mouseout", (event) => {
-        console.log("Fired - moused off permitsTabRowThreePermitStatus");
-        
-        /* Current value on page - not in list */
-        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
-        
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-        
-        /* Current Wr */
-        let currentWr = allWrList[curWrIndex];
-        
-        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-            console.log("* Saving page to list *");
-        
-            /* Updating Status and List */
-            currentWr.permit.permitStatus = tempCurrent.innerHTML;
-            allWrList[curWrIndex] = currentWr;
-        
-            console.log("* Internal List Updated *");
-        }
-        
-        /* Hiding DDMenu Content */
-        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
-        tempContent.style.display = 'none';
-    })
-        /* Start Dates */
-    permitsTabRowOneStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneStartDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowTwoStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoStartDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowThreeStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeStartDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-        /* End Dates */
-    permitsTabRowOneEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneEndDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowTwoEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoEndDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowThreeEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeEndDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-
-    
     
     function displayPermitAddUpdate(wr) {
         console.log("Entered - displayPermitAddUpdate");
@@ -2997,8 +2560,6 @@ async function mainEvent() {
         addTabPermitPriority.value = wr.priorityNumber;
         addTabPermitCRD.value = formatDate(wr.crd);
         addTabPermitRCD.value = formatDate(wr.rcd);
-        console.log("here");
-        console.log(wr.permit);
         addTabPermitStart.value = formatDate(wr.permit.startDate);
         addTabPermitExpiration.value = formatDate(wr.permit.endDate);
         //addTabPermitWrCommentsToAdd = will fill in
@@ -3076,8 +2637,8 @@ async function mainEvent() {
         document.getElementById("filter_container_rcd").style.backgroundColor = "white";
     }
 
-    function clearGenericFilterCheckboxes() {
-        console.log("Entered - clearGenericFilterCheckboxes()");
+    function uncheckGenericFilterCheckboxes() {
+        console.log("Entered - uncheckGenericFilterCheckboxes()");
 
         filterCheckboxPriorityNumber.checked = false;
 
@@ -3088,14 +2649,1676 @@ async function mainEvent() {
         /* Will add more as i go */
     }
 
-    filterCheckboxWaitingLL.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxWaitingLL");
+    function uncheckSearchByCheckboxes() {
+        console.log("Entered - uncheckSearchByCheckboxes");
 
-        if (filterCheckboxWaitingLL.checked == true) {
+        searchByAddressCheckbox.checked = false;
+        searchByWrCheckbox.checked = false;
+    }
+
+    function uncolorSearchByCheckboxes() {
+        console.log("Entered - uncolorSearchByCheckboxes");
+
+        searchByAddressContainer.style.backgroundColor = "white";
+        searchByWrContainer.style.backgroundColor = "white";
+    }
+
+    function disableFilterBy() {
+        console.log("Entered - disableFilterBy()");
+
+        filterBySelectionCheckbox.checked = false;
+
+        /* Generic */
+        filterByBoxContainer.classList.add("filterSectionInactive");
+        filterGoButton.disabled = true;
+        filterCheckboxPriorityNumber.disabled = true;
+        filterCheckboxCrd.disabled = true;
+        filterCheckboxRcd.disabled = true;
+        filterCheckboxAgeNew.disabled = true;
+        filterCheckboxAgeOld.disabled = true;
+
+        /* Specific */
+            /* AllWr Tab Filter Checkboxes */
+        filterCheckboxWaitingLL.disabled = true;
+        filterCheckboxNeedToVisit.disabled = true;
+        filterCheckboxSvcCalcs.disabled = true;
+        filterCheckboxCheckPermit.disabled = true;
+        filterCheckboxCheckEasement.disabled = true;
+        filterCheckboxDesign.disabled = true;
+        filterCheckboxReviewPeer.disabled = true;
+        filterCheckboxReviewCoordinator.disabled = true;
+        filterCheckboxRevisions.disabled = true;
+        filterCheckboxWaitingCustomerNotApproved.disabled = true;
+        filterCheckboxWaitingCustomerApproved.disabled = true;
+        filterCheckboxFlag.disabled = true;
+        filterCheckbox7010.disabled = true;
+        filterCheckboxCancledOther.disabled = true;
+            /* Permits Tab Filter Checkboxes */
+        filterCheckboxPermitApplied.disabled = true;
+        filterCheckboxPermitReceived.disabled = true;
+        filterCheckboxPermitExpiringSoon.disabled = true;
+        filterCheckboxPermitExpired.disabled = true;
+        filterCheckboxPermitExtensionSubmitted.disabled = true;
+        filterCheckboxPermitExtensionReceived.disabled = true;
+        filterCheckboxPermitDontNeed.disabled = true;
+        filterCheckboxPermitHaventChecked.disabled = true;
+
+
+    }
+
+    function enableFilterBy() {
+        console.log("Entered - enableFilterBy()");
+
+        filterBySelectionCheckbox.checked = true;
+        filterCheckboxPriorityNumber.checked = true;
+
+        /* Generic */
+        filterByBoxContainer.classList.remove("filterSectionInactive");
+        filterGoButton.disabled = false;
+        filterCheckboxPriorityNumber.disabled = false;
+        filterCheckboxCrd.disabled = false;
+        filterCheckboxRcd.disabled = false;
+        filterCheckboxAgeNew.disabled = false;
+        filterCheckboxAgeOld.disabled = false;
+
+        /* Specific */
+            /* AllWr Tab Filter Checkboxes */
+        filterCheckboxWaitingLL.disabled = false;
+        filterCheckboxNeedToVisit.disabled = false;
+        filterCheckboxSvcCalcs.disabled = false;
+        filterCheckboxCheckPermit.disabled = false;
+        filterCheckboxCheckEasement.disabled = false;
+        filterCheckboxDesign.disabled = false;
+        filterCheckboxReviewPeer.disabled = false;
+        filterCheckboxReviewCoordinator.disabled = false;
+        filterCheckboxRevisions.disabled = false;
+        filterCheckboxWaitingCustomerNotApproved.disabled = false;
+        filterCheckboxWaitingCustomerApproved.disabled = false;
+        filterCheckboxFlag.disabled = false;
+        filterCheckbox7010.disabled = false;
+        filterCheckboxCancledOther.disabled = false;
+
+            /* Permits Tab Filter Checkboxes */
+        filterCheckboxPermitApplied.disabled = false;
+        filterCheckboxPermitReceived.disabled = false;
+        filterCheckboxPermitExpiringSoon.disabled = false;
+        filterCheckboxPermitExpired.disabled = false;
+        filterCheckboxPermitExtensionSubmitted.disabled = false;
+        filterCheckboxPermitExtensionReceived.disabled = false;
+        filterCheckboxPermitDontNeed.disabled = false;
+        filterCheckboxPermitHaventChecked.disabled = false;
+        
+        uncolorSearchByCheckboxes();
+        uncheckSearchByCheckboxes();
+    }
+
+    function disableSearchBy() {
+        console.log("Entered - disableSearchBy()");
+
+        searchBySelectionCheckbox.checked = false;
+
+        searchByBoxContainer.classList.add("filterSectionInactive");
+        searchBySelectionTextfield.disabled = true;
+        searchByAddressCheckbox.disabled = true;
+        searchByWrCheckbox.disabled = true;
+        searchTextfieldGoButton.disabled = true;
+
+        
+        uncheckSearchByCheckboxes();
+        uncolorSearchByCheckboxes();
+    }
+
+    function enableSearchBy() {
+        console.log("Entered - enableSearchBy()");
+
+        searchBySelectionCheckbox.checked = true;
+        searchByWrCheckbox.checked = true;
+
+        searchByBoxContainer.classList.remove("filterSectionInactive");
+        searchBySelectionTextfield.disabled = false;
+        searchByAddressCheckbox.disabled = false;
+        searchByWrCheckbox.disabled = false;
+        searchTextfieldGoButton.disabled = false;
+
+        filterBySelectionCheckbox.checked = false;
+        uncheckGenericFilterCheckboxes();
+        uncolorGenericFilterCheckboxes();
+        uncolorAllWrFilterCheckboxes();
+        uncheckAllWrFilterCheckboxes();
+    }
+
+    function uncheckPermitsTabSpecificCheckboxes() {
+        console.log("Entered - uncheckPermitsTabSpecificCheckboxes()");
+
+        filterCheckboxPermitApplied.checked = false;
+        filterCheckboxPermitReceived.checked = false;
+        filterCheckboxPermitExpiringSoon.checked = false;
+        filterCheckboxPermitExpired.checked = false;
+        filterCheckboxPermitExtensionSubmitted.checked = false;
+        filterCheckboxPermitExtensionReceived.checked = false;
+        filterCheckboxPermitDontNeed.checked = false;
+        filterCheckboxPermitHaventChecked.checked = false;
+
+    }
+
+    function uncolorPermitsTabSpecificCheckboxes() {
+        console.log("Entered - uncolorPermitsTabSpecificCheckboxes()");
+
+        filterContainerPermitApplied.style.backgroundColor = "white";
+        filterContainerPermitReceived.style.backgroundColor = "white";
+        filterContainerPermitExpiringSoon.style.backgroundColor = "white";
+        filterContainerPermitExpired.style.backgroundColor = "white";
+        filterContainerPermitExtensionSubmitted.style.backgroundColor = "white";
+        filterContainerPermitExtensionReceived.style.backgroundColor = "white";
+        filterContainerPermitDontNeed.style.backgroundColor = "white";
+        filterContainerPermitHaventChecked.style.backgroundColor = "white"; 
+    }
+
+    
+
+    /* Filter Checkboxes Permits Tab */
+    filterCheckboxPermitApplied.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitApplied");
+
+        if (filterCheckboxPermitApplied.checked == true) {
+            filterCheckboxPermitApplied.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitApplied.checked = true;
+        }
+    })
+
+    filterCheckboxPermitReceived.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitReceived");
+
+        if (filterCheckboxPermitReceived.checked == true) {
+            filterCheckboxPermitReceived.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitReceived.checked = true;
+        }
+    })
+
+    filterCheckboxPermitExpiringSoon.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExpiringSoon");
+
+        if (filterCheckboxPermitExpiringSoon.checked == true) {
+            filterCheckboxPermitExpiringSoon.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExpiringSoon.checked = true;
+        }
+    })
+
+    filterCheckboxPermitExpired.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExpired");
+
+        if (filterCheckboxPermitExpired.checked == true) {
+            filterCheckboxPermitExpired.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExpired.checked = true;
+        }
+    })
+
+    filterCheckboxPermitExtensionSubmitted.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExtensionSubmitted");
+
+        if (filterCheckboxPermitExtensionSubmitted.checked == true) {
+            filterCheckboxPermitExtensionSubmitted.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExtensionSubmitted.checked = true;
+        }
+            
+    })
+
+    filterCheckboxPermitExtensionReceived.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExtensionReceived");
+
+        if (filterCheckboxPermitExtensionReceived.checked == true) {
+            filterCheckboxPermitExtensionReceived.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExtensionReceived.checked = true;
+        }
+    })
+
+    filterCheckboxPermitDontNeed.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitDontNeed");
+
+        if (filterCheckboxPermitDontNeed.checked == true) {
+            filterCheckboxPermitDontNeed.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitDontNeed.checked = true;
+        } 
+    })
+    
+    filterCheckboxPermitHaventChecked.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitHaventChecked");
+
+        if (filterCheckboxPermitHaventChecked.checked == true) {
+            filterCheckboxPermitHaventChecked.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitHaventChecked.checked = true;
+        } 
+    })
+
+    /* Search By Event Listeners */
+    searchBySelectionCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchBySelectionCheckbox");
+
+        if (searchBySelectionCheckbox.checked == false) { 
+            disableSearchBy();
+            enableFilterBy();
+            //filterBySelectionCheckbox.checked = true;
+            filterCheckboxPriorityNumber.checked = true;
+            //searchByBoxContainer.classList.add("filterSectionInactive");
+
+        } else {
+            enableSearchBy();
+            disableFilterBy();
+            searchByWrCheckbox.checked = true;
+            //searchByBoxContainer.classList.remove("filterSectionInactive");
+            //document.getElementById("filter_by_box_container").classList.add("filterSectionInactive");
+        }
+    })
+
+    searchByAddressCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchByAddressCheckbox");
+
+        if (searchByAddressCheckbox.checked == true) {
+            searchByAddressCheckbox.checked = false;
+            searchByWrCheckbox.checked = true;
+        } else {
+            uncheckSearchByCheckboxes();
+            searchByAddressCheckbox.checked = true;
+        }
+    })
+
+    searchByWrCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchByWrCheckbox");
+
+        if (searchByWrCheckbox.checked == true) {
+            searchByWrCheckbox.checked = false;
+            searchByAddressCheckbox.checked = true;
+        } else {
+            uncheckSearchByCheckboxes();
+            searchByWrCheckbox.checked = true;
+        }
+    })    
+
+    
+    /* Trim By Event Listeners */
+    trimByNot7010.addEventListener("change", (event) => {
+        console.log("Changed - trimByNot7010");
+
+        if (trimByNot7010.checked == false) {
+            trimByNot7010.checked = false;
+            trimByAll.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByNot7010.checked = true;
+        }
+
+        if (filterCheckbox7010.checked == true) {
+            filterCheckbox7010.checked = false;
+            document.getElementById("filter_container_7010").style.backgroundColor = "white";
+        }
+    }) 
+
+    trimBy7010.addEventListener("change", (event) => {
+        console.log("Changed - trimBy7010");
+
+        if (trimBy7010.checked == false) {
+            trimBy7010.checked = false;
+            filterCheckbox7010.checked = false;
+            trimByAll.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimBy7010.checked = true;
+            filterCheckbox7010.checked = true;
+        }
+    })
+
+    trimByAll.addEventListener("change", (event) => {
+        console.log("Changed - trimByAll");
+
+        if (trimByAll.checked == false) {
+            trimByAll.checked = false;
+            trimByNot7010.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByAll.checked = true;
+        }
+    })
+
+
+    /* Go Buttons */
+    filterGoButton.addEventListener("click", (event) => {
+        console.log("Fired - clicked filterGoButton");
+
+        let filteredAllWrList = assessSpecificStatus();
+        let curAllWrList = assessTrimBy(filteredAllWrList);
+
+        if (curAllWrList == undefined) {
+            /* Make an error to tell user no WR exists for the given filter or something */
+        } else {
+            let tempList = [];
+
+            if (filterCheckboxPriorityNumber.checked == true) {
+                uncolorGenericFilterCheckboxes();
+                document.getElementById("filter_container_priority_number").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                tempList = quickSortPriorityNumber(curAllWrList);
+                //allWrList = tempList;
+                
+            } else if (filterCheckboxCrd.checked == true) {
+                uncolorGenericFilterCheckboxes();
+                document.getElementById("filter_container_crd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                tempList = quickSortCrd(curAllWrList);
+                //allWrList = tempList;
+            } else if (filterCheckboxRcd.checked == true) {
+                uncolorGenericFilterCheckboxes();
+                document.getElementById("filter_container_rcd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                tempList = quickSortRcd(curAllWrList);
+                //allWrList = tempList;
+            } else if (filterCheckboxAgeNew.checked == true) {
+                uncolorGenericFilterCheckboxes();
+                document.getElementById("filter_container_age_new_old").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                tempList = quickSortAgeNew(curAllWrList);
+            } else if (filterCheckboxAgeOld.checked == true) {
+                uncolorGenericFilterCheckboxes();
+                document.getElementById("filter_container_age_old_new").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                tempList = quickSortAgeOld(curAllWrList);
+            }
+
+            if (trimByNot7010.checked == true) {
+                uncolorTrimByCheckboxes();
+                trimByNot7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            } else if (trimByAll.checked == true) {
+                uncolorTrimByCheckboxes();
+                trimByAllContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            } else if (trimBy7010.checked == true) {
+                uncheckTrimByCheckboxes();
+                trimBy7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            }
+    
+            injectHTMLAllWrTabDisplay(tempList, 0);
+            injectHTMLPermitsTabDisplay(tempList, 0)
+            currentPageAllWr = 0;
+            currentPagePermits = 0;
+        }
+        
+        
+    })
+
+    searchBySelectionTextfield.addEventListener("click", (event) => {
+        console.log("Fired - clicked searchBySelectionTextfield");
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
+
+    searchTextfieldGoButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked searchTextfieldGoButton");
+        
+        let curAllWrList = assessTrimBy(allWrList);
+        const userInput = searchBySelectionTextfield.value.toLocaleLowerCase();
+        let tempList = [];
+
+        if (searchBySelectionTextfield.value.length == 0) {
+            tempList = curAllWrList;
+        } else {
+            if (searchByAddressCheckbox.checked == true) {
+                uncolorSearchByCheckboxes();
+                searchByAddressContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                for (var i = 0; i < curAllWrList.length; i++) {
+                    const curWrAddressType = curAllWrList[i].wrAddressType().toLocaleLowerCase();
+                    const curAddress = curWrAddressType.substring(13, curWrAddressType.length - 4).trim();
+                   
+                    if (curAddress.includes(userInput) == true) {
+                        tempList.push(curAllWrList[i]);
+                    }
+                }
+    
+            } else if (searchByWrCheckbox.checked == true) {
+                uncolorSearchByCheckboxes();
+                searchByWrContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+                for (var i = 0; i < curAllWrList.length; i++) {
+                    //const curWrNum = curAllWrList[i].workRequest;
+                    if (curAllWrList[i].workRequestNumber.includes(userInput) == true) {
+                        tempList.push(curAllWrList[i]);
+                    }
+                }
+            } else {
+                // should not be able to get here due to button logic
+            }
+    
+            if (trimByNot7010.checked == true) {
+                uncolorTrimByCheckboxes();
+                trimByNot7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            } else if (trimByAll.checked == true) {
+                uncolorTrimByCheckboxes();
+                trimByAllContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            } else if (trimBy7010.checked == true) {
+                uncheckTrimByCheckboxes();
+                trimBy7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            }
+        }
+        
+
+        injectHTMLAllWrTabDisplay(tempList, 0);
+        injectHTMLPermitsTabDisplay(tempList, 0)
+        currentPageAllWr = 0;
+        currentPagePermits = 0;
+    })
+
+
+    /* allWrTab Row Element Event Listeners */
+
+        /* Priority Numbers */
+    allWrTabRowOnePriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowOnePriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    allWrTabRowTwoPriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowTwoPriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    allWrTabRowThreePriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowThreePriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+
+        /* Addresses */
+    allWrTabRowOneAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowOneAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    allWrTabRowTwoAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowTwoAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    allWrTabRowThreeAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowThreeAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+
+        /* CRDs */
+    allWrTabRowOneCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowOneCrd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "one");
+        }
+
+    })
+    allWrTabRowTwoCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowTwoCrd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "two");
+        }
+
+    })
+    allWrTabRowThreeCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowThreeCrd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "three");
+        }
+    })
+
+        /* RCDs */
+    allWrTabRowOneRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowOneRcd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "one");
+        }
+    })
+    allWrTabRowTwoRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowTwoRcd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "two");
+        }
+    })
+    allWrTabRowThreeRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowThreeRcd changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "three");
+        }
+    })
+
+
+    function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
+        console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
+
+        const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
+        console.log("tempContent = ");
+        console.log(tempContent);
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '325px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    }
+
+    function allWrTabGeneralStatusContainerClickFunction(rowNum, event) {
+        console.log("Entered - allWrTabGeneralStatusContainerClickFunction(" + rowNum + ")");
+
+        
+        const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
+
+        console.log("tempContent =");
+        console.log(tempContent);
+
+        if (tempContent.style.display == 'none') {
+            allWrTabGeneralStatusContainerMouseoverFunction(rowNum);
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            /* The below code block creates a temporary DDmenu to initialize a list to compare against
+                - Used to make sure the click doesn't add the ddMenu html element, only the items */
+            const tempElem = document.createElement("tempElem");
+            tempElem.id = "temp_elem";
+            tempElem.classList.add("hidden");
+            const tempDD = new GeneralStatusDDMenu("test", "test");
+            const tempRowElement = tempDD.makeRowElement();
+            tempElem.insertAdjacentElement("beforeend", tempRowElement);
+            const tempStorage = document.getElementById("all_wr_tab_active");
+            tempStorage.insertAdjacentElement("beforeend", tempElem);
+            const tempContent = document.getElementById("general_status_dd_test_content");
+            tempElem.remove();
+        
+                
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("general_status_dd_" + rowNum + "_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+        
+                if (tempCurrent.innerHTML.includes("Waiting on Cust") == true) {
+                    tempCurrent.style.fontSize = 'smaller';
+                    console.log("test test test");
+                } else {
+                    tempCurrent.style.fontSize = 'small'
+                }
+        
+                allWrTabGeneralStatusContainerMouseoutFunction(rowNum);
+            }
+        }
+
+        
+    }
+
+    function allWrTabGeneralStatusContainerMouseoutFunction(rowNum) {
+        console.log("Entered - allWrTabGeneralStatusMouseoutClickFunction(" + rowNum + ")");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("general_status_dd_" + rowNum + "_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + parseInt(rowNum) - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.generalStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.generalStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
+        tempContent.style.display = 'none';
+    }
+
+        /* General Status DDs */
+            /* clicks */
+    allWrTabRowOneGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowOneGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("1", event);
+    })
+    allWrTabRowTwoGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowTwoGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("2", event);
+    })
+    allWrTabRowThreeGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowThreeGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("3", event);
+    })
+            
+    
+
+        /* Permit Status DDs */
+            /* mouseovers */
+    allWrTabRowOnePermitStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowOnePermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '400px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowTwoPermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '400px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    allWrTabRowThreePermitStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowThreePermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '400px';
+            tempContent.style.width = '90px';
+
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+            /* clicks */
+    allWrTabRowOnePermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowOnePermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    allWrTabRowTwoPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowTwoPermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    allWrTabRowThreePermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowThreePermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+            /* mouseouts */
+    allWrTabRowOnePermitStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowOnePermitStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
+        tempContent.style.display = 'none';
+    })
+    allWrTabRowTwoPermitStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowTwoPermitStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
+        tempContent.style.display = 'none';
+    })
+    allWrTabRowThreePermitStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowThreePermitStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
+        tempContent.style.display = 'none';
+    })
+        /* Easement Status DDs */
+            /* mouseovers */
+    allWrTabRowOneEasementStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowOneEasementStatus");
+
+        const tempContent = document.getElementById("easement_status_dd_1_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '380px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowTwoEasementStatus");
+
+        const tempContent = document.getElementById("easement_status_dd_2_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '380px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over allWrTabRowThreeEasementStatus");
+
+        const tempContent = document.getElementById("easement_status_dd_3_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '380px';
+            tempContent.style.width = '90px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+            /* clicks */
+    allWrTabRowOneEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowOneEasementStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new EasementStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("easement_status_dd_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("easement_status_dd_1_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("easement_status_dd_1_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    allWrTabRowTwoEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowTwoEasementStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new EasementStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("easement_status_dd_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("easement_status_dd_2_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("easement_status_dd_2_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    allWrTabRowThreeEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowThreeEasementStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new EasementStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("easement_status_dd_test_content");
+        tempElem.remove();
+
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("easement_status_dd_3_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+
+            const tempContent = document.getElementById("easement_status_dd_3_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+            /* mouseouts */
+    allWrTabRowOneEasementStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowOneEasementStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("easement_status_dd_1_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.easementRequestStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("easement_status_dd_1_content");
+        tempContent.style.display = 'none';
+    })
+    allWrTabRowTwoEasementStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowTwoEasementStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("easement_status_dd_2_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.easementRequestStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("easement_status_dd_2_content");
+        tempContent.style.display = 'none';
+    })
+    allWrTabRowThreeEasementStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off allWrTabRowThreeEasementStatus");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("easement_status_dd_3_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
+            console.log("* Saving page to list *");
+
+            /* Updating Status and List */
+            currentWr.easementRequestStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+
+            console.log("* Internal List Updated *");
+        }
+
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("easement_status_dd_3_content");
+        tempContent.style.display = 'none';
+    })
+
+
+
+    /* permitsTab Row Element Event Listeners */
+        /* Priority Numbers */
+    permitsTabRowOnePriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowOnePriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowTwoPriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowTwoPriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowThreePriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowThreePriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+
+        /* Addresses */
+    permitsTabRowOneAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowOneAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    permitsTabRowTwoAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowTwoAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    permitsTabRowThreeAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowThreeAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+
+        /* CRDs */
+    permitsTabRowOneCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowOneCrd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "one");
+        }
+    })
+    permitsTabRowTwoCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowTwoCrd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "two");
+        }
+    })
+    permitsTabRowThreeCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowThreeCrd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.crd) {
+            currentWr.crd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "three");
+        }
+    })
+
+        /* RCDs */
+    permitsTabRowOneRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowOneRcd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "one");
+        }
+    })
+    permitsTabRowTwoRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowTwoRcd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "two");
+        }
+    })
+    permitsTabRowThreeRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowThreeRcd changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        if (event.target.value != currentWr.rcd) {
+            currentWr.rcd = event.target.value;
+            allWrList[curWrIndex] = currentWr;
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "three");
+        }
+    })
+    
+        /* Permit Status DDs */
+            /* mouseovers */
+    permitsTabRowOneStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over permitsTabRowOnePermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '320px';
+            //tempContent.style.marginRight = '30px';
+            //tempContent.style.width = '90px'
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    permitsTabRowTwoStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over permitsTabRowTwoPermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '320px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+    permitsTabRowThreeStatusContainer.addEventListener("mouseover", (event) => {
+        console.log("Fired - moused over permitsTabRowThreePermitStatus");
+
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
+
+        tempContent.style.display = 'flex';
+        tempContent.style.flexDirection = 'column';
+        tempContent.style.border = '1px solid black';
+
+        /* Below statement adjusts position of content box to above or below dd menu */
+        if (1 <=3) {
+            tempContent.style.marginTop = '320px';
+        } else {
+            /* Will need to fill in when more than 3 work requests */
+        }
+    })
+            /* clicks */
+    permitsTabRowOneStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowOnePermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+        
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+        
+            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    permitsTabRowTwoStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowTwoPermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+        
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+        
+            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+    permitsTabRowThreeStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowThreePermitStatus");
+
+        const tempElem = document.createElement("tempElem");
+        tempElem.id = "temp_elem";
+        tempElem.classList.add("hidden");
+    
+        const tempDD = new PermitStatusDDMenu("test", "test");
+        const tempRowElement = tempDD.makeRowElement();
+        tempElem.insertAdjacentElement("beforeend", tempRowElement);
+
+        const tempStorage = document.getElementById("all_wr_tab_active");
+        tempStorage.insertAdjacentElement("beforeend", tempElem);
+
+        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
+        tempElem.remove();
+        
+        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
+            tempCurrent.innerHTML = event.target.innerHTML;
+        
+            const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
+            //tempContent.style.display = 'none';
+        }
+    })
+            /* mouseouts */
+    permitsTabRowOneStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off permitsTabRowOnePermitStatus");
+        
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_1_current");
+        
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+        
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+        
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+        
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+        
+            console.log("* Internal List Updated *");
+        }
+        
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_1_content");
+        tempContent.style.display = 'none';
+    })
+    permitsTabRowTwoStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off permitsTabRowTwoPermitStatus");
+        
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_2_current");
+        
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+        
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+        
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+        
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+        
+            console.log("* Internal List Updated *");
+        }
+        
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_2_content");
+        tempContent.style.display = 'none';
+    })
+    permitsTabRowThreeStatusContainer.addEventListener("mouseout", (event) => {
+        console.log("Fired - moused off permitsTabRowThreePermitStatus");
+        
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_3_current");
+        
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+        
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+        
+        if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
+            console.log("* Saving page to list *");
+        
+            /* Updating Status and List */
+            currentWr.permit.permitStatus = tempCurrent.innerHTML;
+            allWrList[curWrIndex] = currentWr;
+
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+        
+            console.log("* Internal List Updated *");
+        }
+        
+        /* Hiding DDMenu Content */
+        const tempContent = document.getElementById("permit_status_dd_permits_tab_row_3_content");
+        tempContent.style.display = 'none';
+    })
+
+        /* Start Dates */
+    permitsTabRowOneStartDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowOneStartDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        console.log(allWrList);
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.startDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+        const tempDate = new Date(currentWr.permit.startDate)
+        permitsTabRowOneStartDate.style.backgroundColor = assessPermitStartDate(currentWr.permit.startDate);
+    })
+    permitsTabRowTwoStartDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowTwoStartDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.startDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+    })
+    permitsTabRowThreeStartDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowThreeStartDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.startDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+    })
+
+        /* End Dates */
+    permitsTabRowOneEndDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowOneEndDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.endDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+    })
+    permitsTabRowTwoEndDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowTwoEndDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.endDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+    })
+    permitsTabRowThreeEndDate.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowThreeEndDate changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        currentWr.permit.endDate = event.target.value;
+        allWrList[curWrIndex] = currentWr;
+    })
+
+    /* Filter CheckBoxes - AllWr*/
+    filterBySelectionCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - filterBySelectionCheckbox");
+
+        if (filterBySelectionCheckbox.checked == false) {
+            enableSearchBy();
+            disableFilterBy();
+        } else {
+            disableSearchBy();
+            enableFilterBy();
+        }
+    })
+
+    filterCheckboxWaitingLL.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxWaitingLL - " );
+
+        if (filterCheckboxWaitingLL.checked == false) {
             filterCheckboxWaitingLL.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
+            console.log("uncheckedAll");
             filterCheckboxWaitingLL.checked = true;
+            console.log("checkedFilterCheckboxWaitingLL");
         }
         
     })
@@ -3103,7 +4326,7 @@ async function mainEvent() {
     filterCheckboxNeedToVisit.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxNeedToVisit");
 
-        if (filterCheckboxNeedToVisit.checked == true) {
+        if (filterCheckboxNeedToVisit.checked == false) {
             filterCheckboxNeedToVisit.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3114,7 +4337,7 @@ async function mainEvent() {
     filterCheckboxSvcCalcs.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxSvcCalcs");
 
-        if (filterCheckboxSvcCalcs.checked == true) {
+        if (filterCheckboxSvcCalcs.checked == false) {
             filterCheckboxSvcCalcs.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3126,7 +4349,7 @@ async function mainEvent() {
     filterCheckboxCheckPermit.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCheckPermit");
 
-        if (filterCheckboxCheckPermit.checked == true) {
+        if (filterCheckboxCheckPermit.checked == false) {
             filterCheckboxCheckPermit.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3138,7 +4361,7 @@ async function mainEvent() {
     filterCheckboxCheckEasement.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCheckEasement");
 
-        if (filterCheckboxCheckEasement.checked == true) {
+        if (filterCheckboxCheckEasement.checked == false) {
             filterCheckboxCheckEasement.checekd = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3150,7 +4373,7 @@ async function mainEvent() {
     filterCheckboxDesign.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxDesign");
 
-        if (filterCheckboxDesign.checked == true) {
+        if (filterCheckboxDesign.checked == false) {
             filterCheckboxDesign.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3162,7 +4385,7 @@ async function mainEvent() {
     filterCheckboxReviewPeer.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxReviewPeer");
 
-        if (filterCheckboxReviewPeer.checked == true) {
+        if (filterCheckboxReviewPeer.checked == false) {
             filterCheckboxReviewPeer.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3174,7 +4397,7 @@ async function mainEvent() {
     filterCheckboxReviewCoordinator.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxReviewCoordinator");
 
-        if (filterCheckboxReviewCoordinator.checked == true) {
+        if (filterCheckboxReviewCoordinator.checked == false) {
             filterCheckboxReviewCoordinator.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3185,7 +4408,7 @@ async function mainEvent() {
     filterCheckboxRevisions.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxRevisions");
 
-        if (filterCheckboxRevisions.checked == true) {
+        if (filterCheckboxRevisions.checked == false) {
             filterCheckboxRevisions.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3196,7 +4419,7 @@ async function mainEvent() {
     filterCheckboxWaitingCustomerNotApproved.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxWaitingOnCustomerNotApproved");
 
-        if (filterCheckboxWaitingCustomerNotApproved.checked == true) {
+        if (filterCheckboxWaitingCustomerNotApproved.checked == false) {
             filterCheckboxWaitingCustomerNotApproved.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3207,7 +4430,7 @@ async function mainEvent() {
     filterCheckboxWaitingCustomerApproved.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxWaitingOnCustomerApproved");
 
-        if (filterCheckboxWaitingCustomerApproved.checked == true) {
+        if (filterCheckboxWaitingCustomerApproved.checked == false) {
             filterCheckboxWaitingCustomerApproved.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3218,7 +4441,7 @@ async function mainEvent() {
     filterCheckboxFlag.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxFlag");
 
-        if (filterCheckboxFlag.checked == true) {
+        if (filterCheckboxFlag.checked == false) {
             filterCheckboxFlag.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3229,11 +4452,20 @@ async function mainEvent() {
     filterCheckbox7010.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckbox7010");
 
-        if (filterCheckbox7010.checked == true) {
+        if (filterCheckbox7010.checked == false) {
             filterCheckbox7010.checked = false;
+            trimBy7010.checked = false;
+            trimByAll.checked = true;
         } else {
             uncheckAllWrFilterCheckboxes();
             filterCheckbox7010.checked = true;
+            uncheckTrimByCheckboxes();
+            trimBy7010.checked = true;
+
+            if (trimByNot7010.checked == true) {
+                document.getElementById("footer_filter_checkbox_not_7010").style.backgroundColor = "white";
+                document.getElementById("footer_filter_checkbox_not_7010").checked = false;
+            }
         }
         
     })
@@ -3241,7 +4473,7 @@ async function mainEvent() {
     filterCheckboxCancledOther.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCancledOther");
 
-        if (filterCheckboxCancledOther.checked == true) {
+        if (filterCheckboxCancledOther.checked == false) {
             filterCheckboxCancledOther.checked = false;
         } else {
             uncheckAllWrFilterCheckboxes();
@@ -3253,21 +4485,21 @@ async function mainEvent() {
     filterCheckboxPriorityNumber.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxPriorityNumber");
 
-        clearGenericFilterCheckboxes();
+        uncheckGenericFilterCheckboxes();
         filterCheckboxPriorityNumber.checked = true;
     })
 
     filterCheckboxCrd.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCrd");
 
-        clearGenericFilterCheckboxes();
+        uncheckGenericFilterCheckboxes();
         filterCheckboxCrd.checked = true;
     })
 
     filterCheckboxRcd.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxRcd");
 
-        clearGenericFilterCheckboxes();
+        uncheckGenericFilterCheckboxes();
         filterCheckboxRcd.checked = true;
     })
 
@@ -3333,11 +4565,8 @@ async function mainEvent() {
 
     footerButtonLoad.addEventListener("click", (event) => {
         console.log("Fired - Clicked footerButtonLoad");
-        
-
+                
         document.getElementById('allWrListFile').click();
-        /*deselectAllTabs();
-        document.getElementById('all_wr_tab').click();*/
     })
 
     /* Load and Save Buttons */
@@ -3456,9 +4685,9 @@ async function mainEvent() {
 
         if (filterCheckboxAddWr.checked == true) {
             if (getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == true) { /* if wr exists */
-            console.log("getWr(" + addTabNewWorkRequestNumber.value + ") == -1");
+                console.log("getWr(" + addTabNewWorkRequestNumber.value + ") == -1");
 
-            e.displayWrAlreadyExistsAddUpdate(addTabNewWorkRequestNumber.value);
+                e.displayWrAlreadyExistsAddUpdate(addTabNewWorkRequestNumber.value);
             } else if (addTabNewWorkRequestNumber.value.length != 8) {
                 console.log("wr length != 8");
 
@@ -3485,7 +4714,7 @@ async function mainEvent() {
                 tempDate);                                                                
                 
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
-                    let allWrList = [];
+                    //allWrList = [];
 
                     allWrList[0] = wr;
                     console.log("wr added to empty list");
@@ -3500,25 +4729,30 @@ async function mainEvent() {
 
                     console.log("allWrList added to internal list");
 
-                    injectHTMLAllWrTabDisplay(allWrList,0);
+                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                    injectHTMLPermitsTabDisplay(allWrList, 0);
                 } else { // at least 1 wr exists
-                    const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML; 
-                    let allWrList = parseWrString(allWrListRaw);
+                    /*const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML; 
+                    allWrList = parseWrString(allWrListRaw);*/
     
                     /* Prevents Double Add */
-                    if (getWr(wr.workRequestNumber, allWrList)[0] == 0) {
+                    /*if (getWr(wr.workRequestNumber, allWrList)[0] == 0) {
                         allWrList[allWrList.length] = wr;
                         console.log("wr added to list");
-                    }
+                    }*/
                     
-                    const tempAllWrList = document.getElementById("temp_all_wr_list");
-                    tempAllWrList.innerHTML = allWrList;
-                    console.log("allWrList added to internal list");
+                    
     
                     console.log("I AM Here");
                     console.log(allWrList);
     
-                    //allWrList[allWrList.length] = wr;
+                    allWrList[allWrList.length] = wr;
+
+                    const tempAllWrList = document.getElementById("temp_all_wr_list");
+                    tempAllWrList.innerHTML = allWrList;
+                    console.log("allWrList added to internal list");
+
+                    injectHTMLPermitsTabDisplay(allWrList, 0);
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                     console.log("new allWrList =");
                     console.log(allWrList);
@@ -4097,59 +5331,6 @@ async function mainEvent() {
         return;
     })
 
-    /* Deslect Header Tab Functions */
-
-    function deselectAllWrTab() {
-        console.log("Entered - clearAllWrTab");
-
-        allWrTabActive.classList.add("hidden");
-        
-        filterByBoxContainer.classList.add("hidden");
-        seachByBoxContainer.classList.add("hidden");
-        trimContainer.classList.add("hidden");
-        trimContainerLabel.classList.add("hidden");
-        allWrDisplayContainer.classList.add("hidden");
-        filterSectionStatusLabel.classList.add("hidden");
-        allWrStatusFiltersContainer.classList.add("hidden");
-        curPageAllWr.classList.add("hidden");
-       
-        allWrTab.classList.remove("hidden");
-    }
-
-    function deselectAllAddTab() {
-        console.log("Entered - deselectAllAddTab");
-
-        addTabActive.classList.add("hidden");
-        addDisplayContainer.classList.add("hidden");
-        addTabFilterLabelContainer.classList.add("hidden");
-        addTypeContainer.classList.add("hidden");
-
-        addTab.classList.remove("hidden");
-    }
-
-    function deselectAllPermitsTab() {
-        console.log("Entered - deselectAllPermitsTab");
-
-        permitsTabActive.classList.add("hidden");
-        /* Fill in more as I go */
-        seachByBoxContainer.classList.add("hidden");
-        trimContainer.classList.add("hidden");
-        trimContainerLabel.classList.add("hidden");
-        permitsDisplayContainer.classList.add("hidden");
-        permitStatusFiltersContainer.classList.add("hidden");
-        curPagePermits.classList.add("hidden");
-
-        permitsTab.classList.remove("hidden");
-    }
-
-    function deselectAllTabs() {
-        console.log("Entered - deselectAllTabs");
-
-        deselectAllWrTab();
-        deselectAllAddTab();
-        deselectAllPermitsTab();
-    }
-
     /* Add Tab New Work Request Number Select When Clicked */
     addTabNewWorkRequestNumber.addEventListener("click", (event) => {
         console.log("Fired - clicked add_tab_new_work_request_number");
@@ -4208,13 +5389,17 @@ async function mainEvent() {
         /* Revealing all_wr_tab features */
         allWrTabActive.classList.remove("hidden");
         filterByBoxContainer.classList.remove("hidden");
-        seachByBoxContainer.classList.remove("hidden");
+        searchByBoxContainer.classList.remove("hidden");
         trimContainer.classList.remove("hidden");
         trimContainerLabel.classList.remove("hidden");
         allWrDisplayContainer.classList.remove("hidden");
 
         allWrStatusFiltersContainer.classList.remove("hidden");
         filterSectionStatusLabel.classList.remove("hidden");
+
+        /* Setting Page Defaults */
+        filterCheckboxPriorityNumber.checked = true;
+        trimByAll.checked = true;
 
 
         if (allWrList.length > 0) {
@@ -4255,9 +5440,6 @@ async function mainEvent() {
     permitsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked permits_tab");
 
-        //const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-        //const allWrList = parseWrString(allWrListRaw);
-
         /* Deselecting all tabs */
         deselectAllTabs();
 
@@ -4265,17 +5447,26 @@ async function mainEvent() {
         permitsTab.classList.add("hidden");
 
         /* Revealing permits_tab features */
-        seachByBoxContainer.classList.remove("hidden");
+        permitsTabActive.classList.remove("hidden");
         filterByBoxContainer.classList.remove("hidden");
-        /* Fill in as i go */
+        searchByBoxContainer.classList.remove("hidden");
         trimContainer.classList.remove("hidden");
         trimContainerLabel.classList.remove("hidden");
         permitStatusFiltersContainer.classList.remove("hidden");
         filterSectionStatusLabel.classList.remove("hidden");
         permitsDisplayContainer.classList.remove("hidden");
 
-        permitsTabActive.classList.remove("hidden");
-        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+        /* Setting Page Defaults */
+        filterCheckboxPriorityNumber.checked = true;
+        trimByAll.checked = true;
+
+        if (allWrList.length > 0) {
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            console.log("List updated");
+        } else {
+            console.log("List not updated.")
+            console.log("allWrList.length = " + allWrList.length);
+        }
     })
     permitsTabActive.addEventListener("click", (event) => {
         console.log("Fired - clicked add_tab_active");
