@@ -20,11 +20,83 @@ class PermitDate {
 
 }
 
+class WrTypeDDMenu {
+    constructor() {
+        this.curOption = "Not Set";
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Enterd - wrTypeStatusDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Enterd - wrTypeStatusDDMenu - setWidth(" + width + ")");
+
+        this.width = width;
+    }
+
+    makeRowElement() {
+        console.log("Entered - WrTypeDDMenu - makeRowElement()");
+
+        let rowElement = document.createElement("wrTypeDDMenu");
+
+        rowElement.classList.add("wrTypeRowElement");
+
+        let str = document.createElement("wrTypeDDMenuContentBox");
+
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItemBlank">${""}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DRNU"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DRNO"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DROU"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DRIU"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DRIO"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DWFO"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"DDI"}</div>`);
+
+        str.style.display = 'none';
+        str.style.position = 'absolute';
+        str.style.marginTop = '45px';
+        str.style.backgroundColor = "white"
+        str.style.zIndex = 1;
+        str.id = "wr_type_dd_content";
+
+        rowElement.innerHTML = `<div class="wrTypeDDMenuBox" id="wr_type_dd_menu_current">${this.curOption}</div>` +
+        `<button type="button" class="wrTypeDDMenuButton" id="wr_type_dd_menu_current_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
+
+        return rowElement;
+    }
+}
+
 class PermitStatusDDMenu {
     constructor(tab, rowNumber) {
         this.curOption = "Not Set";
         this.tab = tab;
         this.rowNumber = rowNumber;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Enterd - PermitStatusDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Enterd - PermitStatusDDMenu - setWidth(" + width + ")");
+
+        this.width = width;
     }
 
     makeRowElement() {
@@ -54,6 +126,13 @@ class PermitStatusDDMenu {
 
         rowElement.innerHTML = `<div class="permitStatusDDMenuBox" id="permit_status_dd_${this.tab}_tab_row_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type="button" class="permitStatusDDMenuButton" id="permit_status_dd_${this.tab}_tab_row_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
 
         /*rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
@@ -85,8 +164,7 @@ class PermitStatusDDMenu {
             
         })*/
         
-        /*
-        rowElement.addEventListener("mouseout", (event) => {
+        /*rowElement.addEventListener("mouseout", (event) => {
             console.log("Fired - moused off - " + this.rowNumber);
 
             /* Current value on page - not in list 
@@ -132,6 +210,20 @@ class EasementStatusDDMenu {
     constructor(rowNumber) {
         this.curOption = "Not Set";
         this.rowNumber = rowNumber;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Enterd - EasementStatusDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Enterd - EasementStatusDDMenu - setWidth(" + width + ")");
+
+        this.width = width;
     }
 
     makeRowElement() {
@@ -158,8 +250,16 @@ class EasementStatusDDMenu {
         str.style.zIndex = 1;
         str.id = "easement_status_dd_" + this.rowNumber + "_content";
 
+        
         rowElement.innerHTML = `<div class="easementStatusDDMenuBox" id="easement_status_dd_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type="button" class="easementStatusDDMenuButton" id="easement_status_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+        
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
 
         /*rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
@@ -177,9 +277,10 @@ class EasementStatusDDMenu {
             } else {
                 /* Will need to fill in when more than 3 work requests 
             }
-        })
+        })*/
 
-        rowElement.addEventListener('click', (event) => {
+    
+        /*rowElement.addEventListener('click', (event) => {
             console.log("Fired - clicked rowElement - " + this.rowNumber);
 
             if (event.target.innerHTML != "\\/") {
@@ -235,6 +336,20 @@ class GeneralStatusDDMenu {
     constructor(rowNumber) {
         this.curOption = "Not Set";
         this.rowNumber = rowNumber;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Enterd - GeneralStatusDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Enterd - GeneralStatusDDMenu - setWidth(" + width + ")");
+
+        this.width = width;
     }
 
     makeRowElement() {
@@ -275,6 +390,13 @@ class GeneralStatusDDMenu {
 
         rowElement.innerHTML = `<div class="generalStatusDDMenuBox" id="general_status_dd_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type="button" class="generalStatusDDMenuButton" id="general_status_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
 
         /*rowElement.addEventListener("mouseover", (event) => {
             console.log("Fired - moused over rowElement - " + this.rowNumber);
@@ -374,6 +496,47 @@ class Permit {
     }
 }
 
+class Haptix {
+    constructor() {
+
+    }
+    displayWrAdded(wrNum) {
+        console.log("Entered - displayWrAdded(" + wrNum + ")");
+
+        const temp = document.getElementById("add_tab_display_top_mid");
+
+        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} added</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("wr_added_prompt");
+            temp.remove();
+        }, 3000);
+    }
+
+    displayWrUpdated(wrNum) {
+        console.log("Entered - displayWrUpdated(" + wrNum + ")");
+
+        const temp = document.getElementById("add_tab_display_top_mid");
+
+        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} Updated</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("wr_added_prompt");
+            temp.remove();
+        }, 3000);
+    }
+
+    displayPermitUpdated(wrNum) {
+        console.log("Entered - displayPermitUpdated(" + wrNum + ")");
+
+        const temp = document.getElementById("add_tab_display_top_mid");
+
+        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Permit For Work Request ${wrNum} Updated</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("wr_added_prompt");
+            temp.remove();
+        }, 3000);
+    }
+}
+
 class Error {
     constructor() {
 
@@ -460,7 +623,7 @@ class Error {
     displayInvalidWrType() {
         console.log("Entered - displayInvalidWrType()");
 
-        const temp = document.getElementById("add_tab_textfield_container_wr_type");
+        const temp = document.getElementById("add_tab_wr_type_container");
         temp.insertAdjacentHTML("beforeend", `<div class="errorMessage" id="error_invalid_wr_type">Select Wr Type</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_wr_type");
@@ -654,6 +817,7 @@ class Paginated {
 
 }
 
+    /* Formatting Functions */
 /* Takes in a date (as a string) in the format of "MM-DD-YYYY"
    And returns a date (as a string) in the format of "YYYY-MM-DD" */
 function formatDate(date) {
@@ -670,7 +834,6 @@ function formatDate(date) {
     }
     
 }
-
 /* Takes in a date (as a string) in any the format of "YYYY-MM-DD"
    And returns a date (as a string) in the format of (MM-DD-YYYY) */
 function formatDateNormal(date) {
@@ -683,7 +846,7 @@ function formatDateNormal(date) {
     return month + "-" + day + "-" + "-" + year;
 }
 
-
+    /* Sorting (Filter) Functions */
 /* Compares creation dates - returns in order from oldest to newest */
 function quickSortAgeOld(arr) {
     console.log("Entered - quickSortAgeOld");
@@ -706,7 +869,6 @@ function quickSortAgeOld(arr) {
 
     return [...quickSortAgeNew(leftArr), pivot, ...quickSortAgeNew(rightArr)];
 }
-
 /* Compares creation dates - returns in order from newest to oldest */
 function quickSortAgeNew(arr) {
     console.log("Entered - quickSortAgeNew");
@@ -729,7 +891,6 @@ function quickSortAgeNew(arr) {
 
     return [...quickSortAgeNew(leftArr), pivot, ...quickSortAgeNew(rightArr)];
 }
-
 function quickSortRcd(arr) {
     console.log("Entered - quickSortRcd");
 
@@ -751,7 +912,6 @@ function quickSortRcd(arr) {
 
     return [...quickSortRcd(leftArr), pivot, ...quickSortRcd(rightArr)];
 }
-
 function quickSortCrd(arr) {
     console.log("Entered - quickSortCrd");
 
@@ -773,7 +933,6 @@ function quickSortCrd(arr) {
 
     return [...quickSortCrd(leftArr), pivot, ...quickSortCrd(rightArr)];
 }
-
 function quickSortPriorityNumber(arr) {
     console.log("Entered - quickSortPriorityNumber");
 
@@ -796,6 +955,132 @@ function quickSortPriorityNumber(arr) {
     return [...quickSortPriorityNumber(leftArr), pivot, ...quickSortPriorityNumber(rightArr)];
 }
 
+    /* Load and Save Functions */
+async function getFile() {
+    console.log("Entered - getFile()");
+
+    const [fileHandle] = await window.showOpenFilePicker();
+    const file = await fileHandle.getFile();
+    return file;
+}
+async function writeFile(contents) {
+    console.log("Entered - writeFile(contents)");
+
+    const [fileHandle] = await window.showSaveFilePicker();
+    const writable = await fileHandle.createWritable();
+    await writable.write(contents);
+    await writable.close();
+}
+async function saveFile(allWrList) {
+    console.log("Entered - saveFile()");
+    
+    const newHandle = await window.showSaveFilePicker();
+    const writableStream = await newHandle.createWritable();
+    const temp = new Blob(allWrList);
+    await writableStream.write(temp);
+    await writableStream.close();
+
+    
+}
+function readFile() {
+    var selected = document.getElementById("allWrListFile").files[0];
+
+    var reader = new FileReader();
+    reader.addEventListener("loadend", function() {
+        let allWrList = parseWrString(reader.result);
+        document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
+        document.getElementById("footer_button_sync").classList.remove("hidden");
+    });
+    reader.readAsText(selected);
+}
+
+    /* InjectHTML Functions */
+function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
+    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ")");
+    
+    const pag = new Paginated(allWrList);
+    const pages = pag.getPages();
+
+    hideAllWrRows();
+
+    if (document.getElementById("temp_all_wr_list") == null) {
+        const tempAllWrList = document.createElement("temp_all_wr_list");
+        tempAllWrList.id = "temp_all_wr_list";
+        tempAllWrList.classList.add("hidden");
+        tempAllWrList.innerHTML = allWrList;
+
+        const allWrTab = document.getElementById("all_wr_tab");
+        allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+
+    } else {
+        const tempAllWrList = document.getElementById("temp_all_wr_list");
+        tempAllWrList.innerHTML = allWrList;
+    }
+
+    for (var i = 0; i < pages[currentPageAllWr].content.length; i++) {
+        
+        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1);
+        revealWrRow(i + 1);
+    }
+
+    const prev = document.getElementById("all_wr_tab_page_prev_button");
+    const next = document.getElementById("all_wr_tab_page_next_button");
+    const cur = document.getElementById("all_wr_tab_current_page_box");
+
+    cur.classList.remove("hidden");
+
+    /* Adding next and prev buttons */
+    if ((currentPageAllWr + 1)  < pages.length && pages[currentPageAllWr + 1].content.length != 0) { // reveal next button
+        next.classList.remove("hidden");
+    } else {
+        next.classList.add("hidden");
+    }
+
+    if (currentPageAllWr + 1 > 1) { // reveal prev button
+        prev.classList.remove("hidden");
+    } else {
+        prev.classList.add("hidden");
+    }
+}
+function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
+    console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
+
+    const pag = new Paginated(allWrList);
+    const pages = pag.getPages();
+
+    hideAllPermitRows();
+
+    const tempAllWrList = document.getElementById("temp_all_wr_list");
+    tempAllWrList.innerHTML = allWrList;
+
+    for (var i = 0; i < pages[currentPagePermits].content.length; i++) {
+        setPermitRowValues(pages[currentPagePermits].content[i], i + 1);
+        revealPermitRow(i + 1);
+    }
+
+
+    /* Adding next and prev buttons */
+    const prev = document.getElementById("permits_tab_page_prev_button");
+    const next = document.getElementById("permits_tab_page_next_button");
+    const cur = document.getElementById("permits_tab_current_page_box");
+
+    cur.classList.remove("hidden");
+
+    if ((currentPagePermits + 1)  < pages.length && pages[currentPagePermits + 1].content.length != 0) { // reveal next button
+        next.classList.remove("hidden");    
+    } else {
+        next.classList.add("hidden");
+    }
+
+    if (currentPagePermits + 1 > 1) {  // reveal prev button
+        prev.classList.remove("hidden");
+    } else {
+        prev.classList.add("hidden");
+    }
+}
+
+        /* Set/Reveal Rows */
+    /* Permits Tab */
 function setPermitRowValues(wr, rowNumber) {
     console.log("Entered - setPermitRowValues( + wr + ,  + rowNumber )");
 
@@ -849,7 +1134,6 @@ function setPermitRowValues(wr, rowNumber) {
     // Will need to fill in when hooked up
 
 }
-
 function hideAllPermitRows() {
     console.log("Entered - hideAllPermitRows()");
 
@@ -870,7 +1154,6 @@ function hideAllPermitRows() {
         temp.classList.add("hidden");
     }
 }
-
 function revealPermitRow(row) {
     console.log("Entered - revealPermitRow(" + row + ")");
     
@@ -888,111 +1171,7 @@ function revealPermitRow(row) {
     temp.classList.remove("hidden");
 }
 
-function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
-    console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
-
-    const pag = new Paginated(allWrList);
-    const pages = pag.getPages();
-
-    hideAllPermitRows();
-
-    const tempAllWrList = document.getElementById("temp_all_wr_list");
-    tempAllWrList.innerHTML = allWrList;
-
-    for (var i = 0; i < pages[currentPagePermits].content.length; i++) {
-        setPermitRowValues(pages[currentPagePermits].content[i], i + 1);
-        revealPermitRow(i + 1);
-    }
-
-
-    /* Adding next and prev buttons */
-    const prev = document.getElementById("permits_tab_page_prev_button");
-    const next = document.getElementById("permits_tab_page_next_button");
-    const cur = document.getElementById("permits_tab_current_page_box");
-
-    cur.classList.remove("hidden");
-
-    if ((currentPagePermits + 1)  < pages.length && pages[currentPagePermits + 1].content.length != 0) { // reveal next button
-        next.classList.remove("hidden");    
-    } else {
-        next.classList.add("hidden");
-    }
-
-    if (currentPagePermits + 1 > 1) {  // reveal prev button
-        prev.classList.remove("hidden");
-    } else {
-        prev.classList.add("hidden");
-    }
-}
-
-function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
-    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ")");
-    
-    const pag = new Paginated(allWrList);
-    const pages = pag.getPages();
-
-    hideAllWrRows();
-
-    if (document.getElementById("temp_all_wr_list") == null) {
-        const tempAllWrList = document.createElement("temp_all_wr_list");
-        tempAllWrList.id = "temp_all_wr_list";
-        tempAllWrList.classList.add("hidden");
-        tempAllWrList.innerHTML = allWrList;
-
-        const allWrTab = document.getElementById("all_wr_tab");
-        allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
-
-        //injectHTMLAllWrTabDisplay(allWrList, 0);
-        //injectHTMLPermitsTabDisplay(allWrList, 0);
-    } else {
-        const tempAllWrList = document.getElementById("temp_all_wr_list");
-        tempAllWrList.innerHTML = allWrList;
-    }
-    //tempAllWrList.innerHTML = allWrList;
-
-    for (var i = 0; i < pages[currentPageAllWr].content.length; i++) {
-        
-        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1);
-        revealWrRow(i + 1);
-    }
-
-    const prev = document.getElementById("all_wr_tab_page_prev_button");
-    const next = document.getElementById("all_wr_tab_page_next_button");
-    const cur = document.getElementById("all_wr_tab_current_page_box");
-
-    cur.classList.remove("hidden");
-
-    /* Adding next and prev buttons */
-    if ((currentPageAllWr + 1)  < pages.length && pages[currentPageAllWr + 1].content.length != 0) { // reveal next button
-        next.classList.remove("hidden");
-    } else {
-        next.classList.add("hidden");
-    }
-
-    if (currentPageAllWr + 1 > 1) { // reveal prev button
-        prev.classList.remove("hidden");
-    } else {
-        prev.classList.add("hidden");
-    }
-}
-
-function revealWrRow(row) {
-    console.log("Entered - revealWrRow(" + row + ")");
-
-    let rowNumberText = ""; //convertNumText(row);
-
-    if (row == 1) {
-        rowNumberText = "one";
-    } else if (row == 2) {
-        rowNumberText = "two";
-    } else if (row == 3) {
-        rowNumberText = "three";
-    }
-    
-    const temp = document.getElementById("all_wr_tab_row_" + rowNumberText);
-    temp.classList.remove("hidden");
-}
-
+    /* AllWr Tab */
 function setAllWrRowValues(wr, rowNumber) {
     console.log("Entered - setAllWrRowValues( + wr + ,  + rowNumber = " + rowNumber + ")");
 
@@ -1007,6 +1186,9 @@ function setAllWrRowValues(wr, rowNumber) {
 
     const priority = document.getElementById("all_wr_tab_row_" + rowNumberText + "_priority_textfield");
     priority.value = wr.priorityNumber;
+
+    console.log("testing test");
+    console.log(wr);
     
     const address = document.getElementById("all_wr_tab_row_" + rowNumberText + "_address");
     address.innerText = wr.wrAddressType();
@@ -1047,7 +1229,6 @@ function setAllWrRowValues(wr, rowNumber) {
     pocs.innerText = wr.ownerName + " - " + wr.ownerNumber + "\n" + wr.ownerEmail;
 
 }
-
 function hideAllWrRows() {
     console.log("Entered - hideAllWrRows()");
 
@@ -1068,7 +1249,24 @@ function hideAllWrRows() {
         temp.classList.add("hidden");
     }    
 }
+function revealWrRow(row) {
+    console.log("Entered - revealWrRow(" + row + ")");
 
+    let rowNumberText = ""; //convertNumText(row);
+
+    if (row == 1) {
+        rowNumberText = "one";
+    } else if (row == 2) {
+        rowNumberText = "two";
+    } else if (row == 3) {
+        rowNumberText = "three";
+    }
+    
+    const temp = document.getElementById("all_wr_tab_row_" + rowNumberText);
+    temp.classList.remove("hidden");
+}
+
+    /* Parse Functions */
 function parseWrString(str) {
     console.log("Entered - parseWrString(str)");
 
@@ -1285,7 +1483,6 @@ function parseSingleWrString(str) {
 
     return data;
 }
-
 /* Helper for parseWrString - returns index of last comma of first wr in str */
 function parseSingleWrIndex(str) {
     console.log("Entered - parseSingleWrIndex(str)");
@@ -1303,247 +1500,24 @@ function parseSingleWrIndex(str) {
     return wrIndex;
 }
 
-async function getFile() {
-    console.log("Entered - getFile()");
+        /* Check Functions */
+    /* CRD/RCD Check/Error Functions */
+function crdRcdCheck(crd, rcd, tab, row) {
+    console.log("Entered - crdRcdCheck(" + tab + " tab - row " + row + ")");
 
-    const [fileHandle] = await window.showOpenFilePicker();
-    const file = await fileHandle.getFile();
-    return file;
-}
+    const crdDate = new Date(crd);
+    const rcdDate = new Date(rcd);
+    const difference = calculateCrdRcdDifference(rcdDate - crdDate);
 
-async function writeFile(contents) {
-    console.log("Entered - writeFile(contents)");
-
-    const [fileHandle] = await window.showSaveFilePicker();
-    const writable = await fileHandle.createWritable();
-    await writable.write(contents);
-    await writable.close();
-}
-
-async function saveFile(allWrList) {
-    console.log("Entered - saveFile()");
-    
-    const newHandle = await window.showSaveFilePicker();
-    const writableStream = await newHandle.createWritable();
-    const temp = new Blob(allWrList);
-    console.log("ggg - " + temp);
-    await writableStream.write(temp);
-    await writableStream.close();
-
-    
-}
-
-function readFile() {
-    var selected = document.getElementById("allWrListFile").files[0];
-
-    var reader = new FileReader();
-    reader.addEventListener("loadend", function() {
-        let allWrList = parseWrString(reader.result);
-        document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
-        document.getElementById("footer_button_sync").classList.remove("hidden");
-    });
-    reader.readAsText(selected);
-    
-    console.log("testing here");
-    console.log(allWrList);
-    
-}
-
-/* returns 0 if not found */
-function getWr(curWrNum, allWrList) {
-    console.log("Entered - getWr(" + curWrNum + ")");
-
-    let wr = [];
-
-    if (allWrList.length == 0) {
-        console.log("empty list");
-        wr[0] = false;
-        return wr; /* Prevents error message on empty list */
-    }
-
-    for (var i = 0; i < allWrList.length; i++) {
-        if (allWrList[i].workRequestNumber == curWrNum) {
-            wr[0] = true;
-            wr[1] = allWrList[i];
-            wr[2] = i; /* returning index in list for update function */
-            return wr;
-        } 
-    }
-    console.log("Wr not found");
-    wr[0] = false;
-    return wr;
-}
-
-/* returns 0 if not found */
-function getPermit(curPermitWrNum, allPermitsList) {
-    console.log("Entered - getPermit(" + curPermitWrNum + ")");
-
-    let permit = [];
-
-    if (allPermitsList.length == 0) {
-        console.log("empty list");
-        permit[0] = false;
-        return permit; /* Prevents error message on empty list */
-    }
-
-    for (var i = 0; i < allPermitsList.length; i++) {
-        if (allPermitsList[i].workRequestNumber == curPermitWrNum) {
-            permit[0] = true;
-            permit[1] = allPermitsList[i];
-            permit[2] = i;
-            return permit;
-        }
-    }
-    console.log("Permit not found");
-    permit[0] = false;
-    return permit;
-}
-
-function permitExists(wrNum, allWrList) {
-    console.log("Entered - permitExists");
-
-    for (var i = 0; i < allWrList.length; i++) {
-        if (wrNum == allWrList[i].workRequestNumber) {
-            return true;
+    if (crd != "0001-01-01" && rcd != "0001-01-01") {
+        if (difference < 35) {
+            insertRcdError(tab, row); 
         } else {
-            return false;
-        }
-    }
-}
-
-function injectHTMLAddTabWrComment(comment) {
-    console.log("Fired - injectHTMLAddTabWrComment");
-    const target = document.querySelector("#add_tab_wr_comments_to_add");
-
-    let temp = document.getElementById("add_tab_wr_comments_to_add");
-    const count = temp.childNodes.length;
-
-    if (count == 0) {
-        target.classList.remove("hidden");
-        target.innerHTML += `<li class="addTabWrCommentsListElement">${comment}</li>`;
-    }
-
-    if (count > 0) {
-        const check = temp.childNodes[count - 1];
-        console.log("from child nodes - last child - " + check.textContent);
-
-        /* For some reason, i'm double clicking, so this prevents adding double comments.
-           Duplicate comments can be input, just not back to back.*/
-        if (check.textContent != comment) {
-            target.innerHTML += `<li class="addTabWrCommentsListElement">${comment}</li>`;
-        }
-    }
-}
-
-function injectHTMLAddTabPermitComment(comment) {
-    console.log("Fired - injectHTMLAddTabPermitComment");
-
-    const target = document.querySelector("#add_tab_permit_comments_to_add");
-
-    let temp = document.getElementById("add_tab_permit_comments_to_add");
-    const count = temp.childNodes.length;
-
-    if (count == 0) {
-        target.classList.remove("hidden");
-        target.innerHTML += `<li class=addTabPermitCommentsListElement">${comment}</li>`;
-    }
-
-    if (count > 0) {
-        const check = temp.childNodes[count - 1];
-        console.log("from child nodes - last child - " + check.textContent);
-
-        /* For some reason, i'm double clicking, so this prevents adding double comments.
-           Duplicate comments can be input, just not back to back.*/
-        if (check.textContent != comment) {
-            target.innerHTML += `<li class="addTabPermitCommentsListElement>${comment}</li>`;
-        }
-    }
-
-}
-
-/* Compares the date param to the current date in real life and
-   Returns a color to style the containers background */
-function assessDate(date) {
-    console.log("Entered - assessDate(date)");
-
-    console.log(date);
-
-    const curDate = new Date();
-    const temp = date - curDate;
-    const dateDifference = new Date(temp);
-    const data = convertDate(dateDifference);
-
-    /* NOTES: Have to cascade this conditional to assign colors properly */
-
-    if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
-        return '#dbea06ca';
-    } else if (date < curDate) {
-        return '#ed3939c3';
-    } else if (data <= 14) {
-        return '#ff3191cd';
-    } else if (data <= 31) {
-        return '#ea8f06ca'; // orangish
-    } else {
-        console.log("Data = ");
-        console.log(data);
-        return "white";
-    }
-    
-    
-
-}
-
-/* Helper for assessDate - takes in data as Date object and
-   Returns the data - as the number of days */
-function convertDate(dateDifference) {
-    console.log("Entered - convertDate(dateDifference)");
-
-    const month = dateDifference.getMonth();
-    let days = dateDifference.getDate() + 1;
-
-    if (dateDifference.getFullYear() - 1970 > 1) { // 1970 is the default value from data Object
-        console.log("leaving convertDate - more than 1 year away");
-        return 365;
-    } if (dateDifference.getFullYear() < 0) { // I assigned 01/01/0001 as default and the data value  is negative when it is passed in
-        return -9999;
-    } else {
-
-        /* This is for leap year - which it is this year */
-        const leapYear = new Date();
-        if (leapYear.getFullYear() % 4 == 0) {
-            console.log("Congrats, its a leap year");
-            days += 1;
-        }
-
-        if (month == 0) {
-            return days
-        } else if (month == 1) {
-            return 31 + days;
-        } else if (month == 2) {
-            return 59 + days;
-        } else if (month == 3) {
-            return 90 + days;
-        } else if (month == 4) {
-            return 120 + days;
-        } else if (month == 5) {
-            return 151 + days;
-        } else if (month == 6) {
-            return 181 + days;
-        } else if (month == 7) {
-            return 212 + days;
-        } else if (month == 8) {
-            return 243 + days;
-        } else if (month == 9) {
-            return 273 + days;
-        } else if (month == 10) {
-            return 304 + days;
-        } else if (month == 11) {
-            return 334 + days;
+            removeRcdError(tab, row); 
         }
     }
     
 }
-
 function calculateCrdRcdDifference(dateDifference) {
     console.log("Entered - calculateCrdRcdDifference(" + dateDifference + ")");
 
@@ -1593,21 +1567,6 @@ function calculateCrdRcdDifference(dateDifference) {
         }
     }
 }
-
-function crdRcdCheck(crd, rcd, tab, row) {
-    console.log("Entered - crdRcdCheck(" + tab + " tab - row " + row + ")");
-
-    const crdDate = new Date(crd);
-    const rcdDate = new Date(rcd);
-    const difference = calculateCrdRcdDifference(rcdDate - crdDate);
-
-    if (difference < 35) {
-        insertRcdError(tab, row); 
-    } else {
-        removeRcdError(tab, row); 
-    }
-}
-
 function insertRcdError(tab, row) {
     console.log("Entered - insertRcdError(" + tab +" tab - row " + row + ")");
 
@@ -1621,8 +1580,17 @@ function insertRcdError(tab, row) {
 
     if (tab == "permits") {
         temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_date");
+    } else if (tab == "add" && row == "two") {
+        temp = document.getElementById("add_tab_display_add_permit_left");
+        rcdError.classList.add("addTabPermitRcdError");
+        document.getElementById("add_tab_display_add_permit_top").classList.add("removeSideMargins");
+    } else if (tab == "add" && row == "one") {
+        temp = document.getElementById("add_tab_display_bottom_left_container");
+        rcdError.classList.add("addTabWrRCDError");
+        document.getElementById("add_tab_display_bottom").classList.add("removeSideMargins");
     } else {
         temp = document.getElementById(tab + "_tab_row_" + row + "_rcd");
+        rcdError.classList.add("addTabWrRcdError");
     }
     
     const str = new String(temp.innerHTML);
@@ -1631,14 +1599,59 @@ function insertRcdError(tab, row) {
 
     }
 }
-
 function removeRcdError(tab, row) {
     console.log("Entered - removeRcdError(" + tab + " tab - row " + row + ")");
 
     const temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_error");
     temp.remove();
+
+    if (tab == "add" && row == "two") {
+        document.getElementById("add_tab_display_add_permit_top").classList.remove("removeMargins");
+    }
+    if (tab == "add" && row == "one") {
+        document.getElementById("add_tab_display_bottom").classList.remove("removeSideMargins");
+
+    }
 }
 
+    /* General/Basic */
+/* returns 0 at index 0 if not found - found wr element at index 1 - index at index 2*/
+function getWr(curWrNum, allWrList) {
+    console.log("Entered - getWr(" + curWrNum + ")");
+
+    let wr = [];
+
+    if (allWrList.length == 0) {
+        console.log("empty list");
+        wr[0] = false;
+        return wr; /* Prevents error message on empty list */
+    }
+
+    for (var i = 0; i < allWrList.length; i++) {
+        if (allWrList[i].workRequestNumber == curWrNum) {
+            wr[0] = true;
+            wr[1] = allWrList[i];
+            wr[2] = i; /* returning index in list for update function */
+            return wr;
+        } 
+    }
+    console.log("Wr not found");
+    wr[0] = false;
+    return wr;
+}
+function permitExists(wrNum, allWrList) {
+    console.log("Entered - permitExists");
+
+    for (var i = 0; i < allWrList.length; i++) {
+        if (wrNum == allWrList[i].workRequestNumber) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+    /* Coloring Functions */
 function assessPermitStartDate(startDate, endDate) {
     console.log("Entered - assessPermitStartDate(startDate = " + startDate + " - endDate = " + endDate + ")");
 
@@ -1658,7 +1671,6 @@ function assessPermitStartDate(startDate, endDate) {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
     }
 }
-
 function assessPermitStatus(status) {
     console.log("Entered - assessPermitStatus(" + status +")");
 
@@ -1675,7 +1687,6 @@ function assessPermitStatus(status) {
         return '#dbea06ca'; // yellowish
     }
 }
-
 function assessEasementStatus(status) {
     console.log("Entered - assessEasementStatus(" + status + ")");
 
@@ -1688,6 +1699,87 @@ function assessEasementStatus(status) {
     } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
     }
+}
+/* Compares the date param to the current date in real life and
+   Returns a color to style the containers background */
+   function assessDate(date) {
+    console.log("Entered - assessDate(date)");
+
+    console.log(date);
+
+    const curDate = new Date();
+    const temp = date - curDate;
+    const dateDifference = new Date(temp);
+    const data = convertDate(dateDifference);
+
+    /* NOTES: Have to cascade this conditional to assign colors properly */
+
+    if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
+        return '#dbea06ca';
+    } else if (date < curDate) {
+        return '#ed3939c3';
+    } else if (data <= 14) {
+        return '#ff3191cd';
+    } else if (data <= 31) {
+        return '#ea8f06ca'; // orangish
+    } else {
+        console.log("Data = ");
+        console.log(data);
+        return "white";
+    }
+    
+    
+
+}
+/* Helper for assessDate - takes in data as Date object and
+   Returns the data - as the number of days */
+   function convertDate(dateDifference) {
+    console.log("Entered - convertDate(dateDifference)");
+
+    const month = dateDifference.getMonth();
+    let days = dateDifference.getDate() + 1;
+
+    if (dateDifference.getFullYear() - 1970 > 1) { // 1970 is the default value from data Object
+        console.log("leaving convertDate - more than 1 year away");
+        return 365;
+    } if (dateDifference.getFullYear() < 0) { // I assigned 01/01/0001 as default and the data value  is negative when it is passed in
+        return -9999;
+    } else {
+
+        /* This is for leap year - which it is this year */
+        const leapYear = new Date();
+        if (leapYear.getFullYear() % 4 == 0) {
+            console.log("Congrats, its a leap year");
+            days += 1;
+        }
+
+        if (month == 0) {
+            return days
+        } else if (month == 1) {
+            return 31 + days;
+        } else if (month == 2) {
+            return 59 + days;
+        } else if (month == 3) {
+            return 90 + days;
+        } else if (month == 4) {
+            return 120 + days;
+        } else if (month == 5) {
+            return 151 + days;
+        } else if (month == 6) {
+            return 181 + days;
+        } else if (month == 7) {
+            return 212 + days;
+        } else if (month == 8) {
+            return 243 + days;
+        } else if (month == 9) {
+            return 273 + days;
+        } else if (month == 10) {
+            return 304 + days;
+        } else if (month == 11) {
+            return 334 + days;
+        }
+    }
+    
 }
 
 
@@ -1763,11 +1855,9 @@ async function mainEvent() {
     const addTabPriorityBox = document.querySelector("#add_tab_priority_box");
     const addTabPermitPriority = document.querySelector("#add_tab_permit_priority");
 
-
         /* Customer Contacted Checkboxes */
     const customerContactedCheckboxYes = document.querySelector("#customer_contacted_checkbox_yes")
     const customerContactedCheckboxNo = document.querySelector("#customer_contacted_checkbox_no")
-
 
         /* POCs */
     const pocTextboxOwnerName = document.querySelector("#poc_textbox_owner_name");
@@ -1783,118 +1873,6 @@ async function mainEvent() {
         /* CRD and RCD */
     const addTabWrCRD = document.querySelector("#date_add_tab_wr_crd");
     const addTabWrRCD = document.querySelector("#date_add_tab_wr_rcd");
-
-
-        /* Dropdown Menu Boxes */
-    const dropdownMenuBoxAddTabWrType = document.querySelector("#dropdown_menu_box_add_tab_wr_type");
-    const dropdownMenuBoxAddTabGeneralStatus = document.querySelector("#dropdown_menu_box_add_tab_general_status");
-    const dropdownMenuBoxAddTabPermitStatus = document.querySelector("#dropdown_menu_box_add_tab_permit_status");
-    const dropdownMenuBoxAddTabEasementRequestStatus = document.querySelector("#dropdown_menu_box_add_tab_easement_request_status");
-
-        /* Dropdown Menu Options */
-            /* Add Tab Wr Type */
-    const dropdownMenuOptionAddTabWrTypeDdi = document.querySelector("#dropdown_menu_option_add_tab_wr_type_ddi");
-    const dropdownMenuOptionAddTabWrTypeDwfo = document.querySelector("#dropdown_menu_option_add_tab_wr_type_dwfo");
-    const dropdownMenuOptionAddTabWrTypeDrio = document.querySelector("#dropdown_menu_option_add_tab_wr_type_drio");
-    const dropdownMenuOptionAddTabWrTypeDriu = document.querySelector("#dropdown_menu_option_add_tab_wr_type_driu");
-    const dropdownMenuOptionAddTabWrTypeDrnu = document.querySelector("#dropdown_menu_option_add_tab_wr_type_drnu");
-    const dropdownMenuOptionAddTabWrTypeDrou = document.querySelector("#dropdown_menu_option_add_tab_wr_type_drou");
-    const dropdownMenuOptionAddTabWrTypeDrno = document.querySelector("#dropdown_menu_option_add_tab_wr_type_drno");
-    const dropdownMenuOptionAddTabWrTypeBlank =document.querySelector("#dropdown_menu_option_add_tab_wr_type_blank");
-
-            /* Add Tab Wr General Status */
-    const dropdownMenuOptionAddTabWrGeneralStatusBlank = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_blank");
-    const dropdownMenuOptionAddTabWrGeneralStatusWaitingLL = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_waiting_ll");
-    const dropdownMenuOptionAddTabWrGeneralStatusVisit = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_visit");
-    const dropdownMenuOptionAddTabWrGeneralStatusServiceCalcs = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_service_calcs");
-    const dropdownMenuOptionAddTabWrGeneralStatusCheckPermit = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_check_permit");
-    const dropdownMenuOptionAddTabWrGeneralStatusCheckEasementRequest = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_check_easement_request");
-    const dropdownMenuOptionAddTabWrGeneralStatusDesign = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_design");
-    const dropdownMenuOptionAddTabWrGeneralStatusReviewPeer = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_review_peer");
-    const dropdownMenuOptionAddTabWrGeneralStatusReviewCoordinator = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_review_coordinator");
-    const dropdownMenuOptionAddTabWrGeneralStatusRevisions = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_revisions");
-    const dropdownMenuOptionAddTabWrGeneralStatusWaitingCustomerNotApproved = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_waiting_customer_not_approved");
-    const dropdownMenuOptionAddTabWrGeneralStatusWaitingCustomerApproved = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_waiting_customer_approved");
-    const dropdownMenuOptionAddTabWrGeneralStatusFlag = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_flag");
-    const dropdownMenuOptionAddTabWrGeneralStatus7010 = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_7010");
-    const dropdownMenuOptionAddTabWrGeneralStatusCancle = document.querySelector("#dropdown_menu_option_add_tab_wr_general_status_cancled");
-
-            /* Add Tab Wr Permit Status */
-    const dropdownMenuOptionAddTabWrPermitStatusApplied = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_applied");
-    const dropdownMenuOptionAddTabWrPermitStatusReceived = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_received");
-    const dropdownMenuOptionAddTabWrPermitStatusExpiringSoon = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_expiring_soon");
-    const dropdownMenuOptionAddTabWrPermitStatusExpired = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_expired");
-    const dropdownMenuOptionAddTabWrPermitStatusExtensionSubmitted = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_extension_submitted");
-    const dropdownMenuOptionAddTabWrPermitStatusExtensionReceived = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_extension_received");
-    const dropdownMenuOptionAddTabWrPermitStatusDontNeed = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_dont_need");
-    const dropdownMenuOptionAddTabWrPermitStatusHaventChecked = document.querySelector("#dropdown_menu_option_add_tab_wr_permit_status_havent_checked");
-
-            /* Add Tab Wr Easement Request Status */
-    const dropdownMenuOptionAddTabWrEasementRequestStatusNeedSubmit = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_need_submit");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusPending = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_pending");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusDontNeed = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_dont_need");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusHaveEasement = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_have_easement");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusNeedEasement = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_need_easement");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusWaitingCreation = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_waiting_creation");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusWaitingCustomer = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_waiting_customer");
-    const dropdownMenuOptionAddTabWrEasementRequestStatusHaventChecked = document.querySelector("#dropdown_menu_option_add_tab_wr_easement_request_status_havent_checked");
-
-
-        /* Dropdown Menu Box Options */
-            /* Add Tab Wr Type */
-    const dropdownMenuBoxOptionAddTabWrTypeDrnu = document.querySelector("#dropdown_menu_box_option_add_tab_wr_type_drnu");
-    const dropdownMenuBoxOptionAddTabWrTypeDrou = document.querySelector("#dropdown_menu_box_option_add_tab_wr_type_drou");
-    const dropdownMenuBoxOptionAddTabWrTypeDrno = document.querySelector("#dropdown_menu_box_option_add_tab_wr_type_drno");
-
-
-            /* Add Tab Wr General Status */
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusBlank = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_blank");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusWaitingLL = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_waiting_ll");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusVisit = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_visit");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusServiceCalcs = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_service_calcs");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusCheckPermit = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_check_permit");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusCheckEasementRequest = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_check_easement_request");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusDesign = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_design");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusReviewPeer = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_review_peer");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusReviewCoordinator = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_review_coordinator");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusRevisions = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_revisions");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusWaitingCustomerNotApproved = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_waiting_customer_not_approved");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusWaitingCustomerApproved = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_waiting_customer_approved");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusFlag = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_flag");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatus7010 = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_7010");
-    const dropdownMenuBoxOptionAddTabWrGeneralStatusCancle = document.querySelector("#dropdown_menu_box_option_add_tab_wr_general_status_cancled");
-
-            /* Add Tab Wr Permit Status */
-    const dropdownMenuBoxOptionAddTabWrPermitStatusApplied = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_applied");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusReceived = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_received");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusExpiringSoon = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_expiring_soon");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusExpired = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_expired");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusExtensionSubmitted = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_extension_submitted");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusExtensionReceived = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_extension_received");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusDontNeed = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_dont_need");
-    const dropdownMenuBoxOptionAddTabWrPermitStatusHaventChecked = document.querySelector("#dropdown_menu_box_option_add_tab_wr_permit_status_havent_checked");
-
-            /* Add Tab Add Permit Status */
-    const dropdownMenuOptionAddTabAddPermitStatusApplied = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_applied");
-    const dropdownMenuOptionAddTabAddPermitStatusReceived = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_received");
-    const dropdownMenuOptionAddTabAddPermitStatusExpiringSoon = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_expiring_soon");
-    const dropdownMenuOptionAddTabAddPermitStatusExpired = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_expired");
-    const dropdownMenuOptionAddTabAddPermitStatusExtensionSubmitted = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_extension_submitted");
-    const dropdownMenuOptionAddTabAddPermitStatusExtensionReceived = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_extension_received");
-    const dropdownMenuOptionAddTabAddPermitStatusDontNeed = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_dont_need");
-    const dropdownMenuOptionAddTabAddPermitStatusHaventChecked = document.querySelector("#dropdown_menu_option_add_tab_add_permit_status_havent_checked");
-
-
-            /* Add Tab Wr Easement Request Status */
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusNeedSubmit = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_need_submit");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusPending = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_pending");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusDontNeed = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_dont_need");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusHaveEasement = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_have_easement");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusNeedEasement = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_need_easement");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusWaitingCreation = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_waiting_creation");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusWaitingCustomer = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_waiting_customer");
-    const dropdownMenuBoxOptionAddTabWrEasementRequestStatusHaventChecked = document.querySelector("#dropdown_menu_box_option_add_tab_wr_easement_request_status_havent_checked");
-
 
         /* Comments */
             /* Add Tab Wr */
@@ -1924,13 +1902,6 @@ async function mainEvent() {
     /* Add Tab Displays */
     const addTabDisplayAddWr = document.querySelector("#add_tab_display_add_wr");
     const addTabDisplayAddPermit = document.querySelector("#add_tab_display_add_permit");
-
-
-    /* Dropdown Menus */
-    const dropdownMenuAddTabWrType = document.querySelector("#dropdown_menu_add_tab_wr_type");
-    const dropdownMenuAddTabWrGeneralStatus = document.querySelector("#dropdown_menu_add_tab_wr_general_status");
-    const dropdownMenuAddTabWrPermitStatus = document.querySelector("#dropdown_menu_add_tab_wr_permit_status");
-    const dropdownMenuAddTabWrEasementRequestStatus = document.querySelector("#dropdown_menu_add_tab_wr_easement_request_status");
 
     /* Load and Save Buttons */
     const footerButtonSave = document.querySelector("#footer_button_save");
@@ -1988,7 +1959,7 @@ async function mainEvent() {
 
 
 
-    /* permitsTab Row Element Event Listeners */
+            /* permitsTab Row Element Event Listeners */
         /* Priority Numbers */
     const permitsTabRowOnePriority = document.querySelector("#permits_tab_row_one_priority_textfield");
     const permitsTabRowTwoPriority = document.querySelector("#permits_tab_row_two_priority_textfield");
@@ -1998,8 +1969,6 @@ async function mainEvent() {
     const permitsTabRowOneAddress = document.querySelector("#permits_tab_row_one_address");
     const permitsTabRowTwoAddress = document.querySelector("#permits_tab_row_two_address");
     const permitsTabRowThreeAddress = document.querySelector("#permits_tab_row_three_address");
-
-
 
         /* CRDs */
     const permitsTabRowOneCrd = document.querySelector("#permits_tab_row_one_crd_date");
@@ -2021,10 +1990,11 @@ async function mainEvent() {
     const permitsTabRowTwoEndDate = document.querySelector("#permits_tab_row_two_end_date");
     const permitsTabRowThreeEndDate = document.querySelector("#permits_tab_row_three_end_date");
 
-    /* Filter Go Button */
+    
+        /* Filter Go Button */
     const filterGoButton = document.querySelector("#filter_go_button");
 
-    /* Filter Checkboxes */
+            /* Filter Checkboxes */
         /* Generic */
     const filterCheckboxPriorityNumber = document.querySelector("#filter_checkbox_priority_number");
     const filterCheckboxCrd = document.querySelector("#filter_checkbox_crd");
@@ -2073,11 +2043,6 @@ async function mainEvent() {
     const trimByAll = document.querySelector("#footer_filter_checkbox_all");
     const trimBy7010 = document.querySelector("#footer_filter_checkbox_7010");
 
-    /* Footer Filter Containers */
-    const trimByNot7010Container = document.querySelector("#footer_filter_container_not_7010");
-    const trimByAllContainer = document.querySelector("#footer_filter_container_all");
-    const trimBy7010Container = document.querySelector("#footer_filter_container_7010");
-
     /* Search By Checkboxes + Textfield + Button*/
     const searchBySelectionCheckbox = document.querySelector("#search_by_selection_checkbox");
     const searchBySelectionTextfield = document.querySelector("#search_by_selection_textfield");
@@ -2090,12 +2055,20 @@ async function mainEvent() {
     /* Filter By Event Listeners */
     const filterBySelectionCheckbox = document.querySelector("#filter_by_selection_checkbox");
 
-    /* Variable */
+    /* Add Tab DD Menu Containers */
+        /* Add Wr */
+    const addTabWrTypeContainer= document.querySelector("#add_tab_wr_type_container");
+    const addTabGeneralStatusContainer = document.querySelector("#add_tab_general_status_container");
+    const addTabPermitStatusContainer = document.querySelector("#add_tab_permit_status_container");
+    const addTabEasementStatusContainer = document.querySelector("#add_tab_easement_status_container");
+        /* Update Permit */
+    const addTabAddPermitStatusContainer = document.querySelector("#add_tab_add_permit_status_container");
+
+
+        /* Variable */
     let addTabCommentsTextfieldInput = [];
     let addTabPermitCommentsTextfieldInput = [];
     let allWrList = [];
-    let allPermitsList = [];
-    let tempDate = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     
@@ -2173,6 +2146,89 @@ async function mainEvent() {
         permitsTabRowThreeStatusContainer.innerHTML = "";
         permitsTabRowThreeStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
+        /* Add Tab DDs */
+
+            /* Add WR */
+        dd = new WrTypeDDMenu();
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+        addTabWrTypeContainer.innerHTML = "";
+        addTabWrTypeContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_wr_type" class="addTabTextfieldLabel" 
+        id="dropdown_menu_add_tab_wr_type_label">Work Request Type:</label>`);
+        addTabWrTypeContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new GeneralStatusDDMenu("add_tab");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+        addTabGeneralStatusContainer.innerHTML = "";
+        addTabGeneralStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_general_status" class="addTabTextfieldLabel" 
+        id="dropdown_menu_add_tab_general_status_label">General Status:</label>`);
+        addTabGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+        // adjusting size for add tab
+        const tempCurrentGeneral = document.getElementById("general_status_dd_add_tab_current");
+        tempCurrentGeneral.style.width = '120px';
+        tempCurrentGeneral.style.paddingLeft = '25px';
+        tempCurrentGeneral.style.paddingRight = '25px';
+        const tempButtonGeneral = document.getElementById("general_status_dd_add_tab_button");
+        tempButtonGeneral.style.width = '30px';
+        tempButtonGeneral.style.height = '30px';
+
+        dd = new PermitStatusDDMenu("add", "1");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+        addTabPermitStatusContainer.innerHTML = "";
+        addTabPermitStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_permit_status" class="addTabTextfieldLabel" 
+        id="dropdown_menu_add_tab_permit_status_label">Permit Status::</label>`);
+        addTabPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+        // adjusting size for add tab
+        const tempCurrentPermit = document.getElementById("permit_status_dd_add_tab_row_1_current");
+        tempCurrentPermit.style.width = '120px';
+        tempCurrentPermit.style.paddingLeft = '25px';
+        tempCurrentPermit.style.paddingRight = '25px';
+        const tempButtonPermit = document.getElementById("permit_status_dd_add_tab_row_1_button");
+        tempButtonPermit.style.width = '30px';
+        tempButtonPermit.style.height = '30px';
+        tempButtonPermit.innerHTML = "/\\";
+
+        dd = new EasementStatusDDMenu("add_tab");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+        addTabEasementStatusContainer.innerHTML = "";
+        addTabEasementStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_easement_status" class="addTabTextfieldLabel" 
+        id="dropdown_menu_add_tab_easement_status_label">Easement Status:</label>`);
+        addTabEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+        // adjusting size for add tab
+        const tempCurrentEasement = document.getElementById("easement_status_dd_add_tab_current");
+        tempCurrentEasement.style.width = '120px';
+        tempCurrentEasement.style.paddingLeft = '25px';
+        tempCurrentEasement.style.paddingRight = '25px';
+        const tempButtonEasement = document.getElementById("easement_status_dd_add_tab_button");
+        tempButtonEasement.style.width = '30px';
+        tempButtonEasement.style.height = '30px';
+        tempButtonEasement.innerHTML = "/\\";
+
+        /* Permits Tab DD */
+        dd = new PermitStatusDDMenu("add", "2");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+
+        addTabAddPermitStatusContainer.innerHTML = "";
+        addTabAddPermitStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_add_permit_status" class="addTabTextfieldLabel" 
+        id="dropdown_menu_add_tab_add_permit_status_label">Permit Status:</label>`);
+        addTabAddPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+        // adjusting size for add tab
+        const tempCurrentAddPermit = document.getElementById("permit_status_dd_add_tab_row_2_current");
+        tempCurrentAddPermit.style.width = '120px';
+        tempCurrentAddPermit.style.paddingLeft = '25px';
+        tempCurrentAddPermit.style.paddingRight = '25px';
+        const tempButtonAddPermit = document.getElementById("permit_status_dd_add_tab_row_2_button");
+        tempButtonAddPermit.style.width = '30px';
+        tempButtonAddPermit.style.height = '30px';
     };
 
     function assessSpecificStatus() {
@@ -2397,36 +2453,7 @@ async function mainEvent() {
         }
     }
 
-    function assessTrimBy(filteredAllWrList) {
-        console.log("Entered - assessTrimBy(filteredAllWrList)");
-        let tempList = [];
-
-        if (document.getElementById("footer_filter_checkbox_not_7010").checked == true) {
-            uncolorTrimByCheckboxes();
-            document.getElementById("footer_filter_checkbox_not_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            for (let i = 0; i < filteredAllWrList.length; i++) {
-                if (filteredAllWrList[i].generalStatus != "7010'd") {
-                    tempList.push(filteredAllWrList[i]);
-                }
-            }
-            return tempList;
-        } else if (document.getElementById("footer_filter_checkbox_7010").checked == true) {
-            uncolorTrimByCheckboxes();
-            document.getElementById("footer_filter_checkbox_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627";
-            for (let i = 0; i < filteredAllWrList.length; i++) {
-                if (filteredAllWrList[i].generalStatus == "7010'd") {
-                    tempList.push(filteredAllWrList[i]);
-                }
-            }
-            return tempList;
-        } else {
-            console.log("All must be checked - returning filteredAllWrList as received");
-            return filteredAllWrList;
-        }
-    }
-
-    /* Deslect Header Tab Functions */
-
+        /* Deslect Header Tab Functions */
     function deselectAllWrTab() {
         console.log("Entered - clearAllWrTab");
 
@@ -2447,7 +2474,6 @@ async function mainEvent() {
        
         allWrTab.classList.remove("hidden");
     }
-
     function deselectAllAddTab() {
         console.log("Entered - deselectAllAddTab");
 
@@ -2458,7 +2484,6 @@ async function mainEvent() {
 
         addTab.classList.remove("hidden");
     }
-
     function deselectAllPermitsTab() {
         console.log("Entered - deselectAllPermitsTab");
 
@@ -2478,7 +2503,6 @@ async function mainEvent() {
 
         permitsTab.classList.remove("hidden");
     }
-
     function deselectAllTabs() {
         console.log("Entered - deselectAllTabs");
 
@@ -2494,6 +2518,7 @@ async function mainEvent() {
         uncolorTrimByCheckboxes();
     }
 
+        /* Uncolor (Remove Highlight) Functions */
     function uncolorTrimByCheckboxes() {
         console.log("Entered - uncolorTrimByCheckboxes()");
 
@@ -2501,35 +2526,6 @@ async function mainEvent() {
         document.getElementById("footer_filter_container_all").style.backgroundColor = "white";
         document.getElementById("footer_filter_container_7010").style.backgroundColor = "white";
     }
-
-    function uncheckTrimByCheckboxes() {
-        console.log("Entered - uncheckTrimByCheckboxes()");
-
-        document.getElementById("footer_filter_checkbox_not_7010").checked = false;
-        document.getElementById("footer_filter_checkbox_all").checked = false;
-        document.getElementById("footer_filter_checkbox_7010").checked = false;
-    }
-
-    function uncheckAllWrFilterCheckboxes() {
-        console.log("Entered - uncheckAllWrFilterCheckboxes");
-    
-        document.getElementById("filter_checkbox_waiting_ll").checked = false;
-        document.getElementById("filter_checkbox_need_to_visit").checked = false;
-        document.getElementById("filter_checkbox_svc_calcs").checked = false;
-        document.getElementById("filter_checkbox_check_permit").checked = false;
-        document.getElementById("filter_checkbox_check_easement").checked = false;
-        document.getElementById("filter_checkbox_design").checked = false;
-        document.getElementById("filter_checkbox_review_peer").checked = false;
-        document.getElementById("filter_checkbox_review_coordinator").checked = false;
-        document.getElementById("filter_checkbox_revisions").checked = false;
-        document.getElementById("filter_checkbox_waiting_customer_not_approved").checked = false;
-        document.getElementById("filter_checkbox_waiting_customer_approved").checked = false;
-        document.getElementById("filter_checkbox_flag").checked = false;
-        document.getElementById("filter_checkbox_7010").checked = false;
-        document.getElementById("filter_checkbox_cancled_other").checked = false;
-    
-    }
-    
     function uncolorAllWrFilterCheckboxes() {
         console.log("Entered - uncolorAllWrFilterCheckboxes");
     
@@ -2549,67 +2545,59 @@ async function mainEvent() {
         document.getElementById("filter_container_cancled_other").style.backgroundColor = "white"
     
     }
-    
-    function displayPermitAddUpdate(wr) {
-        console.log("Entered - displayPermitAddUpdate");
-
-        addTabNewWorkRequestNumber.value = wr.workRequestNumber;
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${wr.permit.permitStatus}</div>`;
-        addTabPermitDateSubmitted.value = formatDate(wr.permit.dateSubmitted);
-        addTabPermitDateApplied.value = formatDate(wr.permit.dateApplied);
-        addTabPermitPriority.value = wr.priorityNumber;
-        addTabPermitCRD.value = formatDate(wr.crd);
-        addTabPermitRCD.value = formatDate(wr.rcd);
-        addTabPermitStart.value = formatDate(wr.permit.startDate);
-        addTabPermitExpiration.value = formatDate(wr.permit.endDate);
-        //addTabPermitWrCommentsToAdd = will fill in
-    }
-
-    function displayWrAddUpdate(wr) {
-        console.log("Entered - displayWrAddUpdate(" + wr + ")");
+    function uncolorGenericFilterCheckboxes() {
+        console.log("Entered - uncolorGenericFlterCheckboxes");
         
-        addTabNewWorkRequestNumber.value = wr.workRequestNumber;
-        addressLineTextfieldHouseNumber.value = wr.houseNumber;
-        addressLineTextfieldStreetName.value = wr.streetName;
-        addressLineTextfieldCounty.value = wr.countyCity;
-        addressLineTextfieldZip.value = wr.zipCode;
-        addTabPriorityBox.value = wr.priorityNumber;
-        pocTextboxOwnerName.value = wr.ownerName;
-        pocTextboxOwnerNumber.value = wr.ownerNumber;
-        pocTextboxOwnerEmail.value = wr.ownerEmail;
-        pocTextboxBuilderName.value = wr.builderName
-        pocTextboxBuilderNumber.value = wr.builderNumber;
-        pocTextboxBuilderEmail.value = wr.builderEmail;
-        pocTextboxOtherName.value = wr.otherName;
-        pocTextboxOtherNumber.value = wr.otherNumber;
-        pocTextboxOtherEmail.value = wr.otherEmail;
-        dropdownMenuBoxAddTabWrType.textContent = wr.wrType;
-        addTabWrCRD.value = wr.crd;
-        addTabWrRCD.value = wr.rcd;
-        dropdownMenuAddTabWrGeneralStatus.textContent = wr.generalStatus;
-        dropdownMenuAddTabWrPermitStatus.textContent = wr.permit.permitStatus;
-        dropdownMenuAddTabWrEasementRequestStatus.textContent = wr.easementRequestStatus;
-        addTabWrCommentsToAdd.textContent = wr.commentsGeneral
-    
-        if (wr.customerContacted) {
-            customerContactedCheckboxYes.checked = true;
-            customerContactedCheckboxNo.checked = false;
-        } else {
-            customerContactedCheckboxYes.checked = false;
-            customerContactedCheckboxNo.checked = true;
-        }
-    
+        document.getElementById("filter_container_priority_number").style.backgroundColor = "white";
+        document.getElementById("filter_container_crd").style.backgroundColor = "white";
+        document.getElementById("filter_container_rcd").style.backgroundColor = "white";
+    }
+    function uncolorSearchByCheckboxes() {
+        console.log("Entered - uncolorSearchByCheckboxes");
+
+        searchByAddressContainer.style.backgroundColor = "white";
+        searchByWrContainer.style.backgroundColor = "white";
+    }
+    function uncolorPermitsTabSpecificCheckboxes() {
+        console.log("Entered - uncolorPermitsTabSpecificCheckboxes()");
+
+        filterContainerPermitApplied.style.backgroundColor = "white";
+        filterContainerPermitReceived.style.backgroundColor = "white";
+        filterContainerPermitExpiringSoon.style.backgroundColor = "white";
+        filterContainerPermitExpired.style.backgroundColor = "white";
+        filterContainerPermitExtensionSubmitted.style.backgroundColor = "white";
+        filterContainerPermitExtensionReceived.style.backgroundColor = "white";
+        filterContainerPermitDontNeed.style.backgroundColor = "white";
+        filterContainerPermitHaventChecked.style.backgroundColor = "white"; 
     }
 
-    function displayWR(wr) {
-        console.log("Entered - displayWR");
-        console.log("workRequestNumber: " + wr.workRequestNumber);
-        console.log("houseNumber: " + wr.houseNumber);
-        console.log("generalStatus: " + wr.generalStatus);
+        /* Uncheck/Clear Functions */
+    function uncheckTrimByCheckboxes() {
+        console.log("Entered - uncheckTrimByCheckboxes()");
 
-
+        document.getElementById("footer_filter_checkbox_not_7010").checked = false;
+        document.getElementById("footer_filter_checkbox_all").checked = false;
+        document.getElementById("footer_filter_checkbox_7010").checked = false;
     }
-
+    function uncheckAllWrFilterCheckboxes() {
+        console.log("Entered - uncheckAllWrFilterCheckboxes");
+    
+        document.getElementById("filter_checkbox_waiting_ll").checked = false;
+        document.getElementById("filter_checkbox_need_to_visit").checked = false;
+        document.getElementById("filter_checkbox_svc_calcs").checked = false;
+        document.getElementById("filter_checkbox_check_permit").checked = false;
+        document.getElementById("filter_checkbox_check_easement").checked = false;
+        document.getElementById("filter_checkbox_design").checked = false;
+        document.getElementById("filter_checkbox_review_peer").checked = false;
+        document.getElementById("filter_checkbox_review_coordinator").checked = false;
+        document.getElementById("filter_checkbox_revisions").checked = false;
+        document.getElementById("filter_checkbox_waiting_customer_not_approved").checked = false;
+        document.getElementById("filter_checkbox_waiting_customer_approved").checked = false;
+        document.getElementById("filter_checkbox_flag").checked = false;
+        document.getElementById("filter_checkbox_7010").checked = false;
+        document.getElementById("filter_checkbox_cancled_other").checked = false;
+    
+    }
     function clearAddTabCheckboxes() {
         console.log("Entered - clearAddTabCheckboxes");
 
@@ -2620,92 +2608,55 @@ async function mainEvent() {
         filterCheckboxAddComment.checked = false;
         filterCheckboxAddReminder.checked = false;
     }
-
-    function clearAddTabDisplays() {
-        console.log("Entered - clearAddTabDisplays");
-
-
-        addTabDisplayAddWr.classList.add("hidden");
-        addTabDisplayAddPermit.classList.add("hidden");
-    }
-
-    function uncolorGenericFilterCheckboxes() {
-        console.log("Entered - uncolorGenericFlterCheckboxes");
-        
-        document.getElementById("filter_container_priority_number").style.backgroundColor = "white";
-        document.getElementById("filter_container_crd").style.backgroundColor = "white";
-        document.getElementById("filter_container_rcd").style.backgroundColor = "white";
-    }
-
     function uncheckGenericFilterCheckboxes() {
         console.log("Entered - uncheckGenericFilterCheckboxes()");
 
         filterCheckboxPriorityNumber.checked = false;
-
         filterCheckboxCrd.checked = false;
-
         filterCheckboxRcd.checked = false;
-
-        /* Will add more as i go */
+        filterCheckboxAgeNew.checked = false;
+        filterCheckboxAgeOld.checked = false;
     }
-
     function uncheckSearchByCheckboxes() {
         console.log("Entered - uncheckSearchByCheckboxes");
 
         searchByAddressCheckbox.checked = false;
         searchByWrCheckbox.checked = false;
     }
+    function uncheckPermitsTabSpecificCheckboxes() {
+        console.log("Entered - uncheckPermitsTabSpecificCheckboxes()");
 
-    function uncolorSearchByCheckboxes() {
-        console.log("Entered - uncolorSearchByCheckboxes");
+        filterCheckboxPermitApplied.checked = false;
+        filterCheckboxPermitReceived.checked = false;
+        filterCheckboxPermitExpiringSoon.checked = false;
+        filterCheckboxPermitExpired.checked = false;
+        filterCheckboxPermitExtensionSubmitted.checked = false;
+        filterCheckboxPermitExtensionReceived.checked = false;
+        filterCheckboxPermitDontNeed.checked = false;
+        filterCheckboxPermitHaventChecked.checked = false;
 
-        searchByAddressContainer.style.backgroundColor = "white";
-        searchByWrContainer.style.backgroundColor = "white";
     }
 
-    function disableFilterBy() {
-        console.log("Entered - disableFilterBy()");
+            /* Enable/Disable Filter Sections */
+        /* Enable */
+    function enableSearchBy() {
+        console.log("Entered - enableSearchBy()");
+
+        searchBySelectionCheckbox.checked = true;
+        searchByWrCheckbox.checked = true;
+
+        searchByBoxContainer.classList.remove("filterSectionInactive");
+        searchBySelectionTextfield.disabled = false;
+        searchByAddressCheckbox.disabled = false;
+        searchByWrCheckbox.disabled = false;
+        searchTextfieldGoButton.disabled = false;
 
         filterBySelectionCheckbox.checked = false;
-
-        /* Generic */
-        filterByBoxContainer.classList.add("filterSectionInactive");
-        filterGoButton.disabled = true;
-        filterCheckboxPriorityNumber.disabled = true;
-        filterCheckboxCrd.disabled = true;
-        filterCheckboxRcd.disabled = true;
-        filterCheckboxAgeNew.disabled = true;
-        filterCheckboxAgeOld.disabled = true;
-
-        /* Specific */
-            /* AllWr Tab Filter Checkboxes */
-        filterCheckboxWaitingLL.disabled = true;
-        filterCheckboxNeedToVisit.disabled = true;
-        filterCheckboxSvcCalcs.disabled = true;
-        filterCheckboxCheckPermit.disabled = true;
-        filterCheckboxCheckEasement.disabled = true;
-        filterCheckboxDesign.disabled = true;
-        filterCheckboxReviewPeer.disabled = true;
-        filterCheckboxReviewCoordinator.disabled = true;
-        filterCheckboxRevisions.disabled = true;
-        filterCheckboxWaitingCustomerNotApproved.disabled = true;
-        filterCheckboxWaitingCustomerApproved.disabled = true;
-        filterCheckboxFlag.disabled = true;
-        filterCheckbox7010.disabled = true;
-        filterCheckboxCancledOther.disabled = true;
-            /* Permits Tab Filter Checkboxes */
-        filterCheckboxPermitApplied.disabled = true;
-        filterCheckboxPermitReceived.disabled = true;
-        filterCheckboxPermitExpiringSoon.disabled = true;
-        filterCheckboxPermitExpired.disabled = true;
-        filterCheckboxPermitExtensionSubmitted.disabled = true;
-        filterCheckboxPermitExtensionReceived.disabled = true;
-        filterCheckboxPermitDontNeed.disabled = true;
-        filterCheckboxPermitHaventChecked.disabled = true;
-
-
+        uncheckGenericFilterCheckboxes();
+        uncolorGenericFilterCheckboxes();
+        uncolorAllWrFilterCheckboxes();
+        uncheckAllWrFilterCheckboxes();
     }
-
     function enableFilterBy() {
         console.log("Entered - enableFilterBy()");
 
@@ -2752,6 +2703,7 @@ async function mainEvent() {
         uncheckSearchByCheckboxes();
     }
 
+        /* Disable */
     function disableSearchBy() {
         console.log("Entered - disableSearchBy()");
 
@@ -2767,357 +2719,117 @@ async function mainEvent() {
         uncheckSearchByCheckboxes();
         uncolorSearchByCheckboxes();
     }
-
-    function enableSearchBy() {
-        console.log("Entered - enableSearchBy()");
-
-        searchBySelectionCheckbox.checked = true;
-        searchByWrCheckbox.checked = true;
-
-        searchByBoxContainer.classList.remove("filterSectionInactive");
-        searchBySelectionTextfield.disabled = false;
-        searchByAddressCheckbox.disabled = false;
-        searchByWrCheckbox.disabled = false;
-        searchTextfieldGoButton.disabled = false;
+    function disableFilterBy() {
+        console.log("Entered - disableFilterBy()");
 
         filterBySelectionCheckbox.checked = false;
-        uncheckGenericFilterCheckboxes();
-        uncolorGenericFilterCheckboxes();
-        uncolorAllWrFilterCheckboxes();
-        uncheckAllWrFilterCheckboxes();
+
+        /* Generic */
+        filterByBoxContainer.classList.add("filterSectionInactive");
+        filterGoButton.disabled = true;
+        filterCheckboxPriorityNumber.disabled = true;
+        filterCheckboxCrd.disabled = true;
+        filterCheckboxRcd.disabled = true;
+        filterCheckboxAgeNew.disabled = true;
+        filterCheckboxAgeOld.disabled = true;
+
+        /* Specific */
+            /* AllWr Tab Filter Checkboxes */
+        filterCheckboxWaitingLL.disabled = true;
+        filterCheckboxNeedToVisit.disabled = true;
+        filterCheckboxSvcCalcs.disabled = true;
+        filterCheckboxCheckPermit.disabled = true;
+        filterCheckboxCheckEasement.disabled = true;
+        filterCheckboxDesign.disabled = true;
+        filterCheckboxReviewPeer.disabled = true;
+        filterCheckboxReviewCoordinator.disabled = true;
+        filterCheckboxRevisions.disabled = true;
+        filterCheckboxWaitingCustomerNotApproved.disabled = true;
+        filterCheckboxWaitingCustomerApproved.disabled = true;
+        filterCheckboxFlag.disabled = true;
+        filterCheckbox7010.disabled = true;
+        filterCheckboxCancledOther.disabled = true;
+            /* Permits Tab Filter Checkboxes */
+        filterCheckboxPermitApplied.disabled = true;
+        filterCheckboxPermitReceived.disabled = true;
+        filterCheckboxPermitExpiringSoon.disabled = true;
+        filterCheckboxPermitExpired.disabled = true;
+        filterCheckboxPermitExtensionSubmitted.disabled = true;
+        filterCheckboxPermitExtensionReceived.disabled = true;
+        filterCheckboxPermitDontNeed.disabled = true;
+        filterCheckboxPermitHaventChecked.disabled = true;
+
+
     }
 
-    function uncheckPermitsTabSpecificCheckboxes() {
-        console.log("Entered - uncheckPermitsTabSpecificCheckboxes()");
+        /* Display Wr */
+    function displayPermitAddUpdate(wr) {
+        console.log("Entered - displayPermitAddUpdate");
 
-        filterCheckboxPermitApplied.checked = false;
-        filterCheckboxPermitReceived.checked = false;
-        filterCheckboxPermitExpiringSoon.checked = false;
-        filterCheckboxPermitExpired.checked = false;
-        filterCheckboxPermitExtensionSubmitted.checked = false;
-        filterCheckboxPermitExtensionReceived.checked = false;
-        filterCheckboxPermitDontNeed.checked = false;
-        filterCheckboxPermitHaventChecked.checked = false;
+        addTabNewWorkRequestNumber.value = wr.workRequestNumber;
+        document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = wr.permit.permitStatus;
+        addTabPermitDateSubmitted.value = formatDate(wr.permit.dateSubmitted);
+        addTabPermitDateApplied.value = formatDate(wr.permit.dateApplied);
+        addTabPermitPriority.value = wr.priorityNumber;
+        addTabPermitCRD.value = formatDate(wr.crd);
+        addTabPermitRCD.value = formatDate(wr.rcd);
+        addTabPermitStart.value = formatDate(wr.permit.startDate);
+        addTabPermitExpiration.value = formatDate(wr.permit.endDate);
+        //addTabPermitWrCommentsToAdd = will fill in
+
+        addTabAddButton.disabled = true;
 
     }
+    function displayWrAddUpdate(wr) {
+        console.log("Entered - displayWrAddUpdate(" + wr + ")");
+        
+        addTabNewWorkRequestNumber.value = wr.workRequestNumber;
+        addressLineTextfieldHouseNumber.value = wr.houseNumber;
+        addressLineTextfieldStreetName.value = wr.streetName;
+        addressLineTextfieldCounty.value = wr.countyCity;
+        addressLineTextfieldZip.value = wr.zipCode;
+        addTabPriorityBox.value = wr.priorityNumber;
+        pocTextboxOwnerName.value = wr.ownerName;
+        pocTextboxOwnerNumber.value = wr.ownerNumber;
+        pocTextboxOwnerEmail.value = wr.ownerEmail;
+        pocTextboxBuilderName.value = wr.builderName
+        pocTextboxBuilderNumber.value = wr.builderNumber;
+        pocTextboxBuilderEmail.value = wr.builderEmail;
+        pocTextboxOtherName.value = wr.otherName;
+        pocTextboxOtherNumber.value = wr.otherNumber;
+        pocTextboxOtherEmail.value = wr.otherEmail;
+        document.getElementById("wr_type_dd_menu_current").innerHTML = wr.wrType;
+        addTabWrCRD.value = wr.crd;
+        addTabWrRCD.value = wr.rcd;
+        document.getElementById("general_status_dd_add_tab_current").innerHTML = wr.generalStatus;
+        document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML = wr.permit.permitStatus;
+        document.getElementById("easement_status_dd_add_tab_current").innerHTML = wr.easementRequestStatus;
+        addTabWrCommentsToAdd.textContent = wr.commentsGeneral
+    
+        if (wr.customerContacted) {
+            customerContactedCheckboxYes.checked = true;
+            customerContactedCheckboxNo.checked = false;
+        } else {
+            customerContactedCheckboxYes.checked = false;
+            customerContactedCheckboxNo.checked = true;
+        }
 
-    function uncolorPermitsTabSpecificCheckboxes() {
-        console.log("Entered - uncolorPermitsTabSpecificCheckboxes()");
+        addTabAddButton.disabled = true;
+    
+    }
+    
+        /* Hide Add Tab Display */
+    function clearAddTabDisplays() {
+        console.log("Entered - clearAddTabDisplays");
 
-        filterContainerPermitApplied.style.backgroundColor = "white";
-        filterContainerPermitReceived.style.backgroundColor = "white";
-        filterContainerPermitExpiringSoon.style.backgroundColor = "white";
-        filterContainerPermitExpired.style.backgroundColor = "white";
-        filterContainerPermitExtensionSubmitted.style.backgroundColor = "white";
-        filterContainerPermitExtensionReceived.style.backgroundColor = "white";
-        filterContainerPermitDontNeed.style.backgroundColor = "white";
-        filterContainerPermitHaventChecked.style.backgroundColor = "white"; 
+
+        addTabDisplayAddWr.classList.add("hidden");
+        addTabDisplayAddPermit.classList.add("hidden");
     }
 
     
-
-    /* Filter Checkboxes Permits Tab */
-    filterCheckboxPermitApplied.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitApplied");
-
-        if (filterCheckboxPermitApplied.checked == true) {
-            filterCheckboxPermitApplied.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitApplied.checked = true;
-        }
-    })
-
-    filterCheckboxPermitReceived.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitReceived");
-
-        if (filterCheckboxPermitReceived.checked == true) {
-            filterCheckboxPermitReceived.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitReceived.checked = true;
-        }
-    })
-
-    filterCheckboxPermitExpiringSoon.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitExpiringSoon");
-
-        if (filterCheckboxPermitExpiringSoon.checked == true) {
-            filterCheckboxPermitExpiringSoon.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitExpiringSoon.checked = true;
-        }
-    })
-
-    filterCheckboxPermitExpired.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitExpired");
-
-        if (filterCheckboxPermitExpired.checked == true) {
-            filterCheckboxPermitExpired.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitExpired.checked = true;
-        }
-    })
-
-    filterCheckboxPermitExtensionSubmitted.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitExtensionSubmitted");
-
-        if (filterCheckboxPermitExtensionSubmitted.checked == true) {
-            filterCheckboxPermitExtensionSubmitted.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitExtensionSubmitted.checked = true;
-        }
-            
-    })
-
-    filterCheckboxPermitExtensionReceived.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitExtensionReceived");
-
-        if (filterCheckboxPermitExtensionReceived.checked == true) {
-            filterCheckboxPermitExtensionReceived.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitExtensionReceived.checked = true;
-        }
-    })
-
-    filterCheckboxPermitDontNeed.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitDontNeed");
-
-        if (filterCheckboxPermitDontNeed.checked == true) {
-            filterCheckboxPermitDontNeed.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitDontNeed.checked = true;
-        } 
-    })
-    
-    filterCheckboxPermitHaventChecked.addEventListener("change", (event) => {
-        console.log("Changed - filterCheckboxPermitHaventChecked");
-
-        if (filterCheckboxPermitHaventChecked.checked == true) {
-            filterCheckboxPermitHaventChecked.checked = false;
-        } else {
-            uncheckPermitsTabSpecificCheckboxes();
-            filterCheckboxPermitHaventChecked.checked = true;
-        } 
-    })
-
-    /* Search By Event Listeners */
-    searchBySelectionCheckbox.addEventListener("change", (event) => {
-        console.log("Changed - searchBySelectionCheckbox");
-
-        if (searchBySelectionCheckbox.checked == false) { 
-            disableSearchBy();
-            enableFilterBy();
-            //filterBySelectionCheckbox.checked = true;
-            filterCheckboxPriorityNumber.checked = true;
-            //searchByBoxContainer.classList.add("filterSectionInactive");
-
-        } else {
-            enableSearchBy();
-            disableFilterBy();
-            searchByWrCheckbox.checked = true;
-            //searchByBoxContainer.classList.remove("filterSectionInactive");
-            //document.getElementById("filter_by_box_container").classList.add("filterSectionInactive");
-        }
-    })
-
-    searchByAddressCheckbox.addEventListener("change", (event) => {
-        console.log("Changed - searchByAddressCheckbox");
-
-        if (searchByAddressCheckbox.checked == true) {
-            searchByAddressCheckbox.checked = false;
-            searchByWrCheckbox.checked = true;
-        } else {
-            uncheckSearchByCheckboxes();
-            searchByAddressCheckbox.checked = true;
-        }
-    })
-
-    searchByWrCheckbox.addEventListener("change", (event) => {
-        console.log("Changed - searchByWrCheckbox");
-
-        if (searchByWrCheckbox.checked == true) {
-            searchByWrCheckbox.checked = false;
-            searchByAddressCheckbox.checked = true;
-        } else {
-            uncheckSearchByCheckboxes();
-            searchByWrCheckbox.checked = true;
-        }
-    })    
-
-    
-    /* Trim By Event Listeners */
-    trimByNot7010.addEventListener("change", (event) => {
-        console.log("Changed - trimByNot7010");
-
-        if (trimByNot7010.checked == false) {
-            trimByNot7010.checked = false;
-            trimByAll.checked = true;
-        } else {
-            uncheckTrimByCheckboxes();
-            trimByNot7010.checked = true;
-        }
-
-        if (filterCheckbox7010.checked == true) {
-            filterCheckbox7010.checked = false;
-            document.getElementById("filter_container_7010").style.backgroundColor = "white";
-        }
-    }) 
-
-    trimBy7010.addEventListener("change", (event) => {
-        console.log("Changed - trimBy7010");
-
-        if (trimBy7010.checked == false) {
-            trimBy7010.checked = false;
-            filterCheckbox7010.checked = false;
-            trimByAll.checked = true;
-        } else {
-            uncheckTrimByCheckboxes();
-            trimBy7010.checked = true;
-            filterCheckbox7010.checked = true;
-        }
-    })
-
-    trimByAll.addEventListener("change", (event) => {
-        console.log("Changed - trimByAll");
-
-        if (trimByAll.checked == false) {
-            trimByAll.checked = false;
-            trimByNot7010.checked = true;
-        } else {
-            uncheckTrimByCheckboxes();
-            trimByAll.checked = true;
-        }
-    })
-
-
-    /* Go Buttons */
-    filterGoButton.addEventListener("click", (event) => {
-        console.log("Fired - clicked filterGoButton");
-
-        let filteredAllWrList = assessSpecificStatus();
-        let curAllWrList = assessTrimBy(filteredAllWrList);
-
-        if (curAllWrList == undefined) {
-            /* Make an error to tell user no WR exists for the given filter or something */
-        } else {
-            let tempList = [];
-
-            if (filterCheckboxPriorityNumber.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_priority_number").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortPriorityNumber(curAllWrList);
-                //allWrList = tempList;
-                
-            } else if (filterCheckboxCrd.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_crd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortCrd(curAllWrList);
-                //allWrList = tempList;
-            } else if (filterCheckboxRcd.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_rcd").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortRcd(curAllWrList);
-                //allWrList = tempList;
-            } else if (filterCheckboxAgeNew.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_age_new_old").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortAgeNew(curAllWrList);
-            } else if (filterCheckboxAgeOld.checked == true) {
-                uncolorGenericFilterCheckboxes();
-                document.getElementById("filter_container_age_old_new").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                tempList = quickSortAgeOld(curAllWrList);
-            }
-
-            if (trimByNot7010.checked == true) {
-                uncolorTrimByCheckboxes();
-                trimByNot7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            } else if (trimByAll.checked == true) {
-                uncolorTrimByCheckboxes();
-                trimByAllContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            } else if (trimBy7010.checked == true) {
-                uncheckTrimByCheckboxes();
-                trimBy7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            }
-    
-            injectHTMLAllWrTabDisplay(tempList, 0);
-            injectHTMLPermitsTabDisplay(tempList, 0)
-            currentPageAllWr = 0;
-            currentPagePermits = 0;
-        }
+        /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
         
-        
-    })
-
-    searchBySelectionTextfield.addEventListener("click", (event) => {
-        console.log("Fired - clicked searchBySelectionTextfield");
-        if (event.target.value != null) {
-            event.target.select();
-        }
-    })
-
-    searchTextfieldGoButton.addEventListener("click", (event) => {
-        console.log("Fired - Clicked searchTextfieldGoButton");
-        
-        let curAllWrList = assessTrimBy(allWrList);
-        const userInput = searchBySelectionTextfield.value.toLocaleLowerCase();
-        let tempList = [];
-
-        if (searchBySelectionTextfield.value.length == 0) {
-            tempList = curAllWrList;
-        } else {
-            if (searchByAddressCheckbox.checked == true) {
-                uncolorSearchByCheckboxes();
-                searchByAddressContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                for (var i = 0; i < curAllWrList.length; i++) {
-                    const curWrAddressType = curAllWrList[i].wrAddressType().toLocaleLowerCase();
-                    const curAddress = curWrAddressType.substring(13, curWrAddressType.length - 4).trim();
-                   
-                    if (curAddress.includes(userInput) == true) {
-                        tempList.push(curAllWrList[i]);
-                    }
-                }
-    
-            } else if (searchByWrCheckbox.checked == true) {
-                uncolorSearchByCheckboxes();
-                searchByWrContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-                for (var i = 0; i < curAllWrList.length; i++) {
-                    //const curWrNum = curAllWrList[i].workRequest;
-                    if (curAllWrList[i].workRequestNumber.includes(userInput) == true) {
-                        tempList.push(curAllWrList[i]);
-                    }
-                }
-            } else {
-                // should not be able to get here due to button logic
-            }
-    
-            if (trimByNot7010.checked == true) {
-                uncolorTrimByCheckboxes();
-                trimByNot7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            } else if (trimByAll.checked == true) {
-                uncolorTrimByCheckboxes();
-                trimByAllContainer.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            } else if (trimBy7010.checked == true) {
-                uncheckTrimByCheckboxes();
-                trimBy7010Container.style.backgroundColor = "rgba(87, 245, 43, 0.627)";
-            }
-        }
-        
-
-        injectHTMLAllWrTabDisplay(tempList, 0);
-        injectHTMLPermitsTabDisplay(tempList, 0)
-        currentPageAllWr = 0;
-        currentPagePermits = 0;
-    })
-
-
-    /* allWrTab Row Element Event Listeners */
-
         /* Priority Numbers */
     allWrTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowOnePriority changed to - " + event);
@@ -3195,95 +2907,95 @@ async function mainEvent() {
     })
 
         /* CRDs */
-    allWrTabRowOneCrd.addEventListener("mouseout", (event) => {
-        console.log("mousedout - allWrTabRowOneCrd changed to - " + event);
+    function allWrTabCrdFunction(row, event) {
+        console.log("Entered - allWrTabCrdFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
+            const d = new Date(currentWr.crd);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDate(d);
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "one");
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
+            
         }
 
+    }
+    allWrTabRowOneCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowOneCrd changed to - " + event);
+
+        allWrTabCrdFunction("1", event);
     })
     allWrTabRowTwoCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowTwoCrd changed to - " + event);
 
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.crd) {
-            currentWr.crd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "two");
-        }
-
+        allWrTabCrdFunction("2", event);
     })
     allWrTabRowThreeCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowThreeCrd changed to - " + event);
 
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.crd) {
-            currentWr.crd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "three");
-        }
-    })
+        allWrTabCrdFunction("3", event);
+    })  
 
         /* RCDs */
-    allWrTabRowOneRcd.addEventListener("mouseout", (event) => {
-        console.log("mousedout - allWrTabRowOneRcd changed to - " + event);
+    function allWrTabRcdFunction(row, event) {
+        console.log("Entered - allWrTabRcdFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
+            const d = new Date(currentWr.rcd);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDate(d);
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "one");
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
+            
         }
+
+    }
+    allWrTabRowOneRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowOneRcd changed to - " + event);
+
+        allWrTabRcdFunction("1", event);
     })
     allWrTabRowTwoRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowTwoRcd changed to - " + event);
 
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.rcd) {
-            currentWr.rcd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "two");
-        }
+        allWrTabRcdFunction("2", event);
     })
     allWrTabRowThreeRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowThreeRcd changed to - " + event);
 
-        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.rcd) {
-            currentWr.rcd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", "three");
-        }
+        allWrTabRcdFunction("3", event);
     })
 
-
+            /* General Status DDs */
+        /* Functions */
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
 
@@ -3302,7 +3014,6 @@ async function mainEvent() {
             /* Will need to fill in when more than 3 work requests */
         }
     }
-
     function allWrTabGeneralStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - allWrTabGeneralStatusContainerClickFunction(" + rowNum + ")");
 
@@ -3347,7 +3058,6 @@ async function mainEvent() {
 
         
     }
-
     function allWrTabGeneralStatusContainerMouseoutFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusMouseoutClickFunction(" + rowNum + ")");
 
@@ -3377,9 +3087,7 @@ async function mainEvent() {
         const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
         tempContent.style.display = 'none';
     }
-
-        /* General Status DDs */
-            /* clicks */
+        /* clicks */
     allWrTabRowOneGeneralStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneGeneralStatus");
 
@@ -3395,7 +3103,9 @@ async function mainEvent() {
 
         allWrTabGeneralStatusContainerClickFunction("3", event);
     })
-            
+
+            /* Permit Status DDs */   
+        /* Functions */ 
     function allWrTabPermitStatusContainerMouseoverFunction(rowNum) {
         console.log("Fired - moused over allWrTabPermitStatusMouseoverFunction(" + rowNum + ")");
 
@@ -3413,7 +3123,6 @@ async function mainEvent() {
             /* Will need to fill in when more than 3 work requests */
         }
     }
-
     function allWrTabPermitStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - allWrTabPermitStatusContainerClickFunction(" + rowNum + ")");
 
@@ -3445,7 +3154,6 @@ async function mainEvent() {
             }
         }
     }
-
     function allWrTabPermitStatusContainerMouseoutFunction(rowNum) {
         console.log("Entered - allWrTabPermitStatusMouseoutClickFunction(" + rowNum + ")");
 
@@ -3475,9 +3183,7 @@ async function mainEvent() {
         const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_content");
         tempContent.style.display = 'none';
     }
-
-        /* Permit Status DDs */    
-            /* clicks */
+        /* clicks */
     allWrTabRowOnePermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOnePermitStatus");
 
@@ -3556,7 +3262,9 @@ async function mainEvent() {
             //tempContent.style.display = 'none';
         }*/
     })
-    
+
+            /* Easement Status DDs */
+        /* Functions */
     function allWrTabEasementStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabEasementStatusContainerMouseoverFunction(" + rowNum + ")");
 
@@ -3574,7 +3282,6 @@ async function mainEvent() {
             /* Will need to fill in when more than 3 work requests */
         }
     }
-
     function allWrTabEasementStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - allWrTabEasementStatusContainerClickFunction(" + rowNum + ")");
 
@@ -3608,7 +3315,6 @@ async function mainEvent() {
         }
 
     }
-
     function allWrTabEasementStatusContainerMouseoutFunction(rowNum) {
         console.log("Entered - allWrTabEasementStatusMouseoutClickFunction(" + rowNum + ")");
 
@@ -3638,9 +3344,7 @@ async function mainEvent() {
         const tempContent = document.getElementById("easement_status_dd_" + rowNum + "_content");
         tempContent.style.display = 'none';
     }
-
-        /* Easement Status DDs */
-            /* clicks */
+        /* clicks */
     allWrTabRowOneEasementStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneEasementStatus");
 
@@ -3650,58 +3354,39 @@ async function mainEvent() {
         console.log("Fired - clicked allWrTabRowTwoEasementStatus");
 
         allWrTabEasementStatusContainerClickFunction("2", event);
-        /*const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new EasementStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("easement_status_dd_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("easement_status_dd_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_2_content");
-            //tempContent.style.display = 'none';
-        }*/
     })
     allWrTabRowThreeEasementStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeEasementStatus");
 
         allWrTabEasementStatusContainerClickFunction("3", event);
-        /*const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new EasementStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("easement_status_dd_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("easement_status_dd_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("easement_status_dd_3_content");
-            //tempContent.style.display = 'none';
-        }*/
     })
-            
+
+        /* AllWr Next and Prev Button */
+    nextAllWr.addEventListener("click", (event) => {
+        console.log("Fired - Clicked all_wr_tab_next_button");
+
+        console.log("currentPageAllWr = ");
+        console.log(curPageAllWr);
+
+        curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
+        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr + 1);
+        currentPageAllWr += 1;
+
+        return;
+    })
+    prevAllWr.addEventListener("click", (event) => {
+        console.log("Fired - Clicked all_wr_tab_prev_button");
+
+        curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
+        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr - 1);
+        currentPageAllWr -= 1;
+
+        return; // Can remove?
+    })
+    
+    /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
 
 
-    /* permitsTab Row Element Event Listeners */
         /* Priority Numbers */
     permitsTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowOnePriority changed to - " + event);
@@ -3782,93 +3467,93 @@ async function mainEvent() {
     })
 
         /* CRDs */
-    permitsTabRowOneCrd.addEventListener("mouseout", (event) => {
-        console.log("mousedout - permitsTabRowOneCrd changed to - " + event);
+    function permitsTabCrdFunction(row, event) {
+        console.log("Entered - permitsTabCrdFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
+            const d = new Date(currentWr.crd);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDate(d);
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "one");
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
+            
         }
+
+    }
+    permitsTabRowOneCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowOneCrd changed to - " + event);
+
+        permitsTabCrdFunction("1", event);
     })
     permitsTabRowTwoCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowTwoCrd changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.crd) {
-            currentWr.crd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "two");
-        }
+        permitsTabCrdFunction("2", event);
     })
     permitsTabRowThreeCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowThreeCrd changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.crd) {
-            currentWr.crd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "three");
-        }
+        permitsTabCrdFunction("3", event);
     })
 
         /* RCDs */
-    permitsTabRowOneRcd.addEventListener("mouseout", (event) => {
-        console.log("mousedout - permitsTabRowOneRcd changed to - " + event);
+    function permitsTabRcdFunction(row, event) {
+        console.log("Entered - permitsTabRcdFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
+            const d = new Date(currentWr.rcd);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDate(d);
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "one");
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
         }
+    }    
+    permitsTabRowOneRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowOneRcd changed to - " + event);
+
+        permitsTabRcdFunction("1", event);
     })
     permitsTabRowTwoRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowTwoRcd changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.rcd) {
-            currentWr.rcd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "two");
-        }
+        permitsTabRcdFunction("2", event);
     })
     permitsTabRowThreeRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowThreeRcd changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        if (event.target.value != currentWr.rcd) {
-            currentWr.rcd = event.target.value;
-            allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", "three");
-        }
+        permitsTabRcdFunction("3", event);
     })
-
+    
+            /* Permit Status DDs */    
+        /* Functions */
     function permitsTabPermitStatusContainerMouseoverFunction(rowNum) {
         console.log("Fired - moused over permitsTabPermitStatusMouseoverFunction(" + rowNum + ")");
 
@@ -3886,7 +3571,6 @@ async function mainEvent() {
             /* Will need to fill in when more than 3 work requests */
         }
     }
-
     function permitsTabPermitStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - permitsTabPermitStatusContainerClickFunction(" + rowNum + ")");
 
@@ -3918,7 +3602,6 @@ async function mainEvent() {
             }
         }
     }
-
     function permitsTabPermitStatusContainerMouseoutFunction(rowNum) {
         console.log("Entered - permitsTabPermitStatusMouseoutClickFunction(" + rowNum + ")");
 
@@ -3948,9 +3631,7 @@ async function mainEvent() {
         const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
         tempContent.style.display = 'none';
     }
-    
-        /* Permit Status DDs */    
-            /* clicks */
+        /* clicks */
     permitsTabRowOneStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowOnePermitStatus");
 
@@ -3967,427 +3648,210 @@ async function mainEvent() {
         permitsTabPermitStatusContainerClickFunction("3", event);
     })
         
-
         /* Start Dates */
-    permitsTabRowOneStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneStartDate changed to - " + event);
+    function permitsTabStartDateFunction(row, event) {
+        console.log("Entered - permitsTabStartDateFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
-        console.log(allWrList);
-
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-        const tempDate = new Date(currentWr.permit.startDate)
-        permitsTabRowOneStartDate.style.backgroundColor = assessPermitStartDate(currentWr.permit.startDate);
+        if (event.target.value != currentWr.permit.startDate) {
+            currentWr.permit.startDate = event.target.value;
+            const d = new Date(currentWr.permit.startDate);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_start_date").style.backgroundColor = assessPermitStartDate(d);
+            allWrList[curWrIndex] = currentWr;            
+        }
+
+    }
+    permitsTabRowOneStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowOneStartDate changed to - " + event);
+
+        permitsTabStartDateFunction("1", event);
     })
-    permitsTabRowTwoStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoStartDate changed to - " + event);
+    permitsTabRowTwoStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowTwoStartDate changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
+        permitsTabStartDateFunction("2", event);
 
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
     })
-    permitsTabRowThreeStartDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeStartDate changed to - " + event);
+    permitsTabRowThreeStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowThreeStartDate changed to - " + event);
 
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
+        permitsTabStartDateFunction("3", event);
 
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.startDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
     })
 
         /* End Dates */
-    permitsTabRowOneEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowOneEndDate changed to - " + event);
+    function permitsTabEndDateFunction(row, event) {
+        console.log("Entered - permitsTabEndDateFunction(" + row + ")");
+
+        let rowNumberText = ""; 
+
+        if (row == "1") {
+            rowNumberText = "one";
+        } else if (row == "2") {
+            rowNumberText = "two";
+        } else if (row == "3") {
+            rowNumberText = "three";
+        }
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 1 - 1); // Will need to change when more rows
-
+        const curWrIndex = parseInt(((page - 1) * 3) + row - 1); // Will need to change when more rows
         let currentWr = allWrList[curWrIndex];
 
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowTwoEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowTwoEndDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 2 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-    permitsTabRowThreeEndDate.addEventListener("change", (event) => {
-        console.log("Changed - permitsTabRowThreeEndDate changed to - " + event);
-
-        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
-        const curWrIndex = parseInt(((page - 1) * 3) + 3 - 1); // Will need to change when more rows
-
-        let currentWr = allWrList[curWrIndex];
-
-        currentWr.permit.endDate = event.target.value;
-        allWrList[curWrIndex] = currentWr;
-    })
-
-    /* Filter CheckBoxes - AllWr*/
-    filterBySelectionCheckbox.addEventListener("change", (event) => {
-        console.log("Changed - filterBySelectionCheckbox");
-
-        if (filterBySelectionCheckbox.checked == false) {
-            enableSearchBy();
-            disableFilterBy();
-        } else {
-            disableSearchBy();
-            enableFilterBy();
-        }
-    })
-
-    filterCheckboxWaitingLL.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxWaitingLL - " );
-
-        if (filterCheckboxWaitingLL.checked == false) {
-            filterCheckboxWaitingLL.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            console.log("uncheckedAll");
-            filterCheckboxWaitingLL.checked = true;
-            console.log("checkedFilterCheckboxWaitingLL");
-        }
-        
-    })
-
-    filterCheckboxNeedToVisit.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxNeedToVisit");
-
-        if (filterCheckboxNeedToVisit.checked == false) {
-            filterCheckboxNeedToVisit.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxNeedToVisit.checked = true;
-        }
-    })
-
-    filterCheckboxSvcCalcs.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxSvcCalcs");
-
-        if (filterCheckboxSvcCalcs.checked == false) {
-            filterCheckboxSvcCalcs.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxSvcCalcs.checked = true;
-        }
-        
-    })
-
-    filterCheckboxCheckPermit.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxCheckPermit");
-
-        if (filterCheckboxCheckPermit.checked == false) {
-            filterCheckboxCheckPermit.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxCheckPermit.checked = true;
-        }
-       
-    })
-
-    filterCheckboxCheckEasement.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxCheckEasement");
-
-        if (filterCheckboxCheckEasement.checked == false) {
-            filterCheckboxCheckEasement.checekd = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxCheckEasement.checked = true;
-        }
-        
-    })
-
-    filterCheckboxDesign.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxDesign");
-
-        if (filterCheckboxDesign.checked == false) {
-            filterCheckboxDesign.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxDesign.checked = true;
-        }
-        
-    })
-
-    filterCheckboxReviewPeer.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxReviewPeer");
-
-        if (filterCheckboxReviewPeer.checked == false) {
-            filterCheckboxReviewPeer.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxReviewPeer.checked = true;
-        }
-        
-    })
-
-    filterCheckboxReviewCoordinator.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxReviewCoordinator");
-
-        if (filterCheckboxReviewCoordinator.checked == false) {
-            filterCheckboxReviewCoordinator.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxReviewCoordinator.checked = true;
-        }
-    })
-
-    filterCheckboxRevisions.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxRevisions");
-
-        if (filterCheckboxRevisions.checked == false) {
-            filterCheckboxRevisions.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxRevisions.checked = true;
-        }
-    })
-
-    filterCheckboxWaitingCustomerNotApproved.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxWaitingOnCustomerNotApproved");
-
-        if (filterCheckboxWaitingCustomerNotApproved.checked == false) {
-            filterCheckboxWaitingCustomerNotApproved.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxWaitingCustomerNotApproved.checked = true;
-        }
-    })
-
-    filterCheckboxWaitingCustomerApproved.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxWaitingOnCustomerApproved");
-
-        if (filterCheckboxWaitingCustomerApproved.checked == false) {
-            filterCheckboxWaitingCustomerApproved.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxWaitingCustomerApproved.checked = true;
-        }
-    })
-
-    filterCheckboxFlag.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxFlag");
-
-        if (filterCheckboxFlag.checked == false) {
-            filterCheckboxFlag.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxFlag.checked = true;
-        }
-    })
-
-    filterCheckbox7010.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckbox7010");
-
-        if (filterCheckbox7010.checked == false) {
-            filterCheckbox7010.checked = false;
-            trimBy7010.checked = false;
-            trimByAll.checked = true;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckbox7010.checked = true;
-            uncheckTrimByCheckboxes();
-            trimBy7010.checked = true;
-
-            if (trimByNot7010.checked == true) {
-                document.getElementById("footer_filter_checkbox_not_7010").style.backgroundColor = "white";
-                document.getElementById("footer_filter_checkbox_not_7010").checked = false;
-            }
-        }
-        
-    })
-
-    filterCheckboxCancledOther.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxCancledOther");
-
-        if (filterCheckboxCancledOther.checked == false) {
-            filterCheckboxCancledOther.checked = false;
-        } else {
-            uncheckAllWrFilterCheckboxes();
-            filterCheckboxCancledOther.checked = true;
-        }
-        
-    })
-
-    filterCheckboxPriorityNumber.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxPriorityNumber");
-
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxPriorityNumber.checked = true;
-    })
-
-    filterCheckboxCrd.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxCrd");
-
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxCrd.checked = true;
-    })
-
-    filterCheckboxRcd.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxRcd");
-
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxRcd.checked = true;
-    })
-
-    /* Add Tab Checkboxes */
-
-    filterCheckboxAddWr.addEventListener("change", (event) => {
-        console.log("Fired - Clicked filterContainerAddWr");
-
-        clearAddTabCheckboxes();
-        filterCheckboxAddWr.checked = true;
-        clearAddTabDisplays();
-        addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
-        addTabDisplayWorkRequestNumberLabel.innerHTML = "New Work Request Number";
-
-        /* Revealing add button */
-        addTabAddButton.classList.remove("hidden");
-        addTabDisplayAddWr.classList.remove("hidden");
-    })
-
-    filterCheckboxAddPermit.addEventListener("change", (event) => {
-        console.log("Fired - Clicked filterContainerAddPermit");
-
-        clearAddTabCheckboxes();
-        filterCheckboxAddPermit.checked = true;
-        
-        clearAddTabDisplays();
-        addTabDisplayHeaderLabel.innerHTML = "\"Permit\"";
-        addTabDisplayWorkRequestNumberLabel.innerHTML = "Permit for Work Request Number";
-       
-        addTabDisplayAddPermit.classList.remove("hidden");
-
-        /* Hiding add button */
-        addTabAddButton.classList.add("hidden");
-    })
-
-    /* Footer Buttons */
-
-    footerButtonSync.addEventListener("click", (event) => {
-        console.log("Fired - Clicked footerButtonSync");
-
-        const tempStorage = document.getElementById("temp_storage").innerHTML;
-        const tempList = parseWrString(tempStorage);
-
-        for (let i = 0; i < tempList.length; i++) {
-            allWrList[allWrList.length] = tempList[i];
-        }
-        footerButtonSync.classList.add("hidden");
-        deselectAllTabs();
-        document.getElementById('all_wr_tab').click();
-
-        const tempAllWrList = document.createElement("tempAllWrList");
-
-
-        tempAllWrList.classList.add("hidden");
-        tempAllWrList.id = "temp_all_wr_list";
-        tempAllWrList.innerHTML = allWrList;
-
-        if (document.getElementById("temp_all_wr_list") == undefined) {
-            document.getElementById('all_wr_tab').insertAdjacentElement("beforeend", tempAllWrList);
+        if (event.target.value != currentWr.permit.endDate) {
+            currentWr.permit.endDate = event.target.value;
+            const d = new Date(currentWr.permit.endDate);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDate(d);
+            allWrList[curWrIndex] = currentWr;            
         }
 
+    }
+    permitsTabRowOneEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowOneEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("1", event);
+    })
+    permitsTabRowTwoEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowTwoEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("2", event);
+    })
+    permitsTabRowThreeEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowThreeEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("3", event);
     })
 
-    footerButtonLoad.addEventListener("click", (event) => {
-        console.log("Fired - Clicked footerButtonLoad");
-                
-        document.getElementById('allWrListFile').click();
+        /* Permits Next and Prev Button */
+    nextPermits.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permits_tab_next_button");
+
+        curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
+        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits + 1);
+        currentPagePermits += 1;
+
+            return;
     })
+    prevPermits.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permits_tab_prev_button");
 
-    /* Load and Save Buttons */
-    footerButtonSave.addEventListener("click", (event) => {
-        console.log("Fired - Clicked footer_save_button");
-       
-        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-        const allWrList = parseWrString(allWrListRaw);
-
-        saveFile(allWrList);
+        curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
+        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits - 1);
+        currentPagePermits -= 1;
+            
+        return;
     })
     
-    /* Add Tab Buttons */
-
+    /* Add/Update Tab */        /* Add/Update Tab */        /* Add/Update Tab */        /* Add/Update Tab */        /* Add/Update Tab */
+    
+        /* Buttons */
     addTabUpdateButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_update_button");
+        const h = new Haptix();
+        const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
+        const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
+        const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
+        const easementStatusDDMenuCurrent = document.getElementById("easement_status_dd_add_tab_current").innerHTML;
 
+        const permitsTabPermitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML;
+
+        const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
+        const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
-            const curWr = getWr(addTabNewWorkRequestNumber.value, allWrList);
-            if (curWr[0] != false) {/* if wr exists/ has been found */
-                const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-                const curWrIndex = curWr[2];
-                const wr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
-                    addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
-                    addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
-                    pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
-                    pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, dropdownMenuBoxAddTabWrType.textContent, addTabWrCRD.value,
-                    addTabWrRCD.value, dropdownMenuAddTabWrGeneralStatus.textContent, dropdownMenuAddTabWrPermitStatus.textContent,
-                    dropdownMenuAddTabWrEasementRequestStatus.textContent, addTabWrCommentsToAdd.textContent, customerContactedCheckboxYes.checked,
-                    tempDate);
-                allWrList[curWrIndex] = wr;
-                console.log("Work Request " + wr.workRequestNumber + " Updated");
-            }
+            const d = new Date();
+            const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
+            const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
+                addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
+                addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
+                pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
+                pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
+                generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, addTabWrCommentsToAdd.textContent, 
+                customerContactedCheckboxYes.checked, tempDate);
+
+            console.log("inner test ");
+            console.log(newWr);
+            
+                if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
+                    allWrList[0] = newWr;
+                    console.log("wr added to empty list");
+
+                    const tempAllWrList = document.createElement("tempAllWrList");
+                    tempAllWrList.id = "temp_all_wr_list";
+                    tempAllWrList.classList.add("hidden");
+                    tempAllWrList.innerHTML = allWrList;
+
+                    const allWrTab = document.getElementById("all_wr_tab");
+                    allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+
+                    console.log("allWrList added to internal list");
+
+                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                    injectHTMLPermitsTabDisplay(allWrList, 0);
+                } else { // at least 1 wr exists
+                    allWrList[curWrIndex] = newWr;
+                    const tempAllWrList = document.getElementById("temp_all_wr_list");
+                    tempAllWrList.innerHTML = allWrList;
+                    console.log("allWrList added to internal list");
+
+                    console.log("other test");
+                    console.log(allWrList);
+
+                    injectHTMLPermitsTabDisplay(allWrList, 0);
+                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                }
+                h.displayWrUpdated(newWr.workRequestNumber);
+
+            
         } else if (filterCheckboxAddPermit.checked == true) {
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
             let curWr = curWrData[1];
             if (curWrData[0] != false) {
+                const d = new Date();
+                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
                 const curWrIndex = curWrData[2];
                 let newWr = new workRequest(curWr.workRequestNumber, curWr.addressLineTextfieldHouseNumber, curWr.addressLineTextfieldStreetName,
                     curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
-                    curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, curWr.crd,
-                    curWr.rcd, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curWr.commentsGeneral, 
+                    curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
+                    addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curWr.commentsGeneral, 
                     curWr.customerContacted, curWr.creationDate);
-                const permit = new Permit(addTabNewWorkRequestNumber.value, dropdownMenuBoxAddTabPermitStatus.textContent.trim(), 
+                const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
                 addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                 addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
                 
-                //const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-                //const allWrList = parseWrString(allWrListRaw);
+                newWr.permit = permit;
+                console.log("test test test");
+                console.log(newWr);
+                allWrList[curWrIndex] = newWr;
 
-                /* Prevents Double Add */
-                if (getWr(curWr.workRequestNumber, allWrList)[0] == 0) {
-                    console.log("In HERE");
-                    allWrList[curWrIndex] = newWr;
-                    console.log("Permit for Work Request " + curWr.workRequestNumber + " Updated");
-                }
+                const tempAllWrList = document.getElementById("temp_all_wr_list");
+                tempAllWrList.innerHTML = allWrList;
+                console.log("allWrList added to internal list");
 
-                //const tempAllWrList = document.getElementById("temp_all_wr_list");
-                //tempAllWrList.innerHTML = allWrList;
+                injectHTMLPermitsTabDisplay(allWrList, 0);
+                injectHTMLAllWrTabDisplay(allWrList, 0);
 
-                //console.log("test r test ");
-                //console.log(allWrList);
-
-                //injectHTMLAllWrTabDisplay(allWrList, );
-                //console.log("allWrList added to internal list");
-
+                h.displayPermitUpdated(newWr.workRequestNumber);
             }
         }
         
     })
-
     addTabGetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_get_button");
         const e = new Error();
+        const h = new Haptix();  
 
         if (filterCheckboxAddWr.checked == true) {
             const curWrNum = addTabNewWorkRequestNumber.value;
@@ -4413,21 +3877,20 @@ async function mainEvent() {
 
             }
 
-            /*
-            if (wr[0] != false) {
-                console.log("wr != 1 = true");
-                displayPermitAddUpdate(wr[1]);
-            } else {
-                e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
-            }
-            */
         }
         
     })
-
     addTabAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_add_button");
         const e = new Error();
+        const h = new Haptix();
+        const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
+        const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
+        const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
+        const easementStatusDDMenuCurrent = document.getElementById("easement_status_dd_add_tab_current").innerHTML;
+
+        console.log("testing here");
+        console.log(document.getElementById("wr_type_dd_menu_current").innerHTML);
 
         if (filterCheckboxAddWr.checked == true) {
             if (getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == true) { /* if wr exists */
@@ -4442,7 +3905,7 @@ async function mainEvent() {
                 console.log("Priority Number length < 1");
 
                 e.displayInvalidPriorityNumber();
-            } else if (dropdownMenuBoxAddTabWrType.textContent.length < 1) {
+            } else if (wrTypeDDMenuCurrent == "Not Set") {
                 console.log("No Wr Type Selected");
 
                 e.displayInvalidWrType();
@@ -4454,14 +3917,11 @@ async function mainEvent() {
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
                 addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
                 pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
-                pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, dropdownMenuBoxAddTabWrType.textContent, addTabWrCRD.value,
-                addTabWrRCD.value, dropdownMenuAddTabWrGeneralStatus.textContent, dropdownMenuAddTabWrPermitStatus.textContent,
-                dropdownMenuAddTabWrEasementRequestStatus.textContent, addTabWrCommentsToAdd.textContent, customerContactedCheckboxYes.checked,
-                tempDate);                                                                
+                pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
+                generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, addTabWrCommentsToAdd.textContent, 
+                customerContactedCheckboxYes.checked, tempDate);                                                                
                 
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
-                    //allWrList = [];
-
                     allWrList[0] = wr;
                     console.log("wr added to empty list");
 
@@ -4478,20 +3938,6 @@ async function mainEvent() {
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                     injectHTMLPermitsTabDisplay(allWrList, 0);
                 } else { // at least 1 wr exists
-                    /*const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML; 
-                    allWrList = parseWrString(allWrListRaw);*/
-    
-                    /* Prevents Double Add */
-                    /*if (getWr(wr.workRequestNumber, allWrList)[0] == 0) {
-                        allWrList[allWrList.length] = wr;
-                        console.log("wr added to list");
-                    }*/
-                    
-                    
-    
-                    console.log("I AM Here");
-                    console.log(allWrList);
-    
                     allWrList[allWrList.length] = wr;
 
                     const tempAllWrList = document.getElementById("temp_all_wr_list");
@@ -4500,129 +3946,192 @@ async function mainEvent() {
 
                     injectHTMLPermitsTabDisplay(allWrList, 0);
                     injectHTMLAllWrTabDisplay(allWrList, 0);
-                    console.log("new allWrList =");
-                    console.log(allWrList);
                 }
-                
-
-                const temp = document.getElementById("add_tab_display_top_mid");
-
-                temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wr.workRequestNumber} added</li>`);
-                setTimeout(() => {
-                    const temp = document.getElementById("wr_added_prompt");
-                    temp.remove();
-                }, 3000);
-
+                h.displayWrAdded(wr.workRequestNumber);
             }
         } else if (filterCheckboxAddPermit.checked == true) {
             /* need to add safety checks later */
 
-            if (getPermit(addTabNewWorkRequestNumber.value, allPermitsList)[0] == true) {
-                console.log("getPermit(" + addTabNewWorkRequestNumber.value + ")" == -1);
+            /* Can't get here, button is hidden */
+        }
+    })
 
-                e.displayPermitAlreadyExistsAddUpdate(addTabNewWorkRequestNumber.value);
-            } else if (addTabNewWorkRequestNumber.value.length != 8) {
-                console.log("wr number != 8");
+            /* CRD RCD Checks */
+        /* Add/Update Wr */
+    addTabWrCRD.addEventListener("mouseout", (event) => {
+        console.log("Changed - addTabWrCRD");
 
-                e.displayInvalidWr(addTabNewWorkRequestNumber.value);
-            } else if(addTabPermitPriority.value.length < 1) {
-                console.log("Priority Number length < 1");
+        const tempRcd = document.getElementById("date_add_tab_wr_rcd").value;
+        const tempCrd = document.getElementById("date_add_tab_wr_crd").value;
+        crdRcdCheck(tempCrd, tempRcd, "add", "one");
+    }) 
+    addTabWrRCD.addEventListener("mouseout", (event) => {
+        console.log("Changed - addTabWrRCD");
 
-                e.displayInvalidPriorityNumberPermit();
-            } else if(filterCheckboxAddPermit.checked && getPermit(addTabNewWorkRequestNumber.value, allPermitsList)[0] == false) {
-                
-                
-                /* CANT GET HERE - ADD BUTTON HIDDEN */
-                
-                const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+        const tempRcd = document.getElementById("date_add_tab_wr_rcd").value;
+        const tempCrd = document.getElementById("date_add_tab_wr_crd").value;
+        crdRcdCheck(tempCrd, tempRcd, "add", "one");
+    })
+        /* Update Permit */
+    addTabPermitCRD.addEventListener("mouseout", (event) => {
+        console.log("Changed - addTabPermitCRD");
 
-                const permit = new Permit(addTabNewWorkRequestNumber.value, dropdownMenuBoxAddTabPermitStatus.textContent.trim(), 
-                addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
-                addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
+        const tempRcd = document.getElementById("date_add_tab_permit_rcd").value;
+        const tempCrd = document.getElementById("date_add_tab_permit_crd").value;
+        crdRcdCheck(tempCrd, tempRcd, "add", "two");
+    }) 
+    addTabPermitRCD.addEventListener("mouseout", (event) => {
+        console.log("Changed - addTabPermitRCD");
 
-                permit.linkWR(allWrList);
+        const tempRcd = document.getElementById("date_add_tab_permit_rcd").value;
+        const tempCrd = document.getElementById("date_add_tab_permit_crd").value;
+        crdRcdCheck(tempCrd, tempRcd, "add", "two");
+    })
 
-                allPermitsList[allPermitsList.length] = permit;
+            /* Dropdown Containers */
+        /* Add/Update Wr */
+    addTabGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked addTabGeneralStatusContainer");
 
-                injectHTMLPermitsTabDisplay(allPermitsList, 0);
+        const tempContent = document.getElementById("general_status_dd_add_tab_content");
 
-                const temp = document.getElementById("add_tab_display_top_mid");
+        if (tempContent.style.display == 'none') {        
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+            tempContent.style.marginTop = '310px';
+        } else if (tempContent.style.display = 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("general_status_dd_add_tab_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
 
-               
+                    /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+            }
+        }
+    })
+    addTabWrTypeContainer.addEventListener("click", (event) => {
+        console.log("Clicked - addTabWrTypeContainer");
 
-                temp.insertAdjacentHTML("afterbegin", `<div class="permitAddedPrompt" id="permit_added_prompt">Permit for Work Request ${permit.workRequestNumber} added</li>`);
-                setTimeout(() => {
-                    const temp = document.getElementById("permit_added_prompt");
-                    temp.remove();
-                }, 3000);
+        const tempContent = document.getElementById("wr_type_dd_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            /* Below statement adjusts position of content box to above or below dd menu */
+            if (1 <=3) {
+                tempContent.style.marginTop = '280px';
+                tempContent.style.width = '90px';
+            } else {
+                /* Will need to fill in when more than 3 work requests */
+            }
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+                if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                    const tempCurrent = document.getElementById("wr_type_dd_menu_current");
+                    tempCurrent.innerHTML = event.target.innerHTML;
+            
+                        /* Hiding DDMenu Content */
+                    tempContent.style.display = 'none';
+                }
+        }
+    })
+    addTabPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Clicked - addTabPermitStatusContainer");
+
+        const tempContent = document.getElementById("permit_status_dd_add_tab_row_1_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            /* Below statement adjusts position of content box to above or below dd menu */
+            if (1 <=3) {
+                tempContent.style.marginBottom = '440px';
+                tempContent.style.width = '90px';
+            } else {
+                /* Will need to fill in when more than 3 work requests */
+            }
+
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "/\\") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "/\\" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                    /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+            }
+        }
+    })
+    addTabEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Clicked - addTabEasementStatusContainer");
+
+        const tempContent = document.getElementById("easement_status_dd_add_tab_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            /* Below statement adjusts position of content box to above or below dd menu */
+            if (1 <=3) {
+                tempContent.style.marginBottom = '425px';
+                tempContent.style.width = '90px';
+            } else {
+                /* Will need to fill in when more than 3 work requests */
+            }
+
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "/\\") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "/\\" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("easement_status_dd_add_tab_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                    /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
             }
         }
     })
 
-    addTabNewWorkRequestNumber.addEventListener("change", (event) => {
-        console.log("Entered - addTabNewWorkRequestNumberEventListener - listening to add get/add button");
-        if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) {
-            addTabGetButton.disabled = false;
-            addTabUpdateButton.disabled = true;
-            addTabAddButton.disabled = true;
-        } else if (event.target.value.length == 8) {
-            addTabAddButton.disabled = false;
-            addTabGetButton.disabled = true;
-            addTabUpdateButton.disabled = true;
+        /* Update Permit */
+    addTabAddPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Clicked - addTabAddPermitStatusContainer");
+
+        const tempContent = document.getElementById("permit_status_dd_add_tab_row_2_content");
+
+        if (tempContent.style.display == 'none') { 
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+                /* Below statement adjusts position of content box to above or below dd menu */
+            if (1 <=3) {
+                tempContent.style.marginTop = '395px';
+                tempContent.style.width = '90px';
+            } else {
+                /* Will need to fill in when more than 3 work requests */
+            }
+
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
         } else {
-            addTabUpdateButton.disabled = true;
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current");
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+            }
         }
-    })
-
-    
-        /* Comment Event Listeners */
-            /* Add Tab Wr */
-    addTabCommentsTextfield.addEventListener("input", (event) => {
-        console.log("Input - add_tab_comments_textfield - " + event.target.value);
-
-        addTabCommentsTextfieldInput = event.target.value;
-    })
-
-    addTabCommentsTextfield.addEventListener("click", (event) => {
-        console.log("Fired - Clicked add_tab_comments_textfield");
-
-        if (event.target.value != null) {
-            event.target.select();
-        } 
-    })
-
-    addTabCommentsAddButton.addEventListener("click", (event) => {
-        console.log("Fired - Clicked add_tab_comments_add_button");
-
-        injectHTMLAddTabWrComment(addTabCommentsTextfieldInput);
-        addTabCommentsTextfield.value = "Type Comment Here";
-       /* if (addTabWrCommentsToAdd.classList.contains("hidden")) {
-            addTabWrCommentsToAdd.classList.remove("hidden");
-        }*/
-
-    })
-
-            /* Add Tab Permit */
-    addTabPermitCommentsTextfield.addEventListener("input", (event) => {
-        console.log("Input - add_tab_permit_comments_textfield - " + event.target.value);
-
-        addTabPermitCommentsTextfieldInput = event.target.value;
-    })
-
-    addTabPermitCommentsTextfield.addEventListener("click", (event) => {
-        if (event.target.value != null) {
-            event.target.select();
-        }
-    })
-
-    addTabPermitCommentsAddButton.addEventListener("click", (event) => {
-        console.log("Fired - Clicked add_tab_permit_comments_add_button");
-
-        injectHTMLAddTabPermitComment(addTabPermitCommentsTextfieldInput);
-        console.log("Testing gg");
-        addTabPermitCommentsTextfield.value = "Type Comment Here";
-
     })
 
         /* Customer Contacted Check Box Event Listeners */
@@ -4634,7 +4143,6 @@ async function mainEvent() {
         }
         addTabPriorityBox.value = "1";
     })
-
     customerContactedCheckboxYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked customer_contacted_checkbox_yes");
 
@@ -4643,441 +4151,8 @@ async function mainEvent() {
         }
         addTabPriorityBox.value = "5";
     })
-
-        /* Dropdowns */
-    function clearDropdownMenuBoxAddTabWrType() {
-        console.log("Entered - clearDropdownMenuBoxAddTabWrType");
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "";
-    }
-
-            /* Easement Request Status Dropdowns */
-    function clearDropdownMenuBoxAddTabWrEasementRequest() {
-        console.log("Entered - clearDropdownMenuBoxAddTabWrEasementRequest");
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "";    
-    }
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusWaitingCreation.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_waiting_creation");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Waiting - Creation";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusWaitingCustomer.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_waiting_customer");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Waiting - Customer";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusNeedEasement.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_need_easement");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Need Easement";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusHaveEasement.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_have_easement");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Have Easement";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusDontNeed.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_dont_need");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Don't Need";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusPending.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_pending");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Pending";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusNeedSubmit.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_need_submit");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Need to Submit";    
-    })
-
-    dropdownMenuOptionAddTabWrEasementRequestStatusHaventChecked.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_easement_request_status_havent_checked");
-        clearDropdownMenuBoxAddTabWrEasementRequest();
-
-        dropdownMenuAddTabWrEasementRequestStatus.innerHTML = "Haven't Checked";    
-    })
-
-            /* Permit Status Dropdowns */
-    function clearDropdownMenuBoxAddTabWrPermitStatus() {
-        console.log("Entered - clearDropdownMenuBoxAddTabWrPermitStatus");
-        
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "";
-    }
-
-    function clearDropdownMenuBoxAddTabAddPermitStatus() {
-        console.log("Entered - clearDropdownMenuBoxAddTabAddPermitStatus");
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = "";
-    }
-
-                /* Add WR Tab */
-    dropdownMenuOptionAddTabWrPermitStatusHaventChecked.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_havent_checked");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Haven't Checked";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusDontNeed.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_dont_need");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Don't Need";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusExtensionReceived.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_extension_received");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Extension Received";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusExtensionSubmitted.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_extension_submitted");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Extension Submitted";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusExpired.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_expired");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Expired";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusExpiringSoon.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_expiring_soon");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Expiring Soon";
-    })
-   
-    dropdownMenuOptionAddTabWrPermitStatusReceived.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_received");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Received";
-    })
-
-    dropdownMenuOptionAddTabWrPermitStatusApplied.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_permit_status_applied");
-        clearDropdownMenuBoxAddTabWrPermitStatus();
-
-        dropdownMenuAddTabWrPermitStatus.innerHTML = "Applied";
-    })
-
-                /* Add Permit Tab */
-    dropdownMenuOptionAddTabAddPermitStatusHaventChecked.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_havent_checked");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Haven't Checked"}</div>`;
-
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusDontNeed.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_dont_need");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Don't Need"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusExtensionReceived.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_extension_received");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Extension Received"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusExtensionSubmitted.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_extension_submitted");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Extension Submitted"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusExtensionReceived.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_extension_received");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Extension Received"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusExpired.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_expired");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Expired"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusExpiringSoon.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_expiring_soon");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Expiring Soon"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusReceived.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_received");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Received"}</div>`;
-    })
-
-    dropdownMenuOptionAddTabAddPermitStatusApplied.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_add_permit_status_applied");
-
-        clearDropdownMenuBoxAddTabAddPermitStatus();
-
-        dropdownMenuBoxAddTabPermitStatus.innerHTML = `<div class="smallText">${"Applied"}</div>`;
-    })
-
-
-            /* General Status Dropdowns */    
-    function clearDropdownMenuBoxAddTabWrGeneralStatus() {
-        console.log("Entered - clearDropdownMenuBoxAddTabWrGeneralStatus");
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "";
-    }
-
-    dropdownMenuOptionAddTabWrGeneralStatusCancle.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_cancle");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Cancled / Other";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatus7010.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_7010");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "7010'd";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusFlag.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_flag");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Need to Flag";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusWaitingCustomerApproved.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_waiting_customer_approved");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Waiting On Customer - Approved";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusWaitingCustomerNotApproved.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_waiting_customer_not_approved");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Waiting On Customer - Not Approved";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusRevisions.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_revisions");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Revisions";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusReviewCoordinator.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_review_coordinator");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Review - Coordinator";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusReviewPeer.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_review_peer");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Review - Peer";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusDesign.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_design");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Design";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusCheckEasementRequest.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_check_easement_request");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Check / Apply - Easement Request";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusCheckPermit.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_check_permit");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Check / Apply - Permit";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusServiceCalcs.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_service_calcs");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Service Calcs + Coding";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusVisit.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_visit");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Need to Visit.";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusWaitingLL.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_waiting_ll");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-
-        dropdownMenuAddTabWrGeneralStatus.innerHTML = "Waiting - LL/SP/ETC.";
-    })
-
-    dropdownMenuOptionAddTabWrGeneralStatusBlank.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_general_status_blank");
-        clearDropdownMenuBoxAddTabWrGeneralStatus();
-    })
-
-            /* WR Type Dropdowns */
-    dropdownMenuOptionAddTabWrTypeBlank.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_options_add_tab_wr_type_blank");
-        clearDropdownMenuBoxAddTabWrType();
-    })
-
-    dropdownMenuOptionAddTabWrTypeDrnu.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_drnu");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DRNU"
-
-    })
-
-    dropdownMenuOptionAddTabWrTypeDrou.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_drou");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DROU"
-
-    })
-
-    dropdownMenuOptionAddTabWrTypeDrno.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_drno");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DRNO"
-    })
-
-    dropdownMenuOptionAddTabWrTypeDriu.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_driu");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DRIU"
-    })
-
-    dropdownMenuOptionAddTabWrTypeDrio.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_drio");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DRIO"
-    })
-
-    dropdownMenuOptionAddTabWrTypeDwfo.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_dwfo");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DWFO"
-    })
-
-    dropdownMenuOptionAddTabWrTypeDdi.addEventListener("click", (event) => {
-        console.log("Fired - Clicked dropdown_menu_option_add_tab_wr_type_ddi");
-
-        clearDropdownMenuBoxAddTabWrType();
-
-        dropdownMenuBoxAddTabWrType.innerHTML = "DDI"
-    })
-
-
-    /* AllWr Next and Prev Button */
-    nextAllWr.addEventListener("click", (event) => {
-        console.log("Fired - Clicked all_wr_tab_next_button");
-
-        console.log("currentPageAllWr = ");
-        console.log(curPageAllWr);
-
-        curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
-        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr + 1);
-        currentPageAllWr += 1;
-
-        return;
-    })
-    prevAllWr.addEventListener("click", (event) => {
-        console.log("Fired - Clicked all_wr_tab_prev_button");
-
-        curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
-        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr - 1);
-        currentPageAllWr -= 1;
-
-        return; // Can remove?
-    })
-
-    /* Permits Next and Prev Button */
-    nextPermits.addEventListener("click", (event) => {
-        console.log("Fired - Clicked permits_tab_next_button");
-
-        curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits + 1);
-        currentPagePermits += 1;
-
-            return;
-    })
-    prevPermits.addEventListener("click", (event) => {
-        console.log("Fired - Clicked permits_tab_prev_button");
-
-        curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits - 1);
-        currentPagePermits -= 1;
-            
-        return;
-    })
-
-    /* Add Tab New Work Request Number Select When Clicked */
+    
+        /* Add Tab New Work Request Number Select When Clicked */
     addTabNewWorkRequestNumber.addEventListener("click", (event) => {
         console.log("Fired - clicked add_tab_new_work_request_number");
 
@@ -5085,8 +4160,22 @@ async function mainEvent() {
             event.target.select();
         }
     })
+    addTabNewWorkRequestNumber.addEventListener("change", (event) => {
+        console.log("Entered - addTabNewWorkRequestNumberEventListener - listening to add get/add button");
+        if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
+            addTabGetButton.disabled = false;
+            addTabUpdateButton.disabled = true;
+            addTabAddButton.disabled = true;
+        } else if (event.target.value.length == 8) { // wr is not right length
+            addTabAddButton.disabled = false;
+            addTabGetButton.disabled = true;
+            addTabUpdateButton.disabled = true;
+        } else {
+            addTabUpdateButton.disabled = true;
+        }
+    })
 
-    /* Address Textfield  Inputs */
+        /* Address Textfield  Inputs */
     addressLineTextfieldHouseNumber.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_house_number");
 
@@ -5094,7 +4183,6 @@ async function mainEvent() {
             event.target.select();
         } 
     })
-
     addressLineTextfieldStreetName.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_stree_name");
         
@@ -5102,7 +4190,6 @@ async function mainEvent() {
             event.target.select();
         } 
     })
-
     addressLineTextfieldCounty.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_county");
         
@@ -5110,7 +4197,6 @@ async function mainEvent() {
             event.target.select();
         } 
     })
-
     addressLineTextfieldZip.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_zip");
         
@@ -5119,12 +4205,484 @@ async function mainEvent() {
         } 
     })
 
-    /* Tab Event Listeners */
+            /* Comment Event Listeners */
+        /* Add Tab Wr */
+    addTabCommentsTextfield.addEventListener("input", (event) => {
+            console.log("Input - add_tab_comments_textfield - " + event.target.value);
+    
+            addTabCommentsTextfieldInput = event.target.value;
+    })
+    addTabCommentsTextfield.addEventListener("click", (event) => {
+            console.log("Fired - Clicked add_tab_comments_textfield");
+    
+            if (event.target.value != null) {
+                event.target.select();
+            } 
+    })
+    addTabCommentsAddButton.addEventListener("click", (event) => {
+            console.log("Fired - Clicked add_tab_comments_add_button");
+    
+            injectHTMLAddTabWrComment(addTabCommentsTextfieldInput);
+            addTabCommentsTextfield.value = "Type Comment Here";
+           /* if (addTabWrCommentsToAdd.classList.contains("hidden")) {
+                addTabWrCommentsToAdd.classList.remove("hidden");
+            }*/
+    
+    })
+    
+        /* Add Tab Permit */
+    addTabPermitCommentsTextfield.addEventListener("input", (event) => {
+            console.log("Input - add_tab_permit_comments_textfield - " + event.target.value);
+    
+            addTabPermitCommentsTextfieldInput = event.target.value;
+    })
+    addTabPermitCommentsTextfield.addEventListener("click", (event) => {
+            if (event.target.value != null) {
+                event.target.select();
+            }
+    })
+    addTabPermitCommentsAddButton.addEventListener("click", (event) => {
+            console.log("Fired - Clicked add_tab_permit_comments_add_button");
+    
+            injectHTMLAddTabPermitComment(addTabPermitCommentsTextfieldInput);
+            console.log("Testing gg");
+            addTabPermitCommentsTextfield.value = "Type Comment Here";
+    
+    })
+
+    /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */
+    
+
+        /* Trim By Event Listeners */
+    trimByNot7010.addEventListener("change", (event) => {
+        console.log("Changed - trimByNot7010");
+
+        if (trimByNot7010.checked == false) {
+            trimByNot7010.checked = false;
+            trimByAll.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByNot7010.checked = true;
+        }
+
+        if (filterCheckbox7010.checked == true) {
+            filterCheckbox7010.checked = false;
+            document.getElementById("filter_container_7010").style.backgroundColor = "white";
+        }
+    }) 
+    trimBy7010.addEventListener("change", (event) => {
+        console.log("Changed - trimBy7010");
+
+        if (trimBy7010.checked == false) {
+            trimBy7010.checked = false;
+            filterCheckbox7010.checked = false;
+            trimByAll.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimBy7010.checked = true;
+            filterCheckbox7010.checked = true;
+        }
+    })
+    trimByAll.addEventListener("change", (event) => {
+        console.log("Changed - trimByAll");
+
+        if (trimByAll.checked == false) {
+            trimByAll.checked = false;
+            trimByNot7010.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByAll.checked = true;
+        }
+    })
+
+            /* Checkboxes */
+        /* Search By */
+    searchBySelectionCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchBySelectionCheckbox");
+
+        if (searchBySelectionCheckbox.checked == false) { 
+            disableSearchBy();
+            enableFilterBy();
+            filterCheckboxPriorityNumber.checked = true;
+        } else {
+            enableSearchBy();
+            disableFilterBy();
+            searchByWrCheckbox.checked = true;
+        }
+    })
+    searchByAddressCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchByAddressCheckbox");
+
+        if (searchByAddressCheckbox.checked == false) {
+            searchByAddressCheckbox.checked = false;
+            searchByWrCheckbox.checked = true;
+        } else {
+            uncheckSearchByCheckboxes();
+            searchByAddressCheckbox.checked = true;
+        }
+    })
+    searchByWrCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - searchByWrCheckbox");
+
+        if (searchByWrCheckbox.checked == false) {
+            searchByWrCheckbox.checked = false;
+            searchByAddressCheckbox.checked = true;
+        } else {
+            uncheckSearchByCheckboxes();
+            searchByWrCheckbox.checked = true;
+        }
+    })
+
+        /* Add Tab */
+    filterCheckboxAddWr.addEventListener("change", (event) => {
+            console.log("Fired - Clicked filterContainerAddWr");
+    
+            clearAddTabCheckboxes();
+            filterCheckboxAddWr.checked = true;
+            clearAddTabDisplays();
+            addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
+            addTabDisplayWorkRequestNumberLabel.innerHTML = "New Work Request Number";
+    
+            /* Revealing add button */
+            addTabAddButton.classList.remove("hidden");
+            addTabDisplayAddWr.classList.remove("hidden");
+    })
+    filterCheckboxAddPermit.addEventListener("change", (event) => {
+            console.log("Fired - Clicked filterContainerAddPermit");
+    
+            clearAddTabCheckboxes();
+            filterCheckboxAddPermit.checked = true;
+            
+            clearAddTabDisplays();
+            addTabDisplayHeaderLabel.innerHTML = "\"Permit\"";
+            addTabDisplayWorkRequestNumberLabel.innerHTML = "Permit for Work Request Number";
+           
+            addTabDisplayAddPermit.classList.remove("hidden");
+    
+            /* Hiding add button */
+            addTabAddButton.classList.add("hidden");
+    })
+
+        /* AllWr Tab*/
+    filterBySelectionCheckbox.addEventListener("change", (event) => {
+        console.log("Changed - filterBySelectionCheckbox");
+
+        if (filterBySelectionCheckbox.checked == false) {
+            enableSearchBy();
+            disableFilterBy();
+        } else {
+            disableSearchBy();
+            enableFilterBy();
+        }
+    })
+    filterCheckboxWaitingLL.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxWaitingLL - " );
+
+        if (filterCheckboxWaitingLL.checked == false) {
+            filterCheckboxWaitingLL.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            console.log("uncheckedAll");
+            filterCheckboxWaitingLL.checked = true;
+            console.log("checkedFilterCheckboxWaitingLL");
+        }
+        
+    })
+    filterCheckboxNeedToVisit.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxNeedToVisit");
+
+        if (filterCheckboxNeedToVisit.checked == false) {
+            filterCheckboxNeedToVisit.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxNeedToVisit.checked = true;
+        }
+    })
+    filterCheckboxSvcCalcs.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxSvcCalcs");
+
+        if (filterCheckboxSvcCalcs.checked == false) {
+            filterCheckboxSvcCalcs.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxSvcCalcs.checked = true;
+        }
+        
+    })
+    filterCheckboxCheckPermit.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxCheckPermit");
+
+        if (filterCheckboxCheckPermit.checked == false) {
+            filterCheckboxCheckPermit.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxCheckPermit.checked = true;
+        }
+       
+    })
+    filterCheckboxCheckEasement.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxCheckEasement");
+
+        if (filterCheckboxCheckEasement.checked == false) {
+            filterCheckboxCheckEasement.checekd = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxCheckEasement.checked = true;
+        }
+        
+    })
+    filterCheckboxDesign.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxDesign");
+
+        if (filterCheckboxDesign.checked == false) {
+            filterCheckboxDesign.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxDesign.checked = true;
+        }
+        
+    })
+    filterCheckboxReviewPeer.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxReviewPeer");
+
+        if (filterCheckboxReviewPeer.checked == false) {
+            filterCheckboxReviewPeer.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxReviewPeer.checked = true;
+        }
+        
+    })
+    filterCheckboxReviewCoordinator.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxReviewCoordinator");
+
+        if (filterCheckboxReviewCoordinator.checked == false) {
+            filterCheckboxReviewCoordinator.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxReviewCoordinator.checked = true;
+        }
+    })
+    filterCheckboxRevisions.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxRevisions");
+
+        if (filterCheckboxRevisions.checked == false) {
+            filterCheckboxRevisions.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxRevisions.checked = true;
+        }
+    })
+    filterCheckboxWaitingCustomerNotApproved.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxWaitingOnCustomerNotApproved");
+
+        if (filterCheckboxWaitingCustomerNotApproved.checked == false) {
+            filterCheckboxWaitingCustomerNotApproved.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxWaitingCustomerNotApproved.checked = true;
+        }
+    })
+    filterCheckboxWaitingCustomerApproved.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxWaitingOnCustomerApproved");
+
+        if (filterCheckboxWaitingCustomerApproved.checked == false) {
+            filterCheckboxWaitingCustomerApproved.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxWaitingCustomerApproved.checked = true;
+        }
+    })
+    filterCheckboxFlag.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxFlag");
+
+        if (filterCheckboxFlag.checked == false) {
+            filterCheckboxFlag.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxFlag.checked = true;
+        }
+    })
+    filterCheckbox7010.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckbox7010");
+
+        if (filterCheckbox7010.checked == false) {
+            filterCheckbox7010.checked = false;
+            trimBy7010.checked = false;
+            trimByAll.checked = true;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckbox7010.checked = true;
+            uncheckTrimByCheckboxes();
+            trimBy7010.checked = true;
+
+            if (trimByNot7010.checked == true) {
+                document.getElementById("footer_filter_checkbox_not_7010").style.backgroundColor = "white";
+                document.getElementById("footer_filter_checkbox_not_7010").checked = false;
+            }
+        }
+        
+    })
+    filterCheckboxCancledOther.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxCancledOther");
+
+        if (filterCheckboxCancledOther.checked == false) {
+            filterCheckboxCancledOther.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxCancledOther.checked = true;
+        }
+        
+    })
+    filterCheckboxPriorityNumber.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxPriorityNumber");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxPriorityNumber.checked = true;
+    })
+    filterCheckboxCrd.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxCrd");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxCrd.checked = true;
+    })
+    filterCheckboxRcd.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxRcd");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxRcd.checked = true;
+    })
+
+        /* Permits Tab */
+    filterCheckboxPermitApplied.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitApplied");
+
+        if (filterCheckboxPermitApplied.checked == true) {
+            filterCheckboxPermitApplied.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitApplied.checked = true;
+        }
+    })
+    filterCheckboxPermitReceived.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitReceived");
+
+        if (filterCheckboxPermitReceived.checked == true) {
+            filterCheckboxPermitReceived.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitReceived.checked = true;
+        }
+    })
+    filterCheckboxPermitExpiringSoon.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExpiringSoon");
+
+        if (filterCheckboxPermitExpiringSoon.checked == true) {
+            filterCheckboxPermitExpiringSoon.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExpiringSoon.checked = true;
+        }
+    })
+    filterCheckboxPermitExpired.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExpired");
+
+        if (filterCheckboxPermitExpired.checked == true) {
+            filterCheckboxPermitExpired.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExpired.checked = true;
+        }
+    })
+    filterCheckboxPermitExtensionSubmitted.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExtensionSubmitted");
+
+        if (filterCheckboxPermitExtensionSubmitted.checked == true) {
+            filterCheckboxPermitExtensionSubmitted.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExtensionSubmitted.checked = true;
+        }
+            
+    })
+    filterCheckboxPermitExtensionReceived.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitExtensionReceived");
+
+        if (filterCheckboxPermitExtensionReceived.checked == true) {
+            filterCheckboxPermitExtensionReceived.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitExtensionReceived.checked = true;
+        }
+    })
+    filterCheckboxPermitDontNeed.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitDontNeed");
+
+        if (filterCheckboxPermitDontNeed.checked == true) {
+            filterCheckboxPermitDontNeed.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitDontNeed.checked = true;
+        } 
+    })
+    filterCheckboxPermitHaventChecked.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxPermitHaventChecked");
+
+        if (filterCheckboxPermitHaventChecked.checked == true) {
+            filterCheckboxPermitHaventChecked.checked = false;
+        } else {
+            uncheckPermitsTabSpecificCheckboxes();
+            filterCheckboxPermitHaventChecked.checked = true;
+        } 
+    })
+
+
+    /* GLOBAL */        /* GLOBAL */        /* GLOBAL */        /* GLOBAL */        /* GLOBAL */        /* GLOBAL */        /* GLOBAL */
+
+    /* Footer Buttons */
+    footerButtonSync.addEventListener("click", (event) => {
+        console.log("Fired - Clicked footerButtonSync");
+
+        const tempStorage = document.getElementById("temp_storage").innerHTML;
+        const tempList = parseWrString(tempStorage);
+
+        for (let i = 0; i < tempList.length; i++) {
+            allWrList[allWrList.length] = tempList[i];
+        }
+        footerButtonSync.classList.add("hidden");
+        deselectAllTabs();
+        document.getElementById('all_wr_tab').click();
+
+        const tempAllWrList = document.createElement("tempAllWrList");
+
+
+        tempAllWrList.classList.add("hidden");
+        tempAllWrList.id = "temp_all_wr_list";
+        tempAllWrList.innerHTML = allWrList;
+
+        if (document.getElementById("temp_all_wr_list") == undefined) {
+            document.getElementById('all_wr_tab').insertAdjacentElement("beforeend", tempAllWrList);
+        }
+
+    })
+    footerButtonLoad.addEventListener("click", (event) => {
+        console.log("Fired - Clicked footerButtonLoad");
+                
+        document.getElementById('allWrListFile').click();
+    })
+    footerButtonSave.addEventListener("click", (event) => {
+        console.log("Fired - Clicked footer_save_button");
+       
+        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
+        const allWrList = parseWrString(allWrListRaw);
+
+        saveFile(allWrList);
+    })
+
+            /* Tab Event Listeners */
+        /* allWr Tab */
     allWrTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked all_wr_tab");
-
-        //const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-        //const allWrList = parseWrString(allWrListRaw);
        
         /* Deselecting all tabs */
         deselectAllTabs();
@@ -5162,6 +4720,7 @@ async function mainEvent() {
         deselectAllWrTab();
     })
 
+        /* add Tab */
     addTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab");
 
@@ -5183,6 +4742,7 @@ async function mainEvent() {
         deselectAllAddTab();
     })
 
+    /* permits Tab */
     permitsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked permits_tab");
 

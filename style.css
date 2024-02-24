@@ -1180,6 +1180,21 @@ h5 {
 
 }
 
+.wrTypeDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 120px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+
+}
+
 .generalStatusDDMenuBox {
     display: flex;
     border: 2px solid black;
@@ -1226,6 +1241,12 @@ h5 {
     font-size: large;
 }
 
+.wrTypeDDMenuButton {
+    width: 30px;
+    height: 30px;
+    font-size: large;
+}
+
 .generalStatusDDMenuButton {
     width: 25px;
     height: 46px;
@@ -1239,6 +1260,16 @@ h5 {
 }
 
 .permitStatusRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.wrTypeRowElement {
     display: flex;
     flex-direction: row;
     position: relative;
@@ -1343,6 +1374,8 @@ h5 {
     align-items: center;
     justify-content: center;
     color: red;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .wrAddedPrompt {
@@ -1709,6 +1742,33 @@ h5 {
     justify-content: center;
     padding: 8px; 
     font-size: small;
+}
+
+.addTabPermitRcdError {
+    display: flex;
+    padding-left: 40px;
+    
+    margin-top: 100px;
+    height: 20px;
+    width: 200px;
+    justify-content: flex-end;
+}
+
+.addTabWrRcdError {
+    display: flex;
+    padding-left: 40px;
+    padding-right: 130px;
+    margin-top: 100px;
+    height: 20px;
+    justify-content: flex-end;
+}
+
+.removeSideMargins {
+    display: flex;
+    margin-left: 0px;
+    margin-right: 0px;
+    justify-content: center;
+    column-gap: 0px;
 }
 
 .hidden {

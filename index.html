@@ -633,24 +633,9 @@
 
                         <!-- Bottom Left Container -->
                         <div class="addTabDisplayBottomLeftContainer" id="add_tab_display_bottom_left_container">
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_wr_type">
+                            <div class="addTabTextfieldContainer" id="add_tab_wr_type_container">
                                 <label for="dropdown_menu_add_tab_wr_type" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_type_label">Work Request Type:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBoxXXLarge" id="dropdown_menu_box_add_tab_wr_type"></div>
-                                <div class="dropdownMenuWrType" id="dropdown_menu_add_tab_wr_type">
-                                    <button type="button" class="dropdownButtonAddTabWrType" id="dropdown_button_add_tab_wr_type"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrType" id="dropdown_menu_content_wr_type">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_blank"></div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drnu">DRNU</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drno">DRNO</div>    
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drou">DROU</div> 
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_driu">DRIU</div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drio">DRIO</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_dwfo">DWFO</div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_ddi">DDI</div>  
-                                    </div>
-                                </div>
+                                <!-- Adding DD in JS -->
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_crd">
                                 <label for="add_tab_textfield_crd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
@@ -660,76 +645,17 @@
                                 <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
                                 <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_rcd" name="date_add_tab_wr_rcd" value="0001-01-01"/>
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_general_status">
-                                
+                            <div class="addTabTextfieldContainer" id="add_tab_general_status_container">
                                 <label for="dropdown_menu_add_tab_wr_general_status" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_general_status_label">General Status:</label>
-                               <!-- Box Options -->
-                                <div class="dropdownMenuBoxLarge" id="dropdown_menu_add_tab_wr_general_status">
-                                    Need to Visit
-                                </div>
-                                <div class="dropdownMenuWrGeneralStatus" id="dropdown_menu_box_add_tab_wr_general_status">
-                                    <button type="button" class="dropdownButtonAddTabWrGeneralStatus" id="dropdown_button_add_tab_wr_general_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrGeneralStatus" id="dropdown_menu_content_general_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_ll">Waiting - LL/SP/ETC.</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_visit">Need to Visit</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_service_calcs">Service Calcs + Coding</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_permit">Check / Apply for Permit</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_easement_request">Check / Apply for Easement Request</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_design">Design</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_peer">Review - Peer</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_coordinator">Review - Coordinator</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_revisions">Revisions</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_not_approved">Waiting On Customer - Not Approved</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_approved">Waiting On Customer - Approved</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_flag">Need to Flag</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_7010">7010'd</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_cancled">Cancled / Other</div>
-                                        <div class="dropdownMenuOptionBlank" id="dropdown_menu_option_add_tab_wr_general_status_blank"></div>
-                                    </div>
-                                </div>  
+                                <!-- Adding DD in JS -->
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_permit_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_permit_status_container">
                                 <label for="add_tab_textfield_permit_status" class="addTabTextfieldLabel" id="add_tab_textfield_permit_status_label">Permit Status:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_permit_status">
-                                    Haven't Checked
-                                </div>
-                                <div class="dropdownMenuWrPermitStatus" id="dropdown_menu_box_add_tab_wr_permit_status">
-                                    <button type="button" class="dropdownButtonAddTabWrPermitStatus" id="add_tab_dropdown_button_permit_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrPermitStatus" id="dropdown_menu_content_permit_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_applied"><b>Applied</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_received"><b>Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expiring_soon"><b>Expiring Soon</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expired"><b>Expired</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_submitted"><b>Extension Submitted</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_received"><b>Extension Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>
-                                </div>                                
+                                <!-- Adding DD in JS -->                   
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_easement_request_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_easement_status_container">
                                 <label for="add_tab_textfield_easement_request_status" class="addTabTextfieldLabel" id="add_tab_textfield_easement_request_status_label">Easement Request Status:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_easement_request_status">
-                                    Haven't Checked
-                                </div>
-                                <div class="dropdownMenuWrEasementRequestStatus" id="dropdown_menu_box_add_tab_wr_easement_request_status">
-                                    <button type="button" class="dropdownButtonAddTabWrEasementRequestStatus" id="add_tab_dropdown_button_easement_request_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrEasementRequestStatus" id="dropdown_menu_content_easement_request_status">
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_submit"><b>Need to Submit</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_pending"><b>Pending</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_have_easement"><b>Have Easement</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_easement"><b>Need Easement</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_creation"><b>Waiting - Creation</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_customer"><b>Waiting - Customer</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>
-                                </div>
+                                <!-- Adding DD in JS -->
                             </div>
                         </div>
 
@@ -755,29 +681,13 @@
                 <div class="addTabDisplayAddPermit hidden" id="add_tab_display_add_permit">
                     
                     <!-- Top Side -->
-                    <div class="addTabDisplayAddPermitTop">
+                    <div class="addTabDisplayAddPermitTop" id="add_tab_display_add_permit_top">
                         
                         <!-- Left Side -->
                         <div class="addTabDisplayAddPermitLeft" id="add_tab_display_add_permit_left">
-                            <div class="addTabTextfieldContainer" id="add_tab_container_permit_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_add_permit_status_container">
                                 <label for="dropdown_menu_box_add_tab_permit_status" class="addTabTextfieldLabel" id="dropdown_menu_box_add_tab_permit_status_label">Permit Status</label>
-                                <div class="dropdownMenuBoxXXLarge" id="dropdown_menu_box_add_tab_permit_status">
-                                    <div class="smallText">Haven't Checked</div>
-                                </div>
-                                <div class="dropdownMenuAddPermitStatus" id="add_permit_dropdown_menu_permit_status">
-                                    <button type="button" class="dropdownButtonAddTabWrPermitStatus" id="add_permit_dropdown_button_permit_status"><b>\/</b></button>
-                                    <!-- Dropdown Box Options -->
-                                    <div class="dropdownMenuContentAddPermitStatus" id="add_permit_dropdown_menu_content_permit_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_applied"><b>Applied</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_received"><b>Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_expiring_soon"><b>Expiring Soon</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_expired"><b>Expired</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_extension_submitted"><b>Extension Submitted</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_extension_received"><b>Extension Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>  
-                                </div>                    
+                                <!-- Adding DD in JS -->                
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_container_permit_submitted">
                                 <label for="date_add_tab_permit_submitted" class="addTabTextfieldLabel" id="add_tab_permit_textfield_submitted_label">Date Submitted:</label>
