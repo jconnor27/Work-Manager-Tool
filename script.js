@@ -12,12 +12,8 @@ class PermitDate {
 
         let rowElement = document.createElement("permitDate" + type);
 
-        rowElement.classList.add("permitDate"); // Need to make this class in css
-
-        
+        rowElement.classList.add("permitDate"); // Need to make this class in css   
     }
-
-
 }
 
 class WrTypeDDMenu {
@@ -134,73 +130,6 @@ class PermitStatusDDMenu {
             rowElement.style.height = this.height;
         }
 
-        /*rowElement.addEventListener("mouseover", (event) => {
-            console.log("Fired - moused over rowElement - " + this.rowNumber);
-
-            const tempContent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content");            
-
-            tempContent.style.display = 'flex';
-            tempContent.style.flexDirection = 'column';
-            tempContent.style.border = '1px solid black';
-
-            /* Below statement adjusts position of content box to above or below dd menu 
-            if (this.rowNumber <= 3) {
-                tempContent.style.marginTop = '410px';
-            } else {
-                /* Will need to fill in when more than 3 work requests 
-            }
-        
-        })*/
-
-        /*rowElement.addEventListener('click', (event) => {
-            console.log("Fired - clicked rowElement - " + this.rowNumber);
-
-            if (event.target.innerHTML != "\\/") {
-                const tempCurrent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_current");
-                tempCurrent.innerHTML = event.target.innerHTML;
-    
-                //const tempContent = document.getElementById("permit_status_dd_" + this.rowNumber + "_content");
-            }
-            
-        })*/
-        
-        /*rowElement.addEventListener("mouseout", (event) => {
-            console.log("Fired - moused off - " + this.rowNumber);
-
-            /* Current value on page - not in list 
-            const tempCurrent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_current");
-
-            const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-            const curWrIndex = parseInt(((page - 1) * 3) + parseInt(this.rowNumber) - 1); // Will need to change when more rows
-
-            /* Current allWrList 
-            const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-            const allWrList = parseWrString(allWrListRaw);
-
-            /* Current Wr 
-            const currentWr = allWrList[curWrIndex];
-
-            if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
-                console.log("* Saving page to list *");
-
-                /* Updating Status and List 
-                currentWr.permit.permitStatus = tempCurrent.innerHTML;
-                allWrList[curWrIndex] = currentWr;
-
-                const tempAllWrList = document.getElementById("temp_all_wr_list");
-                tempAllWrList.innerHTML = allWrList;
-
-                console.log("* Internal List Updated *");
-            }
-
-            console.log("after if statement");
-
-            /* Hiding DDMenu content 
-            const tempContent = document.getElementById("permit_status_dd_" + this.tab + "_tab_row_" + this.rowNumber + "_content");
-            tempContent.style.display = 'none';
-        })*/
-        
-
         return rowElement;
 
     }
@@ -260,72 +189,6 @@ class EasementStatusDDMenu {
         if (this.height != undefined) {
             rowElement.style.height = this.height;
         }
-
-        /*rowElement.addEventListener("mouseover", (event) => {
-            console.log("Fired - moused over rowElement - " + this.rowNumber);
-
-            const tempButton = document.getElementById("easement_status_dd_" + this.rowNumber + "_button");
-            const tempContent = document.getElementById("easement_status_dd_" + this.rowNumber + "_content");
-
-            tempContent.style.display = 'flex';
-            tempContent.style.flexDirection = 'column';
-            tempContent.style.border = '1px solid black';
-
-            /* Below statement adjusts position of content box to above or below dd menu 
-            if (this.rowNumber <= 3) {
-                tempContent.style.marginTop = '410px';
-            } else {
-                /* Will need to fill in when more than 3 work requests 
-            }
-        })*/
-
-    
-        /*rowElement.addEventListener('click', (event) => {
-            console.log("Fired - clicked rowElement - " + this.rowNumber);
-
-            if (event.target.innerHTML != "\\/") {
-                const tempCurrent = document.getElementById("easement_status_dd_" + this.rowNumber + "_current");
-                tempCurrent.innerHTML = event.target.innerHTML;
-
-                const tempContent = document.getElementById("easement_status_dd_" + this.rowNumber + "_content");
-            }
-        })*/
-
-        /*rowElement.addEventListener("mouseout", (event) => {
-            console.log("Fired - moused off - " + this.rowNumber);
-
-            /* Current value on page - not in list 
-            const tempCurrent = document.getElementById("easement_status_dd_" + this.rowNumber + "_current");
-           
-            const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-            const curWrIndex = parseInt(((page - 1) * 3) + parseInt(this.rowNumber) - 1); // Will need to change when more rows
-
-            /* Current allWrList 
-            const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-            const allWrList = parseWrString(allWrListRaw);
-
-            /* Current Wr 
-            const currentWr = allWrList[curWrIndex];
-
-            if (tempCurrent.innerHTML != currentWr.easementRequestStatus) {
-                console.log("* Saving page to list * ");
-
-                /* Updating Status and List 
-                currentWr.easementRequestStatus = tempCurrent.innerHTML;
-                allWrList[curWrIndex] = currentWr;
-
-                const tempAllWrList = document.getElementById("temp_all_wr_list");
-                tempAllWrList.innerHTML = allWrList;
-
-                console.log("* Internal List Updated *");
-            }
-
-            console.log("after if statement");
-
-            /* Hiding DDMenu content 
-            const tempContent = document.getElementById("easement_status_dd_" + this.rowNumber + "_content");
-            tempContent.style.display = 'none';
-        })*/
 
         return rowElement;
     }
@@ -397,75 +260,7 @@ class GeneralStatusDDMenu {
         if (this.height != undefined) {
             rowElement.style.height = this.height;
         }
-
-        /*rowElement.addEventListener("mouseover", (event) => {
-            console.log("Fired - moused over rowElement - " + this.rowNumber);
-
-            const tempButton = document.getElementById("general_status_dd_" + this.rowNumber + "_button");
-            const tempContent = document.getElementById("general_status_dd_" + this.rowNumber + "_content");
-
-            tempContent.style.display = 'flex';
-            tempContent.style.flexDirection = 'column';
-            tempContent.style.border = '1px solid black';
-
-            /* Below statement adjusts position of content box to above or below dd menu 
-            if (this.rowNumber <=3) {
-                tempContent.style.marginTop = '650px';
-            } else {
-                /* Will need to fill in when more than 3 work requests 
-            }
-        })*/
-
-        /*rowElement.addEventListener('click', (event) => {
-            console.log("Fired - clicked rowElement - " + this.rowNumber);
-
-            if (event.target.innerHTML != "\\/") {
-                const tempCurrent = document.getElementById("general_status_dd_" + this.rowNumber + "_current");
-                tempCurrent.innerHTML = event.target.innerHTML;
-
-                const tempContent = document.getElementById("general_status_dd_" + this.rowNumber + "_content");
-            }
-        })*/
-
-        /*rowElement.addEventListener("mouseout", (event) => {
-            console.log("Fired - moused off - " + this.rowNumber);
-
-            /* Current value on page - not in list 
-            const tempCurrent = document.getElementById("general_status_dd_" + this.rowNumber + "_current");
-
-            const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
-            const curWrIndex = parseInt(((page - 1) * 3) + parseInt(this.rowNumber) - 1); // Will need to change when more rows
-
-            console.log("Testing Here - curWrIndex =");
-            console.log(curWrIndex);
-
-            /* Current allWrList 
-            const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-            const allWrList = parseWrString(allWrListRaw);
-
-            /* Current Wr 
-            const currentWr = allWrList[curWrIndex];
-
-            if (tempCurrent.innerHTML != currentWr.generalStatus) {
-                console.log("* Saving page to list *");
-
-                /* Updating Status and List 
-                currentWr.generalStatus = tempCurrent.innerHTML;
-                allWrList[curWrIndex] = currentWr;
-
-                const tempAllWrList = document.getElementById("temp_all_wr_list");
-                tempAllWrList.innerHTML = allWrList;
-
-                console.log("* Internal List Updated *");
-            }
-
-            console.log("after if statement");
-
-            /* Hiding DDMenu Content 
-            const tempContent = document.getElementById("general_status_dd_" + this.rowNumber + "_content");
-            tempContent.style.display = 'none';
-        })*/
-
+        
         return rowElement;
     }
 }
