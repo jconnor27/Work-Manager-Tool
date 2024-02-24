@@ -4505,7 +4505,7 @@ async function mainEvent() {
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
             console.log("List updated");
         } else {
-            console.log("List not updated.")
+            console.log("List not updated.");
             console.log("allWrList.length = " + allWrList.length);
         }
     })
@@ -4565,7 +4565,7 @@ async function mainEvent() {
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
             console.log("List updated");
         } else {
-            console.log("List not updated.")
+            console.log("List not updated.");
             console.log("allWrList.length = " + allWrList.length);
         }
     })
