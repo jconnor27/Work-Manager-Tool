@@ -79,11 +79,11 @@
         <div class="leftSideContainer" id="left_side_container">
             
             <!-- Top Section of Filter Section -->
-            <div class="searchByBoxContainer filterSectionInactive " id="seach_by_box_container">
-                <input type="checkbox" class="searchBySelectionCheckbox" id="search_by_selecetion_checkbox" name="search_by_selection_checkbox"/>
+            <div class="searchByBoxContainer  filterSectionInactive" id="search_by_box_container">
+                <input type="checkbox" class="searchBySelectionCheckbox" id="search_by_selection_checkbox" name="search_by_selection_checkbox"/>
                 <div class="searchTextfieldContainer" id="search_textfield_container">
                     <label for="search_by_selection_textfield" class="searchBySelectionTextfieldLabel" id="search_by_selection_textfield_label">Search By:</label>
-                    <input type="text" class="searchBySelectionTextfield" id="search_by_selection_textfield" name="searchBySelectionTextfield"/>
+                    <input type="text" class="searchBySelectionTextfield" id="search_by_selection_textfield" name="searchBySelectionTextfield" disabled/>
                 </div>
                 <div class="searchBySelectionLowerContainer" id="search_by_selection_lower_container">
                     <div class="searchBySelectionLowerContainerCheckboxesContainer" id="search_by_selection_lower_container_checkboxes_container">
@@ -96,13 +96,13 @@
                             <label for="search_by_selection_lower_container_checkbox_wr" class="searchBySelectionLowerContainerCheckboxLabel" id="search_by_selection_lower_container_checkbox_wr_label">WR #</label>
                         </div>
                     </div>
-                    <button type="button" class="searchTextfieldGoButton" id="search_textfield_go_button"> Go </button> 
+                    <button type="button" class="searchTextfieldGoButton" id="search_textfield_go_button" disabled> Go </button> 
                 </div>
             </div>
 
             <!-- Filter By Section - All Wr-->
             <div class="filterByBoxContainer " id="filter_by_box_container">
-                <input type="checkbox" class="filterBySelectionCheckbox" id="filter_by_selecetion_checkbox" name="filter_by_selection_checkbox" checked/>
+                <input type="checkbox" class="filterBySelectionCheckbox" id="filter_by_selection_checkbox" name="filter_by_selection_checkbox" checked/>
                 <div class="filterAndGoContainer" id="filter_and_go_container">
                     <label for="filterGoButton" class="filterGoButtonLabel" id="filter_go_button_label">Filter By:</label>
                     <button type="button" class="filterGoButton" id="filter_go_button"> Go</button>
@@ -111,11 +111,11 @@
                 <!-- Generic Filters Container -->
                 <div class="genericFiltersContainer" id="generic_filters_container">
                     <div class="filterContainer" id="filter_container_priority_number">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_priority_number" name="filter_checkbox_priority_number"/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_priority_number" name="filter_checkbox_priority_number" checked/>
                         <label for="filter_checkbox_priority_number" class="filterCheckboxLabel" id="filter_checkbox_priority_number_label">Priority Number</label>
                     </div>
                     <div class="filterContainer" id="filter_container_age_new_old">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_age_new_old" name="filter_checkbox_age_new_old" checked/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_age_new_old" name="filter_checkbox_age_new_old"/>
                         <label for="filter_checkbox_age_new_old" class="filterCheckboxLabel" id="filter_checkbox_age_new_old_label">Age (New -> Old) </label>
                     </div>
                     <div class="filterContainer" id="filter_container_crd">
@@ -207,16 +207,16 @@
                         <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expiring_soon"/>
                         <label for="filter_checkbox_permit_expiring_soon" class="filterCheckboxLabel">Expiring Soon</label>
                     </div>
-                    <div class="filterContainer" id="filter_container_permit_expiried">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expiried"/>
-                        <label for="filter_checkbox_permit_expiried" class="filterCheckboxLabel">Expiried</label>
+                    <div class="filterContainer" id="filter_container_permit_expired">
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_expired"/>
+                        <label for="filter_checkbox_permit_expired" class="filterCheckboxLabel">Expired</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_extension_submitted">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extenstion_submitted"/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extension_submitted"/>
                         <label for="filter_checkbox_permit_extenstion_submitted" class="filterCheckboxLabel">Extension Submitted</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_extension_received">
-                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extenstion_received"/>
+                        <input type="checkbox" class="filterCheckbox" id="filter_checkbox_permit_extension_received"/>
                         <label for="filter_checkbox_permit_extenstion_received" class="filterCheckboxLabel">Extension Received</label>
                     </div>
                     <div class="filterContainer" id="filter_container_permit_dont_need">
@@ -235,11 +235,11 @@
             <!-- Trim Container -->
             <div class="filterFooterContainer " id="trim_container">
                 <div class="footerFilterContainer" id="footer_filter_container_not_7010">
-                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_not_7010" name="footer_filter_checkbox_not_7010" checked/>
+                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_not_7010" name="footer_filter_checkbox_not_7010" />
                     <label for="footer_filter_checkbox_not_7010" class="filterCheckboxLabel" id="footer_filter_checkbox_not_7010_label">Not 7010'd</label>
                 </div>
                 <div class="footerFilterContainer" id="footer_filter_container_all">
-                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_all" name="footer_filter_checkbox_all"/>
+                    <input type="checkbox" class="filterCheckbox" id="footer_filter_checkbox_all" name="footer_filter_checkbox_all" checked/>
                     <label for="footer_filter_checkbox_all" class="filterCheckboxLabel" id="footer_filter_checkbox_all_label">All</label>
                 </div>
                 <div class="footerFilterContainer" id="footer_filter_container_7010">
@@ -294,16 +294,16 @@
                 
                 <!-- allWr Tab Labels -->
                 <div class="allWrDisplayLabelContainer" id="all_wr_display_label_container">
-                    <div class="allWrTabDisplayHeaderSmall">Priority <br> Number</div>
+                    <div class="allWrTabDisplayHeaderSmall">Priority Number</div>
                     <div class="allWrTabDisplayHeaderBig">Wr# /<br>Address /<br>Type</div>
-                    <div class="allWrTabDisplayHeaderSmall">CRD</div>
-                    <div class="allWrTabDisplayHeaderSmall">RCD</div>
-                    <div class="allWrTabDisplayHeader">General<br>Status</div>
+                    <div class="allWrTabDisplayHeader">CRD</div>
+                    <div class="allWrTabDisplayHeader">RCD</div>
+                    <div class="allWrTabDisplayHeader">General Status</div>
                     <div class="allWrTabDisplayHeader">To-Do's</div>
                     <div class="allWrTabDisplayHeader">Permit<br>Status</div>
-                    <div class="allWrTabDisplayHeader">Easement<br>Status</div>
+                    <div class="allWrTabDisplayHeader" style="padding-left: 36px;">Easement<br>Status</div>
                     <div class="allWrTabDisplayHeaderBig">Comments</div>
-                    <div class="allWrTabDisplayHeader">POCs</div>
+                    <div class="allWrTabDisplayHeader hidden">POCs</div>
                 </div>
 
                 <!-- Row 1 -->
@@ -314,10 +314,10 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_one_address">
                         Unset 1
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_one_crd"/>
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_one_rcd"/>
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_one_general_status">
@@ -326,7 +326,7 @@
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_one_to_dos">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_one_permit_status">
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_one_permit_status" style="margin-right: 20px;">
                         <!-- Adding DD in script.js -->
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_one_easement_status">
@@ -348,10 +348,10 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_two_address">
                         Unset 2
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_two_crd"/>
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_two_rcd"/>
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_two_general_status">
@@ -360,7 +360,7 @@
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_two_to_dos">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_two_permit_status">
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_two_permit_status" style="margin-right: 20px;">
                         <!-- Adding DD in script.js -->
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_two_easement_status">
@@ -382,10 +382,10 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_three_address">
                         Unset 3
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_three_crd"/>
                     </div>
-                    <div class="allWrRowElementContainerSmall">
+                    <div class="allWrRowElementContainer">
                         <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_three_rcd"/>
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_three_general_status">
@@ -394,7 +394,7 @@
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_three_to_dos">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_three_permit_status">
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_three_permit_status" style="margin-right: 20px;">
                         <!-- Adding DD in script.js -->
                     </div>
                     <div class="allWrRowElementContainer" id="all_wr_tab_row_three_easement_status">
@@ -411,7 +411,7 @@
 
                 <div class="prevNextContainer" id="all_wr_tab_prev_next_container">
                     <button type="button" class="pagePrevButton hidden" id="all_wr_tab_page_prev_button">Prev</button>
-                    <div class="currentPageBox" id="all_wr_tab_current_page_box">
+                    <div class="currentPageBox hidden" id="all_wr_tab_current_page_box">
                         1
                     </div>
                     <button type="button" class="pageNextButton hidden" id="all_wr_tab_page_next_button">Next</button>
@@ -425,10 +425,10 @@
                 
                 <!-- permits Tab Labels -->
                 <div class="permitsTabDisplayHeaderContainer">
-                    <div class="permitsTabDisplayHeaderSmall">Priority<br>Number</div>
+                    <div class="permitsTabDisplayHeaderSmall">Priority Number</div>
                     <div class="permitsTabDisplayHeaderBig">Wr# /<br>Address /<br>Type</div>
-                    <div class="permitsTabDisplayHeader">Date<br>Submitted</div>
                     <div class="permitsTabDisplayHeader">Permit<br>Status</div>
+                    <div class="permitsTabDisplayHeader">Date<br>Submitted</div>
                     <div class="permitsTabDisplayHeader">Permit<br>Start<br>Date</div>
                     <div class="permitsTabDisplayHeader">Permit<br>End<br>Date</div>
                     <div class="permitsTabDisplayHeader">CRD</div>
@@ -443,23 +443,23 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_one_address">
                         Unset 1
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_one_submit">
-                        Unset 1
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_one_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_one_submit">
+                        Unset 1
+                    </div>
                     <div class="permitRowElementContainer">
-                        <input type="text" class="permitsTabDisplayTextfield" id="permits_tab_row_one_start_date" value="0001-01-01"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_start_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_end_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer id = permits_tab_row_one_crd_date">
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_one_crd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_crd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_one_rcd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_one_rcd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_one_comments_textfield" value="Unset 1"/>
@@ -473,11 +473,11 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_two_address">
                         Unset 2
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_two_submit">
-                        Unset 2
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_two_status">
                         <!-- Adding DD in JS -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_two_submit">
+                        Unset 2
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_start_date" value="0001-01-01"/>
@@ -486,10 +486,10 @@
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_end_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_two_crd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_crd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_two_rcd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_two_rcd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_two_comments_textfield" value="Unset 2"/>
@@ -503,11 +503,11 @@
                     <div class="permitRowElementContainerBig" id="permits_tab_row_three_address">
                         Unset 3
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_three_submit">
-                        Unset 3
-                    </div>
                     <div class="permitRowElementContainer" id="permits_tab_row_three_status">
                         <!-- Adding DD in JS -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_three_submit">
+                        Unset 3
                     </div>
                     <div class="permitRowElementContainer">
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_start_date" value="0001-01-01"/>
@@ -516,10 +516,10 @@
                         <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_end_date" value="0001-01-01"/>
                     </div>
                     <div class="permitRowElementContainer">
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_three_crd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_crd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainer"> 
-                        <input type="text" class="permitsTabDisplayTextfieldDisabled" id="permits_tab_row_three_rcd_date" value="0001-01-01" disabled="true"/>
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_three_rcd_date" value="0001-01-01" />
                     </div>
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_three_comments_textfield" value="Unset 3"/>
@@ -528,7 +528,7 @@
 
                 <div class="prevNextContainer" id="permits_tab_prev_next_container">
                     <button type="button" class="pagePrevButton hidden" id="permits_tab_page_prev_button">Prev</button>
-                    <div class="currentPageBox" id="permits_tab_current_page_box">
+                    <div class="currentPageBox hidden" id="permits_tab_current_page_box">
                         1
                     </div>
                     <button type="button" class="pageNextButton hidden" id="permits_tab_page_next_button">Next</button>
@@ -548,9 +548,9 @@
                         <label for="new_work_request_number_textfield" class="newWorkRequestNumberTextfieldLabel" id="add_tab_display_work_request_number_label"><b>New Work Request Number:&ensp;</b></label>
                         <input type="text" class="newWrNumberTextfield" id="new_work_request_number_textfield" name="new_work_request_number_textfield" value="Enter Wr Number"/>
                     </div>
-                    <button type="button" class="addNewWrButton" id="add_tab_get_button"><b>GET</b></button>
-                    <button type="button" class="addNewWrButton" id="add_tab_update_button"><b>UPDATE</b></button>
-                    <button type="button" class="addNewWrButton" id="add_tab_add_button"><b>ADD</b></button>
+                    <button type="button" class="addNewWrButton" id="add_tab_get_button" disabled><b>GET</b></button>
+                    <button type="button" class="addNewWrButton" id="add_tab_update_button" disabled><b>UPDATE</b></button>
+                    <button type="button" class="addNewWrButton" id="add_tab_add_button" disabled><b>ADD</b></button>
                 </div>
                 
                 <!-- Add Tab Display Specific - WR -->
@@ -633,24 +633,9 @@
 
                         <!-- Bottom Left Container -->
                         <div class="addTabDisplayBottomLeftContainer" id="add_tab_display_bottom_left_container">
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_wr_type">
+                            <div class="addTabTextfieldContainer" id="add_tab_wr_type_container">
                                 <label for="dropdown_menu_add_tab_wr_type" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_type_label">Work Request Type:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBoxXXLarge" id="dropdown_menu_box_add_tab_wr_type"></div>
-                                <div class="dropdownMenuWrType" id="dropdown_menu_add_tab_wr_type">
-                                    <button type="button" class="dropdownButtonAddTabWrType" id="dropdown_button_add_tab_wr_type"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrType" id="dropdown_menu_content_wr_type">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_blank"></div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drnu">DRNU</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drno">DRNO</div>    
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drou">DROU</div> 
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_driu">DRIU</div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_drio">DRIO</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_dwfo">DWFO</div>  
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_type_ddi">DDI</div>  
-                                    </div>
-                                </div>
+                                <!-- Adding DD in JS -->
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_crd">
                                 <label for="add_tab_textfield_crd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
@@ -660,76 +645,17 @@
                                 <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
                                 <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_rcd" name="date_add_tab_wr_rcd" value="0001-01-01"/>
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_general_status">
-                                
+                            <div class="addTabTextfieldContainer" id="add_tab_general_status_container">
                                 <label for="dropdown_menu_add_tab_wr_general_status" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_general_status_label">General Status:</label>
-                               <!-- Box Options -->
-                                <div class="dropdownMenuBoxLarge" id="dropdown_menu_add_tab_wr_general_status">
-                                    Need to Visit
-                                </div>
-                                <div class="dropdownMenuWrGeneralStatus" id="dropdown_menu_box_add_tab_wr_general_status">
-                                    <button type="button" class="dropdownButtonAddTabWrGeneralStatus" id="dropdown_button_add_tab_wr_general_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrGeneralStatus" id="dropdown_menu_content_general_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_ll">Waiting - LL/SP/ETC.</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_visit">Need to Visit</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_service_calcs">Service Calcs + Coding</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_permit">Check / Apply for Permit</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_check_easement_request">Check / Apply for Easement Request</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_design">Design</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_peer">Review - Peer</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_review_coordinator">Review - Coordinator</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_revisions">Revisions</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_not_approved">Waiting On Customer - Not Approved</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_waiting_customer_approved">Waiting On Customer - Approved</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_flag">Need to Flag</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_7010">7010'd</div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_general_status_cancled">Cancled / Other</div>
-                                        <div class="dropdownMenuOptionBlank" id="dropdown_menu_option_add_tab_wr_general_status_blank"></div>
-                                    </div>
-                                </div>  
+                                <!-- Adding DD in JS -->
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_permit_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_permit_status_container">
                                 <label for="add_tab_textfield_permit_status" class="addTabTextfieldLabel" id="add_tab_textfield_permit_status_label">Permit Status:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_permit_status">
-                                    Haven't Checked
-                                </div>
-                                <div class="dropdownMenuWrPermitStatus" id="dropdown_menu_box_add_tab_wr_permit_status">
-                                    <button type="button" class="dropdownButtonAddTabWrPermitStatus" id="add_tab_dropdown_button_permit_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrPermitStatus" id="dropdown_menu_content_permit_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_applied"><b>Applied</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_received"><b>Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expiring_soon"><b>Expiring Soon</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_expired"><b>Expired</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_submitted"><b>Extension Submitted</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_extension_received"><b>Extension Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_wr_permit_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>
-                                </div>                                
+                                <!-- Adding DD in JS -->                   
                             </div>
-                            <div class="addTabTextfieldContainer" id="add_tab_textfield_container_easement_request_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_easement_status_container">
                                 <label for="add_tab_textfield_easement_request_status" class="addTabTextfieldLabel" id="add_tab_textfield_easement_request_status_label">Easement Request Status:</label>
-                                <!-- Box Options -->
-                                <div class="dropdownMenuBox" id="dropdown_menu_add_tab_wr_easement_request_status">
-                                    Haven't Checked
-                                </div>
-                                <div class="dropdownMenuWrEasementRequestStatus" id="dropdown_menu_box_add_tab_wr_easement_request_status">
-                                    <button type="button" class="dropdownButtonAddTabWrEasementRequestStatus" id="add_tab_dropdown_button_easement_request_status"><b>\/</b></button>
-                                    <!-- Dropdown Options -->
-                                    <div class="dropdownMenuContentWrEasementRequestStatus" id="dropdown_menu_content_easement_request_status">
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_submit"><b>Need to Submit</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_pending"><b>Pending</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_have_easement"><b>Have Easement</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_need_easement"><b>Need Easement</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_creation"><b>Waiting - Creation</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_waiting_customer"><b>Waiting - Customer</b></div>
-                                        <div class="dropdownMenuOptionEasementRequestStatus" id="dropdown_menu_option_add_tab_wr_easement_request_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>
-                                </div>
+                                <!-- Adding DD in JS -->
                             </div>
                         </div>
 
@@ -755,29 +681,13 @@
                 <div class="addTabDisplayAddPermit hidden" id="add_tab_display_add_permit">
                     
                     <!-- Top Side -->
-                    <div class="addTabDisplayAddPermitTop">
+                    <div class="addTabDisplayAddPermitTop" id="add_tab_display_add_permit_top">
                         
                         <!-- Left Side -->
                         <div class="addTabDisplayAddPermitLeft" id="add_tab_display_add_permit_left">
-                            <div class="addTabTextfieldContainer" id="add_tab_container_permit_status">
+                            <div class="addTabTextfieldContainer" id="add_tab_add_permit_status_container">
                                 <label for="dropdown_menu_box_add_tab_permit_status" class="addTabTextfieldLabel" id="dropdown_menu_box_add_tab_permit_status_label">Permit Status</label>
-                                <div class="dropdownMenuBoxXXLarge" id="dropdown_menu_box_add_tab_permit_status">
-                                    <div class="smallText">Haven't Checked</div>
-                                </div>
-                                <div class="dropdownMenuAddPermitStatus" id="add_permit_dropdown_menu_permit_status">
-                                    <button type="button" class="dropdownButtonAddTabWrPermitStatus" id="add_permit_dropdown_button_permit_status"><b>\/</b></button>
-                                    <!-- Dropdown Box Options -->
-                                    <div class="dropdownMenuContentAddPermitStatus" id="add_permit_dropdown_menu_content_permit_status">
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_applied"><b>Applied</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_received"><b>Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_expiring_soon"><b>Expiring Soon</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_expired"><b>Expired</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_extension_submitted"><b>Extension Submitted</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_extension_received"><b>Extension Received</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_dont_need"><b>Don't Need</b></div>
-                                        <div class="dropdownMenuOption" id="dropdown_menu_option_add_tab_add_permit_status_havent_checked"><b>Haven't Checked</b></div>
-                                    </div>  
-                                </div>                    
+                                <!-- Adding DD in JS -->                
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_container_permit_submitted">
                                 <label for="date_add_tab_permit_submitted" class="addTabTextfieldLabel" id="add_tab_permit_textfield_submitted_label">Date Submitted:</label>
@@ -852,7 +762,7 @@
         
       </div>
     </div>
-    <script type="module" src="./script.js"></script>
+    <script  src="./script.js"></script>
 
 </body>
 </html>
