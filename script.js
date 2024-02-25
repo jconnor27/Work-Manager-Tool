@@ -1813,6 +1813,7 @@ async function mainEvent() {
     
         /* Filter Go Button */
     const filterGoButton = document.querySelector("#filter_go_button");
+    const searchGoButton = document.querySelector("#search_textfield_go_button");
 
             /* Filter Checkboxes */
         /* Generic */
@@ -4132,6 +4133,40 @@ async function mainEvent() {
             return list;
         }
     }
+    function assessSearchBy(list) {
+        console.log("Entered - assessSearchBy");
+
+        const userValue = document.getElementById("search_by_selection_textfield").value;
+        let temp = [];
+
+        if (searchByAddressCheckbox.checked == true) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].wrAddressType.includes(userValue)) {
+                    temp.push(list[i]);
+                }
+            }
+            return temp;
+        } else if (searchByWrCheckbox.checked == true) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].workRequestNumber.includes(userValue)) {
+                    temp.push(list[i]);
+                }
+            }
+            return temp;
+        } else { 
+            return list;
+        }
+    }
+
+        /* Go Buttons */
+    searchGoButton.addEventListener("click", (event) => {
+        console.log("Clicked - searchGoButton");
+
+        const allWrListAssessed = assessSearchBy(allWrList);
+
+        injectHTMLAllWrTabDisplay(allWrListAssessed, 0);
+        injectHTMLPermitsTabDisplay(allWrListAssessed, 0);
+    })
     filterGoButton.addEventListener("click", (event) => {
         console.log("Clicked - filterGoButton");
 
@@ -4139,8 +4174,8 @@ async function mainEvent() {
          const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
          const allWrListFiltered = assessFilterBy(allWrListTrimmed);
 
-        injectHTMLAllWrTabDisplay(allWrListFiltered, currentPageAllWr);
-        injectHTMLPermitsTabDisplay(allWrListFiltered, currentPagePermits);
+        injectHTMLAllWrTabDisplay(allWrListFiltered, 0);
+        injectHTMLPermitsTabDisplay(allWrListFiltered, 0);
 
     })
 
@@ -4210,7 +4245,7 @@ async function mainEvent() {
 
         if (searchByAddressCheckbox.checked == false) {
             searchByAddressCheckbox.checked = false;
-            searchByWrCheckbox.checked = true;
+            //searchByWrCheckbox.checked = true;
         } else {
             uncheckSearchByCheckboxes();
             searchByAddressCheckbox.checked = true;
@@ -4221,7 +4256,7 @@ async function mainEvent() {
 
         if (searchByWrCheckbox.checked == false) {
             searchByWrCheckbox.checked = false;
-            searchByAddressCheckbox.checked = true;
+            //searchByAddressCheckbox.checked = true;
         } else {
             uncheckSearchByCheckboxes();
             searchByWrCheckbox.checked = true;
