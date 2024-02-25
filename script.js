@@ -641,6 +641,33 @@ function formatDateNormal(date) {
     return month + "-" + day + "-" + "-" + year;
 }
 
+function formatDatePermitApplied(date) {
+    console.log("Entered - formatDatePermitApplied(" + date + ")");
+
+    if (date == "0001-01-01") {
+        return date;
+    } else if (date.length == 9) {
+        const year = date.substring(5);
+        console.log(year);
+        const month = date.substring(3, 4);
+        console.log(month);
+        const day = date.substring(0, 2);
+        return year + "-0" + month + "-" + day;
+
+    } else {
+        const year = date.substring(6);
+        console.log(year);
+        const month = date.substring(2, 4);
+        console.log(month);
+        const day = date.substring(0, 2);
+        return year + "-" + month + "-" + day;
+
+    }
+    
+    //console.log(day);
+
+}
+
     /* Sorting (Filter) Functions */
 /* Compares creation dates - returns in order from oldest to newest */
 function quickSortAgeOld(arr) {
@@ -898,7 +925,7 @@ function setPermitRowValues(wr, rowNumber) {
     address.innerText = wr.wrAddressType();
 
     const submitted = document.getElementById("permits_tab_row_" + rowNumberText + "_submit");
-    submitted.innerText = wr.permit.dateSubmitted;
+    submitted.innerText = formatDateNormal(wr.permit.dateSubmitted);
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
@@ -981,9 +1008,6 @@ function setAllWrRowValues(wr, rowNumber) {
 
     const priority = document.getElementById("all_wr_tab_row_" + rowNumberText + "_priority_textfield");
     priority.value = wr.priorityNumber;
-
-    console.log("testing test");
-    console.log(wr);
     
     const address = document.getElementById("all_wr_tab_row_" + rowNumberText + "_address");
     address.innerText = wr.wrAddressType();
@@ -2027,229 +2051,6 @@ async function mainEvent() {
         tempButtonAddPermit.style.height = '30px';
     };
 
-    /* Colors General Status? */
-    function assessSpecificStatus() {
-        console.log("Entered - assessSpecficiStatus(allWrList)");
-        let tempList = [];
-    
-        if (document.getElementById("all_wr_tab").classList.contains("hidden")) {
-            if (document.getElementById("filter_checkbox_waiting_ll").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_waiting_ll").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Waiting - LL/SP/ Etc.") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_need_to_visit").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Need to Visit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_svc_calcs").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "SVC Calcs + Coding") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_check_permit").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For Permit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_container_check_easement").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For Easement") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_design").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Design") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_review_peer").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_review_peer").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Review - Peer") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_review_coordinator").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_checkbox_container_coordinator").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Review - Coordinator") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_revisions").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Revisions") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_waiting_customer_not_approved").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Waiting on Cust - Not Aprvd") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_waiting_customer_approved").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_waiting_customer_approved").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Waiting on Cust - Approved") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_flag").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_flag").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Need to Flag") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_7010").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "7010'd") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_cancled_other").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_cancled_other").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Cancled/ Reassigned/ Other") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else {
-                console.log("returning allWrList normal");
-                /* clearing highlights */
-                uncolorAllWrFilterCheckboxes();
-                return allWrList;
-            }
-        } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
-            if (filterCheckboxPermitApplied.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitApplied.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Applied") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitReceived.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Received") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitExpiringSoon.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitExpiringSoon.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Expiring Soon") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitExpired.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitExpired.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Expired") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitExtensionSubmitted.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitExtensionSubmitted.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Extension Submitted") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitExtensionReceived.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitExtensionReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Extension Received") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitDontNeed.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitDontNeed.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Don't Need") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (filterCheckboxPermitHaventChecked.checked == true) {
-                uncolorPermitsTabSpecificCheckboxes();
-                filterContainerPermitHaventChecked.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].permit.permitStatus == "Haven't Checked") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else {
-                console.log("returning allWrList normal");
-                /* Clearing Highlights */
-                uncolorPermitsTabSpecificCheckboxes();
-                return allWrList;
-            }
-        } else { // nothing checked
-                console.log("returning allWrList normal2");
-                return allWrList;
-        }
-    }
-
         /* Deslect Header Tab Functions */
     function deselectAllWrTab() {
         console.log("Entered - clearAllWrTab");
@@ -2566,7 +2367,7 @@ async function mainEvent() {
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = wr.permit.permitStatus;
         addTabPermitDateSubmitted.value = formatDate(wr.permit.dateSubmitted);
-        addTabPermitDateApplied.value = formatDate(wr.permit.dateApplied);
+        addTabPermitDateApplied.value =  formatDatePermitApplied(wr.permit.dateApplied); //formatDate(wr.permit.dateApplied);
         addTabPermitPriority.value = wr.priorityNumber;
         addTabPermitCRD.value = formatDate(wr.crd);
         addTabPermitRCD.value = formatDate(wr.rcd);
@@ -2579,6 +2380,10 @@ async function mainEvent() {
     }
     function displayWrAddUpdate(wr) {
         console.log("Entered - displayWrAddUpdate(" + wr + ")");
+
+        deselectAllTabs();
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_wr").click();
         
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         addressLineTextfieldHouseNumber.value = wr.houseNumber;
@@ -2614,6 +2419,53 @@ async function mainEvent() {
 
         addTabAddButton.disabled = true;
     
+    }
+    function resetDisplayWrAddUpdate() {
+        console.log("Entered - resetDisplayWrAddUpdate()");
+
+        const d = new Date();
+        const str = d.getFullYear() + "-" + (d.getMonth + 1) + "-" + d.getDate();
+
+        addTabNewWorkRequestNumber.value = "Enter Wr Number";
+        addressLineTextfieldHouseNumber.value = "Enter House Number";
+        addressLineTextfieldStreetName.value = "Enter Street Name";
+        addressLineTextfieldCounty.value = "Enter County/City Name";
+        addressLineTextfieldZip.value = "Enter Zip Code";
+        addTabPriorityBox.value = 1;
+        addTabWrCreationDate.value = str; // new field
+        pocTextboxOwnerName.value = "N/A";
+        pocTextboxOwnerNumber.value = "N/A";
+        pocTextboxOwnerEmail.value = "N/A";
+        pocTextboxBuilderName.value = "N/A";
+        pocTextboxBuilderNumber.value = "N/A";
+        pocTextboxBuilderEmail.value = "N/A";
+        pocTextboxOtherName.value = "N/A";
+        pocTextboxOtherNumber.value = "N/A";
+        pocTextboxOtherEmail.value = "N/A";
+        document.getElementById("wr_type_dd_menu_current").innerHTML = "Not Set";
+        addTabWrCRD.value = "0001-01-01";
+        addTabWrRCD.value = "0001-01-01";
+        document.getElementById("general_status_dd_add_tab_current").innerHTML = "Not Set";
+        document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML = "Not Set";
+        document.getElementById("easement_status_dd_add_tab_current").innerHTML = "Not Set";
+        addTabWrCommentsToAdd.textContent = "Type Comment Here";
+        customerContactedCheckboxYes.checked = false;
+        customerContactedCheckboxNo.checked = true;
+    }
+
+    function resetDisplayPermitAddUpdate() {
+        console.log("Entered - resetDisplayPermitAddUpdate()");
+
+        addTabNewWorkRequestNumber.value = "Enter Wr Number";
+        document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = "Not Set";
+        addTabPermitDateSubmitted.value = "0001-01-01";
+        addTabPermitDateApplied.value =  "0001-01-01";
+        addTabPermitPriority.value = 1;
+        addTabPermitCRD.value = "0001-01-01";
+        addTabPermitRCD.value = "0001-01-01";
+        addTabPermitStart.value = "0001-01-01";
+        addTabPermitExpiration.value = "0001-01-01";
+        //addTabPermitWrCommentsToAdd = will fill in
     }
     
         /* Hide Add Tab Display */
@@ -2986,79 +2838,16 @@ async function mainEvent() {
         console.log("Fired - clicked allWrTabRowOnePermitStatus");
 
         allWrTabPermitStatusContainerClickFunction("1", event);
-        /*const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_1_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_1_content");
-            //tempContent.style.display = 'none';
-        }*/
     })
     allWrTabRowTwoPermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoPermitStatus");
 
         allWrTabPermitStatusContainerClickFunction("2", event);
-        /*const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_2_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_2_content");
-            //tempContent.style.display = 'none';
-        }*/
     })
     allWrTabRowThreePermitStatusContainer.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreePermitStatus");
 
         allWrTabPermitStatusContainerClickFunction("3", event);
-        /*const tempElem = document.createElement("tempElem");
-        tempElem.id = "temp_elem";
-        tempElem.classList.add("hidden");
-    
-        const tempDD = new PermitStatusDDMenu("test", "test");
-        const tempRowElement = tempDD.makeRowElement();
-        tempElem.insertAdjacentElement("beforeend", tempRowElement);
-
-        const tempStorage = document.getElementById("all_wr_tab_active");
-        tempStorage.insertAdjacentElement("beforeend", tempElem);
-
-        const tempContent = document.getElementById("permit_status_dd_test_tab_row_test_content");
-        tempElem.remove();
-
-        if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
-            const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_3_current");
-            tempCurrent.innerHTML = event.target.innerHTML;
-
-            const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_3_content");
-            //tempContent.style.display = 'none';
-        }*/
     })
 
             /* Easement Status DDs */
@@ -3397,6 +3186,7 @@ async function mainEvent() {
                 tempCurrent.innerHTML = event.target.innerHTML;
 
                 permitsTabPermitStatusContainerMouseoutFunction(rowNum);
+
             }
         }
     }
@@ -3415,10 +3205,32 @@ async function mainEvent() {
         if (tempCurrent.innerHTML != currentWr.permit.permitStatus) {
             console.log("* Saving page to list *");
 
-            /* Updating Status and List */
+            /* Updating Status */
             currentWr.permit.permitStatus = tempCurrent.innerHTML;
+
+            /* Checking Status to set date applied */
+            if (currentWr.permit.permitStatus == "Applied") {
+                console.log("Setting Permit Applied Date to Today");
+                
+                const d = new Date();
+                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
+                currentWr.permit.dateApplied = tempDate;
+                console.log("test test");
+                console.log(currentWr);
+            } else if (currentWr.permit.permitStatus == "Extension Submitted") {
+                console.log("Setting Permit Applied Date to Today - Extension");
+
+                const d = new Date();
+                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
+                currentWr.permit.dateApplied = tempDate;
+            }
+
+            /* Updating List */
             allWrList[curWrIndex] = currentWr;
 
+            /* Updating Page (Display) */
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
 
@@ -3608,6 +3420,7 @@ async function mainEvent() {
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                 }
                 h.displayWrUpdated(newWr.workRequestNumber);
+                resetDisplayWrAddUpdate();
 
             
         } else if (filterCheckboxAddPermit.checked == true) {
@@ -3617,7 +3430,7 @@ async function mainEvent() {
                 const d = new Date();
                 const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
                 const curWrIndex = curWrData[2];
-                let newWr = new workRequest(curWr.workRequestNumber, curWr.addressLineTextfieldHouseNumber, curWr.addressLineTextfieldStreetName,
+                let newWr = new workRequest(curWr.workRequestNumber, curWr.houseNumber, curWr.streetName,
                     curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
                     curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
                     addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curWr.commentsGeneral, 
@@ -3639,6 +3452,7 @@ async function mainEvent() {
                 injectHTMLAllWrTabDisplay(allWrList, 0);
 
                 h.displayPermitUpdated(newWr.workRequestNumber);
+                resetDisplayPermitAddUpdate();
             }
         }
         
@@ -3744,6 +3558,7 @@ async function mainEvent() {
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                 }
                 h.displayWrAdded(wr.workRequestNumber);
+                resetDisplayWrAddUpdate();
             }
         } else if (filterCheckboxAddPermit.checked == true) {
             /* need to add safety checks later */
@@ -4048,6 +3863,286 @@ async function mainEvent() {
 
     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */
     
+    function assessSpecificStatus() {
+        console.log("Entered - assessSpecficiStatus(allWrList)");
+        let tempList = [];
+    
+        if (document.getElementById("all_wr_tab").classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_waiting_ll").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_waiting_ll").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Waiting - LL/SP/ Etc.") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_need_to_visit").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Need to Visit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_svc_calcs").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "SVC Calcs + Coding") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_check_permit").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Permit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_container_check_easement").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Easement") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_design").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Design") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_review_peer").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_review_peer").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Review - Peer") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_review_coordinator").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_checkbox_container_coordinator").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Review - Coordinator") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_revisions").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Revisions") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_waiting_customer_not_approved").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Waiting on Cust - Not Aprvd") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_waiting_customer_approved").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_waiting_customer_approved").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Waiting on Cust - Approved") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_flag").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_flag").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Need to Flag") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_7010").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "7010'd") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_cancled_other").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_cancled_other").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Cancled/ Reassigned/ Other") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else {
+                console.log("returning allWrList normal");
+                /* clearing highlights */
+                uncolorAllWrFilterCheckboxes();
+                return allWrList;
+            }
+        } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
+            if (filterCheckboxPermitApplied.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitApplied.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Applied") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitReceived.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Received") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExpiringSoon.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExpiringSoon.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Expiring Soon") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExpired.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExpired.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Expired") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExtensionSubmitted.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExtensionSubmitted.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Extension Submitted") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitExtensionReceived.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitExtensionReceived.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Extension Received") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitDontNeed.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitDontNeed.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Don't Need") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (filterCheckboxPermitHaventChecked.checked == true) {
+                uncolorPermitsTabSpecificCheckboxes();
+                filterContainerPermitHaventChecked.style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].permit.permitStatus == "Haven't Checked") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else {
+                console.log("returning allWrList normal");
+                /* Clearing Highlights */
+                uncolorPermitsTabSpecificCheckboxes();
+                return allWrList;
+            }
+        } else { // nothing checked
+                console.log("returning allWrList normal2");
+                return allWrList;
+        }
+    }
+    function assessTrimByStatus(list) {
+        console.log("Entered - assessTrimByStatus(list)");
+
+        let temp = [];
+
+        if (trimByNot7010.checked == true) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_not_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].generalStatus != "7010'd") {
+                    temp.push(list[i]);
+                }
+            }
+        } else if (trimBy7010.checked == true) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_7010").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].generalStatus == "7010'd") {
+                    temp.push(list[i]);
+                }
+            }
+        } else {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_all").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+            console.log("trimByAll must be checked - returning list normal");
+            return list;
+        }
+
+        return temp;
+    }
+    function assessFilterBy(list) {
+        console.log("Entered - assessFilterBy(list)");
+
+        if (filterCheckboxPriorityNumber.checked == true) {
+            return quickSortPriorityNumber(list);
+        } else if (filterCheckboxCrd.checked == true) {
+            return quickSortCrd(list);
+        } else if (filterCheckboxRcd.checked == true) {
+            return quickSortRcd(list);
+        } else if (filterCheckboxAgeNew.checked == true) {
+            return quickSortAgeNew(list);
+        } else if (filterCheckboxAgeOld.checked == true) {
+            return quickSortAgeOld(list);
+        } else {
+            console.log("No Filter (sort) checkboxes checked - returning list");
+            return list;
+        }
+    }
+    filterGoButton.addEventListener("click", (event) => {
+        console.log("Clicked - filterGoButton");
+
+         const allWrListStatus = assessSpecificStatus(allWrList);
+         const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
+         const allWrListFiltered = assessFilterBy(allWrListTrimmed);
+
+        injectHTMLAllWrTabDisplay(allWrListFiltered, currentPageAllWr);
+        injectHTMLPermitsTabDisplay(allWrListFiltered, currentPagePermits);
+
+    })
 
         /* Trim By Event Listeners */
     trimByNot7010.addEventListener("change", (event) => {
@@ -4088,6 +4183,10 @@ async function mainEvent() {
         } else {
             uncheckTrimByCheckboxes();
             trimByAll.checked = true;
+
+            if (filterCheckbox7010.checked == true) {
+                filterCheckbox7010.checked = false;
+            }
         }
     })
 
