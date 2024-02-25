@@ -563,7 +563,7 @@
                         <div class="addressBox" id="addressBox">
                             <label class="addressBoxLabel" id="address_box_label"><b>Address:</b></label>
                             <div class="addressElementContainer">
-                                <label for="address_line_textfield_house_number" class="addressLineLabel" id="address_line_textfield_house_number_label">House Number:&ensp;</label>
+                                <label for="address_line_textfield_house_number" class="addressLineLabel" id="address_line_textfield_house_number_label" style="font-size: small;">House Number:&ensp;</label>
                                 <input type="text" class="addressLineTextfield" id="address_line_textfield_house_number" name="address_line_textfield_house_number" value="Enter House Number">
                             </div>  
                             <div class="addressElementContainer">
@@ -580,26 +580,30 @@
                             </div>
                         </div>
 
-                        <!-- Customer Contacted -->
-                    <div class="customerContactedPriorityContainer" id="customer_contacted_priority_container">
-                        <div class="customerContactedContainer" id="customer_contacted_container">
-                            <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
-                            <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
-                                <label for="customer_contacted_checkbox_yes" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_yes_label">Y</label>
-                                <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_yes" name="customer_contacted_checkbox_yes"/>
+                            <!-- Customer Contacted + Priority Number + Creation Date -->
+                        <div class="customerContactedPriorityContainer" id="customer_contacted_priority_container">
+                            <div class="customerContactedContainer" id="customer_contacted_container">
+                                <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
+                                <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
+                                    <label for="customer_contacted_checkbox_yes" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_yes_label">Y</label>
+                                    <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_yes" name="customer_contacted_checkbox_yes"/>
+                                </div>
+                                <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_no">
+                                    <label for="customer_contacted_checkbox_no" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_no_label">N</label>
+                                    <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
+                                </div>
                             </div>
-                            <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_no">
-                                <label for="customer_contacted_checkbox_no" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_no_label">N</label>
-                                <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
+                            <div class="addTabWrPriorityContainer" id="add_tab_wr_priority_container">
+                                <label for="add_tab_priority_box" class="addTabPriorityBoxLabel" id="add_tab_priority_box_label">Priority Number:</label>
+                                <input type="text" class="addTabPriorityBox" id="add_tab_priority_box" name="add_tab_priority_box" value="1">
+                            </div>
+                            <div class="addTabWrCreationContainer" id="add_tab_wr_creation_container">
+                                <label for="add_tab_wr_creation_date" class="addTabPriorityBoxLabel" id="add_tab_wr_creation_date_label">Creation Date (1020):</label>
+                                <input type="date" class="date_add_tab_wr" id="add_tab_wr_creation_date" name="add_tab_wr_creation_date" value="0001-01-01">
                             </div>
                         </div>
-                        <div class="addTabWrPriorityContainer" id="add_tab_wr_priority_container">
-                            <label for="add_tab_priority_box" class="addTabPriorityBoxLabel" id="add_tab_priority_box_label">Priority Number:</label>
-                            <input type="text" class="addTabPriorityBox" id="add_tab_priority_box" name="add_tab_priority_box" value="1">
-                        </div>
-                    </div>
 
-                        <!-- POC container -->
+                            <!-- POC container -->
                         <div class="pocContainer" id="poc_container">
                             <div class="pocRowOneContainer" id="poc_row_one_container">
                                 <div class="pocRowOneLabelContainerBlank" id="poc_row_one_label_container_blank">BLANK</div>

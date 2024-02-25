@@ -1665,9 +1665,10 @@ async function mainEvent() {
     const pocTextboxOtherNumber = document.querySelector("#poc_textbox_other_number");
     const pocTextboxOtherEmail = document.querySelector("#poc_textbox_other_email");
 
-        /* CRD and RCD */
+        /* CRD + RCD + Creation */
     const addTabWrCRD = document.querySelector("#date_add_tab_wr_crd");
     const addTabWrRCD = document.querySelector("#date_add_tab_wr_rcd");
+    const addTabWrCreationDate = document.querySelector("#add_tab_wr_creation_date");
 
         /* Comments */
             /* Add Tab Wr */
@@ -2026,6 +2027,7 @@ async function mainEvent() {
         tempButtonAddPermit.style.height = '30px';
     };
 
+    /* Colors General Status? */
     function assessSpecificStatus() {
         console.log("Entered - assessSpecficiStatus(allWrList)");
         let tempList = [];
@@ -2584,6 +2586,7 @@ async function mainEvent() {
         addressLineTextfieldCounty.value = wr.countyCity;
         addressLineTextfieldZip.value = wr.zipCode;
         addTabPriorityBox.value = wr.priorityNumber;
+        addTabWrCreationDate.value = wr.creationDate; // new field
         pocTextboxOwnerName.value = wr.ownerName;
         pocTextboxOwnerNumber.value = wr.ownerNumber;
         pocTextboxOwnerEmail.value = wr.ownerEmail;
@@ -3565,16 +3568,13 @@ async function mainEvent() {
         const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
         const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
-            const d = new Date();
-            const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-
             const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
                 addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
                 pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
                 pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
                 generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, addTabWrCommentsToAdd.textContent, 
-                customerContactedCheckboxYes.checked, tempDate);
+                customerContactedCheckboxYes.checked, addTabWrCreationDate.value);
 
             console.log("inner test ");
             console.log(newWr);
@@ -3705,8 +3705,9 @@ async function mainEvent() {
 
                 e.displayInvalidWrType();
             } else if (filterCheckboxAddWr.checked && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == false) {
-                const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+
+                console.log("test test");
+                console.log(document.getElementById("add_tab_wr_creation_date"));
 
                 const wr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
@@ -3714,7 +3715,7 @@ async function mainEvent() {
                 pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
                 pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
                 generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, addTabWrCommentsToAdd.textContent, 
-                customerContactedCheckboxYes.checked, tempDate);                                                                
+                customerContactedCheckboxYes.checked, addTabWrCreationDate.value);                                                                
                 
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
                     allWrList[0] = wr;
@@ -4128,6 +4129,37 @@ async function mainEvent() {
         }
     })
 
+        /* Filter By - Generic */
+    filterCheckboxPriorityNumber.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxPriorityNumber");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxPriorityNumber.checked = true;
+    })
+    filterCheckboxCrd.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxCrd");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxCrd.checked = true;
+    })
+    filterCheckboxRcd.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxRcd");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxRcd.checked = true;
+    })
+    filterCheckboxAgeNew.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxAgeNew");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxAgeNew.checked = true;
+    })
+    filterCheckboxAgeOld.addEventListener("change", (event) => {
+        console.log("Fired - changed - filterCheckboxAgeOld");
+
+        uncheckGenericFilterCheckboxes();
+        filterCheckboxAgeOld.checked = true;
+    })
         /* Add Tab */
     filterCheckboxAddWr.addEventListener("change", (event) => {
             console.log("Fired - Clicked filterContainerAddWr");
@@ -4329,24 +4361,7 @@ async function mainEvent() {
         }
         
     })
-    filterCheckboxPriorityNumber.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxPriorityNumber");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxPriorityNumber.checked = true;
-    })
-    filterCheckboxCrd.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxCrd");
-
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxCrd.checked = true;
-    })
-    filterCheckboxRcd.addEventListener("change", (event) => {
-        console.log("Fired - changed - filterCheckboxRcd");
-
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxRcd.checked = true;
-    })
 
         /* Permits Tab */
     filterCheckboxPermitApplied.addEventListener("change", (event) => {
