@@ -576,7 +576,7 @@ class Paginated {
         let localCount = 0;
 
         for (let i=0; i < this.list.length + 1; i++) {
-            if (localCount == 5) { //*change*
+            if (localCount == 7) { //*change*
                 const tempPage = new Page(curPage);
                 localCount = 0;
                 curPage = [];
@@ -601,7 +601,7 @@ class Paginated {
         const tempLength = this.list.length;
 
         curPage = [];
-        for (let i = 0; i < tempLength % 5; i++) { //*change*
+        for (let i = 0; i < tempLength % 7; i++) { //*change*
             curPage[i] = pages[pages.length - 1].content[i];
         }
         
@@ -684,6 +684,10 @@ function convertNumText(row) {
         rowNumberText = "four";
     } else if (row == 5) {
         rowNumberText = "five";
+    } else if (row == 6) {
+        rowNumberText = "six";
+    } else if (row == 7) {
+        rowNumberText = "seven";
     }
 
     return rowNumberText;
@@ -975,7 +979,7 @@ function hideAllPermitRows() {
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 5; i++) { //*change*
+    for (var i = 0; i < 7; i++) { //*change* - value = numRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("permits_tab_row_" + rowNumberText);
@@ -1045,7 +1049,7 @@ function hideAllWrRows() {
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 5; i++) { //*change*
+    for (var i = 0; i < 7; i++) { //*change* - value = allRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("all_wr_tab_row_" + rowNumberText);
@@ -1710,6 +1714,8 @@ async function mainEvent() {
     const permitsTabRowThreeStatusContainer = document.querySelector("#permits_tab_row_three_status");
     const permitsTabRowFourStatusContainer = document.querySelector("#permits_tab_row_four_status");
     const permitsTabRowFiveStatusContainer = document.querySelector("#permits_tab_row_five_status");
+    const permitsTabRowSixStatusContainer = document.querySelector("#permits_tab_row_six_status");
+    const permitsTabRowSevenStatusContainer = document.querySelector("#permits_tab_row_seven_status");
 
 
     /* All Wr Tab Display DropdownContainers */
@@ -1733,6 +1739,14 @@ async function mainEvent() {
     const allWrTabRowFiveGeneralStatusContainer = document.querySelector("#all_wr_tab_row_five_general_status");
     const allWrTabRowFivePermitStatusContainer = document.querySelector("#all_wr_tab_row_five_permit_status");
     const allWrTabRowFiveEasementStatusContainer = document.querySelector("#all_wr_tab_row_five_easement_status");
+        /* Row Six */
+    const allWrTabRowSixGeneralStatusContainer = document.querySelector("#all_wr_tab_row_six_general_status");
+    const allWrTabRowSixPermitStatusContainer = document.querySelector("#all_wr_tab_row_six_permit_status");
+    const allWrTabRowSixEasementStatusContainer = document.querySelector("#all_wr_tab_row_six_easement_status");
+        /* Row Seven */
+    const allWrTabRowSevenGeneralStatusContainer = document.querySelector("#all_wr_tab_row_seven_general_status");
+    const allWrTabRowSevenPermitStatusContainer = document.querySelector("#all_wr_tab_row_seven_permit_status");
+    const allWrTabRowSevenEasementStatusContainer = document.querySelector("#all_wr_tab_row_seven_easement_status");
 
     /* Next, Prev, Page Numbers */
     const prevAllWr = document.getElementById("all_wr_tab_page_prev_button");
@@ -1750,6 +1764,8 @@ async function mainEvent() {
     const allWrTabRowThreePriority = document.querySelector("#all_wr_tab_row_three_priority_textfield");
     const allWrTabRowFourPriority = document.querySelector("#all_wr_tab_row_four_priority_textfield");
     const allWrTabRowFivePriority = document.querySelector("#all_wr_tab_row_five_priority_textfield");
+    const allWrTabRowSixPriority = document.querySelector("#all_wr_tab_row_six_priority_textfield");
+    const allWrTabRowSevenPriority = document.querySelector("#all_wr_tab_row_seven_priority_textfield");
 
         /* CRDs */
     const allWrTabRowOneCrd = document.querySelector("#all_wr_tab_row_one_crd");
@@ -1757,6 +1773,8 @@ async function mainEvent() {
     const allWrTabRowThreeCrd = document.querySelector("#all_wr_tab_row_three_crd");
     const allWrTabRowFourCrd = document.querySelector("#all_wr_tab_row_four_crd");
     const allWrTabRowFiveCrd = document.querySelector("#all_wr_tab_row_five_crd");
+    const allWrTabRowSixCrd = document.querySelector("#all_wr_tab_row_six_crd");
+    const allWrTabRowSevenCrd = document.querySelector("#all_wr_tab_row_seven_crd");
 
         /* RCDs */
     const allWrTabRowOneRcd = document.querySelector("#all_wr_tab_row_one_rcd");
@@ -1764,7 +1782,8 @@ async function mainEvent() {
     const allWrTabRowThreeRcd = document.querySelector("#all_wr_tab_row_three_rcd");
     const allWrTabRowFourRcd = document.querySelector("#all_wr_tab_row_four_rcd");
     const allWrTabRowFiveRcd = document.querySelector("#all_wr_tab_row_five_rcd");
-
+    const allWrTabRowSixRcd = document.querySelector("#all_wr_tab_row_six_rcd");
+    const allWrTabRowSevenRcd = document.querySelector("#all_wr_tab_row_seven_rcd");
 
         /* Addresses */
     const allWrTabRowOneAddress = document.querySelector("#all_wr_tab_row_one_address");
@@ -1772,6 +1791,8 @@ async function mainEvent() {
     const allWrTabRowThreeAddress = document.querySelector("#all_wr_tab_row_three_address");
     const allWrTabRowFourAddress = document.querySelector("#all_wr_tab_row_four_address");
     const allWrTabRowFiveAddress = document.querySelector("#all_wr_tab_row_five_address");
+    const allWrTabRowSixAddress = document.querySelector("#all_wr_tab_row_six_address");
+    const allWrTabRowSevenAddress = document.querySelector("#all_wr_tab_row_seven_address");
 
 
 
@@ -1782,6 +1803,8 @@ async function mainEvent() {
     const permitsTabRowThreePriority = document.querySelector("#permits_tab_row_three_priority_textfield");
     const permitsTabRowFourPriority = document.querySelector("#permits_tab_row_four_priority_textfield");
     const permitsTabRowFivePriority = document.querySelector("#permits_tab_row_five_priority_textfield");
+    const permitsTabRowSixPriority = document.querySelector("#permits_tab_row_six_priority_textfield");
+    const permitsTabRowSevenPriority = document.querySelector("#permits_tab_row_seven_priority_textfield");
 
         /* Addresses */
     const permitsTabRowOneAddress = document.querySelector("#permits_tab_row_one_address");
@@ -1789,6 +1812,9 @@ async function mainEvent() {
     const permitsTabRowThreeAddress = document.querySelector("#permits_tab_row_three_address");
     const permitsTabRowFourAddress = document.querySelector("#permits_tab_row_four_address");
     const permitsTabRowFiveAddress = document.querySelector("#permits_tab_row_five_address");
+    const permitsTabRowSixAddress = document.querySelector("#permits_tab_row_six_address");
+    const permitsTabRowSevenAddress = document.querySelector("#permits_tab_row_seven_address");
+
 
         /* CRDs */
     const permitsTabRowOneCrd = document.querySelector("#permits_tab_row_one_crd_date");
@@ -1796,7 +1822,8 @@ async function mainEvent() {
     const permitsTabRowThreeCrd = document.querySelector("#permits_tab_row_three_crd_date");
     const permitsTabRowFourCrd = document.querySelector("#permits_tab_row_four_crd_date");
     const permitsTabRowFiveCrd = document.querySelector("#permits_tab_row_five_crd_date");
-
+    const permitsTabRowSixCrd = document.querySelector("#permits_tab_row_six_crd_date");
+    const permitsTabRowSevenCrd = document.querySelector("#permits_tab_row_seven_crd_date");
 
         /* RCDs */
     const permitsTabRowOneRcd = document.querySelector("#permits_tab_row_one_rcd_date");
@@ -1804,6 +1831,8 @@ async function mainEvent() {
     const permitsTabRowThreeRcd = document.querySelector("#permits_tab_row_three_rcd_date");
     const permitsTabRowFourRcd = document.querySelector("#permits_tab_row_four_rcd_date");
     const permitsTabRowFiveRcd = document.querySelector("#permits_tab_row_five_rcd_date");
+    const permitsTabRowSixRcd = document.querySelector("#permits_tab_row_six_rcd_date");
+    const permitsTabRowSevenRcd = document.querySelector("#permits_tab_row_seven_rcd_date");
 
         /* Start Dates */
     const permitsTabRowOneStartDate = document.querySelector("#permits_tab_row_one_start_date");
@@ -1811,6 +1840,8 @@ async function mainEvent() {
     const permitsTabRowThreeStartDate = document.querySelector("#permits_tab_row_three_start_date");
     const permitsTabRowFourStartDate = document.querySelector("#permits_tab_row_four_start_date");
     const permitsTabRowFiveStartDate = document.querySelector("#permits_tab_row_five_start_date");
+    const permitsTabRowSixStartDate = document.querySelector("#permits_tab_row_six_start_date");
+    const permitsTabRowSevenStartDate = document.querySelector("#permits_tab_row_seven_start_date");
 
         /* End Dates */
     const permitsTabRowOneEndDate = document.querySelector("#permits_tab_row_one_end_date");
@@ -1818,6 +1849,8 @@ async function mainEvent() {
     const permitsTabRowThreeEndDate = document.querySelector("#permits_tab_row_three_end_date");
     const permitsTabRowFourEndDate = document.querySelector("#permits_tab_row_four_end_date");
     const permitsTabRowFiveEndDate = document.querySelector("#permits_tab_row_five_end_date");
+    const permitsTabRowSixEndDate = document.querySelector("#permits_tab_row_six_end_date");
+    const permitsTabRowSevenEndDate = document.querySelector("#permits_tab_row_seven_end_date");
 
     
         /* Filter Go Button */
@@ -1901,7 +1934,7 @@ async function mainEvent() {
     let allWrList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
-    const rowsOnPage = 5;
+    const rowsOnPage = 7;
     
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
@@ -1938,6 +1971,16 @@ async function mainEvent() {
         allWrTabRowFiveGeneralStatusContainer.innerHTML = "";
         allWrTabRowFiveGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
+        dd = new GeneralStatusDDMenu("6");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSixGeneralStatusContainer.innerHTML = "";
+        allWrTabRowSixGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new GeneralStatusDDMenu("7");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSevenGeneralStatusContainer.innerHTML = "";
+        allWrTabRowSevenGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
             /* Permit Status DDs */
         dd = new PermitStatusDDMenu("allWr", "1");
         ddRow = dd.makeRowElement();
@@ -1963,6 +2006,16 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
         allWrTabRowFivePermitStatusContainer.innerHTML = "";
         allWrTabRowFivePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("allWr", "6");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSixPermitStatusContainer.innerHTML = "";
+        allWrTabRowSixPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("allWr", "7");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSevenPermitStatusContainer.innerHTML = "";
+        allWrTabRowSevenPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
             /* Easement Status DDs */
         dd = new EasementStatusDDMenu("1");
@@ -1990,6 +2043,16 @@ async function mainEvent() {
         allWrTabRowFiveEasementStatusContainer.innerHTML = "";
         allWrTabRowFiveEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
+        dd = new EasementStatusDDMenu("6");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSixEasementStatusContainer.innerHTML = "";
+        allWrTabRowSixEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new EasementStatusDDMenu("7");
+        ddRow = dd.makeRowElement();
+        allWrTabRowSevenEasementStatusContainer.innerHTML = "";
+        allWrTabRowSevenEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
         /* Permit Tab DDs */
 
         dd = new PermitStatusDDMenu("permits", "1");
@@ -2016,6 +2079,16 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
         permitsTabRowFiveStatusContainer.innerHTML = "";
         permitsTabRowFiveStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("permits", "6");
+        ddRow = dd.makeRowElement();
+        permitsTabRowSixStatusContainer.innerHTML = "";
+        permitsTabRowSixStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("permits", "7");
+        ddRow = dd.makeRowElement();
+        permitsTabRowSevenStatusContainer.innerHTML = "";
+        permitsTabRowSevenStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         /* Add Tab DDs */
 
@@ -2608,6 +2681,30 @@ async function mainEvent() {
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowSixPriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowSixPriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    allWrTabRowSevenPriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowSevenPriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
         /* Addresses */
     allWrTabRowOneAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneAddress");
@@ -2669,6 +2766,30 @@ async function mainEvent() {
         document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
+    allWrTabRowSixAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSixAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    allWrTabRowSevenAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSevenAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
 
         /* CRDs */
     function allWrTabCrdFunction(row, event) {
@@ -2714,6 +2835,16 @@ async function mainEvent() {
         console.log("mousedout - allWrTabRowFiveCrd changed to - " + event);
 
         allWrTabCrdFunction("5", event);
+    })
+    allWrTabRowSixCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowSixCrd changed to - " + event);
+
+        allWrTabCrdFunction("6", event);
+    })
+    allWrTabRowSevenCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowSevenCrd changed to - " + event);
+
+        allWrTabCrdFunction("7", event);
     })
 
         /* RCDs */
@@ -2761,6 +2892,16 @@ async function mainEvent() {
 
         allWrTabRcdFunction("5", event);
     })
+    allWrTabRowSixRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowSixRcd changed to - " + event);
+
+        allWrTabRcdFunction("6", event);
+    })
+    allWrTabRowSevenRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowSevenRcd changed to - " + event);
+
+        allWrTabRcdFunction("7", event);
+    })
 
             /* General Status DDs */
         /* Functions */
@@ -2776,10 +2917,10 @@ async function mainEvent() {
         tempContent.style.border = '1px solid black';
 
         /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
+        if (rowNum <= 4) {
             tempContent.style.marginTop = '325px';
         } else {
-            /* Will need to fill in when more than 3 work requests */
+            tempContent.style.marginBottom = '360px';
         }
     }
     function allWrTabGeneralStatusContainerClickFunction(rowNum, event) {
@@ -2880,6 +3021,16 @@ async function mainEvent() {
 
         allWrTabGeneralStatusContainerClickFunction("5", event);
     })
+    allWrTabRowSixGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSixGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("6", event);
+    })
+    allWrTabRowSevenGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSevenGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("7", event);
+    })
 
             /* Permit Status DDs */   
         /* Functions */ 
@@ -2893,11 +3044,12 @@ async function mainEvent() {
         tempContent.style.border = '1px solid black';
 
         /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
+        if (rowNum <= 4) {
             tempContent.style.marginTop = '400px';
             tempContent.style.width = '90px';
         } else {
-            /* Will need to fill in when more than 3 work requests */
+            tempContent.style.marginBottom = '455px';
+            tempContent.style.width = '90px';
         }
     }
     function allWrTabPermitStatusContainerClickFunction(rowNum, event) {
@@ -3006,6 +3158,16 @@ async function mainEvent() {
 
         allWrTabPermitStatusContainerClickFunction("5", event);
     })
+    allWrTabRowSixPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSixPermitStatus");
+
+        allWrTabPermitStatusContainerClickFunction("6", event);
+    })
+    allWrTabRowSevenPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSevenPermitStatus");
+
+        allWrTabPermitStatusContainerClickFunction("7", event);
+    })
 
             /* Easement Status DDs */
         /* Functions */
@@ -3019,11 +3181,12 @@ async function mainEvent() {
         tempContent.style.border = '1px solid black';
 
         /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
+        if (rowNum <= 4) {
             tempContent.style.marginTop = '400px';
             tempContent.style.width = '90px';
         } else {
-            /* Will need to fill in when more than 3 work requests */
+            tempContent.style.marginBottom = '440px';
+            tempContent.style.width = '90px';
         }
     }
     function allWrTabEasementStatusContainerClickFunction(rowNum, event) {
@@ -3114,6 +3277,16 @@ async function mainEvent() {
 
         allWrTabEasementStatusContainerClickFunction("5", event);
     })
+    allWrTabRowSixEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSixEasementStatus");
+
+        allWrTabEasementStatusContainerClickFunction("6", event);
+    })
+    allWrTabRowSevenEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowSevenEasementStatus");
+
+        allWrTabEasementStatusContainerClickFunction("7", event);
+    })
 
         /* AllWr Next and Prev Button */
     nextAllWr.addEventListener("click", (event) => {
@@ -3202,6 +3375,30 @@ async function mainEvent() {
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    permitsTabRowSixPriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowSixPriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowSevenPriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowSevenPriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
 
         /* Addresses */
     permitsTabRowOneAddress.addEventListener("click", (event) => {
@@ -3269,6 +3466,32 @@ async function mainEvent() {
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
+    permitsTabRowSixAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowSixAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
+    permitsTabRowSevenAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowSevenAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
 
         /* CRDs */
     function permitsTabCrdFunction(row, event) {
@@ -3315,6 +3538,16 @@ async function mainEvent() {
 
         permitsTabCrdFunction("5", event);
     })
+    permitsTabRowSixCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowSixCrd changed to - " + event);
+
+        permitsTabCrdFunction("6", event);
+    })
+    permitsTabRowSevenCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowSevenCrd changed to - " + event);
+
+        permitsTabCrdFunction("7", event);
+    })
 
         /* RCDs */
     function permitsTabRcdFunction(row, event) {
@@ -3360,6 +3593,16 @@ async function mainEvent() {
 
         permitsTabRcdFunction("5", event);
     })
+    permitsTabRowSixRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowSixRcd changed to - " + event);
+
+        permitsTabRcdFunction("6", event);
+    })
+    permitsTabRowSevenRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowSevenRcd changed to - " + event);
+
+        permitsTabRcdFunction("7", event);
+    })
     
             /* Permit Status DDs */    
         /* Functions */
@@ -3373,11 +3616,12 @@ async function mainEvent() {
         tempContent.style.border = '1px solid black';
 
         /* Below statement adjusts position of content box to above or below dd menu */
-        if (1 <=3) {
+        if (rowNum <= 4) {
             tempContent.style.marginTop = '400px';
             tempContent.style.width = '90px';
         } else {
-            /* Will need to fill in when more than 3 work requests */
+            tempContent.style.marginBottom = '445px';
+            tempContent.style.width = '90px';
         }
     }
     function permitsTabPermitStatusContainerClickFunction(rowNum, event) {
@@ -3488,6 +3732,16 @@ async function mainEvent() {
 
         permitsTabPermitStatusContainerClickFunction("5", event);
     })
+    permitsTabRowSixStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowSixPermitStatus");
+
+        permitsTabPermitStatusContainerClickFunction("6", event);
+    })
+    permitsTabRowSevenStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowSevenPermitStatus");
+
+        permitsTabPermitStatusContainerClickFunction("7", event);
+    })
         
         /* Start Dates */
     function permitsTabStartDateFunction(row, event) {
@@ -3536,6 +3790,18 @@ async function mainEvent() {
         permitsTabStartDateFunction("5", event);
 
     })
+    permitsTabRowSixStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowSixStartDate changed to - " + event);
+
+        permitsTabStartDateFunction("6", event);
+
+    })
+    permitsTabRowSevenStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowSevenStartDate changed to - " + event);
+
+        permitsTabStartDateFunction("7", event);
+
+    })
 
         /* End Dates */
     function permitsTabEndDateFunction(row, event) {
@@ -3579,6 +3845,16 @@ async function mainEvent() {
         console.log("mouseout - permitsTabRowFiveEndDate changed to - " + event);
 
         permitsTabEndDateFunction("5", event);
+    })
+    permitsTabRowSixEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowSixEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("6", event);
+    })
+    permitsTabRowSevenEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowSevenEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("7", event);
     })
 
         /* Permits Next and Prev Button */
