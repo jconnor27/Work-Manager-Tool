@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="headerTab" id="to_do_tab">
+            <div class="headerTab headerSectionInactive" id="to_do_tab">
                 <div class="headerTabTextContainer">
                     <h2>To-</h2>
                     <h2>Do's</h2>
@@ -41,7 +41,7 @@
             <div class="headerTab " id="permits_tab"><h2>Permits</h2></div>
             <div class="headerTab activeTab hidden" id="permits_tab_active"><h2>Permits</h2></div>
 
-            <div class="headerTab" id="easement_requests_tab">
+            <div class="headerTab hidden headerSectionInactive" id="easement_requests_tab">
             <h2>Easement</h2>
             <h2>Requests</h2>
             </div>
@@ -50,7 +50,7 @@
                 <h2>Requests</h2>
             </div>
 
-            <div class="headerTab" id="waiting_tab"><h2>Waiting</h2></div>
+            <div class="headerTab headerSectionInactive" id="waiting_tab"><h2>Waiting</h2></div>
             <div class="headerTab activeTab hidden" id="waiting_tab_active"><h2>Waiting</h2></div>
 
             <div class="headerTab" id="tools_tab">
@@ -65,10 +65,10 @@
             <div class="headerTab " id="add_tab"><h2>Add /</h2><h2>Update</h2></div>
             <div class="headerTab activeTab hidden" id="add_tab_active"><h2>Add /</h2><h2>Update</h2></div>
 
-            <div class="headerTab" id="upcoming_tab"><h2>Upcoming</h2></div>
+            <div class="headerTab headerSectionInactive" id="upcoming_tab"><h2>Upcoming</h2></div>
             <div class="headerTab activeTab hidden" id="upcoming_tab_active"><h2>Upcoming</h2></div>
 
-            <div class="headerTab" id="reminders_tab"><h2>Reminders</h2></div>
+            <div class="headerTab headerSectionInactive" id="reminders_tab"><h2>Reminders</h2></div>
             <div class="headerTab activeTab hidden" id="reminders_tab_active"><h2>Reminders</h2></div>
       </div>
 
@@ -335,9 +335,9 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_one_comments">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_one_pocs">
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_one_pocs">
                         Unset 1
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Row 2 -->
@@ -369,9 +369,9 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_two_comments">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_two_pocs">
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_two_pocs">
                         Unset 2
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- Row 3 -->
@@ -403,9 +403,77 @@
                     <div class="allWrRowElementContainerBig" id="all_wr_tab_row_three_comments">
                         Coming<br>Soon.
                     </div>
-                    <div class="allWrRowElementContainer" id="all_wr_tab_row_three_pocs">
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_three_pocs">
                         Unset 3
+                    </div>-->
+                </div>
+
+                <!-- Row 4 -->
+                <div class="displayRow hidden" id="all_wr_tab_row_four">
+                    <div class="allWrRowElementContainerSmall">
+                        <input type="text" class="allWrTabDisplayTextfieldSmall" id="all_wr_tab_row_four_priority_textfield" value="Unset 4"/>
                     </div>
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_four_address">
+                        Unset 4
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_four_crd"/>
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_four_rcd"/>
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_four_general_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_four_to_dos">
+                        Coming<br>Soon.
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_four_permit_status" style="margin-right: 20px;">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_four_easement_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_four_comments">
+                        Coming<br>Soon.
+                    </div>
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_four_pocs">
+                        Unset 4
+                    </div>-->
+                </div>
+
+                <!-- Row 5 -->
+                <div class="displayRow hidden" id="all_wr_tab_row_five">
+                    <div class="allWrRowElementContainerSmall">
+                        <input type="text" class="allWrTabDisplayTextfieldSmall" id="all_wr_tab_row_five_priority_textfield" value="Unset 5"/>
+                    </div>
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_five_address">
+                        Unset 5
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_five_crd"/>
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_five_rcd"/>
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_five_general_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_five_to_dos">
+                        Coming<br>Soon.
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_five_permit_status" style="margin-right: 20px;">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_five_easement_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_five_comments">
+                        Coming<br>Soon.
+                    </div>
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_five_pocs">
+                        Unset 5
+                    </div>-->
                 </div>
 
 
@@ -436,6 +504,7 @@
                     <div class="permitsTabDisplayHeaderBig">Comments</div>
                 </div>
 
+                <!-- Row 1 -->
                 <div class="displayRow hidden" id="permits_tab_row_one">
                     <div class="permitRowElementContainerSmall">
                         <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_one_priority_textfield" value="Unset 1"/>
@@ -466,6 +535,7 @@
                     </div>
                 </div>
 
+                <!-- Row 2 -->
                 <div class="displayRow hidden" id="permits_tab_row_two">
                     <div class="permitRowElementContainerSmall">
                         <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_two_priority_textfield" value="Unset 2"/>
@@ -496,6 +566,7 @@
                     </div>
                 </div>
 
+                <!-- Row 3 -->
                 <div class="displayRow hidden" id="permits_tab_row_three">
                     <div class="permitRowElementContainerSmall">
                         <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_three_priority_textfield" value="Unset 3"/>
@@ -526,6 +597,69 @@
                     </div>
                 </div>
 
+                <!-- Row 4 -->
+                <div class="displayRow hidden" id="permits_tab_row_four">
+                    <div class="permitRowElementContainerSmall">
+                        <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_four_priority_textfield" value="Unset 4"/>
+                    </div>
+                    <div class="permitRowElementContainerBig" id="permits_tab_row_four_address">
+                        Unset 4
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_four_status">
+                        <!-- Will need to add dropdowns in javascript -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_four_submit">
+                        Unset 4
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_four_start_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_four_end_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer id = permits_tab_row_one_crd_date">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_four_crd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainer"> 
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_four_rcd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainerBig">
+                        <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_four_comments_textfield" value="Unset 4"/>
+                    </div>
+                </div>
+
+                <!-- Row 5 -->
+                <div class="displayRow hidden" id="permits_tab_row_five">
+                    <div class="permitRowElementContainerSmall">
+                        <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_five_priority_textfield" value="Unset 5"/>
+                    </div>
+                    <div class="permitRowElementContainerBig" id="permits_tab_row_five_address">
+                        Unset 5
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_five_status">
+                        <!-- Will need to add dropdowns in javascript -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_five_submit">
+                        Unset 5
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_five_start_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_five_end_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer id = permits_tab_row_one_crd_date">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_five_crd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainer"> 
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_five_rcd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainerBig">
+                        <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_five_comments_textfield" value="Unset 5"/>
+                    </div>
+                </div>
+
+                <!-- Prev Next Buttons -->
                 <div class="prevNextContainer" id="permits_tab_prev_next_container">
                     <button type="button" class="pagePrevButton hidden" id="permits_tab_page_prev_button">Prev</button>
                     <div class="currentPageBox hidden" id="permits_tab_current_page_box">
@@ -582,6 +716,8 @@
 
                             <!-- Customer Contacted + Priority Number + Creation Date -->
                         <div class="customerContactedPriorityContainer" id="customer_contacted_priority_container">
+                                
+                            <!-- Customer Contacted -->
                             <div class="customerContactedContainer" id="customer_contacted_container">
                                 <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
                                 <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
@@ -593,10 +729,13 @@
                                     <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
                                 </div>
                             </div>
+                            <!-- Priority Number -->
                             <div class="addTabWrPriorityContainer" id="add_tab_wr_priority_container">
                                 <label for="add_tab_priority_box" class="addTabPriorityBoxLabel" id="add_tab_priority_box_label">Priority Number:</label>
                                 <input type="text" class="addTabPriorityBox" id="add_tab_priority_box" name="add_tab_priority_box" value="1">
                             </div>
+
+                            <!-- Creation Date -->
                             <div class="addTabWrCreationContainer" id="add_tab_wr_creation_container">
                                 <label for="add_tab_wr_creation_date" class="addTabPriorityBoxLabel" id="add_tab_wr_creation_date_label">Creation Date (1020):</label>
                                 <input type="date" class="date_add_tab_wr" id="add_tab_wr_creation_date" name="add_tab_wr_creation_date" value="0001-01-01">

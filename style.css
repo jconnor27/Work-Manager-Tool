@@ -140,6 +140,7 @@ h5 {
   align-items: center;
   justify-content: center;
   max-height: 12vh;
+  width: 140px;
 }
 
 .headerTabLast {
@@ -186,6 +187,10 @@ h5 {
 
 .filterSectionInactive {
     color: rgba(70, 68, 68, 0.286);
+}
+
+.headerSectionInactive {
+    background-color: rgba(70, 68, 68, 0.286);
 }
 
 .searchBySelectionCheckbox {
