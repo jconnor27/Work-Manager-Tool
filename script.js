@@ -1932,6 +1932,7 @@ async function mainEvent() {
     let addTabCommentsTextfieldInput = [];
     let addTabPermitCommentsTextfieldInput = [];
     let allWrList = [];
+    let filteredList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     const rowsOnPage = 7;
@@ -3296,7 +3297,7 @@ async function mainEvent() {
         console.log(curPageAllWr);
 
         curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
-        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr + 1);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1);
         currentPageAllWr += 1;
 
         return;
@@ -3305,7 +3306,7 @@ async function mainEvent() {
         console.log("Fired - Clicked all_wr_tab_prev_button");
 
         curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
-        injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr - 1);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1);
         currentPageAllWr -= 1;
 
         return; // Can remove?
@@ -3862,7 +3863,7 @@ async function mainEvent() {
         console.log("Fired - Clicked permits_tab_next_button");
 
         curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits + 1);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1);
         currentPagePermits += 1;
 
             return;
@@ -3871,7 +3872,7 @@ async function mainEvent() {
         console.log("Fired - Clicked permits_tab_prev_button");
 
         curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(allWrList, currentPagePermits - 1);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1);
         currentPagePermits -= 1;
             
         return;
@@ -4686,6 +4687,9 @@ async function mainEvent() {
 
         const allWrListAssessed = assessSearchBy(allWrList);
 
+        filteredList = allWrListAssessed;
+
+
         injectHTMLAllWrTabDisplay(allWrListAssessed, 0);
         injectHTMLPermitsTabDisplay(allWrListAssessed, 0);
     })
@@ -4695,6 +4699,8 @@ async function mainEvent() {
          const allWrListStatus = assessSpecificStatus(allWrList);
          const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
          const allWrListFiltered = assessFilterBy(allWrListTrimmed);
+
+         filteredList = allWrListFiltered;
 
         injectHTMLAllWrTabDisplay(allWrListFiltered, 0);
         injectHTMLPermitsTabDisplay(allWrListFiltered, 0);
@@ -5115,6 +5121,7 @@ async function mainEvent() {
         for (let i = 0; i < tempList.length; i++) {
             allWrList[allWrList.length] = tempList[i];
         }
+        filteredList = allWrList;
         footerButtonSync.classList.add("hidden");
         deselectAllTabs();
         document.getElementById('all_wr_tab').click();
