@@ -542,17 +542,41 @@
                     <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_seven_pocs">
                         Unset 7
                     </div>-->
-                </div>
-
-
-                <div class="prevNextContainer" id="all_wr_tab_prev_next_container">
-                    <button type="button" class="pagePrevButton hidden" id="all_wr_tab_page_prev_button">Prev</button>
-                    <div class="currentPageBox hidden" id="all_wr_tab_current_page_box">
-                        1
+                </div> 
+                
+                <!-- Row 8 -->
+                <div class="displayRow hidden" id="all_wr_tab_row_eight">
+                    <div class="allWrRowElementContainerSmall">
+                        <input type="text" class="allWrTabDisplayTextfieldSmall" id="all_wr_tab_row_eight_priority_textfield" value="Unset 8"/>
                     </div>
-                    <button type="button" class="pageNextButton hidden" id="all_wr_tab_page_next_button">Next</button>
-
-                </div>  
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_eight_address">
+                        Unset 8
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_eight_crd"/>
+                    </div>
+                    <div class="allWrRowElementContainer">
+                        <input type="date" class="allWrTabDisplayTextfield" id="all_wr_tab_row_eight_rcd"/>
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_eight_general_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_eight_to_dos">
+                        Coming<br>Soon.
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_eight_permit_status" style="margin-right: 20px;">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainer" id="all_wr_tab_row_eight_easement_status">
+                        <!-- Adding DD in script.js -->
+                    </div>
+                    <div class="allWrRowElementContainerBig" id="all_wr_tab_row_eight_comments">
+                        Coming<br>Soon.
+                    </div>
+                    <!--<div class="allWrRowElementContainer" id="all_wr_tab_row_eight_pocs">
+                        Unset 8
+                    </div>-->
+                </div> 
 
             </div>
 
@@ -787,17 +811,38 @@
                     <div class="permitRowElementContainerBig">
                         <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_seven_comments_textfield" value="Unset 7"/>
                     </div>
-                </div>
-
-                <!-- Prev Next Buttons -->
-                <div class="prevNextContainer" id="permits_tab_prev_next_container">
-                    <button type="button" class="pagePrevButton hidden" id="permits_tab_page_prev_button">Prev</button>
-                    <div class="currentPageBox hidden" id="permits_tab_current_page_box">
-                        1
+                </div> 
+                
+                <!-- Row 8 -->
+                <div class="displayRow hidden" id="permits_tab_row_eight">
+                    <div class="permitRowElementContainerSmall">
+                        <input type="text" class="permitsTabDisplayTextfieldSmall" id="permits_tab_row_eight_priority_textfield" value="Unset 8"/>
                     </div>
-                    <button type="button" class="pageNextButton hidden" id="permits_tab_page_next_button">Next</button>
-
-                </div>              
+                    <div class="permitRowElementContainerBig" id="permits_tab_row_eight_address">
+                        Unset 8
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_eight_status">
+                        <!-- Will need to add dropdowns in javascript -->
+                    </div>
+                    <div class="permitRowElementContainer" id="permits_tab_row_eight_submit">
+                        Unset 8
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_eight_start_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_eight_end_date" value="0001-01-01"/>
+                    </div>
+                    <div class="permitRowElementContainer id = permits_tab_row_eight_crd_date_container">
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_eight_crd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainer"> 
+                        <input type="date" class="permitsTabDisplayTextfield" id="permits_tab_row_eight_rcd_date" value="0001-01-01" />
+                    </div>
+                    <div class="permitRowElementContainerBig">
+                        <input type="text" class="permitsTabDisplayTextfieldBig" id="permits_tab_row_eight_comments_textfield" value="Unset 8"/>
+                    </div>
+                </div> 
 
             </div>
 
@@ -1019,7 +1064,29 @@
 
       <!-- Footer Container -->
       <div class="footerContainer">
-        <div class="footerObject">Work Manager Tool - By John Connor</div>
+        <div class="footerObject">Work/Permit Tracker Tool</div>
+        
+        <!-- allWr Prev Next Buttons -->
+        <div class="prevNextContainer" id="all_wr_tab_prev_next_container">
+            <button type="button" class="pagePrevButton hidden" id="all_wr_tab_page_prev_button" disabled>Prev</button>
+            <div class="currentPageBox hidden" id="all_wr_tab_current_page_box">
+                1
+            </div>
+            <button type="button" class="pageNextButton hidden" id="all_wr_tab_page_next_button" disabled>Next</button>
+
+        </div>
+                
+        <!-- Permits Prev Next Buttons -->
+        <div class="prevNextContainer" id="permits_tab_prev_next_container">
+            <button type="button" class="pagePrevButton hidden" id="permits_tab_page_prev_button" disabled>Prev</button>
+            <div class="currentPageBox hidden" id="permits_tab_current_page_box">
+                1
+            </div>
+            <button type="button" class="pageNextButton hidden" id="permits_tab_page_next_button" disabled>Next</button>
+
+        </div>
+
+        <!-- Load and Save Buttons -->
         <div class="loadSaveButtonsContainer" id="load_save_buttons_container">
             <label for="data_from_value_date" class="dataFromValueDateLabel" id="data_from_value_date_label">Data From: </label>
             <input type="date" id="data_from_value_date" name="data_from_value_date" value="2023-12-28" />

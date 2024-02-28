@@ -460,10 +460,20 @@ class workRequest {
     wrAddressType() {
         console.log("Entered - wrAddressType()");
 
-        let str = "";
+        const str = document.createElement('wrAddressTypeContainer');
 
-        str += "WR#: " + this.workRequestNumber + "\n" + this.houseNumber + " " + this.streetName + ",\n" + this.countyCity + ", " + 
-            this.zipCode + "\n" + this.wrType; 
+
+        str.innerHTML = `<li class="wrAddressTypeWrNumber">WR#: ${this.workRequestNumber}</li>` + 
+                    `<li class="wrAddressTypeStreetInfo">${this.houseNumber} ${this.streetName}</li>` +
+                    `<li class="wrAddressTypeCountyInfo">${this.countyCity}, VA ${this.zipCode}</li>` +
+                    `<li class="wrAddressTypeWrType">${this.wrType}</li>`;
+        //str.style.display = 'flex';
+        //str.style.flexDirection = 'column';
+        str.classList.add("wrAddressTypeContainer");
+        console.log(str);
+
+        /*"WR#: " + this.workRequestNumber + "\n" + this.houseNumber + " " + this.streetName + ",\n" + this.countyCity + ", " + 
+            this.zipCode + "\n" + this.wrType; */
         return str; 
     }
 
@@ -576,7 +586,7 @@ class Paginated {
         let localCount = 0;
 
         for (let i=0; i < this.list.length + 1; i++) {
-            if (localCount == 7) { //*change*
+            if (localCount == 8) { //*change*
                 const tempPage = new Page(curPage);
                 localCount = 0;
                 curPage = [];
@@ -601,7 +611,7 @@ class Paginated {
         const tempLength = this.list.length;
 
         curPage = [];
-        for (let i = 0; i < tempLength % 7; i++) { //*change*
+        for (let i = 0; i < tempLength % 8; i++) { //*change*
             curPage[i] = pages[pages.length - 1].content[i];
         }
         
@@ -688,6 +698,8 @@ function convertNumText(row) {
         rowNumberText = "six";
     } else if (row == 7) {
         rowNumberText = "seven";
+    } else if (row == 8) {
+        rowNumberText = "eight";
     }
 
     return rowNumberText;
@@ -870,6 +882,8 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
         revealWrRow(i + 1);
     }
 
+    document.getElementById("all_wr_tab_prev_next_container").classList.remove("hidden");
+
     const prev = document.getElementById("all_wr_tab_page_prev_button");
     const next = document.getElementById("all_wr_tab_page_next_button");
     const cur = document.getElementById("all_wr_tab_current_page_box");
@@ -879,14 +893,20 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
     /* Adding next and prev buttons */
     if ((currentPageAllWr + 1)  < pages.length && pages[currentPageAllWr + 1].content.length != 0) { // reveal next button
         next.classList.remove("hidden");
+        prev.classList.remove("hidden");
+        next.disabled = false;
     } else {
-        next.classList.add("hidden");
+        //next.classList.add("hidden");
+        next.disabled = true;
     }
 
     if (currentPageAllWr + 1 > 1) { // reveal prev button
+        next.classList.remove("hidden");
         prev.classList.remove("hidden");
+        prev.disabled = false;
     } else {
-        prev.classList.add("hidden");
+        //prev.classList.add("hidden");
+        prev.disabled = true;
     }
 }
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
@@ -905,6 +925,8 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
         revealPermitRow(i + 1);
     }
 
+    document.getElementById("permits_tab_prev_next_container").classList.remove("hidden");
+
 
     /* Adding next and prev buttons */
     const prev = document.getElementById("permits_tab_page_prev_button");
@@ -914,15 +936,21 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
     cur.classList.remove("hidden");
 
     if ((currentPagePermits + 1)  < pages.length && pages[currentPagePermits + 1].content.length != 0) { // reveal next button
-        next.classList.remove("hidden");    
+        next.classList.remove("hidden");  
+        prev.classList.remove("hidden");
+        next.disabled = false;
     } else {
-        next.classList.add("hidden");
+        //next.classList.add("hidden");
+        next.disabled = true;
     }
 
     if (currentPagePermits + 1 > 1) {  // reveal prev button
+        next.classList.remove("hidden");  
         prev.classList.remove("hidden");
+        prev.disabled = false;
     } else {
-        prev.classList.add("hidden");
+        //prev.classList.add("hidden");
+        prev.disabled = true;
     }
 }
 
@@ -939,7 +967,7 @@ function setPermitRowValues(wr, rowNumber) {
     priority.value = wr.priorityNumber;
 
     const address = document.getElementById("permits_tab_row_" + rowNumberText + "_address");
-    address.innerText = wr.wrAddressType();
+    address.innerHTML = wr.wrAddressType().outerHTML;
 
     const submitted = document.getElementById("permits_tab_row_" + rowNumberText + "_submit");
     submitted.innerText = formatDateNormal(wr.permit.dateSubmitted);
@@ -979,12 +1007,22 @@ function hideAllPermitRows() {
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 7; i++) { //*change* - value = numRowsOnPage
+    for (var i = 0; i < 8; i++) { //*change* - value = numRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("permits_tab_row_" + rowNumberText);
         temp.classList.add("hidden");
     }
+
+    /* Hidding Next and Prev Buttons */
+    const prev = document.getElementById("permits_tab_page_prev_button");
+    const next = document.getElementById("permits_tab_page_next_button");
+    const cur = document.getElementById("permits_tab_current_page_box");
+
+    prev.classList.add("hidden");
+    next.classList.add("hidden");
+    cur.classList.add("hidden");
+
 }
 function revealPermitRow(row) {
     console.log("Entered - revealPermitRow(" + row + ")");
@@ -1005,7 +1043,7 @@ function setAllWrRowValues(wr, rowNumber) {
     priority.value = wr.priorityNumber;
     
     const address = document.getElementById("all_wr_tab_row_" + rowNumberText + "_address");
-    address.innerText = wr.wrAddressType();
+    address.innerHTML = wr.wrAddressType().outerHTML;
 
     const crd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd");
     crd.value = wr.crd;
@@ -1049,12 +1087,24 @@ function hideAllWrRows() {
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 7; i++) { //*change* - value = allRowsOnPage
+    for (var i = 0; i < 8; i++) { //*change* - value = allRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("all_wr_tab_row_" + rowNumberText);
         temp.classList.add("hidden");
-    }    
+    }
+
+    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+    
+    /* Hidding Next and Prev Buttons 
+    const prev = document.getElementById("all_wr_tab_page_prev_button");
+    const next = document.getElementById("all_wr_tab_page_next_button");
+    const cur = document.getElementById("all_wr_tab_current_page_box");
+
+    prev.classList.add("hidden");
+    next.classList.add("hidden");
+    cur.classList.add("hidden");*/
+
 }
 function revealWrRow(row) {
     console.log("Entered - revealWrRow(" + row + ")");
@@ -1716,6 +1766,7 @@ async function mainEvent() {
     const permitsTabRowFiveStatusContainer = document.querySelector("#permits_tab_row_five_status");
     const permitsTabRowSixStatusContainer = document.querySelector("#permits_tab_row_six_status");
     const permitsTabRowSevenStatusContainer = document.querySelector("#permits_tab_row_seven_status");
+    const permitsTabRowEightStatusContainer = document.querySelector("#permits_tab_row_eight_status");
 
 
     /* All Wr Tab Display DropdownContainers */
@@ -1747,6 +1798,10 @@ async function mainEvent() {
     const allWrTabRowSevenGeneralStatusContainer = document.querySelector("#all_wr_tab_row_seven_general_status");
     const allWrTabRowSevenPermitStatusContainer = document.querySelector("#all_wr_tab_row_seven_permit_status");
     const allWrTabRowSevenEasementStatusContainer = document.querySelector("#all_wr_tab_row_seven_easement_status");
+        /* Row Eight */
+    const allWrTabRowEightGeneralStatusContainer = document.querySelector("#all_wr_tab_row_eight_general_status");
+    const allWrTabRowEightPermitStatusContainer = document.querySelector("#all_wr_tab_row_eight_permit_status");
+    const allWrTabRowEightEasementStatusContainer = document.querySelector("#all_wr_tab_row_eight_easement_status");
 
     /* Next, Prev, Page Numbers */
     const prevAllWr = document.getElementById("all_wr_tab_page_prev_button");
@@ -1766,6 +1821,7 @@ async function mainEvent() {
     const allWrTabRowFivePriority = document.querySelector("#all_wr_tab_row_five_priority_textfield");
     const allWrTabRowSixPriority = document.querySelector("#all_wr_tab_row_six_priority_textfield");
     const allWrTabRowSevenPriority = document.querySelector("#all_wr_tab_row_seven_priority_textfield");
+    const allWrTabRowEightPriority = document.querySelector("#all_wr_tab_row_eight_priority_textfield");
 
         /* CRDs */
     const allWrTabRowOneCrd = document.querySelector("#all_wr_tab_row_one_crd");
@@ -1775,6 +1831,7 @@ async function mainEvent() {
     const allWrTabRowFiveCrd = document.querySelector("#all_wr_tab_row_five_crd");
     const allWrTabRowSixCrd = document.querySelector("#all_wr_tab_row_six_crd");
     const allWrTabRowSevenCrd = document.querySelector("#all_wr_tab_row_seven_crd");
+    const allWrTabRowEightCrd = document.querySelector("#all_wr_tab_row_eight_crd");
 
         /* RCDs */
     const allWrTabRowOneRcd = document.querySelector("#all_wr_tab_row_one_rcd");
@@ -1784,6 +1841,7 @@ async function mainEvent() {
     const allWrTabRowFiveRcd = document.querySelector("#all_wr_tab_row_five_rcd");
     const allWrTabRowSixRcd = document.querySelector("#all_wr_tab_row_six_rcd");
     const allWrTabRowSevenRcd = document.querySelector("#all_wr_tab_row_seven_rcd");
+    const allWrTabRowEightRcd = document.querySelector("#all_wr_tab_row_eight_rcd");
 
         /* Addresses */
     const allWrTabRowOneAddress = document.querySelector("#all_wr_tab_row_one_address");
@@ -1793,6 +1851,7 @@ async function mainEvent() {
     const allWrTabRowFiveAddress = document.querySelector("#all_wr_tab_row_five_address");
     const allWrTabRowSixAddress = document.querySelector("#all_wr_tab_row_six_address");
     const allWrTabRowSevenAddress = document.querySelector("#all_wr_tab_row_seven_address");
+    const allWrTabRowEightAddress = document.querySelector("#all_wr_tab_row_eight_address");
 
 
 
@@ -1805,6 +1864,7 @@ async function mainEvent() {
     const permitsTabRowFivePriority = document.querySelector("#permits_tab_row_five_priority_textfield");
     const permitsTabRowSixPriority = document.querySelector("#permits_tab_row_six_priority_textfield");
     const permitsTabRowSevenPriority = document.querySelector("#permits_tab_row_seven_priority_textfield");
+    const permitsTabRowEightPriority = document.querySelector("#permits_tab_row_eight_priority_textfield");
 
         /* Addresses */
     const permitsTabRowOneAddress = document.querySelector("#permits_tab_row_one_address");
@@ -1814,6 +1874,7 @@ async function mainEvent() {
     const permitsTabRowFiveAddress = document.querySelector("#permits_tab_row_five_address");
     const permitsTabRowSixAddress = document.querySelector("#permits_tab_row_six_address");
     const permitsTabRowSevenAddress = document.querySelector("#permits_tab_row_seven_address");
+    const permitsTabRowEightAddress = document.querySelector("#permits_tab_row_eight_address");
 
 
         /* CRDs */
@@ -1824,6 +1885,7 @@ async function mainEvent() {
     const permitsTabRowFiveCrd = document.querySelector("#permits_tab_row_five_crd_date");
     const permitsTabRowSixCrd = document.querySelector("#permits_tab_row_six_crd_date");
     const permitsTabRowSevenCrd = document.querySelector("#permits_tab_row_seven_crd_date");
+    const permitsTabRowEightCrd = document.querySelector("#permits_tab_row_eight_crd_date");
 
         /* RCDs */
     const permitsTabRowOneRcd = document.querySelector("#permits_tab_row_one_rcd_date");
@@ -1833,6 +1895,7 @@ async function mainEvent() {
     const permitsTabRowFiveRcd = document.querySelector("#permits_tab_row_five_rcd_date");
     const permitsTabRowSixRcd = document.querySelector("#permits_tab_row_six_rcd_date");
     const permitsTabRowSevenRcd = document.querySelector("#permits_tab_row_seven_rcd_date");
+    const permitsTabRowEightRcd = document.querySelector("#permits_tab_row_eight_rcd_date");
 
         /* Start Dates */
     const permitsTabRowOneStartDate = document.querySelector("#permits_tab_row_one_start_date");
@@ -1842,6 +1905,7 @@ async function mainEvent() {
     const permitsTabRowFiveStartDate = document.querySelector("#permits_tab_row_five_start_date");
     const permitsTabRowSixStartDate = document.querySelector("#permits_tab_row_six_start_date");
     const permitsTabRowSevenStartDate = document.querySelector("#permits_tab_row_seven_start_date");
+    const permitsTabRowEightStartDate = document.querySelector("#permits_tab_row_eight_start_date");
 
         /* End Dates */
     const permitsTabRowOneEndDate = document.querySelector("#permits_tab_row_one_end_date");
@@ -1851,6 +1915,7 @@ async function mainEvent() {
     const permitsTabRowFiveEndDate = document.querySelector("#permits_tab_row_five_end_date");
     const permitsTabRowSixEndDate = document.querySelector("#permits_tab_row_six_end_date");
     const permitsTabRowSevenEndDate = document.querySelector("#permits_tab_row_seven_end_date");
+    const permitsTabRowEightEndDate = document.querySelector("#permits_tab_row_eight_end_date");
 
     
         /* Filter Go Button */
@@ -1935,7 +2000,7 @@ async function mainEvent() {
     let filteredList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
-    const rowsOnPage = 7;
+    const rowsOnPage = 8;
     
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
@@ -1982,6 +2047,11 @@ async function mainEvent() {
         allWrTabRowSevenGeneralStatusContainer.innerHTML = "";
         allWrTabRowSevenGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
+        dd = new GeneralStatusDDMenu("8");
+        ddRow = dd.makeRowElement();
+        allWrTabRowEightGeneralStatusContainer.innerHTML = "";
+        allWrTabRowEightGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
             /* Permit Status DDs */
         dd = new PermitStatusDDMenu("allWr", "1");
         ddRow = dd.makeRowElement();
@@ -2017,6 +2087,11 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
         allWrTabRowSevenPermitStatusContainer.innerHTML = "";
         allWrTabRowSevenPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("allWr", "8");
+        ddRow = dd.makeRowElement();
+        allWrTabRowEightPermitStatusContainer.innerHTML = "";
+        allWrTabRowEightPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
             /* Easement Status DDs */
         dd = new EasementStatusDDMenu("1");
@@ -2054,6 +2129,11 @@ async function mainEvent() {
         allWrTabRowSevenEasementStatusContainer.innerHTML = "";
         allWrTabRowSevenEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
+        dd = new EasementStatusDDMenu("8");
+        ddRow = dd.makeRowElement();
+        allWrTabRowEightEasementStatusContainer.innerHTML = "";
+        allWrTabRowEightEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
         /* Permit Tab DDs */
 
         dd = new PermitStatusDDMenu("permits", "1");
@@ -2090,6 +2170,11 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
         permitsTabRowSevenStatusContainer.innerHTML = "";
         permitsTabRowSevenStatusContainer.insertAdjacentElement("beforeend", ddRow);
+
+        dd = new PermitStatusDDMenu("permits", "8");
+        ddRow = dd.makeRowElement();
+        permitsTabRowEightStatusContainer.innerHTML = "";
+        permitsTabRowEightStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
         /* Add Tab DDs */
 
@@ -2204,6 +2289,7 @@ async function mainEvent() {
         filterSectionStatusLabel.classList.add("hidden");
         allWrStatusFiltersContainer.classList.add("hidden");
         curPageAllWr.classList.add("hidden");
+        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
 
         uncheckAllWrFilterCheckboxes();
         uncolorAllWrFilterCheckboxes();
@@ -2234,6 +2320,7 @@ async function mainEvent() {
         filterSectionStatusLabel.classList.add("hidden");
         permitStatusFiltersContainer.classList.add("hidden");
         curPagePermits.classList.add("hidden");
+        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
 
         uncheckPermitsTabSpecificCheckboxes();
         uncolorPermitsTabSpecificCheckboxes();
@@ -2706,6 +2793,19 @@ async function mainEvent() {
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowEightPriority.addEventListener("change", (event) => {
+        console.log("Changed - allWrTabRowEightPriority changed to - " + event);
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
+
         /* Addresses */
     allWrTabRowOneAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneAddress");
@@ -2791,6 +2891,18 @@ async function mainEvent() {
         document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
+    allWrTabRowEightAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowEightAddress");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayWrAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
 
         /* CRDs */
     function allWrTabCrdFunction(row, event) {
@@ -2847,6 +2959,11 @@ async function mainEvent() {
 
         allWrTabCrdFunction("7", event);
     })
+    allWrTabRowEightCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowEightCrd changed to - " + event);
+
+        allWrTabCrdFunction("8", event);
+    })
 
         /* RCDs */
     function allWrTabRcdFunction(row, event) {
@@ -2902,6 +3019,11 @@ async function mainEvent() {
         console.log("mousedout - allWrTabRowSevenRcd changed to - " + event);
 
         allWrTabRcdFunction("7", event);
+    })
+    allWrTabRowEightRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - allWrTabRowEightRcd changed to - " + event);
+
+        allWrTabRcdFunction("8", event);
     })
 
             /* General Status DDs */
@@ -3031,6 +3153,11 @@ async function mainEvent() {
         console.log("Fired - clicked allWrTabRowSevenGeneralStatus");
 
         allWrTabGeneralStatusContainerClickFunction("7", event);
+    })
+    allWrTabRowEightGeneralStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowEightGeneralStatus");
+
+        allWrTabGeneralStatusContainerClickFunction("8", event);
     })
 
             /* Permit Status DDs */   
@@ -3169,6 +3296,11 @@ async function mainEvent() {
 
         allWrTabPermitStatusContainerClickFunction("7", event);
     })
+    allWrTabRowEightPermitStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowEightPermitStatus");
+
+        allWrTabPermitStatusContainerClickFunction("8", event);
+    })
 
             /* Easement Status DDs */
         /* Functions */
@@ -3288,6 +3420,11 @@ async function mainEvent() {
 
         allWrTabEasementStatusContainerClickFunction("7", event);
     })
+    allWrTabRowEightEasementStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked allWrTabRowEightEasementStatus");
+
+        allWrTabEasementStatusContainerClickFunction("8", event);
+    })
 
         /* AllWr Next and Prev Button */
     nextAllWr.addEventListener("click", (event) => {
@@ -3400,6 +3537,18 @@ async function mainEvent() {
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    permitsTabRowEightPriority.addEventListener("change", (event) => {
+        console.log("Changed - permitsTabRowEightPriority changed to - " + event);
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+        
+
+        currentWr.priorityNumber = event.target.value;
+        allWrList[curWrIndex] = currentWr;        
+    })
 
         /* Addresses */
     permitsTabRowOneAddress.addEventListener("click", (event) => {
@@ -3493,6 +3642,19 @@ async function mainEvent() {
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
+    permitsTabRowEightAddress.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowEightAddress");
+
+        const page = document.getElementById("permits_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayPermitAddUpdate(currentWr);
+        document.getElementById("add_tab").click();
+        document.getElementById("filter_checkbox_add_permit").click();
+        document.getElementById("add_tab_update_button").disabled = false;
+    })
 
         /* CRDs */
     function permitsTabCrdFunction(row, event) {
@@ -3549,6 +3711,11 @@ async function mainEvent() {
 
         permitsTabCrdFunction("7", event);
     })
+    permitsTabRowEightCrd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowEightCrd changed to - " + event);
+
+        permitsTabCrdFunction("8", event);
+    })
 
         /* RCDs */
     function permitsTabRcdFunction(row, event) {
@@ -3603,6 +3770,11 @@ async function mainEvent() {
         console.log("mousedout - permitsTabRowSevenRcd changed to - " + event);
 
         permitsTabRcdFunction("7", event);
+    })
+    permitsTabRowEightRcd.addEventListener("mouseout", (event) => {
+        console.log("mousedout - permitsTabRowEightRcd changed to - " + event);
+
+        permitsTabRcdFunction("8", event);
     })
     
             /* Permit Status DDs */    
@@ -3743,6 +3915,11 @@ async function mainEvent() {
 
         permitsTabPermitStatusContainerClickFunction("7", event);
     })
+    permitsTabRowEightStatusContainer.addEventListener("click", (event) => {
+        console.log("Fired - clicked permitsTabRowEightPermitStatus");
+
+        permitsTabPermitStatusContainerClickFunction("8", event);
+    })
         
         /* Start Dates */
     function permitsTabStartDateFunction(row, event) {
@@ -3803,6 +3980,12 @@ async function mainEvent() {
         permitsTabStartDateFunction("7", event);
 
     })
+    permitsTabRowEightStartDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowEightStartDate changed to - " + event);
+
+        permitsTabStartDateFunction("8", event);
+
+    })
 
         /* End Dates */
     function permitsTabEndDateFunction(row, event) {
@@ -3856,6 +4039,11 @@ async function mainEvent() {
         console.log("mouseout - permitsTabRowSevenEndDate changed to - " + event);
 
         permitsTabEndDateFunction("7", event);
+    })
+    permitsTabRowEightEndDate.addEventListener("mouseout", (event) => {
+        console.log("mouseout - permitsTabRowEightEndDate changed to - " + event);
+
+        permitsTabEndDateFunction("8", event);
     })
 
         /* Permits Next and Prev Button */
@@ -4664,7 +4852,7 @@ async function mainEvent() {
 
         if (searchByAddressCheckbox.checked == true) {
             for (var i = 0; i < list.length; i++) {
-                if (list[i].wrAddressType.includes(userValue)) {
+                if (list[i].wrAddressType().includes(userValue)) {
                     temp.push(list[i]);
                 }
             }
@@ -4680,6 +4868,16 @@ async function mainEvent() {
             return list;
         }
     }
+
+        /* searchBy Textfield */
+    searchBySelectionTextfield.addEventListener("click", (event) => {
+        console.log("Fired - clicked searchBySelectionTextfield");
+
+        if (event.target.value != null) {
+            searchBySelectionTextfield.select();
+        }
+    }) 
+    
 
         /* Go Buttons */
     searchGoButton.addEventListener("click", (event) => {

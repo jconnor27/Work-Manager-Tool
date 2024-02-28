@@ -170,7 +170,7 @@ h5 {
     flex-direction: column;
     border: 2px solid black;
     width: 300px;
-    min-height: 81vh;
+    min-height: 700px;
     padding-right: 5px;
 }
 
@@ -906,21 +906,23 @@ h5 {
     flex-direction: row;
     border: 2px solid black;
     justify-content: space-between;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 1424px;
 }
 
 .footerObject {
     display: flex;
     flex-direction: row;
-    margin-left: .5rem;
+    margin-left: 30px;
 }
 
 .loadSaveButtonsContainer {
     display: flex;
     flex-direction: row;
     margin-right: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .footerButton {
@@ -1308,17 +1310,21 @@ h5 {
 .prevNextContainer {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right: 200px;
 }
 
 .currentPageBox {
     display: flex;
     border: 1px solid black;
-    width: 42px;
-    height: 42px;
-    margin: 10px;
+    width: 28px;
+    height: 28px;
     align-items: center;
     justify-content: center;
     font-size: x-large;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .addTabPriorityNumberTextfield {
@@ -1395,15 +1401,19 @@ h5 {
 .pageNextButton{
     display: flex;
     font-size: large;
-    padding: .5rem;
-    margin: .5rem;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .pagePrevButton {
     display: flex;
     font-size: large;
-    padding: .5rem;
-    margin: .5rem;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    /*padding: .5rem;
+    margin: .5rem;*/
 }
 
 .pageInfo {
@@ -1520,7 +1530,7 @@ h5 {
 
 .allWrTabDisplayHeader {
     display: flex;
-    height: 92px;
+    height: 83px;
     width: 60px;
     align-items: center;
     justify-content: center;
@@ -1532,19 +1542,18 @@ h5 {
 
 .allWrTabDisplayHeaderBig {
     display: flex;
-    height: 92px;
+    height: 83px;
     width: 160px;
     align-items: center;
     justify-content: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    
     border-bottom: 2px solid black;
     border-right: 2px solid black;
 }
 
 .allWrTabDisplayHeaderSmall {
     display: flex;
-    height: 92px;
+    height: 83px;
     width: 40px;
     align-items: center;
     justify-content: center;
@@ -1558,7 +1567,7 @@ h5 {
     /* All WR's Tab - Display - Rows*/ 
 .allWrRowElementContainer {
         display: flex;
-        height: 92px;
+        height: 75px;
         width: 92px;
         align-items: center;
         justify-content: center;
@@ -1572,7 +1581,7 @@ h5 {
     
 .allWrRowElementContainerSmall {
         display: flex;
-        height: 92px;
+        height: 75px;
         width: 72px;
         align-items: center;
         justify-content: center;
@@ -1584,8 +1593,8 @@ h5 {
     
 .allWrRowElementContainerBig {
         display: flex;
-        height: 92px;
-        width: 192px;
+        height: 75px;
+        width: 160px;
         align-items: center;
         justify-content: center;
         
@@ -1629,7 +1638,7 @@ h5 {
 
 .permitsTabDisplayHeader {
     display: flex;
-    height: 92px;
+    height: 83px;
     width: 60px;
     align-items: center;
     justify-content: center;
@@ -1641,19 +1650,18 @@ h5 {
 
 .permitsTabDisplayHeaderBig {
     display: flex;
-    height: 92px;
-    width: 180px;
+    height: 83px;
+    width: 160px;
     align-items: center;
     justify-content: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    
     border-bottom: 2px solid black;
     border-right: 2px solid black;
 }
 
 .permitsTabDisplayHeaderSmall {
     display: flex;
-    height: 92px;
+    height: 83px;
     width: 40px;
     align-items: center;
     justify-content: center;
@@ -1675,7 +1683,7 @@ h5 {
 
 .permitRowElementContainer {
     display: flex;
-    height: 92px;
+    height: 75px;
     width: 92px;
     align-items: center;
     justify-content: center;
@@ -1688,7 +1696,7 @@ h5 {
 
 .permitRowElementContainerSmall {
     display: flex;
-    height: 92px;
+    height: 75px;
     width: 40px;
     align-items: center;
     justify-content: center;
@@ -1699,13 +1707,10 @@ h5 {
 
 .permitRowElementContainerBig {
     display: flex;
-    height: 92px;
-    width: 180px;
+    height: 75px;
+    width: 160px;
     align-items: center;
     justify-content: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    /*border-bottom: 2px solid black;*/
     border-right: 2px solid black;
 }
 
@@ -1776,6 +1781,26 @@ h5 {
     margin-right: 0px;
     justify-content: center;
     column-gap: 0px;
+}
+
+.wrAddressTypeContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.wrAddressTypeWrNumber {
+    display: flex;
+    font-size: 11px;
+}
+
+.wrAddressTypeStreetInfo, .wrAddressTypeCountyInfo {
+    display: flex;
+    font-size: 11px;
+}
+
+.wrAddressTypeWrType {
+    display: flex;
+    font-size: 10px;
 }
 
 .hidden {
