@@ -283,9 +283,8 @@ class Permit {
         console.log("Entered - Permit - toString()");
 
         const permitSTR = "permitStatus:" + this.permitStatus + "," + "dateSubmitted:" + this.dateSubmitted + "," +
-                        "dateApplied:" + this.dateApplied + "," + "priorityNumber:" + this.priorityNumber + "," + 
-                        "crd:" + this.crd + "," + "rcd:" + this.rcd + "," + "startDate:" + this.startDate + "," + 
-                        "endDate:" + this.endDate + "," + "creationDate:" + this.creationDate;
+                        "dateApplied:" + this.dateApplied + "," + "startDate:" + this.startDate + "," + 
+                        "endDate:" + this.endDate;
 
         return permitSTR;
     }
@@ -677,6 +676,19 @@ function formatDatePermitApplied(date) {
     
     //console.log(day);
 
+}
+
+/* Makes month 2 digits - for date format */
+function formatMonth(month) {
+    console.log("Entered - formatMonth(" + month +")");
+
+    if (month.length == 1) {
+        let str = "0";
+        str += month;
+        return str;
+    } else {
+        return month;
+    }
 }
 
 function convertNumText(row) {
@@ -1134,6 +1146,7 @@ function parseWrString(str) {
         const data = parseSingleWrString(tempStr);
         
         const newWr = data[0];
+        newWr.permit = data[1];
 
         wrList[wrList.length] = newWr;
 
@@ -1266,7 +1279,7 @@ function parseSingleWrString(str) {
     const dateApplied = str.substring(colonIndex + 1, commaIndex);
     str = str.substring(commaIndex + 1);
 
-    colonIndex = str.indexOf(":");
+    /*colonIndex = str.indexOf(":");
     commaIndex = str.indexOf(",");
     const priorityNumber2 = str.substring(colonIndex + 1, commaIndex); // don't need to record priority number twice
     str = str.substring(commaIndex + 1);
@@ -1279,7 +1292,7 @@ function parseSingleWrString(str) {
     colonIndex = str.indexOf(":");
     commaIndex = str.indexOf(",");
     const rcd2 = str.substring(colonIndex + 1, commaIndex);  // don't need twice
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 1);*/
 
     colonIndex = str.indexOf(":");
     commaIndex = str.indexOf(",");
@@ -1291,10 +1304,10 @@ function parseSingleWrString(str) {
     const permitEndDate = str.substring(colonIndex + 1, commaIndex);
     str = str.substring(commaIndex + 1);
 
-    colonIndex = str.indexOf(":");
+    /*colonIndex = str.indexOf(":");
     commaIndex = str.indexOf(",");
     const creationDate2 = str.substring(colonIndex + 1, commaIndex);  // don't need twice
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 1);*/
    
     colonIndex = str.indexOf(":");
     commaIndex = str.indexOf(",");
@@ -1317,7 +1330,7 @@ function parseSingleWrString(str) {
     
     const wr = new workRequest(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, 
         ownerEmail, builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus,
-        permitStatus, easementRequestStatus, commentsGeneral, customerContacted, creationDate2);
+        permitStatus, easementRequestStatus, commentsGeneral, customerContacted, creationDate);
 
         /*console.log("New Wr = ");
         console.log(wr)*/
@@ -1340,7 +1353,7 @@ function parseSingleWrIndex(str) {
     let curIndex = 0;
     let count = 0;
 
-    while (count < 32) { // will need to change for new format
+    while (count < 28) { // will need to change for new format
         curIndex = str.indexOf(",") + 1;
         str = str.substring(curIndex);
         wrIndex += curIndex;
@@ -1452,12 +1465,14 @@ function removeRcdError(tab, row) {
     console.log("Entered - removeRcdError(" + tab + " tab - row " + row + ")");
 
     const temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_error");
+    if (temp != null) {
     temp.remove();
+    }
 
-    if (tab == "add" && row == "two") {
+    if (tab == "add" && row == "two" && document.getElementById("add_tab_display_add_permit_top") != null) {
         document.getElementById("add_tab_display_add_permit_top").classList.remove("removeMargins");
     }
-    if (tab == "add" && row == "one") {
+    if (tab == "add" && row == "one" && document.getElementById("add_tab_display_bottom") != null) {
         document.getElementById("add_tab_display_bottom").classList.remove("removeSideMargins");
 
     }
@@ -1509,13 +1524,17 @@ function assessPermitStartDate(startDate, endDate) {
     const cur = new Date();
     const rawData = new Date(start - cur);
     const data = convertDate(rawData);
+
+    console.log("**** test");
+    console.log(data);
     
     if (data == -9999) { // date not set - set as 01/01/0001 by me by default
         return '#dbea06ca'; // yellowish
-    } else if (start >= end) { // Permit has expired
+    } else if (cur >= end) { // Permit has expired
+        console.log("*** RED");
         return '#ff3191cd'; // redish
-    } else if (start <= cur) {// Permit has started 
-        return 'rgba(87, 245, 43, 0.627)';
+    } else if (start >= cur) {// Permit has started 
+        return 'rgba(87, 245, 43, 0.627)'; // greenish
     } else { // Permit date has been set but Permit has not started
         return 'rgba(39, 252, 203, 0.83)'; // tealish
     }
@@ -2652,7 +2671,7 @@ async function mainEvent() {
         console.log("Entered - resetDisplayWrAddUpdate()");
 
         const d = new Date();
-        const str = d.getFullYear() + "-" + (d.getMonth + 1) + "-" + d.getDate();
+        const str = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         addressLineTextfieldHouseNumber.value = "Enter House Number";
@@ -3673,6 +3692,8 @@ async function mainEvent() {
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
             
+            console.log("testing here - permitsTabCrd");
+            console.log(allWrList);
         }
 
     }
@@ -5343,9 +5364,6 @@ async function mainEvent() {
     })
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
-       
-        const allWrListRaw = document.getElementById("temp_all_wr_list").innerHTML;
-        const allWrList = parseWrString(allWrListRaw);
 
         saveFile(allWrList);
     })
