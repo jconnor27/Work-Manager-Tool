@@ -1,5 +1,17 @@
 let allWrList = [];
 
+class WorkRequestSaveData {
+    constructor(date, allWrList) {
+        this.date = date;
+        this.allWrList = allWrList;
+    }
+
+    toString() {
+        console.log("Entered - WorkRequestSaveData - toString()");
+
+        return "Data from: " + this.date + " " + allWrList;
+    }
+}
 
 class PermitDate {
     constructor(curDate, type) {
@@ -282,8 +294,8 @@ class Permit {
     toString() {
         console.log("Entered - Permit - toString()");
 
-        const permitSTR = "permitStatus:" + this.permitStatus + "," + "dateSubmitted:" + this.dateSubmitted + "," +
-                        "dateApplied:" + this.dateApplied + "," + "startDate:" + this.startDate + "," + 
+        const permitSTR = "permitStatus:" + this.permitStatus + "*ENDCHAR*" + "dateSubmitted:" + this.dateSubmitted + "*ENDCHAR*" +
+                        "dateApplied:" + this.dateApplied + "*ENDCHAR*" + "startDate:" + this.startDate + "*ENDCHAR*" + 
                         "endDate:" + this.endDate;
 
         return permitSTR;
@@ -518,30 +530,30 @@ class workRequest {
     toString() {
         console.log("Entered - toString()");
 
-        const wrSTR = "workRequestNumber:" + this.workRequestNumber + "," +
-                "houseNumber:" + this.houseNumber + "," +
-                "streetName:" + this.streetName + "," +
-                "countyCity:" + this.countyCity + "," +
-                "zipCode:" + this.zipCode + "," +
-                "priorityNumber:" + this.priorityNumber + "," +
-                "ownerName:" + this.ownerName + "," +
-                "ownerNumber:" + this.ownerNumber + "," +
-                "ownerEmail:" + this.ownerEmail + "," +
-                "builderName:" + this.builderName + "," +
-                "builderNumber:" + this.builderNumber + "," +
-                "builderEmail:" + this.builderEmail + "," +
-                "otherName:" + this.otherName + "," +
-                "otherNumber:" + this.otherNumber + "," +
-                "otherEmail:" + this.otherEmail + "," +
-                "wrType:" + this.wrType + "," +
-                "crd:" + this.crd + "," +
-                "rcd:" + this.rcd + "," +
-                "generalStatus:" + this.generalStatus + "," +
-                "permit:" + this.permit.toString() + "," + // 9 lines
-                "easementRequestStatus:" + this.easementRequestStatus + "," +
-                "commentsGeneral:" + this.commentsGeneral + "," +
-                "customerContacted:" + this.customerContacted + "," +
-                "creationDate:" + this.creationDate + ","; /* 23 + 9 lines */
+        const wrSTR = "workRequestNumber:" + this.workRequestNumber + "*ENDCHAR*" +
+                "houseNumber:" + this.houseNumber + "*ENDCHAR*" +
+                "streetName:" + this.streetName + "*ENDCHAR*" +
+                "countyCity:" + this.countyCity + "*ENDCHAR*" +
+                "zipCode:" + this.zipCode + "*ENDCHAR*" +
+                "priorityNumber:" + this.priorityNumber + "*ENDCHAR*" +
+                "ownerName:" + this.ownerName + "*ENDCHAR*" +
+                "ownerNumber:" + this.ownerNumber + "*ENDCHAR*" +
+                "ownerEmail:" + this.ownerEmail + "*ENDCHAR*" +
+                "builderName:" + this.builderName + "*ENDCHAR*" +
+                "builderNumber:" + this.builderNumber + "*ENDCHAR*" +
+                "builderEmail:" + this.builderEmail + "*ENDCHAR*" +
+                "otherName:" + this.otherName + "*ENDCHAR*" +
+                "otherNumber:" + this.otherNumber + "*ENDCHAR*" +
+                "otherEmail:" + this.otherEmail + "*ENDCHAR*" +
+                "wrType:" + this.wrType + "*ENDCHAR*" +
+                "crd:" + this.crd + "*ENDCHAR*" +
+                "rcd:" + this.rcd + "*ENDCHAR*" +
+                "generalStatus:" + this.generalStatus + "*ENDCHAR*" +
+                "permit:" + this.permit.toString() + "*ENDCHAR*" + // 9 lines
+                "easementRequestStatus:" + this.easementRequestStatus + "*ENDCHAR*" +
+                "commentsGeneral:" + this.commentsGeneral + "*ENDCHAR*" +
+                "customerContacted:" + this.customerContacted + "*ENDCHAR*" +
+                "creationDate:" + this.creationDate + "*ENDCHAR*"; /* 23 + 9 lines */
         return wrSTR;
     }
 
@@ -682,13 +694,12 @@ function formatDatePermitApplied(date) {
 function formatMonth(month) {
     console.log("Entered - formatMonth(" + month +")");
 
-    if (month.length == 1) {
+    if (month.length == 2) {
+        return month;
+    } else {
         let str = "0";
         str += month;
-        return str;
-    } else {
-        return month;
-    }
+        return str;    }
 }
 
 function convertNumText(row) {
@@ -844,11 +855,16 @@ async function writeFile(contents) {
 }
 async function saveFile(allWrList) {
     console.log("Entered - saveFile()");
-    
+
+    const d = new Date();
+    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
+    const data = [now, allWrList]
+    const dataBlob = new Blob(data);
+
     const newHandle = await window.showSaveFilePicker();
     const writableStream = await newHandle.createWritable();
-    const temp = new Blob(allWrList);
-    await writableStream.write(temp);
+    
+    await writableStream.write(dataBlob);
     await writableStream.close();
 
     
@@ -1127,6 +1143,19 @@ function revealWrRow(row) {
     temp.classList.remove("hidden");
 }
 
+    /* Set footer Date and Time */
+function setFooterDate(dateTime) {
+    console.log("Entered - setFooterDate(" + dateTime + ")");
+
+    const dataFromDate = document.getElementById("data_from_value_date");
+    const dataFromTime = document.getElementById("data_from_value_time");
+    const date = dateTime.substring(0, 10);
+    const time = dateTime.substring(11, 13) + ":" + dateTime.substring(14);
+
+    dataFromDate.value = date;
+    dataFromTime.value = time;
+}
+
     /* Parse Functions */
 function parseWrString(str) {
     console.log("Entered - parseWrString(str)");
@@ -1135,11 +1164,21 @@ function parseWrString(str) {
     let curIndex = 0;
     let tempCount = 0;
     let tempStr = str;
-
-    /*let test = parseSingleWrString(str);
-    console.log(test);*/
+    let date = null;
 
     while (str.length > 2) {
+
+        // Removing Date and Time
+        if (str[0] != "w") {
+            date = str.substring(0, 16);
+            const tempStr = str.substring(16); // removing date/time
+            str = tempStr;
+
+            setFooterDate(date);
+        } else {
+            console.log("Nothing to trim"); // for testing - could remove
+        }
+
         curIndex = parseSingleWrIndex(str);
         tempStr = str.substring(0, curIndex);
 
@@ -1168,178 +1207,152 @@ function parseSingleWrString(str) {
     let commaIndex = 0;
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const workRequestNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const houseNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const streetName = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const countyCity = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const zipCode = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const priorityNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const ownerName = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const ownerNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const ownerEmail = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const builderName = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const builderNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const builderEmail = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const otherName = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const otherNumber = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const otherEmail = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const wrType = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const crd = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const rcd = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
     
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const generalStatus = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     str = str.substring(7);  // removing "permit:"
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const permitStatus = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const dateSubmitted = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const dateApplied = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
-
-    /*colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
-    const priorityNumber2 = str.substring(colonIndex + 1, commaIndex); // don't need to record priority number twice
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
-    const crd2 = str.substring(colonIndex + 1, commaIndex); // don't need twice
-    str = str.substring(commaIndex + 1);
-
-    colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
-    const rcd2 = str.substring(colonIndex + 1, commaIndex);  // don't need twice
-    str = str.substring(commaIndex + 1);*/
-
-    colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const permitStartDate = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const permitEndDate = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
-
-    /*colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
-    const creationDate2 = str.substring(colonIndex + 1, commaIndex);  // don't need twice
-    str = str.substring(commaIndex + 1);*/
+    str = str.substring(commaIndex + 9);
    
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     let easementRequestStatus = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const commentsGeneral = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const customerContacted = str.substring(colonIndex + 1, commaIndex);
-    str = str.substring(commaIndex + 1);
+    str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
-    commaIndex = str.indexOf(",");
+    commaIndex = str.indexOf("*ENDCHAR*");
     const creationDate = str.substring(colonIndex + 1, commaIndex);
     
     const wr = new workRequest(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, 
         ownerEmail, builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus,
         permitStatus, easementRequestStatus, commentsGeneral, customerContacted, creationDate);
 
-        /*console.log("New Wr = ");
-        console.log(wr)*/
-
     const permit = new Permit(workRequestNumber, permitStatus, dateSubmitted, dateApplied, priorityNumber, crd,
             rcd, permitStartDate, permitEndDate, creationDate);
-
-        /*console.log("New Permit = ");
-        console.log(permit);*/
 
     let data = [wr, permit];
 
@@ -1354,7 +1367,7 @@ function parseSingleWrIndex(str) {
     let count = 0;
 
     while (count < 28) { // will need to change for new format
-        curIndex = str.indexOf(",") + 1;
+        curIndex = str.indexOf("*ENDCHAR*") + 9;
         str = str.substring(curIndex);
         wrIndex += curIndex;
         count += 1;
