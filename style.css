@@ -1530,6 +1530,7 @@ h5 {
 
 .allWrTabDisplayHeader {
     display: flex;
+    flex-direction: column;
     height: 83px;
     width: 60px;
     align-items: center;
@@ -1542,17 +1543,19 @@ h5 {
 
 .allWrTabDisplayHeaderBig {
     display: flex;
+    flex-direction: column;
     height: 83px;
     width: 160px;
     align-items: center;
     justify-content: center;
-    
+    padding-left: 15px;
     border-bottom: 2px solid black;
     border-right: 2px solid black;
 }
 
 .allWrTabDisplayHeaderSmall {
     display: flex;
+    flex-direction: column;
     height: 83px;
     width: 40px;
     align-items: center;
@@ -1578,6 +1581,22 @@ h5 {
         font-size: smaller;
         flex-direction: column;
 }
+
+.allWrRowElementContainerStatus {
+    display: flex;
+    height: 75px;
+    width: 92px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    /*padding-left: 1rem;
+    padding-right: 1rem;*/
+    /*border-bottom: 2px solid black;*/
+    border-right: 2px solid black;
+    font-size: smaller;
+    flex-direction: column;
+}
     
 .allWrRowElementContainerSmall {
         display: flex;
@@ -1595,6 +1614,7 @@ h5 {
         display: flex;
         height: 75px;
         width: 160px;
+        padding-left: 15px;
         align-items: center;
         justify-content: center;
         
