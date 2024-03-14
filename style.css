@@ -1823,6 +1823,22 @@ h5 {
     font-size: 10px;
 }
 
+.addTabCommentsRemoveButton {
+    height: 20px;
+    width: 20px;
+    font-size: x-large;
+    margin: 1rem;
+    margin-left: 365px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5px;
+}
+
+.selectedComment {
+    border: 1px solid red;
+}
+
 .hidden {
     display: none;
     

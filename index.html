@@ -265,13 +265,13 @@
                     <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_permit" name="filter_checkbox_add_permit"/>
                     <label for="filter_checkbox_add_permit" class="filterCheckboxLabel" id="filter_checkbox_add_permit_label">Permit</label>
                 </div>
-                <div class="filterContainerAddTab" id="filter_container_add_easement_request">
+                <!--<div class="filterContainerAddTab" id="filter_container_add_easement_request">
                     <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_easement_request" name="filter_checkbox_add_easement_request" disabled/>
                     <label for="filter_checkbox_add_easement_request" class="filterCheckboxLabelAddTab" id="filter_checkbox_add_easement_request_label">
                         <div class="filterCheckboxLabel">Easement</div>
                         <div class="filterCheckboxLabel">Request</div>
                     </label>
-                </div>
+                </div>-->
                 <div class="filterContainer" id="filter_container_add_comment">
                     <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_comment" name="filter_checkbox_add_comment" disabled/>
                     <label for="filter_checkbox_add_comment" class="filterCheckboxLabel" id="filter_checkbox_add_comment_label">Comment</label>
@@ -980,11 +980,12 @@
                         <!-- Bottom Right Container -->
                         <div class="addTabDisplayBottomRightContainer" id="add_tab_display_bottom_right_container">
                             <div class="addTabBottomRightRowOne" id="add_tab_bottom_right_row_one">
-                                <label for="add_tab_comments_add_button" class="addTabCommentsAddButtonLabel" id="add_tab_comments_add_button_label" name="add_tab_comments_add_button_label"><b>Comments (General):</b></label>
-                                <button type="button" class="addTabCommentsAddButton" id="add_tab_comments_add_button" >+</button>
+                                <label for="add_tab_comments_add_button" class="addTabCommentsAddButtonLabel" id="add_tab_comments_add_button_label" name="add_tab_comments_add_button_label"><b>Comments To Add:</b></label>
+                                <button type="button" class="addTabCommentsRemoveButton" id="add_tab_comments_remove_button" disabled>-</button>
+                                <button type="button" class="addTabCommentsAddButton" id="add_tab_comments_add_button" disabled>+</button>
                             </div>
                             <div class="addTabBottomRightRowTwo" id="add_tab_bottom_right_row_two">
-                                <input type="text" class="addTabCommentsTextfield" id="add_tab_comments_textfield" name="add_tab_comments_textfield" value="Coming Soon"/>
+                                <input type="text" class="addTabCommentsTextfield" id="add_tab_comments_textfield" name="add_tab_comments_textfield" value="Enter Comment Here"/>
                             </div>
                             <div class="addTabBottomRightRowThree" id="add_tab_bottom_right_row_three">
                                 
@@ -1042,7 +1043,7 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Side -->
+                    <!-- Bottom Side 
                     <div class="addTabDisplayAddPermitBottom">
                         <div class="addTabPermitBottomRowOne" id="add_tab_permit_bottom_row_one">
                             <label for="add_tab_permit_comments_add_button" class="addTabPermitCommentsAddButtonLabel" id="add_tab_permit_comments_add_button_label" name="add_tab_permit_comments_add_button_label"><b>Comments (Permit):</b></label>
@@ -1053,10 +1054,10 @@
                         </div>
                         <div class="addTabPermitBottomRowThree" is="add_tab_permit_bottom_row_three">
                             
-                            <!-- Empty List -->
+                            <!- Empty List 
                             <div class="addTabPermitCommentsToAddList hidden" id="add_tab_permit_comments_to_add"></div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
