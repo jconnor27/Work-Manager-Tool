@@ -538,7 +538,7 @@ h5 {
 .addDisplayContainer {
     display: flex;
     flex-direction: column;
-    width: 75vw;
+    width: 1115px;
 }
 
 .addTabDisplayTop {
@@ -555,7 +555,7 @@ h5 {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .newWrNumberTextfield {
@@ -564,7 +564,7 @@ h5 {
 }
 
 .newWorkRequestNumberTextfieldLabel {
-    font-size: x-large;
+    font-size: large;
     margin: .5rem;
 }
 
@@ -576,7 +576,7 @@ h5 {
 
 .addNewWrButton {
     background-color: rgb(222, 246, 7);
-    margin: 1rem;
+    margin-right: 25px;
     height: 40px;
     width: fit-content;
     /*margin-left: 475px;*/
@@ -598,7 +598,7 @@ h5 {
 }
 
 .addressBoxLabel {
-    font-size: x-large;
+    font-size: large;
 }
 
 .addressElementContainer {
@@ -627,7 +627,7 @@ h5 {
 .customerContactedContainer {
     display: flex;
     flex-direction: row;
-    font-size: x-large;
+    font-size: large;
     align-items: center;
 }
 
@@ -645,12 +645,12 @@ h5 {
 }
 
 .customerContactedCheckbox {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 }
 
 .customerContactedCheckboxLabel {
-    font-size: x-large;
+    font-size: large;
 }
 
 .addTabWrPriorityContainer {
@@ -662,15 +662,24 @@ h5 {
 
 .addTabPriorityBox {
     border: 2px solid black;
-    height: 40px;
-    width: 40px;
-    font-size: x-large;
+    height: 30px;
+    width: 30px;
+    font-size: large;
+    align-items: center;
+    justify-content: center;
+}
+
+.addTabCreationBox {
+    border: 2px solid black;
+    height: 30px;
+    width: 30px;
+    font-size: large;
     align-items: center;
     justify-content: center;
 }
 
 .addTabPriorityBoxLabel {
-    font-size: x-large;
+    font-size: large;
     margin: 1rem;
 }
 
@@ -817,7 +826,13 @@ h5 {
 .addTabTextfieldContainer {
     display: flex;
     flex-direction: row;
-    margin-top: 1rem;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.addTabPermitTextfieldContainer {
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
@@ -827,7 +842,7 @@ h5 {
 }
 
 .addTabTextfieldLabel {
-    font-size: large;
+    font-size: medium;
     margin-left: 2rem;
     margin-right: 2rem;
 }
@@ -836,7 +851,8 @@ h5 {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
-    width: 30vw;
+    width: 620px;
+    height: 345px;
 }
 
 .addTabBottomRightRowOne {
@@ -846,7 +862,7 @@ h5 {
     border-bottom: 2px solid black;
 }
 
-.addTabCommentsAddButton {
+.addTabCommentsAddButton, .addTabPermitCommentsAddButton {
     height: 20px;
     width: 20px;
     font-size: large;
@@ -869,7 +885,7 @@ h5 {
 
 .addTabCommentsTextfield {
     border: 2px solid black;
-    width: 28vw;
+    width: 590px;
     height: 50px;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -891,6 +907,14 @@ h5 {
     display: flex;
     flex-direction: column-reverse;
     padding: .5rem;
+}
+
+.addTabPermitCommentsToAddList {
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: .5rem;
+    width: 548px;
 }
 
 .addTabWrCommentsListElement {
@@ -1422,6 +1446,12 @@ h5 {
     padding: .5rem;
 }
 
+.addTabDisplayAddPermit {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .addTabDisplayAddPermitLeft, .addTabDisplayAddPermitRight {
     display: flex;
     flex-direction: column;
@@ -1432,8 +1462,7 @@ h5 {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 15px;
 }
 
 .addTabDisplayAddPermitBottom {
@@ -1441,6 +1470,10 @@ h5 {
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
+    border: 2px solid black;
+    width: 600px;
+    height: 310px;
+    padding-bottom: 10px;
 }
 
 .dropdownMenuContentAddPermitStatus {
@@ -1475,17 +1508,18 @@ h5 {
     flex-direction: row;
     justify-content: space-between;
     border: 2px solid black;
-    width: 800px;
+    width: 600px;
 }
 
 .addTabPermitBottomRowTwo {
     display: flex;
-    width: 800px;
+    width: 600px;
+    margin-bottom: 10px;
 }
 
 .addTabPermitBottomRowThree {
     display: flex;
-    width: 800px;
+    width: 600px;
     padding-left: 2rem;
 }
 
@@ -1501,7 +1535,7 @@ h5 {
 
 .addTabPermitCommentsAddButtonLabel {
     display: flex;
-    font-size: large;
+    font-size: medium;
     margin-top: .75rem;
     margin-left: 1rem;
 }
@@ -1670,8 +1704,9 @@ h5 {
 
 .permitsTabDisplayHeaderBig {
     display: flex;
+    flex-direction: column;
     height: 83px;
-    width: 160px;
+    width: 180px;
     align-items: center;
     justify-content: center;
     
@@ -1728,7 +1763,7 @@ h5 {
 .permitRowElementContainerBig {
     display: flex;
     height: 75px;
-    width: 160px;
+    width: 180px;
     align-items: center;
     justify-content: center;
     border-right: 2px solid black;
@@ -1828,7 +1863,19 @@ h5 {
     width: 20px;
     font-size: x-large;
     margin: 1rem;
-    margin-left: 365px;
+    margin-left: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5px;
+}
+
+.addTabPermitCommentsRemoveButton {
+    height: 20px;
+    width: 20px;
+    font-size: x-large;
+    margin: 1rem;
+    margin-left: 350px;
     display: flex;
     align-items: center;
     justify-content: center;

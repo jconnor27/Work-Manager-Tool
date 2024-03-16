@@ -1023,38 +1023,24 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
     }
 }
 function injectHTMLAddTabWrComment(comment, index) {
-    console.log("Entered - injectHTMLAddTabWrComment(" + comment + ")");
+    console.log("Entered - injectHTMLAddTabWrComment(" + comment + ", " + index + ")");
 
     const commentsToAdd = document.getElementById("add_tab_wr_comments_to_add");
     const elem = document.createElement("commentToAddItem");
     elem.id = "comment_to_add_item_" + index;
 
     elem.innerHTML = `<li class="addTabWrCommentToAdd">${comment}</li>`;
-    /*elem.addEventListener("click", (event) => {
-        console.log("Fired - Clicked " + elem.id);
+    commentsToAdd.classList.remove("hidden");
+    commentsToAdd.insertAdjacentElement("beforeend", elem);
+}
+function injectHTMLAddTabPermitComment(comment, index) {
+    console.log("Entered - injectHTMLAddTabPermitComment(" + comment + ", " + index + ")");
 
-        if (document.getElementById("temp_remove_button") == undefined) {
-            elem.style.border = "2px solid red";
-            const tempRemoveButton = document.createElement("tempRemoveButton");
-            tempRemoveButton.id = "temp_remove_button"
-            tempRemoveButton.innerHTML = `<button type="button" class="tempMinusButton" id="temp_minus_button">${"-"}</button>`;
-            tempRemoveButton.addEventListener("click", (event) => {
-                console.log("Fired - Clicked tempRemoveButton");
-                document.getElementById("comment_to_add_item_" + index).remove(); 
-                tempRemoveButton.remove();
+    const commentsToAdd = document.getElementById("add_tab_permit_comments_to_add");
+    const elem = document.createElement("commentToAddItem");
+    elem.id = "permit_comment_to_add_item_" + index;
 
-                if (index == 0) {
-                    document.getElementById("add_tab_bottom_right_row_three").classList.add("hidden");
-                }
-            })
-            document.getElementById("temp_minus_button_container").insertAdjacentElement("beforeend", tempRemoveButton);
-        } else {
-            elem.style.border = "none";
-            document.getElementById("temp_remove_button").remove();
-        }
-        
-    })*/
-
+    elem.innerHTML = `<li class="addTabPermitCommentToAdd">${comment}</li>`;
     commentsToAdd.classList.remove("hidden");
     commentsToAdd.insertAdjacentElement("beforeend", elem);
 }
@@ -1103,8 +1089,13 @@ function setPermitRowValues(wr, rowNumber) {
     rcd.style.backgroundColor = assessDate(date);
 
     const comments = document.getElementById("permits_tab_row_" + rowNumberText + "_comments");
-    // Will need to fill in when hooked up
-
+    const tempLength = wr.commentsGeneral.comments.length;
+    if (tempLength == 0) {
+        console.log("No Comments to add");
+    } else {
+        comments.innerText = wr.commentsGeneral.comments[tempLength - 1].comment +
+                            " (" + wr.commentsGeneral.comments[tempLength - 1].date + ")";
+    }
 }
 function hideAllPermitRows() {
     console.log("Entered - hideAllPermitRows()");
@@ -1882,9 +1873,10 @@ async function mainEvent() {
     const addTabWrCommentsToAdd = document.querySelector("#add_tab_wr_comments_to_add");
 
             /* Add Tab Permit */
-    //const addTabPermitCommentsAddButton = document.querySelector("#add_tab_permit_comments_add_button");
-    //const addTabPermitCommentsTextfield = document.querySelector("#add_tab_permit_comments_textfield");
-    //const addTabPermitWrCommentsToAdd = document.querySelector("#add_tab_permit_comments_to_add");
+    const addTabPermitCommentsAddButton = document.querySelector("#add_tab_permit_comments_add_button");
+    const addTabPermitCommentsRemoveButton = document.querySelector("#add_tab_permit_comments_remove_button");
+    const addTabPermitCommentsTextfield = document.querySelector("#add_tab_permit_comments_textfield");
+    const addTabPermitCommentsToAdd = document.querySelector("#add_tab_permit_comments_to_add");
     const addTabPermitDateSubmitted = document.querySelector("#date_add_tab_permit_submitted");
     const addTabPermitDateApplied = document.querySelector("#date_add_tab_permit_applied")
     const addTabPermitCRD = document.querySelector("#date_add_tab_permit_crd");
@@ -2152,6 +2144,7 @@ async function mainEvent() {
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     let tempComments = [];
+    let tempPermitComments = [];
     const rowsOnPage = 8;
     
     // green background highlight "rgba(87, 245, 43, 0.627)"
@@ -2356,6 +2349,7 @@ async function mainEvent() {
         const tempButtonGeneral = document.getElementById("general_status_dd_add_tab_button");
         tempButtonGeneral.style.width = '30px';
         tempButtonGeneral.style.height = '30px';
+        tempButtonGeneral.innerHTML ="/\\";
 
         dd = new PermitStatusDDMenu("add", "1");
         dd.setHeight("50px");
@@ -2582,7 +2576,7 @@ async function mainEvent() {
         filterCheckboxAddWr.checked = false;
         filterCheckboxAddToDo.checked = false;
         filterCheckboxAddPermit.checked = false;
-        filterCheckboxAddEasementRequest.checked = false;
+        //filterCheckboxAddEasementRequest.checked = false;
         filterCheckboxAddComment.checked = false;
         filterCheckboxAddReminder.checked = false;
     }
@@ -4249,12 +4243,11 @@ async function mainEvent() {
 
         let curComments = curWrData[1].commentsGeneral.comments;
         
-        for (var i = 0; i < tempComments.length; i++) { // adding new comments to current
-            curComments.push(tempComments[i]);
-        }
-        /* left off above. Need to make update for comments */
         const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
+            for (var i = 0; i < tempComments.length; i++) { // adding new comments to current
+                curComments.push(tempComments[i]);
+            }
             const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
                 addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
@@ -4293,7 +4286,10 @@ async function mainEvent() {
 
             
         } else if (filterCheckboxAddPermit.checked == true) {
-            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
+            for (var i = 0; i < tempPermitComments.length; i++) { // adding new comments to current
+                curComments.push(tempPermitComments[i]);
+            }
+            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); // could probably delete
             let curWr = curWrData[1];
             if (curWrData[0] != false) {
                 const d = new Date();
@@ -4302,15 +4298,13 @@ async function mainEvent() {
                 let newWr = new workRequest(curWr.workRequestNumber, curWr.houseNumber, curWr.streetName,
                     curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
                     curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
-                    addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curWr.commentsGeneral, 
+                    addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, curComments, 
                     curWr.customerContacted, curWr.creationDate);
                 const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
                 addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                 addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
                 
                 newWr.permit = permit;
-                console.log("test test test");
-                console.log(newWr);
                 allWrList[curWrIndex] = newWr;
 
                 const tempAllWrList = document.getElementById("temp_all_wr_list");
@@ -4350,6 +4344,7 @@ async function mainEvent() {
 
             if (permitExists(curWrNum, allWrList) == true) {
                 displayPermitAddUpdate(wr[1]);
+                addTabUpdateButton.disabled = false;
             } else {
                 e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
 
@@ -4474,11 +4469,12 @@ async function mainEvent() {
             tempContent.style.display = 'flex';
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
-            tempContent.style.marginTop = '310px';
-        } else if (tempContent.style.display = 'flex' && event.target.innerHTML == "\\/") {
+
+            tempContent.style.marginBottom = '350px';
+        } else if (tempContent.style.display = 'flex' && event.target.innerHTML == "/\\") {
             tempContent.style.display = 'none';
         } else {
-            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+            if (event.target.innerHTML != "/\\" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("general_status_dd_add_tab_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
 
@@ -4588,13 +4584,10 @@ async function mainEvent() {
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
 
-                /* Below statement adjusts position of content box to above or below dd menu */
-            if (1 <=3) {
-                tempContent.style.marginTop = '395px';
-                tempContent.style.width = '90px';
-            } else {
-                /* Will need to fill in when more than 3 work requests */
-            }
+            tempContent.style.marginTop = '395px';
+            tempContent.style.width = '90px';
+            
+                
 
         } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
             tempContent.style.display = 'none';
@@ -4684,8 +4677,6 @@ async function mainEvent() {
         /* Add Tab Wr */
     function getSelectedComments() {
         console.log("Entered - getSelectedComments()");
-        console.log("tempComments =");
-        console.log(tempComments);
 
         let selectedIndicies = [];
 
@@ -4695,7 +4686,6 @@ async function mainEvent() {
             if (document.getElementById("comment_to_add_item_" + i).innerHTML.includes("selectedComment")) {
                 selectedIndicies.push(i);
             }
-
         }
 
         return selectedIndicies;
@@ -4753,9 +4743,6 @@ async function mainEvent() {
             injectHTMLAddTabWrComment(tempComments[i], i);
         } 
 
-        console.log("New tempComments =");
-        console.log(tempComments);
-
         if (tempComments.length == 0) {
             document.getElementById("add_tab_wr_comments_to_add").classList.add("hidden");
             addTabCommentsRemoveButton.disabled = true;
@@ -4764,23 +4751,38 @@ async function mainEvent() {
     })
     addTabWrCommentsToAdd.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabWrCommentsToAdd");
-        console.log(event.target);
-
 
         if (event.target.classList.contains("addTabWrCommentToAdd") && event.target.classList.contains("selectedComment") != true) {
-            console.log("i am here");
             event.target.classList.add("selectedComment");
         } else {
-            console.log("I am not");
             event.target.classList.remove("selectedComment");
         }
     })
     
         /* Add Tab Permit */
-    /*addTabPermitCommentsTextfield.addEventListener("input", (event) => {
+    function getSelectedPermitComments () {
+        console.log("Entered - getSelectedPermitComments()");
+
+        let selectedIndicies = [];
+
+        for (var i = 0; i < tempPermitComments.length; i++) {
+            if (document.getElementById("permit_comment_to_add_item_" + i).innerHTML.includes("selectedComment")) {
+                selectedIndicies.push(i);
+            }
+        }
+
+        return selectedIndicies;
+    }
+    addTabPermitCommentsTextfield.addEventListener("input", (event) => {
             console.log("Input - add_tab_permit_comments_textfield - " + event.target.value);
     
             addTabPermitCommentsTextfieldInput = event.target.value;
+
+            if (event.target.value != "Enter Comment Here" && event.target.value.length > 0) {
+                addTabPermitCommentsAddButton.disabled = false;
+            } else {
+                addTabPermitCommentsAddButton.disabled = true;
+            }
     })
     addTabPermitCommentsTextfield.addEventListener("click", (event) => {
             if (event.target.value != null) {
@@ -4789,12 +4791,55 @@ async function mainEvent() {
     })
     addTabPermitCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_permit_comments_add_button");
+
+            const d = new Date();
+            let today = formatMonth((d.getMonth() + 1)) + "-" + d.getDate() + "-" + d.getFullYear();
     
-            injectHTMLAddTabPermitComment(addTabPermitCommentsTextfieldInput);
-            console.log("Testing gg");
+            const comment = new CommentItem(addTabPermitCommentsTextfieldInput, today);
+            injectHTMLAddTabPermitComment(comment, tempPermitComments.length);
+            addTabPermitCommentsRemoveButton.disabled = false;
+            tempPermitComments.push(comment); // updating internal list
             addTabPermitCommentsTextfield.value = "Type Comment Here";
     
-    })*/
+    })
+    addTabPermitCommentsRemoveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabPermitCommentsRemoveButton");
+
+        let newTempPermitComments = [];
+
+        const indiciesToRemove = getSelectedPermitComments();
+
+        console.log("*** test");
+        console.log(indiciesToRemove);
+        for (var i = 0; i < tempPermitComments.length; i++) {
+            if (indiciesToRemove.includes(i) == false) {
+                newTempPermitComments.push(tempPermitComments[i]);
+            } else {
+
+            }
+        }
+        tempPermitComments = newTempPermitComments;
+            
+        addTabPermitCommentsToAdd.innerHTML = "";
+        for (var i = 0; i < tempPermitComments.length; i++) {
+            injectHTMLAddTabPermitComment(tempPermitComments[i], i);
+        }
+
+        if (tempPermitComments.length == 0) {
+            document.getElementById("add_tab_permit_comments_to_add").classList.add("hidden");
+            addTabPermitCommentsRemoveButton.disabled = true;
+        }
+        
+    })
+    addTabPermitCommentsToAdd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabPermitCommentsToAdd");
+
+        if (event.target.classList.contains("addTabPermitCommentToAdd") && event.target.classList.contains("selectedComment") != true) {
+            event.target.classList.add("selectedComment");
+        } else {
+            event.target.classList.remove("selectedComment");
+        }
+    })
 
     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */
     
