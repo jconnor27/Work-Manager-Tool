@@ -273,7 +273,7 @@
                     </label>
                 </div>-->
                 <div class="filterContainer" id="filter_container_add_comment">
-                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_comment" name="filter_checkbox_add_comment" disabled/>
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_comment" name="filter_checkbox_add_comment" />
                     <label for="filter_checkbox_add_comment" class="filterCheckboxLabel" id="filter_checkbox_add_comment_label">Comment</label>
                 </div>
                 <div class="filterContainer" id="filter_container_add_reminder">
@@ -852,6 +852,7 @@
                     <div class="addTabDisplayLabel">Add / Update&ensp;</div>
                     <div class="addTabDisplayLabel" id="add_tab_display_header_label">"Work Request"</div>
                 </div>
+                <!-- Wr Num Textfield and Get/Update/Add Buttons -->
                 <div class="addTabDisplayTopMid" id="add_tab_display_top_mid">
                     <div class="newWrNumContainer">
                         <label for="new_work_request_number_textfield" class="newWorkRequestNumberTextfieldLabel" id="add_tab_display_work_request_number_label"><b>New Work Request Number:&ensp;</b></label>
@@ -1057,6 +1058,51 @@
                             
                             <!-- Empty List -->
                             <div class="addTabPermitCommentsToAddList hidden" id="add_tab_permit_comments_to_add"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Tab Display Specific - Comment -->
+                <div class="addTabDisplayAddComment hidden" id="add_tab_display_add_comment">
+                    
+                    <!-- Row One -->
+                    <div class="addTabDisplayAddCommentRowOne" id="add_tab_display_add_comment_row_one">
+                        <label for="add_comments_tab_comments_add_button" class="addTabCommentsAddButtonLabel" id="add_comments_tab_comments_add_button_label" name="add_comments_tab_comments_add_button_label"><b>Comment To Add:</b></label>
+                        <div class="addCommentTabDD" id="add_tab_comment_type_dd_container">
+                            <!-- Adding DD in JS -->
+                        </div>
+                        <button type="button" class="addTabCommentsRemoveButton" id="add_comments_tab_comments_remove_button" disabled>-</button>
+                        <button type="button" class="addTabCommentsAddButton" id="add_comments_tab_comments_add_button" disabled>+</button>
+                    </div>
+
+                    <!-- Row Two -->
+                    <div class="addTabDisplayAddCommentRowTwo" id="add_tab_display_add_comment_row_two">
+                        <input type="text" class="addCommentTabTextfield" id="add_comment_tab_textfield" name="add_comment_tab_textfield" value="Enter Comment Here"/>
+                    </div>
+
+                    <!-- Row Three-->
+                    <div class="addTabDisplayAddCommentRowThree" id="add_tab_display_add_comment_row_three">
+                        <label class="addTabDisplayAddCommentRowThreeLabel" id="add_tab_display_add_comment_row_three_label"><b>Existing Comments:</b></label>
+                        
+                        <!-- Filter Tabs -->
+                            <!-- All -->
+                        <div class="addCommentFilterTab hidden" id="add_comment_filter_tab_all">All</div>
+                        <div class="addCommentFilterTab activeTab" id="add_comment_filter_tab_all_active">All</div>
+                        
+                        <!-- General -->
+                        <div class="addCommentFilterTab" id="add_comment_filter_tab_general">General</div>
+                        <div class="addCommentFilterTab activeTab hidden" id="add_comment_filter_tab_general_active">General</div>
+
+                        <!-- Permit -->
+                        <div class="addCommentFilterTab" id="add_comment_filter_tab_permit">Permit</div>
+                        <div class="addCommentFilterTab activeTab hidden" id="add_comment_filter_tab_permit_active">Permit</div>
+
+                    </div>
+
+                    <!--  Row Four -->
+                    <div class="addTabDisplayAddcommentRowFour" id="add_tab_display_add_comment_row_four">
+                        <div class="addCommentTabExistingComments" id="add_comment_tab_existing_comments">
+                            <!-- To be populated when page loads from user input -->
                         </div>
                     </div>
                 </div>
