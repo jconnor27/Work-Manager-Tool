@@ -1490,6 +1490,17 @@ h5 {
     margin: .5rem;*/
 }
 
+.pagePrevButtonComments {
+    display: flex;
+    font-size: large;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 300px;
+    /*padding: .5rem;
+    margin: .5rem;*/
+}
+
 .pageInfo {
     display: flex;
     font-size: x-large;
@@ -1666,6 +1677,11 @@ h5 {
     display: flex;
     margin-left: 0;
     margin-right: .5rem;
+}
+
+.addCommentTabNextPrevContainer {
+    display: flex;
+    flex-direction: row;
 }
 
     /* All WR's Tab - Display - Headers */

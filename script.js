@@ -664,7 +664,7 @@ class workRequest {
     }
 
 }
-
+/* For Paginated */
 class Page {
     constructor(content) {
         this.content = content;
@@ -687,7 +687,7 @@ class Page {
         return temp[index];
     }
 }
-
+/* To paginate allWrList */
 class Paginated {
     constructor(list){
         console.log("Entered - Paginated - Constructor - List = ");
@@ -739,6 +739,19 @@ class Paginated {
 
 
 }
+/*class PaginatedComments {
+    constructor(comments, height) {
+        this.comments = comments;
+        this.height = height;
+    }
+
+    getPages() {
+        console.log("Entered - PaginatedComments - getPages()");
+
+        let pages = [];
+        let 
+    }
+}*/
 
     /* Formatting Functions */
 /* Takes in a date (as a string) in the format of "MM-DD-YYYY"
@@ -1918,6 +1931,7 @@ async function mainEvent() {
     const addTabAddButton = document.querySelector("#add_tab_add_button");
     const addTabGetButton = document.querySelector("#add_tab_get_button");
     const addTabUpdateButton = document.querySelector("#add_tab_update_button");
+    const addTabClearButton = document.querySelector("#add_tab_clear_button");
 
     /* Generic Tab Filter Containers */
     const searchByBoxContainer = document.querySelector("#search_by_box_container");
@@ -3004,7 +3018,7 @@ async function mainEvent() {
 
         deselectAllTabs();
         document.getElementById("add_tab").click();
-        document.getElementById("filter_checkbox_add_comment").click();
+        document.getElementById("filter_checkbox_add_permit").click();
 
         tempPermitComments = []; // emptying tempPermitComments in case user add comments before getting wr
 
@@ -3046,9 +3060,6 @@ async function mainEvent() {
     function displayCommentsAddUpdate(wr) {
         console.log("Entered - displayCommentsAddUpdate()");
 
-        console.log("testing here ***");
-        console.log(wr);
-
         deselectAllTabs();
         document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
@@ -3070,6 +3081,7 @@ async function mainEvent() {
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         addCommentTabTextfield.value = "Type Comment Here";
         addCommentTabExistingComments.innerHTML = "";
+        disableAddCommentTabs();
     }
     
         /* Hide Add Tab Display */
@@ -4821,6 +4833,7 @@ async function mainEvent() {
                 e.displayWrNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
             }
         } else if (filterCheckboxAddPermit.checked == true) {
+            console.log("** I Am Here **");
             const curWrNum = addTabNewWorkRequestNumber.value;
 
             let wr = getWr(curWrNum, allWrList);
@@ -4921,6 +4934,17 @@ async function mainEvent() {
             /* need to add safety checks later */
 
             /* Can't get here, button is hidden */
+        }
+    })
+    addTabClearButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabClearButton");
+
+        if (filterCheckboxAddWr.checked == true) {
+            resetDisplayWrAddUpdate();
+        } else if (filterCheckboxAddPermit.checked == true) {
+            resetDisplayPermitAddUpdate();
+        } else if (filterCheckboxAddComment.checked == true) {
+            resetDisplayCommentsAddUpdate();
         }
     })
 
