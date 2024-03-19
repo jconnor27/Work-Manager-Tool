@@ -5208,12 +5208,28 @@ async function mainEvent() {
             event.target.select();
         } 
     })
+    addressLineTextfieldStreetName.addEventListener("change", (event) => {
+        console.log("Changed - addressLineTextfieldStreetName");
+
+        let temp = addressLineTextfieldStreetName.value.charAt(0).toUpperCase();
+        temp += addressLineTextfieldStreetName.value.substring(1);
+
+        addressLineTextfieldStreetName.value = temp;
+    })
     addressLineTextfieldCounty.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_county");
         
         if (event.target.value != null) {
             event.target.select();
         } 
+    })
+    addressLineTextfieldCounty.addEventListener("change", (event) => {
+        console.log("Changed - addressLineTextfieldCounty");
+
+        let temp = addressLineTextfieldCounty.value.charAt(0).toUpperCase();
+        temp += addressLineTextfieldCounty.value.substring(1);
+
+        addressLineTextfieldCounty.value = temp;
     })
     addressLineTextfieldZip.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_zip");
@@ -5400,7 +5416,8 @@ async function mainEvent() {
         let selectedIndicies = [];
 
         for (var i = 0; i < tempAllComments.length; i++) {
-            if (document.getElementById("existing_comment_item_" + i).innerHTML.includes("selectedComment")) {
+            //console.log(document.getElementById("existing_comment_item_" + i).classList.in);
+            if (document.getElementById("existing_comment_item_" + i).classList.contains("selectedComment")) {
                 selectedIndicies.push(i);
             }
         }
