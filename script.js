@@ -5784,13 +5784,17 @@ async function mainEvent() {
         let temp = [];
 
         if (searchByAddressCheckbox.checked == true) {
+            uncolorSearchByCheckboxes();
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_address").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
             for (var i = 0; i < list.length; i++) {
-                if (list[i].wrAddressType().includes(userValue)) {
+                if (list[i].wrAddressType().innerHTML.includes(userValue)) {
                     temp.push(list[i]);
                 }
             }
             return temp;
         } else if (searchByWrCheckbox.checked == true) {
+            uncolorSearchByCheckboxes();
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
             for (var i = 0; i < list.length; i++) {
                 if (list[i].workRequestNumber.includes(userValue)) {
                     temp.push(list[i]);
@@ -5816,7 +5820,8 @@ async function mainEvent() {
     searchGoButton.addEventListener("click", (event) => {
         console.log("Clicked - searchGoButton");
 
-        const allWrListAssessed = assessSearchBy(allWrList);
+        const allWrListTrimmed = assessTrimByStatus(allWrList);
+        const allWrListAssessed = assessSearchBy(allWrListTrimmed);
 
         filteredList = allWrListAssessed;
 
