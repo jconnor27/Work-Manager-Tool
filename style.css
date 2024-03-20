@@ -1573,13 +1573,13 @@ h5 {
 
 .addCommentTabExistingComments {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     border: 2px solid black;
     height: 390px;
     width: 900px;
     margin-left: 20px;
     margin-bottom: 10px;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding-left: 10px;
     padding-top: 10px;
 
