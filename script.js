@@ -771,8 +771,9 @@ class PaginatedComments {
         if (this.list.length > this.pageSize) {
             /* Revealing Prev Next Buttons */
             if (this.tab == "addWr") {
-                //document.getElementById("add_wr_tab_comment_next_prev_container").classList.remove("hidden");
-                //document.getElementById("add_wr_tab_comment_next_button").disabled = false;
+                document.getElementById("add_tab_wr_comments_prev_next_container").classList.remove("hidden");
+                document.getElementById("add_tab_comments_remove_button").style.marginLeft = '100px';
+                document.getElementById("add_tab_wr_page_next_button").disabled = false;
             } else if (this.tab == "addPermit") {
                 document.getElementById("add_tab_permit_comments_prev_next_container").classList.remove("hidden");
                 document.getElementById("add_tab_permit_comments_remove_button").style.marginLeft = '100px';
@@ -868,6 +869,8 @@ function updateComments(comments, tab) {
         document.getElementById("add_comment_tab_existing_comments").innerHTML = "";
     }
 
+    console.log("comments  = ");
+    console.log(comments);
     for (var i = 0; i < comments.length; i++) {
         if (tab == "addWr") {
             injectHTMLAddTabWrComment(comments[i], i);
@@ -2126,6 +2129,9 @@ async function mainEvent() {
     const addTabCommentsRemoveButton = document.querySelector("#add_tab_comments_remove_button");
     const addTabCommentsTextfield = document.querySelector("#add_tab_comments_textfield");
     const addTabWrCommentsToAdd = document.querySelector("#add_tab_wr_comments_to_add");
+    const addTabWrCommentsNextButton = document.querySelector("#add_tab_wr_page_next_button");
+    const addTabWrCommentsPrevButton = document.querySelector("#add_tab_wr_page_prev_button");
+
 
             /* Add Tab Permit */
     const addTabPermitCommentsAddButton = document.querySelector("#add_tab_permit_comments_add_button");
@@ -2431,12 +2437,12 @@ async function mainEvent() {
     let filteredList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
-    let tempComments = [];
     
     const rowsOnPage = 8;
     const permitCommentCount = 6;
     const tempCommentsCount = 7;
 
+    let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
     let tempAllComments = new PaginatedComments(14, "addComment");
     
@@ -3069,7 +3075,6 @@ async function mainEvent() {
         document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_wr").click();
 
-        tempComments = new Paginated(tempCommentsCount, "addWr"); // emptying tempComments in case user add comments before getting wr
         
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         addressLineTextfieldHouseNumber.value = wr.houseNumber;
@@ -3104,6 +3109,8 @@ async function mainEvent() {
         }
 
         addTabAddButton.disabled = true;
+        tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // emptying tempComments in case user add comments before getting wr
+
     
     }
     function resetDisplayWrAddUpdate() {
@@ -3134,7 +3141,7 @@ async function mainEvent() {
         document.getElementById("general_status_dd_add_tab_current").innerHTML = "Not Set";
         document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML = "Not Set";
         document.getElementById("easement_status_dd_add_tab_current").innerHTML = "Not Set";
-        addTabWrCommentsToAdd.textContent = "Type Comment Here";
+        addTabCommentsTextfield.textContent = "Type Comment Here";
         customerContactedCheckboxYes.checked = false;
         customerContactedCheckboxNo.checked = true;
         addTabWrCommentsToAdd.innerHTML = "";
@@ -4846,7 +4853,18 @@ async function mainEvent() {
         
         const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
-            for (var i = tempComments.list.length - 1; i >= 0; i--) { // adding new comments to current
+            /*let newComments = [];
+            
+            for (var i = 0; i < curComments.length; i++) {
+                newComments.push(curComments[i]);
+            }
+            for (var i = 0; i < tempPermitComments.list.length; i++) {
+                newComments.push(tempPermitComments.list[i]);
+            }*/
+            /*for (var i = tempComments.list.length - 1; i >= 0; i--) { // adding new comments to current
+                curComments.push(tempComments.list[i]);
+            }*/
+            for (var i = 0; i < tempComments.list.length; i++) {
                 curComments.push(tempComments.list[i]);
             }
             const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
@@ -5400,18 +5418,40 @@ async function mainEvent() {
 
             /* Comment Event Listeners */
         /* Add Tab Wr */
-    function getSelectedComments() {
-        console.log("Entered - getSelectedComments()");
+    function removeSelectedComments() {
+        console.log("Entered - removeSelectedComments()");
 
-        let selectedIndicies = [];
+        for (var i = 0; i < tempCommentsCount; i++) {
+            const cur = document.getElementById("comment_to_add_item_" + i);
+            const curPageNum = document.getElementById("add_wr_tab_current_page_box").innerHTML;
+            
+            if (cur != null && cur.classList.contains("selectedComment")) {
+                document.getElementById("comment_to_add_item_" + i).remove();
+                const secondHalf = tempComments.list.slice(i + 1);
+                const firstHalf = tempComments.list.slice(0, i);
+                tempComments.list = firstHalf.concat(secondHalf);
 
-        for (var i = 0; i < tempComments.length; i++) {
-            if (document.getElementById("comment_to_add_item_" + i).classList.contains("selectedComment")) {
-                selectedIndicies.push(i);
+                let newPage = [];
+
+                for (var j = tempComments.list.length - 1 - ((curPageNum - 1) * tempCommentsCount); j > tempComments.list.length - 1 - ((curPageNum - 1) * tempCommentsCount) - tempCommentsCount; j--) {
+                    if (tempComments.list[j] != undefined) {
+                        newPage.push(tempComments.list[j]);
+                    }
+                }
+                console.log("newPage = ");
+                console.log(newPage);
+                updateComments(newPage, "addWr");
             }
         }
-        console.log(selectedIndicies);
-        return selectedIndicies;
+    }
+    function clearTempCommentsSelections() {
+        console.log("Entered - clearTempCommentsSelections()");
+
+        for (var i = 0; i < tempCommentsCount; i++) {
+            if (document.getElementById("comment_to_add_item_" + i) != undefined) {
+                document.getElementById("comment_to_add_item_" + i).classList.remove("selectedComment");
+            }
+        }
     }
     addTabCommentsTextfield.addEventListener("input", (event) => {
             console.log("Input - add_tab_comments_textfield - " + event.target.value);
@@ -5434,16 +5474,14 @@ async function mainEvent() {
     addTabCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_comments_add_button");
 
-            console.log("tempComments x =");
-            console.log(tempComments);
-
             const d = new Date();
             let today = formatMonth((d.getMonth() + 1)) + "-" + d.getDate() + "-" + d.getFullYear();
     
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
-            tempComments.push(comment); // updating internal list
-            injectHTMLAddTabWrComment(comment, tempComments.length -1); // setting display
+            //tempComments.push(comment); // updating internal list
+            //injectHTMLAddTabWrComment(comment, tempComments.length -1); // setting display
             addTabCommentsRemoveButton.disabled = false;
+            tempComments.add(comment);
             addTabCommentsTextfield.value = "Type Comment Here"; // reseting entery textfield
             
     
@@ -5451,30 +5489,23 @@ async function mainEvent() {
     addTabCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabCommentsRemoveButton");
 
-        let newTempComments = [];
+        removeSelectedComments(); 
 
-        const indiciesToRemove = getSelectedComments();
-        console.log(indiciesToRemove);
-        for (var i = 0; i < tempComments.length; i++) {
-            if (indiciesToRemove.includes(i) == false) {
-                newTempComments.push(tempComments[i]);
-            } else {
-                //document.getElementById("comment_to_add_item_" + i).remove(); 
-            }
-        }
-
-        tempComments = newTempComments;
-        console.log("tempComments after remove");
+        console.log("tempComments =");
         console.log(tempComments);
 
-        addTabWrCommentsToAdd.innerHTML = "";
-        for (var i = 0; i < tempComments.length; i++) {
-            injectHTMLAddTabWrComment(tempComments[i], i);
-        } 
-
-        if (tempComments.length == 0) {
+        if (tempComments.list.length == 0) {
             document.getElementById("add_tab_wr_comments_to_add").classList.add("hidden");
             addTabCommentsRemoveButton.disabled = true;
+        }
+        if (tempComments.list.length < tempCommentsCount + 1) {
+            document.getElementById("add_tab_wr_comments_prev_next_container").classList.add("hidden");
+            document.getElementById("add_tab_comments_remove_button").style.marginLeft = '340px';
+        }
+        console.log(addTabWrCommentsToAdd.innerHTML == "");
+        console.log(document.getElementById("add_wr_tab_current_page_box").innerHTML.trim());
+        if (addTabWrCommentsToAdd.innerHTML == "" && document.getElementById("add_wr_tab_current_page_box").innerHTML.trim() != "1") {
+            addTabWrCommentsPrevButton.click();
         }
 
     })
@@ -5482,11 +5513,55 @@ async function mainEvent() {
         console.log("Fired - Clicked addTabWrCommentsToAdd");
 
         if (event.target.id.includes("comment_to_add_item") && event.target.classList.contains("selectedComment") != true) {
+            clearTempCommentsSelections();
             event.target.classList.add("selectedComment");
         } else {
             event.target.classList.remove("selectedComment");
         }
     })
+    addTabWrCommentsNextButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabWrCommentsNextButton");
+
+        const index = document.getElementById("add_wr_tab_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempComments.list.length - 1 - (tempCommentsCount * (index + 1)); i >= 0; i--) {
+            if (count < tempCommentsCount) {
+                temp.push(tempComments.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addWr");
+        document.getElementById("add_wr_tab_current_page_box").innerHTML = index + 2;
+        addTabWrCommentsPrevButton.disabled = false;
+
+        if (((index + 2) * tempCommentsCount) >= tempComments.list.length) {
+            addTabWrCommentsNextButton.disabled = true;
+        }
+    })
+    addTabWrCommentsPrevButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabWrCommentsPrevButton");
+
+        const index = document.getElementById("add_wr_tab_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempComments.list.length - 1 - (tempCommentsCount * (index - 1)); i >= 0; i--) {
+            if (count < tempCommentsCount) {
+                temp.push(tempComments.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addWr");
+        document.getElementById("add_wr_tab_current_page_box").innerHTML = index;
+        addTabWrCommentsNextButton.disabled = false;
+
+        if ((index - 1) == 0) {
+            addTabWrCommentsPrevButton.disabled = true;
+        }
+    })
+
     
         /* Add Tab Permit */
     function removeSelectedPermitComments () {
