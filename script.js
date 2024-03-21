@@ -2370,8 +2370,10 @@ async function mainEvent() {
     let currentPagePermits = 0;
     
     const rowsOnPage = 8;
+    
     const permitCommentCount = 6;
     const tempCommentsCount = 7;
+    const tempAllCommentCount = 14;
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
@@ -3148,7 +3150,6 @@ async function mainEvent() {
             addCommentsTabCommentsRemoveButton.disabled = false;
         }
         for (var i = 0; i < wr.commentsGeneral.comments.length; i++) {
-            //injectHTMLAddCommentTabComment(wr.commentsGeneral.comments[i], i);
             tempAllComments.add(wr.commentsGeneral.comments[i]);
         }
         if (wr.commentsGeneral.comments.length == 0) {
@@ -5635,24 +5636,21 @@ async function mainEvent() {
     function removeSelectedAllComments() {
         console.log("Entered - removeSelectedAllComments()");
 
-        for (var i = 0; i < 14/*tempAllComments.list.length*/; i++) {
+        for (var i = 0; i < tempAllCommentCount; i++) {
             if (document.getElementById("existing_comment_item_" + i) != null && document.getElementById("existing_comment_item_" + i).classList.contains("selectedComment")) {
                 document.getElementById("existing_comment_item_" + i).remove();
-                //const index = tempAllComments.list.length - 1 - (((document.getElementById("add_comment_tab_current_page_box").innerHTML - 1) * 14) + i);
-                const secondHalf = tempAllComments.list.slice(i + 1);
-                const firstHalf = tempAllComments.list.slice(0, i);
+                const secondHalf = tempAllComments.list.slice(tempAllComments.list.length - 1 - i + 1);
+                const firstHalf = tempAllComments.list.slice(0, tempAllComments.list.length - 1 - i);
                 tempAllComments.list = firstHalf.concat(secondHalf);
 
                 let newPage = [];
 
-                for (var j = tempAllComments.list.length - 1 - (((document.getElementById("add_comment_tab_current_page_box").innerHTML - 1) * 14)); j > tempAllComments.list.length - 1 - (((document.getElementById("add_comment_tab_current_page_box").innerHTML - 1) * 14)) - 14; j--) {
-                    console.log(j);
+                for (var j = tempAllComments.list.length - 1 - (((document.getElementById("add_comment_tab_current_page_box").innerHTML - 1) * tempAllCommentCount)); j > tempAllComments.list.length - 1 - (((document.getElementById("add_comment_tab_current_page_box").innerHTML - 1) * tempAllCommentCount)) - tempAllCommentCount; j--) {
                     if (tempAllComments.list[j] != undefined) {
                         newPage.push(tempAllComments.list[j]);
-
                     }
                 }
-                updateComments(newPage.reverse(), "addComment");
+                updateComments(newPage, "addComment");
             }
         }
     }
