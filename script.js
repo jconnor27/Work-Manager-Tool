@@ -281,6 +281,7 @@ class EasementStatusDDMenu {
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Need Easement"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - Creation"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - Customer"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Haven't Checked"}</div>`);
 
         str.style.display = 'none';
         str.style.position = 'absolute';
@@ -407,9 +408,9 @@ class Haptix {
     displayWrAdded(wrNum) {
         console.log("Entered - displayWrAdded(" + wrNum + ")");
 
-        const temp = document.getElementById("add_tab_display_top_mid");
+        const temp = document.getElementById("new_work_request_number_textfield");
 
-        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} added</li>`);
+        temp.insertAdjacentHTML("afterend", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} Added</li>`);
         setTimeout(() => {
             const temp = document.getElementById("wr_added_prompt");
             temp.remove();
@@ -419,9 +420,9 @@ class Haptix {
     displayWrUpdated(wrNum) {
         console.log("Entered - displayWrUpdated(" + wrNum + ")");
 
-        const temp = document.getElementById("add_tab_display_top_mid");
+        const temp = document.getElementById("new_work_request_number_textfield");
 
-        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} Updated</li>`);
+        temp.insertAdjacentHTML("afterend", `<div class="wrAddedPrompt" id="wr_added_prompt">Work Request ${wrNum} Updated</li>`);
         setTimeout(() => {
             const temp = document.getElementById("wr_added_prompt");
             temp.remove();
@@ -438,6 +439,18 @@ class Haptix {
             const temp = document.getElementById("wr_added_prompt");
             temp.remove();
         }, 3000);
+    }
+
+    displayCommentsUpdated(wrNum) {
+        console.log("Entered - displayCommentsUpdated(" + wrNum + ")");
+        
+        const temp = document.getElementById("new_work_request_number_textfield");
+
+        temp.insertAdjacentHTML("afterend", `<div class="wrAddedPromptBig" id="wr_added_prompt">Comments For Work Request ${wrNum} Updated</li>`);
+        /*setTimeout(() => {
+            const temp = document.getElementById("wr_added_prompt");
+            temp.remove();
+        }, 3000);*/
     }
 }
 
@@ -1864,6 +1877,9 @@ function assessEasementStatus(status) {
         return 'rgba(87, 245, 43, 0.627)'; // green
     } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
+    } else {
+        // status must = "Haven't Checked"
+        return '#dbea06ca'; // yellowish
     }
 }
 /* Compares the date param to the current date in real life and
@@ -1960,9 +1976,6 @@ async function mainEvent() {
 
     const permitsTab = document.querySelector("#permits_tab");
     const permitsTabActive = document.querySelector("#permits_tab_active");
-
-    const easementRequestsTab = document.querySelector("#easement_requests_tab");
-    const easementRequestsTabActive = document.querySelector("#easement_requests_tab_active");
 
     const waitingTab = document.querySelector("#waiting_tab");
     const waitingTabActive = document.querySelector("#waiting_tab_active");
@@ -2359,7 +2372,6 @@ async function mainEvent() {
         /* Update Permit */
     const addTabAddPermitStatusContainer = document.querySelector("#add_tab_add_permit_status_container");
 
-
         /* Variable */
     let addTabCommentsTextfieldInput = [];
     let addTabPermitCommentsTextfieldInput = [];
@@ -2379,7 +2391,8 @@ async function mainEvent() {
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
     let tempAllComments = new PaginatedComments(14, "addComment");
     
-    
+    /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
+    const inTestMode = false;
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
 
@@ -4788,17 +4801,6 @@ async function mainEvent() {
         
         const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
-            /*let newComments = [];
-            
-            for (var i = 0; i < curComments.length; i++) {
-                newComments.push(curComments[i]);
-            }
-            for (var i = 0; i < tempPermitComments.list.length; i++) {
-                newComments.push(tempPermitComments.list[i]);
-            }*/
-            /*for (var i = tempComments.list.length - 1; i >= 0; i--) { // adding new comments to current
-                curComments.push(tempComments.list[i]);
-            }*/
             for (var i = 0; i < tempComments.list.length; i++) {
                 curComments.push(tempComments.list[i]);
             }
@@ -4826,6 +4828,8 @@ async function mainEvent() {
 
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                     injectHTMLPermitsTabDisplay(allWrList, 0);
+                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 } else { // at least 1 wr exists
                     allWrList[curWrIndex] = newWr;
                     const tempAllWrList = document.getElementById("temp_all_wr_list");
@@ -4834,6 +4838,8 @@ async function mainEvent() {
 
                     injectHTMLPermitsTabDisplay(allWrList, 0);
                     injectHTMLAllWrTabDisplay(allWrList, 0);
+                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
                 h.displayWrUpdated(newWr.workRequestNumber);
                 resetDisplayWrAddUpdate();
@@ -4878,6 +4884,8 @@ async function mainEvent() {
 
                 injectHTMLPermitsTabDisplay(allWrList, 0);
                 injectHTMLAllWrTabDisplay(allWrList, 0);
+                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
 
                 h.displayPermitUpdated(newWr.workRequestNumber);
                 resetDisplayPermitAddUpdate();
@@ -4898,8 +4906,7 @@ async function mainEvent() {
             }*/
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
             let curWr = curWrData[1];
-            console.log("curWr = ");
-            console.log(curWr);
+            
             if (curWrData[0] != false) {
                 const d = new Date();
                 const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
@@ -4917,8 +4924,10 @@ async function mainEvent() {
                 console.log("allWrList added to internal list");   
                 injectHTMLPermitsTabDisplay(allWrList, 0);
                 injectHTMLAllWrTabDisplay(allWrList, 0);
+                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
 
-                h.displayPermitUpdated(newWr.workRequestNumber);
+                h.displayCommentsUpdated(newWr.workRequestNumber);
                 resetDisplayCommentsAddUpdate();
                 resetDisplayPermitAddUpdate();
                 resetDisplayWrAddUpdate();         
@@ -4990,7 +4999,7 @@ async function mainEvent() {
                 console.log("getWr(" + addTabNewWorkRequestNumber.value + ") == -1");
 
                 e.displayWrAlreadyExistsAddUpdate(addTabNewWorkRequestNumber.value);
-            } else if (addTabNewWorkRequestNumber.value.length != 8) {
+            } else if (addTabNewWorkRequestNumber.value.length != 8 && inTestMode == false) {
                 console.log("wr length != 8");
 
                 e.displayInvalidWr(addTabNewWorkRequestNumber.value);
@@ -4998,13 +5007,11 @@ async function mainEvent() {
                 console.log("Priority Number length < 1");
 
                 e.displayInvalidPriorityNumber();
-            } else if (wrTypeDDMenuCurrent == "Not Set") {
+            } else if (wrTypeDDMenuCurrent == "Not Set" && inTestMode == false) {
                 console.log("No Wr Type Selected");
 
                 e.displayInvalidWrType();
             } else if (filterCheckboxAddWr.checked && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == false) {
-
-
                 const wr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
                 addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
@@ -5029,6 +5036,8 @@ async function mainEvent() {
 
                     injectHTMLAllWrTabDisplay(allWrList, 0);
                     injectHTMLPermitsTabDisplay(allWrList, 0);
+                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 } else { // at least 1 wr exists
                     allWrList[allWrList.length] = wr;
 
@@ -5038,6 +5047,8 @@ async function mainEvent() {
 
                     injectHTMLPermitsTabDisplay(allWrList, 0);
                     injectHTMLAllWrTabDisplay(allWrList, 0);
+                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
                 h.displayWrAdded(wr.workRequestNumber);
                 resetDisplayWrAddUpdate();
@@ -6264,6 +6275,7 @@ async function mainEvent() {
             clearAddTabDisplays();
             addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
             addTabDisplayWorkRequestNumberLabel.innerHTML = "New Work Request Number";
+            addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
     
             /* Revealing add button */
             addTabAddButton.classList.remove("hidden");
@@ -6282,6 +6294,7 @@ async function mainEvent() {
             clearAddTabDisplays();
             addTabDisplayHeaderLabel.innerHTML = "\"Permit\"";
             addTabDisplayWorkRequestNumberLabel.innerHTML = "Permit for Work Request Number";
+            addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
            
             addTabDisplayAddPermit.classList.remove("hidden");
     
@@ -6301,6 +6314,7 @@ async function mainEvent() {
         clearAddTabDisplays();
         addTabDisplayHeaderLabel.innerHTML = "\"Comment\"";
         addTabDisplayWorkRequestNumberLabel.innerHTML = "Comments for Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
 
         addTabDisplayAddComment.classList.remove("hidden");
 

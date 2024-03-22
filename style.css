@@ -560,12 +560,25 @@ h5 {
 
 .newWrNumberTextfield {
     border: 2px solid black;
-    margin: .5rem;
+    margin: 8px;
+    height: 25px;
+    width: 140px;
 }
 
 .newWorkRequestNumberTextfieldLabel {
     font-size: large;
-    margin: .5rem;
+    margin: 8px;
+    height: 30px;
+    width: 230px;
+
+}
+
+.newWorkRequestNumberTextfieldLabelBig {
+    font-size: large;
+    margin: 8px;
+    height: 30px;
+    width: 290px;
+
 }
 
 .newWrNumContainer {
@@ -1481,10 +1494,24 @@ h5 {
 
 .wrAddedPrompt {
     display: flex;
-    font-size: large;
+    font-size: medium;
     align-items: center;
     justify-content: center;
     color: green;
+    width: 150px;
+    margin-left: 50px;
+    margin-right: -200px;
+}
+
+.wrAddedPromptBig {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    width: 200px;
+    margin-left: 20px;
+    margin-right: -220px;
 }
 
 .pageNextButton{
