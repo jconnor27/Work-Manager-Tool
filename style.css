@@ -1503,7 +1503,18 @@ h5 {
     margin-right: -200px;
 }
 
-.wrAddedPromptBig {
+.permitUpdatedPrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    width: 190px;
+    margin-left: 20px;
+    margin-right: -210px;
+}
+
+.commentUpdatedPrompt {
     display: flex;
     font-size: medium;
     align-items: center;
@@ -1512,6 +1523,17 @@ h5 {
     width: 200px;
     margin-left: 20px;
     margin-right: -220px;
+}
+
+.noChangesPrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: orange;
+    width: 150px;
+    margin-left: 50px;
+    margin-right: -200px;
 }
 
 .pageNextButton{

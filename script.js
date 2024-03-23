@@ -432,11 +432,11 @@ class Haptix {
     displayPermitUpdated(wrNum) {
         console.log("Entered - displayPermitUpdated(" + wrNum + ")");
 
-        const temp = document.getElementById("add_tab_display_top_mid");
+        const temp = document.getElementById("new_work_request_number_textfield");
 
-        temp.insertAdjacentHTML("afterbegin", `<div class="wrAddedPrompt" id="wr_added_prompt">Permit For Work Request ${wrNum} Updated</li>`);
+        temp.insertAdjacentHTML("afterend", `<div class="permitUpdatedPrompt" id="permit_updated_prompt">Permit For Work Request ${wrNum} Updated</li>`);
         setTimeout(() => {
-            const temp = document.getElementById("wr_added_prompt");
+            const temp = document.getElementById("permit_updated_prompt");
             temp.remove();
         }, 3000);
     }
@@ -446,11 +446,23 @@ class Haptix {
         
         const temp = document.getElementById("new_work_request_number_textfield");
 
-        temp.insertAdjacentHTML("afterend", `<div class="wrAddedPromptBig" id="wr_added_prompt">Comments For Work Request ${wrNum} Updated</li>`);
-        /*setTimeout(() => {
-            const temp = document.getElementById("wr_added_prompt");
+        temp.insertAdjacentHTML("afterend", `<div class="commentUpdatedPrompt" id="comment_updated_prompt">Comments For Work Request ${wrNum} Updated</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("comment_updated_prompt");
             temp.remove();
-        }, 3000);*/
+        }, 3000);
+    }
+
+    displayNoChanges(wrNum) {
+        console.log("Entered - displayNoChanges(" + wrNum + ")");
+
+        const temp = document.getElementById("new_work_request_number_textfield");
+
+        temp.insertAdjacentHTML("afterend", `<div class="noChangesPrompt" id="no_changes_prompt">No Changes To Save For ${wrNum} </li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("no_changes_prompt");
+            temp.remove();
+        }, 3000);
     }
 }
 
@@ -643,6 +655,22 @@ class workRequest {
         } else {
             return str;
         }
+    }
+
+    compare(wr) {
+        console.log("Entered - workRequest - compare(" + wr + ")");
+
+        if (this.houseNumber == wr.houseNumber && this.streetName == wr.streetName && this.countyCity == wr.countyCity && 
+            this.zipCode == wr.zipCode && this.priorityNumber == wr.priorityNumber && this.ownerName == wr.ownerName &&
+            this.ownerNumber == wr.ownerNumber && this.ownerEmail == wr.ownerEmail && this.builderName == wr.builderName &&
+            this.builderNumber == wr.builderNumber && this.builderEmail == wr.builderEmail && this.otherName == wr.otherName &&
+            this.otherNumber == wr.otherNumber && this.otherEmail == wr.otherEmail && this.wrType == wr.wrType && this.crd == wr.crd && 
+            this.rcd == wr.rcd && this.generalStatus == wr.generalStatus && this.permit.permitStatus == wr.permit.permitStatus &&
+            this.easementRequestStatus == wr.easementRequestStatus) {
+                return 1;
+            } else {
+                return 0;
+            }
     }
 
 
@@ -4813,38 +4841,53 @@ async function mainEvent() {
                 customerContactedCheckboxYes.checked, addTabWrCreationDate.value);
             
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
-                    allWrList[0] = newWr;
-                    console.log("wr added to empty list");
+                    if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
+                        h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                    } else {
+                        allWrList[0] = newWr;
+                        console.log("wr added to empty list");
 
-                    const tempAllWrList = document.createElement("tempAllWrList");
-                    tempAllWrList.id = "temp_all_wr_list";
-                    tempAllWrList.classList.add("hidden");
-                    tempAllWrList.innerHTML = allWrList;
+                        const tempAllWrList = document.createElement("tempAllWrList");
+                        tempAllWrList.id = "temp_all_wr_list";
+                        tempAllWrList.classList.add("hidden");
+                        tempAllWrList.innerHTML = allWrList;
 
-                    const allWrTab = document.getElementById("all_wr_tab");
-                    allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+                        const allWrTab = document.getElementById("all_wr_tab");
+                        allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
 
-                    console.log("allWrList added to internal list");
+                        console.log("allWrList added to internal list");
 
-                    injectHTMLAllWrTabDisplay(allWrList, 0);
-                    injectHTMLPermitsTabDisplay(allWrList, 0);
-                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+                        injectHTMLAllWrTabDisplay(allWrList, 0);
+                        injectHTMLPermitsTabDisplay(allWrList, 0);
+                        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+
+                        h.displayWrUpdated(newWr.workRequestNumber);
+                        resetDisplayWrAddUpdate();
+                        resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
+                        resetDisplayCommentsAddUpdate();
+                    }
                 } else { // at least 1 wr exists
-                    allWrList[curWrIndex] = newWr;
-                    const tempAllWrList = document.getElementById("temp_all_wr_list");
-                    tempAllWrList.innerHTML = allWrList;
-                    console.log("allWrList added to internal list");
-
-                    injectHTMLPermitsTabDisplay(allWrList, 0);
-                    injectHTMLAllWrTabDisplay(allWrList, 0);
-                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+                    if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
+                        h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                    } else {
+                        allWrList[curWrIndex] = newWr;
+                        const tempAllWrList = document.getElementById("temp_all_wr_list");
+                        tempAllWrList.innerHTML = allWrList;
+                        console.log("allWrList added to internal list");
+    
+                        injectHTMLPermitsTabDisplay(allWrList, 0);
+                        injectHTMLAllWrTabDisplay(allWrList, 0);
+                        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+                        
+                        h.displayWrUpdated(newWr.workRequestNumber);
+                        resetDisplayWrAddUpdate();
+                        resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
+                        resetDisplayCommentsAddUpdate();
+                    }
                 }
-                h.displayWrUpdated(newWr.workRequestNumber);
-                resetDisplayWrAddUpdate();
-                resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
-                resetDisplayCommentsAddUpdate();
+                
 
             
         } else if (filterCheckboxAddPermit.checked == true) {
@@ -5373,8 +5416,8 @@ async function mainEvent() {
             
             if (cur != null && cur.classList.contains("selectedComment")) {
                 document.getElementById("comment_to_add_item_" + i).remove();
-                const secondHalf = tempComments.list.slice(i + 1);
-                const firstHalf = tempComments.list.slice(0, i);
+                const secondHalf = tempComments.list.slice(tempComments.list.length - 1 - i + 1);
+                const firstHalf = tempComments.list.slice(0, tempComments.list.length - 1 - i);
                 tempComments.list = firstHalf.concat(secondHalf);
 
                 let newPage = [];
@@ -5519,8 +5562,8 @@ async function mainEvent() {
 
             if (cur != null && cur.classList.contains("selectedComment")) {
                 document.getElementById("permit_comment_to_add_item_" + i).remove();
-                const secondHalf = tempPermitComments.list.slice(i + 1);
-                const firstHalf = tempPermitComments.list.slice(0, i);
+                const secondHalf = tempPermitComments.list.slice(tempPermitComments.list.length - 1 - i + 1);
+                const firstHalf = tempPermitComments.list.slice(0, tempPermitComments.list.length - 1 -i);
                 tempPermitComments.list = firstHalf.concat(secondHalf);
 
                 let newPage = [];
@@ -5769,6 +5812,8 @@ async function mainEvent() {
         if (((index + 2) * 14) >= tempAllComments.list.length) {
             addCommentTabExistingCommentsNextButton.disabled = true;
         }
+
+        addCommentsTabCommentsRemoveButton.disabled = true; // bug when trying to remove from past page 1
     })
     addCommentTabExistingCommentsPrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addCommentTabExistingCommentPrevButton");
@@ -6503,7 +6548,7 @@ async function mainEvent() {
     filterCheckboxPermitApplied.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitApplied");
 
-        if (filterCheckboxPermitApplied.checked == true) {
+        if (filterCheckboxPermitApplied.checked == false) {
             filterCheckboxPermitApplied.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6513,7 +6558,7 @@ async function mainEvent() {
     filterCheckboxPermitReceived.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitReceived");
 
-        if (filterCheckboxPermitReceived.checked == true) {
+        if (filterCheckboxPermitReceived.checked == false) {
             filterCheckboxPermitReceived.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6523,7 +6568,7 @@ async function mainEvent() {
     filterCheckboxPermitExpiringSoon.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitExpiringSoon");
 
-        if (filterCheckboxPermitExpiringSoon.checked == true) {
+        if (filterCheckboxPermitExpiringSoon.checked == false) {
             filterCheckboxPermitExpiringSoon.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6533,7 +6578,7 @@ async function mainEvent() {
     filterCheckboxPermitExpired.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitExpired");
 
-        if (filterCheckboxPermitExpired.checked == true) {
+        if (filterCheckboxPermitExpired.checked == false) {
             filterCheckboxPermitExpired.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6543,7 +6588,7 @@ async function mainEvent() {
     filterCheckboxPermitExtensionSubmitted.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitExtensionSubmitted");
 
-        if (filterCheckboxPermitExtensionSubmitted.checked == true) {
+        if (filterCheckboxPermitExtensionSubmitted.checked == false) {
             filterCheckboxPermitExtensionSubmitted.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6554,7 +6599,7 @@ async function mainEvent() {
     filterCheckboxPermitExtensionReceived.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitExtensionReceived");
 
-        if (filterCheckboxPermitExtensionReceived.checked == true) {
+        if (filterCheckboxPermitExtensionReceived.checked == false) {
             filterCheckboxPermitExtensionReceived.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6564,7 +6609,7 @@ async function mainEvent() {
     filterCheckboxPermitDontNeed.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitDontNeed");
 
-        if (filterCheckboxPermitDontNeed.checked == true) {
+        if (filterCheckboxPermitDontNeed.checked == false) {
             filterCheckboxPermitDontNeed.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
@@ -6574,7 +6619,7 @@ async function mainEvent() {
     filterCheckboxPermitHaventChecked.addEventListener("change", (event) => {
         console.log("Changed - filterCheckboxPermitHaventChecked");
 
-        if (filterCheckboxPermitHaventChecked.checked == true) {
+        if (filterCheckboxPermitHaventChecked.checked == false) {
             filterCheckboxPermitHaventChecked.checked = false;
         } else {
             uncheckPermitsTabSpecificCheckboxes();
