@@ -1129,11 +1129,108 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <!-- Settings Display -->
+    <div class="settingsDisplayContainer " id="settings_display_container">
+        <div class="settingsDisplayRowsContainer" id="settings_display_rows_container">
+            
+            <!-- Row One -->
+            <div class="settingsDisplayRowOne" id="settings_display_row_one">
+                <button type="button" class="settingsXButton" id="settings_x_button">X</button>
+                <label for="settings_display_container" class="settingsDisplayContainerLabel" id="settings_display_container_label"><b>Settings</b></label>
+            </div>
+
+            <!-- Row Two -->
+            <div class="settingsDisplayRowTwo" id="settings_display_row_one">
+
+                <!-- Color Tabs -->
+                <div class="settingsDisplayTab hidden" id="settings_display_tab_colors">Colors</div>
+                <div class="settingsDisplayTab activeTab " id="settings_display_tab_colors_active">Colors</div>
+
+                <!-- Preference Tabs -->
+                <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
+                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_perferences_active">Preferences</div>
+            </div>
+
+            <!-- Lower Display -->
+            <div class="settingsDisplayLowerDisplayContainerColors" id="settings_display_lower_display_container_colors">
+                
+                <!-- Left Side -->
+                <div class="settingsDisplayLowerDisplayContainerColorsLeft" id="settings_display_lower_display_container_colors_left">
+                    
+                    <!-- Label -->
+                    <div class="settingsDisplayTabLower">Options</div>
+
+                    <div class="settingsDisplayColorOptionsContainer" id="settings_display_color_options_container">
+                        <!-- Empty list to add to on event -->
+                    </div>
+                </div>
+
+                <!-- Right Side -->
+                <div class="settingsDisplayLowerDisplayContainerColorsRight" id="settings_display_lower_display_container_colors_right">
+                    
+                    <!-- Tabs -->
+                    <div class="settingsDisplayColorsTabsContainer">
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_crd">CRD</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_crd_active">CRD</div>
+
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_rcd">RCD</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_rcd_active">RCD</div>
+
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_status">Permit Status</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_status_active">Permit Status</div>
+
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_start">Permit Start Date</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_start_active">Permit Start Date</div>
+
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_end">Permit End Date</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_end_active">Permit End Date</div>
+
+                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_easement_status">Easement Status</div>
+                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_easement_status_active">Easement Status</div>
+                    </div>
+
+                    <!-- Display -->
+                    <div class="settingsDisplayInnerColors" id="settings_display_inner_colors">
+                        
+                        <!-- Top -->
+                        <div class="settingsDisplayInnerColorsTop">
+                            <label class="settingsDisplayInnerColorsLabel">Current Color Assigned:</label>
+                            <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
+                            <button type="button" class="colorSaveButton" id="color_save_button">Save</button>
+                        </div>
+
+                        <!-- Bottom -->
+                        <div class="settingsDisplayInnerColorsBottom">
+                            <div class="colorOption" id="color_option_yellow">Yellow</div>
+                            <div class="colorOption" id="color_option_orange">Orange</div>
+                            <div class="colorOption" id="color_option_red">Red</div>
+                            <div class="colorOption" id="color_option_green">Green</div>
+                            <div class="colorOption" id="color_option_teal">Teal</div>
+                            <div class="colorOption" id="color_option_pink">Pink</div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
       <!-- Footer Container -->
       <div class="footerContainer">
+
+        <!-- Settings Button -->
+        <div class="settingsButtonContainer" id="settings_button_container">
+            <button type="button" class="settingsButton" id="settings_button">*</button>
+        </div>
+
+        <!-- Name / Label -->
         <div class="footerObject">Work/Permit Tracker Tool</div>
         
         <!-- allWr Prev Next Buttons -->
