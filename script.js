@@ -98,6 +98,21 @@ class Comments {
         
     }
 
+    compare(comments) {
+        console.log("Entered - Comments - compare(" + comments + ")");
+
+        if (this.comments.length == comments.length) {
+            for (var i = 0; i < this.comments.length; i++) {
+                if (this.comments[i] != comments[i]) {
+                    return 0;
+                }
+            }
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     toString() {
         console.log("Entered - Comments - toString()");
 
@@ -532,17 +547,20 @@ class Error {
 
         const temp = document.getElementById("customer_contacted_priority_container");
         temp.insertAdjacentHTML("beforeend", `<div class="errorMessage" id="error_invalid_priority_number">Invalid Priority Number</li>`);
+        document.getElementById("error_invalid_priority_number").style.marginTop = '10px';
+        temp.style.marginBottom = '-30px';
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_priority_number");
             temp.remove();
+            temp.style.marginBottom = '0px';
         }, 3000);
     }
 
     displayInvalidPriorityNumberPermit() {
         console.log("Entered - displayInvalidPriorityNumberPermit()");
 
-        const temp = document.getElementById("add_tab_display_add_permit_left");
-        temp.insertAdjacentHTML("beforeend", `<div class="errorMessage" id="error_invalid_priority_number">Invalid Priority Number</li>`);
+        const temp = document.getElementById("add_tab_container_permit_priority");
+        temp.insertAdjacentHTML("beforeend", `<div class="errorMessagePriorityPermit" id="error_invalid_priority_number">Invalid Priority Number</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_priority_number");
             temp.remove();
@@ -564,12 +582,10 @@ class Error {
         console.log("Entered - displayInvalidCommentType()");
 
         const temp = document.getElementById("add_tab_comment_type_dd_container");
-        temp.insertAdjacentHTML("beforeend", `<div class="errorMessage" id="error_invalid_comment_type">Select Comment Type</li>`);
-        document.getElementById("add_comments_tab_comments_remove_button").style.marginLeft = '150px';
+        temp.insertAdjacentHTML("beforeend", `<div class="errorMessageInvalidCommentType" id="error_invalid_comment_type">Select Comment Type</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_comment_type");
             temp.remove();
-            document.getElementById("add_comments_tab_comments_remove_button").style.marginLeft = '340px';
         }, 3000)
     }
 }
@@ -923,7 +939,7 @@ function formatMonth(month) {
 }
 
 function convertNumText(row) {
-    console.log("Entered - convertNumText(" + row + ")");
+    console.log("Entered - convertNumText(row)");
 
     let rowNumberText = "";
 
@@ -1271,8 +1287,8 @@ function setPermitRowValues(wr, rowNumber) {
     const address = document.getElementById("permits_tab_row_" + rowNumberText + "_address");
     address.innerHTML = wr.wrAddressType().outerHTML;
 
-    const submitted = document.getElementById("permits_tab_row_" + rowNumberText + "_submit");
-    submitted.innerText = formatDateNormal(wr.permit.dateSubmitted);
+    const applied = document.getElementById("permits_tab_row_" + rowNumberText + "_applied");
+    applied.innerText = formatDateNormal(formatDatePermitApplied(wr.permit.dateApplied));
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
@@ -1280,7 +1296,6 @@ function setPermitRowValues(wr, rowNumber) {
 
     const startDate = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
     startDate.value = formatDate(wr.permit.startDate);
-    //let date = new Date(wr.permit.startDate);
     startDate.zIndex = 2;
     startDate.style.backgroundColor = assessPermitStartDate(wr.permit.startDate, wr.permit.endDate);
 
@@ -2723,6 +2738,10 @@ async function mainEvent() {
 
         uncheckAllWrFilterCheckboxes();
         uncolorAllWrFilterCheckboxes();
+
+        if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
+            document.getElementById("no_wr_found_all_wr_tab").remove();
+        }
         
        
         allWrTab.classList.remove("hidden");
@@ -2754,6 +2773,10 @@ async function mainEvent() {
 
         uncheckPermitsTabSpecificCheckboxes();
         uncolorPermitsTabSpecificCheckboxes();
+
+        if (document.getElementById("no_wr_found_permit_tab") != undefined) {
+            document.getElementById("no_wr_found_permit_tab").remove();
+        }
 
         permitsTab.classList.remove("hidden");
     }
@@ -4468,6 +4491,7 @@ async function mainEvent() {
             /* Updating Status */
             currentWr.permit.permitStatus = tempCurrent.innerHTML;
 
+
             /* Checking Status to set date applied */
             if (currentWr.permit.permitStatus == "Applied") {
                 console.log("Setting Permit Applied Date to Today");
@@ -4816,6 +4840,7 @@ async function mainEvent() {
     addTabUpdateButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_update_button");
         const h = new Haptix();
+        const e = new Error();
         const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
         const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
@@ -4829,112 +4854,142 @@ async function mainEvent() {
         
         const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
-            for (var i = 0; i < tempComments.list.length; i++) {
-                curComments.push(tempComments.list[i]);
-            }
-            const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
-                addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
-                addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
-                pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
-                pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
-                generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, curComments, 
-                customerContactedCheckboxYes.checked, addTabWrCreationDate.value);
             
-                if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
-                    if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
-                        h.displayNoChanges(addTabNewWorkRequestNumber.value);
-                    } else {
-                        allWrList[0] = newWr;
-                        console.log("wr added to empty list");
+            if (addTabNewWorkRequestNumber.value.length != 8 && inTestMode == false) {
+                console.log("wr length != 8");
 
-                        const tempAllWrList = document.createElement("tempAllWrList");
-                        tempAllWrList.id = "temp_all_wr_list";
-                        tempAllWrList.classList.add("hidden");
-                        tempAllWrList.innerHTML = allWrList;
+                e.displayInvalidWr(addTabNewWorkRequestNumber.value);
+            } else if (addTabPriorityBox.value.length < 1) {
+                console.log("Priority Number length < 1");
 
-                        const allWrTab = document.getElementById("all_wr_tab");
-                        allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+                e.displayInvalidPriorityNumber();
+            } else if (wrTypeDDMenuCurrent == "Not Set" && inTestMode == false) {
+                console.log("No Wr Type Selected");
 
-                        console.log("allWrList added to internal list");
-
-                        injectHTMLAllWrTabDisplay(allWrList, 0);
-                        injectHTMLPermitsTabDisplay(allWrList, 0);
-                        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-
-                        h.displayWrUpdated(newWr.workRequestNumber);
-                        resetDisplayWrAddUpdate();
-                        resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
-                        resetDisplayCommentsAddUpdate();
-                    }
-                } else { // at least 1 wr exists
-                    if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
-                        h.displayNoChanges(addTabNewWorkRequestNumber.value);
-                    } else {
-                        allWrList[curWrIndex] = newWr;
-                        const tempAllWrList = document.getElementById("temp_all_wr_list");
-                        tempAllWrList.innerHTML = allWrList;
-                        console.log("allWrList added to internal list");
-    
-                        injectHTMLPermitsTabDisplay(allWrList, 0);
-                        injectHTMLAllWrTabDisplay(allWrList, 0);
-                        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-                        
-                        h.displayWrUpdated(newWr.workRequestNumber);
-                        resetDisplayWrAddUpdate();
-                        resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
-                        resetDisplayCommentsAddUpdate();
-                    }
+                e.displayInvalidWrType();
+            } else {
+                for (var i = 0; i < tempComments.list.length; i++) {
+                    curComments.push(tempComments.list[i]);
                 }
+                const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
+                    addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
+                    addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
+                    pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
+                    pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
+                    generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, curComments, 
+                    customerContactedCheckboxYes.checked, addTabWrCreationDate.value);
+                
+                    if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
+                        if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
+                            h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                        } else {
+                            allWrList[0] = newWr;
+                            console.log("wr added to empty list");
+    
+                            const tempAllWrList = document.createElement("tempAllWrList");
+                            tempAllWrList.id = "temp_all_wr_list";
+                            tempAllWrList.classList.add("hidden");
+                            tempAllWrList.innerHTML = allWrList;
+    
+                            const allWrTab = document.getElementById("all_wr_tab");
+                            allWrTab.insertAdjacentElement("beforeend", tempAllWrList);
+    
+                            console.log("allWrList added to internal list");
+    
+                            injectHTMLAllWrTabDisplay(allWrList, 0);
+                            injectHTMLPermitsTabDisplay(allWrList, 0);
+                            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+    
+                            h.displayWrUpdated(newWr.workRequestNumber);
+                            resetDisplayWrAddUpdate();
+                            resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
+                            resetDisplayCommentsAddUpdate();
+                        }
+                    } else { // at least 1 wr exists
+                        if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
+                            h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                        } else {
+                            allWrList[curWrIndex] = newWr;
+                            const tempAllWrList = document.getElementById("temp_all_wr_list");
+                            tempAllWrList.innerHTML = allWrList;
+                            console.log("allWrList added to internal list");
+        
+                            injectHTMLPermitsTabDisplay(allWrList, 0);
+                            injectHTMLAllWrTabDisplay(allWrList, 0);
+                            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+                            
+                            h.displayWrUpdated(newWr.workRequestNumber);
+                            resetDisplayWrAddUpdate();
+                            resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
+                            resetDisplayCommentsAddUpdate();
+                        }
+                    }
+            }
                 
 
             
         } else if (filterCheckboxAddPermit.checked == true) {
-            let newComments = [];
             
-            for (var i = 0; i < curComments.length; i++) {
-                newComments.push(curComments[i]);
-            }
-            for (var i = 0; i < tempPermitComments.list.length; i++) {
-                newComments.push(tempPermitComments.list[i]);
+            if (addTabNewWorkRequestNumber.value.length != 8 && inTestMode == false) {
+                console.log("wr length != 8");
+
+                e.displayInvalidWr(addTabNewWorkRequestNumber.value);
+            } else if (addTabPermitPriority.value.length < 1) {
+                console.log("Priority Number length < 1");
+
+                e.displayInvalidPriorityNumberPermit();
+            } else {
+                let newComments = [];
+            
+                for (var i = 0; i < curComments.length; i++) {
+                    newComments.push(curComments[i]);
+                }
+                for (var i = 0; i < tempPermitComments.list.length; i++) {
+                    newComments.push(tempPermitComments.list[i]);
+                }
+    
+                const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
+                let curWr = curWrData[1];
+                if (curWrData[0] != false) {
+                    const d = new Date();
+                    const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                    const curWrIndex = curWrData[2];
+                    let newWr = new workRequest(curWr.workRequestNumber, curWr.houseNumber, curWr.streetName,
+                        curWr.countyCity, curWr.zipCode, addTabPermitPriority.value, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
+                        curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
+                        addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
+                        curWr.customerContacted, curWr.creationDate);
+                    const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
+                    addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
+                    addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
+                    
+                    newWr.permit = permit;
+    
+                    if (allWrList[curWrIndex].compare(newWr) == 1 && tempPermitComments.list.length ==0) {
+                        h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                    } else {
+                        allWrList[curWrIndex] = newWr;
+    
+                        const tempAllWrList = document.getElementById("temp_all_wr_list");
+                        tempAllWrList.innerHTML = allWrList;
+                        console.log("allWrList added to internal list");
+        
+                        injectHTMLPermitsTabDisplay(allWrList, 0);
+                        injectHTMLAllWrTabDisplay(allWrList, 0);
+                        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+        
+                        h.displayPermitUpdated(newWr.workRequestNumber);
+                        resetDisplayPermitAddUpdate();
+                        resetDisplayWrAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
+                        resetDisplayCommentsAddUpdate();
+                    }
+                }
+    
             }
             
-            /*for (var i = tempPermitComments.list.length - 1; i >= 0; i--) { // adding new comments to current
-                curComments.push(tempPermitComments.list[i]);
-            }*/
-            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
-            let curWr = curWrData[1];
-            if (curWrData[0] != false) {
-                const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-                const curWrIndex = curWrData[2];
-                let newWr = new workRequest(curWr.workRequestNumber, curWr.houseNumber, curWr.streetName,
-                    curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
-                    curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
-                    addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
-                    curWr.customerContacted, curWr.creationDate);
-                const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
-                addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
-                addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
-                
-                newWr.permit = permit;
-                allWrList[curWrIndex] = newWr;
-
-                const tempAllWrList = document.getElementById("temp_all_wr_list");
-                tempAllWrList.innerHTML = allWrList;
-                console.log("allWrList added to internal list");
-
-                injectHTMLPermitsTabDisplay(allWrList, 0);
-                injectHTMLAllWrTabDisplay(allWrList, 0);
-                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-
-                h.displayPermitUpdated(newWr.workRequestNumber);
-                resetDisplayPermitAddUpdate();
-                resetDisplayWrAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
-                resetDisplayCommentsAddUpdate();
-            }
         } else if (filterCheckboxAddComment.checked == true) {
             let newComments = [];
             
@@ -4944,9 +4999,6 @@ async function mainEvent() {
             for (var i = 0; i < tempAllComments.list.length; i++) {
                 newComments.push(tempAllComments.list[i]);
             }
-            /*for (var i = tempAllComments.list.length - 1; i >= 0; i--) { // adding new comments to current
-                curComments.push(tempAllComments.list[i]);
-            }*/
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
             let curWr = curWrData[1];
             
@@ -4960,20 +5012,26 @@ async function mainEvent() {
                     curWr.rcd, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, tempAllComments.list, 
                     curWr.customerContacted, curWr.creationDate);
                 newWr.permit = curWr.permit;
-                allWrList[curWrIndex] = newWr;
+                
+                if (allWrList[curWrIndex].commentsGeneral.compare(tempAllComments.list) == 1) {
+                    h.displayNoChanges(addTabNewWorkRequestNumber.value);
+                } else {
+                    allWrList[curWrIndex] = newWr;
 
-                const tempAllWrList = document.getElementById("temp_all_wr_list");
-                tempAllWrList.innerHTML = allWrList;
-                console.log("allWrList added to internal list");   
-                injectHTMLPermitsTabDisplay(allWrList, 0);
-                injectHTMLAllWrTabDisplay(allWrList, 0);
-                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-
-                h.displayCommentsUpdated(newWr.workRequestNumber);
-                resetDisplayCommentsAddUpdate();
-                resetDisplayPermitAddUpdate();
-                resetDisplayWrAddUpdate();         
+                    const tempAllWrList = document.getElementById("temp_all_wr_list");
+                    tempAllWrList.innerHTML = allWrList;
+                    console.log("allWrList added to internal list");   
+                    injectHTMLPermitsTabDisplay(allWrList, 0);
+                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                    document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+                    document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+    
+                    h.displayCommentsUpdated(newWr.workRequestNumber);
+                    resetDisplayCommentsAddUpdate();
+                    resetDisplayPermitAddUpdate();
+                    resetDisplayWrAddUpdate();   
+                }
+                      
             }
             
         }
@@ -6166,15 +6224,36 @@ async function mainEvent() {
 
         filteredList = allWrListAssessed;
 
+        // Display no wr prompt if no wr match input
+        if (allWrListAssessed.length == 0) {
+            if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
+                ${"No Work Requests Match User Input"}</div>`);
+            } else if (permitsTab.classList.contains("hidden")) {
+                document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
+                ${"No Work Requests Match User Input"}</div>`);
+            }
+            
+        } else {
+            if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
+                document.getElementById("no_wr_found_all_wr_tab").remove();
+            }
+            if (document.getElementById("no_wr_found_permit_tab") != undefined) {
+                document.getElementById("no_wr_found_permit_tab").remove();
+            }
+        }
 
+        // Still inject empty list to hide rows
         injectHTMLAllWrTabDisplay(allWrListAssessed, 0);
         injectHTMLPermitsTabDisplay(allWrListAssessed, 0);
-
+            
+        // Below hides whichever prev/next container shouldn't be visible
         if (allWrTab.classList.contains("hidden")) { // allWrTab is active
             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         } else if (permitsTab.classList.contains("hidden")) {
             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
         }
+    
     })
     filterGoButton.addEventListener("click", (event) => {
         console.log("Clicked - filterGoButton");
@@ -6185,9 +6264,30 @@ async function mainEvent() {
 
          filteredList = allWrListFiltered;
 
+        // Display no wr prompt if no wr match input
+        if (allWrListFiltered.length == 0) {
+            if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
+                ${"No Work Requests Match User Input"}</div>`);
+            } else if (permitsTab.classList.contains("hidden")) {
+                document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
+                ${"No Work Requests Match User Input"}</div>`);
+            }
+            
+        } else {
+            if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
+                document.getElementById("no_wr_found_all_wr_tab").remove();
+            }
+            if (document.getElementById("no_wr_found_permit_tab") != undefined) {
+                document.getElementById("no_wr_found_permit_tab").remove();
+            }
+        }
+
+        // Still inject empty list to hide rows
         injectHTMLAllWrTabDisplay(allWrListFiltered, 0);
         injectHTMLPermitsTabDisplay(allWrListFiltered, 0);
 
+        // Below hides whichever prev/next container shouldn't be visible
         if (allWrTab.classList.contains("hidden")) { // allWrTab is active
             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         } else if (permitsTab.classList.contains("hidden")) {
@@ -6643,6 +6743,7 @@ async function mainEvent() {
         filteredList = allWrList;
         footerButtonSync.classList.add("hidden");
         deselectAllTabs();
+        trimByAll.checked = true;
         document.getElementById('all_wr_tab').click();
 
         const tempAllWrList = document.createElement("tempAllWrList");
@@ -6692,8 +6793,13 @@ async function mainEvent() {
         filterSectionStatusLabel.classList.remove("hidden");
 
         /* Setting Page Defaults */
-        filterCheckboxPriorityNumber.checked = true;
-        trimByAll.checked = true;
+        if (searchBySelectionCheckbox.checked == true) {
+            searchByWrCheckbox.checked = true;
+        } else {
+            filterCheckboxPriorityNumber.checked = true;
+            trimByAll.checked = true;
+        }
+        
 
 
         if (allWrList.length > 0) {
@@ -6757,9 +6863,12 @@ async function mainEvent() {
         permitsDisplayContainer.classList.remove("hidden");
 
         /* Setting Page Defaults */
-        filterCheckboxPriorityNumber.checked = true;
-        trimByAll.checked = true;
-
+        if (searchBySelectionCheckbox.checked == true) {
+            searchByWrCheckbox.checked = true;
+        } else {
+            filterCheckboxPriorityNumber.checked = true;
+            trimByAll.checked = true;
+        }
         if (allWrList.length > 0) {
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
             console.log("List updated");

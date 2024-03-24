@@ -584,7 +584,7 @@
             <div class="permitsTabDisplayContainer hidden" id="permits_display_container">
                 
                 <!-- permits Tab Labels -->
-                <div class="permitsTabDisplayHeaderContainer">
+                <div class="permitsTabDisplayHeaderContainer" id="permits_tab_display_header_container">
                     <div class="permitsTabDisplayHeaderSmall">Priority Number</div>
                     <div class="permitsTabDisplayHeaderBig">Wr# /<br>Address /<br>Type</div>
                     <div class="permitsTabDisplayHeader">Permit<br>Status</div>
@@ -607,7 +607,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_one_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_one_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_one_applied">
                         Unset 1
                     </div>
                     <div class="permitRowElementContainer">
@@ -638,7 +638,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_two_status">
                         <!-- Adding DD in JS -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_two_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_two_applied">
                         Unset 2
                     </div>
                     <div class="permitRowElementContainer">
@@ -669,7 +669,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_three_status">
                         <!-- Adding DD in JS -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_three_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_three_applied">
                         Unset 3
                     </div>
                     <div class="permitRowElementContainer">
@@ -700,7 +700,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_four_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_four_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_four_applied">
                         Unset 4
                     </div>
                     <div class="permitRowElementContainer">
@@ -731,7 +731,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_five_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_five_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_five_applied">
                         Unset 5
                     </div>
                     <div class="permitRowElementContainer">
@@ -762,7 +762,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_six_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_six_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_six_applied">
                         Unset 6
                     </div>
                     <div class="permitRowElementContainer">
@@ -793,7 +793,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_seven_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_seven_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_seven_applied">
                         Unset 7
                     </div>
                     <div class="permitRowElementContainer">
@@ -824,7 +824,7 @@
                     <div class="permitRowElementContainer" id="permits_tab_row_eight_status">
                         <!-- Will need to add dropdowns in javascript -->
                     </div>
-                    <div class="permitRowElementContainer" id="permits_tab_row_eight_submit">
+                    <div class="permitRowElementContainer" id="permits_tab_row_eight_applied">
                         Unset 8
                     </div>
                     <div class="permitRowElementContainer">
@@ -958,11 +958,11 @@
                                 <!-- Adding DD in JS -->
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_crd">
-                                <label for="add_tab_textfield_crd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
+                                <label for="add_tab_textfield_crd" class="addTabTextfieldLabelBottomLeft" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
                                 <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_crd" name="date_add_tab_wr_crd" value="0001-01-01"/>
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_rcd">
-                                <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabel" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
+                                <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabelBottomLeft" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
                                 <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_rcd" name="date_add_tab_wr_rcd" value="0001-01-01"/>
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_general_status_container">
@@ -1014,19 +1014,19 @@
                         <!-- Left Side -->
                         <div class="addTabDisplayAddPermitLeft" id="add_tab_display_add_permit_left">
                             <div class="addTabPermitTextfieldContainer" id="add_tab_add_permit_status_container">
-                                <label for="dropdown_menu_box_add_tab_permit_status" class="addTabTextfieldLabel" id="dropdown_menu_box_add_tab_permit_status_label">Permit Status</label>
+                                <label for="dropdown_menu_box_add_tab_permit_status" class="addTabTextfieldLabelPermit" id="dropdown_menu_box_add_tab_permit_status_label">Permit Status</label>
                                 <!-- Adding DD in JS -->                
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_submitted">
-                                <label for="date_add_tab_permit_submitted" class="addTabTextfieldLabel" id="add_tab_permit_textfield_submitted_label">Date Submitted:</label>
+                                <label for="date_add_tab_permit_submitted" class="addTabTextfieldLabelPermit" id="add_tab_permit_textfield_submitted_label">Date Submitted:</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_submitted" name="date_add_tab_permit_submitted" value="0001-01-01"/>
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_applied">
-                                <label for="date_add_tab_permit_applied" class="addTabTextfieldLabel" id="date_add_tab_permit_applied_label">Date Applied:</label>
+                                <label for="date_add_tab_permit_applied" class="addTabTextfieldLabelPermit" id="date_add_tab_permit_applied_label">Date Applied:</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_applied" name="date_add_tab_permit_applied" value="0001-01-01"/>
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_priority">
-                                <label for="add_tab_permit_priority" class="addTabTextfieldLabel" id="add_tab_permit_priority_label">Priority Number:</label>
+                                <label for="add_tab_permit_priority" class="addTabTextfieldLabelPermit" id="add_tab_permit_priority_label">Priority Number:</label>
                                 <input type="text" class="addTabPriorityNumberTextfield" id="add_tab_permit_priority" value="1"/>
                             </div>
                         </div>
@@ -1034,19 +1034,19 @@
                         <!-- Right Side -->
                         <div class="addTabDisplayAddPermitRight" id="add_tab_display_add_permit_right">
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_crd">
-                                <label for="date_add_tab_permit_crd" class="addTabTextfieldLabel" id="date_add_tab_permit_crd_label">Customer Ready Date (CRD):</label>
+                                <label for="date_add_tab_permit_crd" class="addTabTextfieldLabelPermit" id="date_add_tab_permit_crd_label">Customer Ready Date (CRD):</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_crd" name="date_add_tab_permit_crd" value="0001-01-01"/>
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_rcd">
-                                <label for="date_add_tab_permit_rcd" class="addTabTextfieldLabel" id="date_add_tab_permit_rcd_label">Requested Completion Date (RCD):</label>
+                                <label for="date_add_tab_permit_rcd" class="addTabTextfieldLabelPermit" id="date_add_tab_permit_rcd_label">Requested Completion Date (RCD):</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_rcd" name="date_add_tab_permit_rcd" value="0001-01-01"/>
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_start">
-                                <label for="date_add_tab_permit_start" class="addTabTextfieldLabel" id="date_add_tab_permit_start_label">Permit Start Date:</label>
+                                <label for="date_add_tab_permit_start" class="addTabTextfieldLabelPermit" id="date_add_tab_permit_start_label">Permit Start Date:</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_start" name="date_add_tab_permit_start" value="0001-01-01"/>
                             </div>
                             <div class="addTabPermitTextfieldContainer" id="add_tab_container_permit_expire">
-                                <label for="date_add_tab_permit_expire" class="addTabTextfieldLabel" id="date_add_tab_permit_expire_label">Permit Expiriation Date:</label>
+                                <label for="date_add_tab_permit_expire" class="addTabTextfieldLabelPermit" id="date_add_tab_permit_expire_label">Permit Expiriation Date:</label>
                                 <input type="date" class="dateAddTabPermit" id="date_add_tab_permit_expire" name="date_add_tab_permit_expire" value="0001-01-01"/>
                             </div>
                         </div>

@@ -171,7 +171,7 @@ h5 {
     border: 2px solid black;
     width: 300px;
     min-height: 700px;
-    padding-right: 5px;
+    /*padding-right: 5px;*/
 }
 
 /* Top Section of Filter Section CSS */
@@ -182,7 +182,7 @@ h5 {
     flex-direction: column;
     border: 1px solid black;
     padding-bottom: .5rem;
-    padding-right: 5px;
+    /*padding-right: 5px;*/
 }
 
 .filterSectionInactive {
@@ -248,10 +248,15 @@ h5 {
 
 .searchTextfieldGoButton {
     align-self: center;
+    align-items: center;
+    justify-content: center;
    /*margin-left: 6rem;*/
-    font-size: large;
-    padding-left: .5rem;
-    padding-right: .5rem;
+    font-size: medium;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 6px;
+    height: 25px;
+    width: 35px;
     
 }
 
@@ -266,7 +271,7 @@ h5 {
 }
 
 .addTabFilterLabel {
-    font-size: xxx-large;
+    font-size: large;
 }
 
 .addTypeContainer {
@@ -707,6 +712,7 @@ h5 {
 .pocRowOneContainer {
     display: flex;
     flex-direction: row;
+    gap: 8px;
 }
 
 .pocRowOneLabelContainer {
@@ -817,8 +823,9 @@ h5 {
 .addTabDisplayBottom {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    gap: 7vw;
+    justify-content: space-between;
+    /*gap: 7vw;*/
+    width: 1110px;
 }
 
 .addTabDisplayBottomLeftContainer {
@@ -828,7 +835,8 @@ h5 {
 
 .date_add_tab_wr {
     border: 2px solid black;
-    padding: .5rem;
+    padding: 7px;
+    width: 125px;
 }
 
 .dateAddTabPermit {
@@ -856,8 +864,24 @@ h5 {
 
 .addTabTextfieldLabel {
     font-size: medium;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 150px;
+}
+
+.addTabTextfieldLabelPermit {
+    font-size: medium;
+    margin-left: 30px;
+    margin-right: 30px;
+    /*width: 150px;*/
+}
+
+.addTabTextfieldLabelBottomLeft {
+    font-size: medium;
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 240px;
+    margin-bottom: 5px;
 }
 
 .addTabCommentTextfieldLabel {
@@ -1490,6 +1514,33 @@ h5 {
     color: red;
     padding-left: 20px;
     padding-right: 20px;
+}
+
+.errorMessagePriorityPermit {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    padding-left: 20px;
+}
+
+.errorMessageInvalidCommentType {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    color: red;
+    padding-left: 20px;
+    margin-right: -190px;
+}
+
+.noWrFound {
+    display: flex;
+    font-size: large;
+    margin-top: 30px;
+    margin-left: 50px;
 }
 
 .wrAddedPrompt {
