@@ -1954,9 +1954,10 @@ function assessEasementStatus(status) {
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
         return '#dbea06ca';
     } else if (date < curDate) {
+        console.log("ggg ***");
         return '#ed3939c3';
     } else if (data <= 14) {
-        return '#ff3191cd';
+        return '#ff3191cd'; // reddish
     } else if (data <= 31) {
         return '#ea8f06ca'; // orangish
     } else {
