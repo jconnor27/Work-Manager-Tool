@@ -392,10 +392,10 @@ class GeneralStatusDDMenu {
 }
 
 class Permit {
-    constructor(workRequestNumber, permitStatus, dateSubmitted, dateApplied, priorityNumber, crd, rcd, startDate, endDate, creationDate) {
+    constructor(workRequestNumber, permitStatus, dateUpdated, dateApplied, priorityNumber, crd, rcd, startDate, endDate, creationDate) {
         this.workRequestNumber = workRequestNumber;
         this.permitStatus = permitStatus;
-        this.dateSubmitted = dateSubmitted;
+        this.dateUpdated = dateUpdated;
         this.dateApplied = dateApplied;
         this.priorityNumber = priorityNumber;
         this.crd = crd;
@@ -408,7 +408,7 @@ class Permit {
     toString() {
         console.log("Entered - Permit - toString()");
 
-        const permitSTR = "permitStatus:" + this.permitStatus + "*ENDCHAR*" + "dateSubmitted:" + this.dateSubmitted + "*ENDCHAR*" +
+        const permitSTR = "permitStatus:" + this.permitStatus + "*ENDCHAR*" + "dateUpdated:" + this.dateUpdated + "*ENDCHAR*" +
                         "dateApplied:" + this.dateApplied + "*ENDCHAR*" + "startDate:" + this.startDate + "*ENDCHAR*" + 
                         "endDate:" + this.endDate;
 
@@ -1147,6 +1147,13 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
     }
 
     document.getElementById("all_wr_tab_prev_next_container").classList.remove("hidden");
+    
+    if (document.getElementById("all_wr_tab").classList.contains("hidden")) { // allWrTab is active
+        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+    } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
+        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+    }
+
 
     const prev = document.getElementById("all_wr_tab_page_prev_button");
     const next = document.getElementById("all_wr_tab_page_next_button");
@@ -1190,7 +1197,12 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
     }
 
     document.getElementById("permits_tab_prev_next_container").classList.remove("hidden");
-
+    
+    if (document.getElementById("all_wr_tab").classList.contains("hidden")) { // allWrTab is active
+        document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+    } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
+        document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+    }
 
     /* Adding next and prev buttons */
     const prev = document.getElementById("permits_tab_page_prev_button");
@@ -1615,7 +1627,7 @@ function parseSingleWrString(str) {
 
     colonIndex = str.indexOf(":");
     commaIndex = str.indexOf("*ENDCHAR*");
-    const dateSubmitted = str.substring(colonIndex + 1, commaIndex);
+    const dateUpdated = str.substring(colonIndex + 1, commaIndex);
     str = str.substring(commaIndex + 9);
 
     colonIndex = str.indexOf(":");
@@ -1658,7 +1670,7 @@ function parseSingleWrString(str) {
         ownerEmail, builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus,
         permitStatus, easementRequestStatus, commentsGeneralElem, customerContacted, creationDate);
 
-    const permit = new Permit(workRequestNumber, permitStatus, dateSubmitted, dateApplied, priorityNumber, crd,
+    const permit = new Permit(workRequestNumber, permitStatus, dateUpdated, dateApplied, priorityNumber, crd,
             rcd, permitStartDate, permitEndDate, creationDate);
 
     let data = [wr, permit];
@@ -2125,7 +2137,7 @@ async function mainEvent() {
     const addTabPermitCommentsRemoveButton = document.querySelector("#add_tab_permit_comments_remove_button");
     const addTabPermitCommentsTextfield = document.querySelector("#add_tab_permit_comments_textfield");
     const addTabPermitCommentsToAdd = document.querySelector("#add_tab_permit_comments_to_add");
-    const addTabPermitDateSubmitted = document.querySelector("#date_add_tab_permit_submitted");
+    const addTabPermitDateUpdated = document.querySelector("#date_add_tab_permit_updated");
     const addTabPermitDateApplied = document.querySelector("#date_add_tab_permit_applied")
     const addTabPermitCRD = document.querySelector("#date_add_tab_permit_crd");
     const addTabPermitRCD = document.querySelector("#date_add_tab_permit_rcd");
@@ -2423,6 +2435,7 @@ async function mainEvent() {
     let filteredList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
+    let permitDateChangeValues = [];
     
     const rowsOnPage = 8;
     
@@ -2697,7 +2710,7 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
 
         addTabAddPermitStatusContainer.innerHTML = "";
-        addTabAddPermitStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_add_permit_status" class="addTabTextfieldLabel" 
+        addTabAddPermitStatusContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_add_permit_status" class="addTabTextfieldLabelPermit" 
         id="dropdown_menu_add_tab_add_permit_status_label">Permit Status:</label>`);
         addTabAddPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
         // adjusting size for add tab
@@ -3166,7 +3179,9 @@ async function mainEvent() {
 
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = wr.permit.permitStatus;
-        addTabPermitDateSubmitted.value = formatDate(wr.permit.dateSubmitted);
+        console.log("**** hi");
+        console.log(wr.permit.dateUpdated);
+        addTabPermitDateUpdated.value = wr.permit.dateUpdated;
         addTabPermitDateApplied.value =  formatDatePermitApplied(wr.permit.dateApplied); //formatDate(wr.permit.dateApplied);
         addTabPermitPriority.value = wr.priorityNumber;
         addTabPermitCRD.value = formatDate(wr.crd);
@@ -3184,7 +3199,7 @@ async function mainEvent() {
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = "Not Set";
-        addTabPermitDateSubmitted.value = "0001-01-01";
+        addTabPermitDateUpdated.value = "0001-01-01";
         addTabPermitDateApplied.value =  "0001-01-01";
         addTabPermitPriority.value = 1;
         addTabPermitCRD.value = "0001-01-01";
@@ -4105,6 +4120,7 @@ async function mainEvent() {
         
 
         currentWr.priorityNumber = event.target.value;
+        currentWr.permit.dateUpdated = 
         allWrList[curWrIndex] = currentWr;        
     })
     permitsTabRowTwoPriority.addEventListener("change", (event) => {
@@ -4495,7 +4511,7 @@ async function mainEvent() {
             /* Checking Status to set date applied */
             if (currentWr.permit.permitStatus == "Applied") {
                 console.log("Setting Permit Applied Date to Today");
-                
+
                 const d = new Date();
                 const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
 
@@ -4511,6 +4527,9 @@ async function mainEvent() {
             }
 
             /* Updating List */
+            const d = new Date();
+            const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+            currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;
 
             /* Updating Page (Display) */
@@ -4580,6 +4599,10 @@ async function mainEvent() {
             currentWr.permit.startDate = event.target.value;
             const d = new Date(currentWr.permit.startDate);
             document.getElementById("permits_tab_row_" + rowNumberText + "_start_date").style.backgroundColor = assessPermitStartDate(d);
+            
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;            
         }
 
@@ -4646,6 +4669,9 @@ async function mainEvent() {
             currentWr.permit.endDate = event.target.value;
             const d = new Date(currentWr.permit.endDate);
             document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDate(d);
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;            
         }
 
@@ -4962,7 +4988,7 @@ async function mainEvent() {
                         addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
                         curWr.customerContacted, curWr.creationDate);
                     const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
-                    addTabPermitDateSubmitted.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
+                    addTabPermitDateUpdated.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                     addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
                     
                     newWr.permit = permit;
@@ -5172,6 +5198,41 @@ async function mainEvent() {
         }
     })
 
+        /* Permit - Last Updated Checks */
+    addTabPermitDateApplied.addEventListener("mouseout", (event) => {
+        console.log("Moused Out - addTabPermitDateApplied");
+
+        if (permitDateChangeValues[0] != addTabPermitDateApplied.value) { // date applied changed
+            // Setting DD Menu Current to "Applied"
+            document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = "Applied";
+                    
+            // Setting Last Updated
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            addTabPermitDateUpdated.value = tempDate;
+        }
+    })
+    addTabPermitStart.addEventListener("mouseout", (event) => {
+        console.log("Moused Out - addTabPermitStart");
+
+        if (permitDateChangeValues[1] != addTabPermitStart.value) { // permit start date changed 
+            // Setting Last Updated
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            addTabPermitDateUpdated.value = tempDate;
+        }
+    })
+    addTabPermitExpiration.addEventListener("mouseout", (event) => {
+        console.log("Moused Out - addTabPermitExpiration");
+
+        if (permitDateChangeValues[2] != addTabPermitExpiration.value) { // permit expiration changed 
+            // Setting Last Updated
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            addTabPermitDateUpdated.value = tempDate;
+        }
+    })
+
             /* CRD RCD Checks */
         /* Add/Update Wr */
     addTabWrCRD.addEventListener("mouseout", (event) => {
@@ -5341,6 +5402,17 @@ async function mainEvent() {
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
+
+                if (event.target.innerHTML == "Applied" || event.target.innerHTML == "Extension Submitted") {
+                    const d = new Date();
+                    const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+                    addTabPermitDateApplied.value = tempDate;
+                }
+
+                // Setting Last Updated
+                const d = new Date();
+                const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+                addTabPermitDateUpdated.value = tempDate;
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
@@ -5672,6 +5744,11 @@ async function mainEvent() {
             addTabPermitCommentsRemoveButton.disabled = false;
             tempPermitComments.add(comment);
             addTabPermitCommentsTextfield.value = "Type Comment Here";
+            
+            // Setting Last Updated
+            const d2 = new Date();
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            addTabPermitDateUpdated.value = tempDate;
     
     })
     addTabPermitCommentsRemoveButton.addEventListener("click", (event) => {
@@ -6831,6 +6908,8 @@ async function mainEvent() {
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
+
+        permitDateChangeValues = [addTabPermitDateApplied.value, addTabPermitStart.value, addTabPermitExpiration.value];
 
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
