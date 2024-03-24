@@ -1151,12 +1151,12 @@
                 <div class="settingsDisplayTab activeTab " id="settings_display_tab_colors_active">Colors</div>
 
                 <!-- Preference Tabs -->
-                <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
+                <div class="settingsDisplayTab filterSectionInactive" id="settings_display_tab_preferences">Preferences</div>
                 <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_perferences_active">Preferences</div>
             </div>
 
             <!-- Lower Display -->
-            <div class="settingsDisplayLowerDisplayContainerColors" id="settings_display_lower_display_container_colors">
+            <div class="settingsDisplayLowerDisplayContainer" id="settings_display_lower_display_container">
                 
                 <!-- Left Side -->
                 <div class="settingsDisplayLowerDisplayContainerColorsLeft" id="settings_display_lower_display_container_colors_left">
@@ -1165,7 +1165,36 @@
                     <div class="settingsDisplayTabLower">Options</div>
 
                     <div class="settingsDisplayColorOptionsContainer" id="settings_display_color_options_container">
-                        <!-- Empty list to add to on event -->
+                        
+                        <div class="optionElement hidden" id="option_element_not_set">Not Set</div>
+                        <div class="optionElement hidden" id="option_element_dont_need">Don't Need</div>
+                        
+                        <!-- Permit Status Colors -->
+                        <div class="optionElement hidden" id="option_element_applied">Applied</div>
+                        <div class="optionElement hidden" id="option_element_received">Received</div>
+                        <div class="optionElement hidden" id="option_element_started">Started</div>
+                        <div class="optionElement hidden" id="option_element_expiring_soon">Expiring Soon</div>
+                        <div class="optionElement hidden" id="option_element_extension_submitted">Ext. Submitted</div>
+                        <div class="optionElement hidden" id="option_element_expired">Expired</div>
+
+                        <!-- Easement Status Colors -->
+                        <div class="optionElement hidden" id="option_element_need_easement">Need Easement</div>
+                        <div class="optionElement hidden" id="option_element_pending">Pending</div>
+                        <div class="optionElement hidden" id="option_element_have_easement">Have Easement</div>
+                        <div class="optionElement hidden" id="option_element_waiting">Waiting</div>
+                        <div class="optionElement hidden" id="option_element_pending">Pending</div>
+
+                        <!-- CRD + RCD + Permit End Date Color Types (In Assess Date) -->
+                        <div class="optionElement hidden" id="option_element_past_today">Past Today</div>
+                        <div class="optionElement hidden" id="option_element_under_14">Under 14 Days</div>
+                        <div class="optionElement hidden" id="option_element_under_31">Under 31 Days</div>
+                        <div class="optionElement hidden" id="option_element_over_31">Over 31 Days</div>
+
+
+
+
+                        <div class="optionElement hidden" id="option_element_havent_checked">Haven't Checked</div>
+
                     </div>
                 </div>
 
@@ -1198,18 +1227,19 @@
                         
                         <!-- Top -->
                         <div class="settingsDisplayInnerColorsTop">
-                            <label class="settingsDisplayInnerColorsLabel">Current Color Assigned:</label>
+                            <label class="settingsDisplayInnerColorsLabel" id="settings_display_inner_colors_label">Current Color Assigned:</label>
                             <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
                             <button type="button" class="colorSaveButton" id="color_save_button">Save</button>
                         </div>
 
                         <!-- Bottom -->
-                        <div class="settingsDisplayInnerColorsBottom">
+                        <div class="settingsDisplayInnerColorsBottom hidden" id="settings_display_inner_colors_bottom">
                             <div class="colorOption" id="color_option_yellow">Yellow</div>
                             <div class="colorOption" id="color_option_orange">Orange</div>
                             <div class="colorOption" id="color_option_red">Red</div>
                             <div class="colorOption" id="color_option_green">Green</div>
                             <div class="colorOption" id="color_option_teal">Teal</div>
+                            <div class="colorOption" id="color_option_blue">Blue</div>
                             <div class="colorOption" id="color_option_pink">Pink</div>
 
 

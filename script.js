@@ -844,6 +844,12 @@ class PaginatedComments {
     }
 }
 
+/*class ColorPreferences {
+    constructor() {
+        this.notSetCrd =
+    }
+}*/
+
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
 function updateComments(comments, tab) {
@@ -1933,7 +1939,9 @@ function assessEasementStatus(status) {
         return '#ff3191cd'; // redish
     } else if (status == "Pending") {
         return '#dbea06ca'; // yellowish
-    } else if (status == "Don't Need" || status == "Have Easement") {
+    } else if (status == "Don't Need") {
+        return 'rgba(87, 245, 43, 0.627)'; // green
+    } else if (status == "Have Easement") {
         return 'rgba(87, 245, 43, 0.627)'; // green
     } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
@@ -2429,6 +2437,8 @@ async function mainEvent() {
     const addTabCommentTypeContainer = document.querySelector("#add_tab_comment_type_dd_container")
         /* Update Permit */
     const addTabAddPermitStatusContainer = document.querySelector("#add_tab_add_permit_status_container");
+
+    
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -6805,6 +6815,337 @@ async function mainEvent() {
             uncheckPermitsTabSpecificCheckboxes();
             filterCheckboxPermitHaventChecked.checked = true;
         } 
+    })
+
+    /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */
+
+    /* Settings Page Event Listeners */
+    const settingsButton = document.querySelector("#settings_button");
+    const settingsXButton = document.querySelector("#settings_x_button");
+    const settingsDisplayContainer = document.querySelector("#settings_display_container");
+    const settingsDisplayTabColors = document.querySelector("#settings_display_tab_colors");
+    const settingsDisplayTabColorsActive = document.querySelector("#settings_display_tab_colors_active");
+    const settingsDisplayTabPreferences = document.querySelector("#settings_display_tab_preferences");
+    const settingsDisplayTabPreferencesActive = document.querySelector("#settings_display_tab_preferences_active");
+    const settingsDisplayTabColorsCrd = document.querySelector("#settings_display_tab_colors_crd");
+    const settingsDisplayTabColorsCrdActive = document.querySelector("#settings_display_tab_colors_crd_active");
+    const settingsDisplayTabColorsRcd = document.querySelector("#settings_display_tab_colors_rcd");
+    const settingsDisplayTabColorsRcdActive = document.querySelector("#settings_display_tab_colors_rcd_active");
+    const settingsDisplayTabColorsPermitStatus = document.querySelector("#settings_display_tab_colors_permit_status");
+    const settingsDisplayTabColorsPermitStatusActive = document.querySelector("#settings_display_tab_colors_permit_status_active");
+    const settingsDisplayTabColorsPermitStart = document.querySelector("#settings_display_tab_colors_permit_start");
+    const settingsDisplayTabColorsPermitStartActive = document.querySelector("#settings_display_tab_colors_permit_start_active");
+    const settingsDisplayTabColorsPermitEnd = document.querySelector("#settings_display_tab_colors_permit_end");
+    const settingsDisplayTabColorsPermitEndActive = document.querySelector("#settings_display_tab_colors_permit_end_active");
+    const settingsDisplayTabColorsEasementStatus = document.querySelector("#settings_display_tab_colors_easement_status");
+    const settingsDisplayTabColorsEasementStatusActive = document.querySelector("#settings_display_tab_colors_easement_status_active");
+    const settingsDisplayLowerDisplayContainerColorsLeft = document.querySelector("#settings_display_lower_display_container_colors_left");
+    const settingsDisplayLowerDisplayContainerColorsRight = document.querySelector("#settings_display_lower_display_container_colors_right");
+    const settingsDisplayContainerLabel = document.querySelector("#settings_display_container_label");
+    const settingsDisplayInnerColorsLabel = document.querySelector("#settings_display_inner_colors_label");
+    const settingsDisplayColorOptionsContainer = document.querySelector("#settings_display_color_options_container");
+    const settingsDisplayInnerColorsBottom = document.querySelector("#settings_display_inner_colors_bottom")
+    const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
+
+    function hideSettingsColorsDisplay() {
+        console.log("Entered - hideSettingsColorsDisplay()");
+
+        settingsDisplayLowerDisplayContainerColorsLeft.classList.add("hidden");
+        settingsDisplayLowerDisplayContainerColorsRight.classList.add("hidden");
+    }
+    function revealSettingsColorsDisplay() {
+        console.log("Entered - revealSettingsColorsDisplay()");
+
+        settingsDisplayLowerDisplayContainerColorsLeft.classList.remove("hidden");
+        settingsDisplayLowerDisplayContainerColorsRight.classList.remove("hidden");
+    }
+
+    function revealEasementStatusOptions() {
+        console.log("Entered - revealEasementStatusOptions()");
+
+        document.getElementById("option_element_not_set").classList.remove("hidden");
+        document.getElementById("option_element_need_easement").classList.remove("hidden");
+        document.getElementById("option_element_pending").classList.remove("hidden");
+        document.getElementById("option_element_have_easement").classList.remove("hidden");
+        document.getElementById("option_element_waiting").classList.remove("hidden");
+        document.getElementById("option_element_havent_checked").classList.remove("hidden");
+        document.getElementById("option_element_dont_need").classList.remove("hidden");
+    }
+    /* Used for CRD + RCD + Permit End Date */
+    function revealAssessdateOptions() {
+        console.log("Entered - revealPermitEndOptions()");
+
+        document.getElementById("option_element_not_set").classList.remove("hidden");
+        document.getElementById("option_element_past_today").classList.remove("hidden");
+        document.getElementById("option_element_under_14").classList.remove("hidden");
+        document.getElementById("option_element_under_31").classList.remove("hidden");
+        document.getElementById("option_element_over_31").classList.remove("hidden");
+    }
+    function revealPermitStartOptions() {
+        console.log("Entered - revealPermitStartOptions()");
+
+        document.getElementById("option_element_not_set").classList.remove("hidden");
+        document.getElementById("option_element_expired").classList.remove("hidden");
+        document.getElementById("option_element_started").classList.remove("hidden");
+        document.getElementById("option_element_received").classList.remove("hidden");
+    }
+    function revealPermitStatusOptions() {
+        console.log("Entered - revealPermitStatusOptions()");
+
+        document.getElementById("option_element_not_set").classList.remove("hidden");
+        document.getElementById("option_element_applied").classList.remove("hidden");
+        document.getElementById("option_element_received").classList.remove("hidden");
+        document.getElementById("option_element_dont_need").classList.remove("hidden");
+        document.getElementById("option_element_expiring_soon").classList.remove("hidden");
+        document.getElementById("option_element_extension_submitted").classList.remove("hidden");
+        document.getElementById("option_element_expired").classList.remove("hidden");
+        document.getElementById("option_element_havent_checked").classList.remove("hidden");
+    }
+    function hideAllStatusOptions() {
+        console.log("Entered - hideAllStatusOptions()");
+
+        document.getElementById("option_element_not_set").classList.add("hidden");
+        document.getElementById("option_element_need_easement").classList.add("hidden");
+        document.getElementById("option_element_pending").classList.add("hidden");
+        document.getElementById("option_element_have_easement").classList.add("hidden");
+        document.getElementById("option_element_waiting").classList.add("hidden");
+        document.getElementById("option_element_havent_checked").classList.add("hidden");
+        document.getElementById("option_element_past_today").classList.add("hidden");
+        document.getElementById("option_element_under_14").classList.add("hidden");
+        document.getElementById("option_element_under_31").classList.add("hidden");
+        document.getElementById("option_element_over_31").classList.add("hidden");
+        document.getElementById("option_element_expired").classList.add("hidden");
+        document.getElementById("option_element_started").classList.add("hidden");
+        document.getElementById("option_element_received").classList.add("hidden");
+        document.getElementById("option_element_applied").classList.add("hidden");
+        document.getElementById("option_element_dont_need").classList.add("hidden");
+        document.getElementById("option_element_expiring_soon").classList.add("hidden");
+        document.getElementById("option_element_extension_submitted").classList.add("hidden");
+    }
+    function deselectAllColorsTabs() {
+        console.log("deselectAllColorsTab()");
+
+        settingsDisplayTabColorsCrd.classList.remove("hidden");
+        settingsDisplayTabColorsCrdActive.classList.add("hidden");
+        settingsDisplayTabColorsRcd.classList.remove("hidden");
+        settingsDisplayTabColorsRcdActive.classList.add("hidden");
+        settingsDisplayTabColorsPermitStatus.classList.remove("hidden");
+        settingsDisplayTabColorsPermitStatusActive.classList.add("hidden");
+        settingsDisplayTabColorsPermitStart.classList.remove("hidden");
+        settingsDisplayTabColorsPermitStartActive.classList.add("hidden");
+        settingsDisplayTabColorsPermitEnd.classList.remove("hidden");
+        settingsDisplayTabColorsPermitEndActive.classList.add("hidden");
+        settingsDisplayTabColorsEasementStatus.classList.remove("hidden");
+        settingsDisplayTabColorsEasementStatusActive.classList.add("hidden");
+    }
+    function deselectAllColorsOptions() {
+        console.log("Entered - deselectAllColorsOptions()");
+
+        document.getElementById("option_element_not_set").classList.remove("activeTab");
+        document.getElementById("option_element_need_easement").classList.remove("activeTab");
+        document.getElementById("option_element_pending").classList.remove("activeTab");
+        document.getElementById("option_element_have_easement").classList.remove("activeTab");
+        document.getElementById("option_element_waiting").classList.remove("activeTab");
+        document.getElementById("option_element_havent_checked").classList.remove("activeTab");
+        document.getElementById("option_element_past_today").classList.remove("activeTab");
+        document.getElementById("option_element_under_14").classList.remove("activeTab");
+        document.getElementById("option_element_under_31").classList.remove("activeTab");
+        document.getElementById("option_element_over_31").classList.remove("activeTab");
+        document.getElementById("option_element_expired").classList.remove("activeTab");
+        document.getElementById("option_element_started").classList.remove("activeTab");
+        document.getElementById("option_element_received").classList.remove("activeTab");
+        document.getElementById("option_element_applied").classList.remove("activeTab");
+        document.getElementById("option_element_dont_need").classList.remove("activeTab");
+        document.getElementById("option_element_expiring_soon").classList.remove("activeTab");
+        document.getElementById("option_element_extension_submitted").classList.remove("activeTab");
+    }
+    function displayColorsOptionData(option) {
+        console.log("Entered - displayColorsOptionData(" + option + ")");
+
+        settingsDisplayInnerColorsBottom.classList.remove("hidden");
+        // Need to fill in once data/object is made
+    }
+
+        /* Options */
+    settingsDisplayColorOptionsContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayColorOptionsContainer");
+
+        console.log(event.target);
+        if (event.target.innerHTML == "Not Set" || event.target.innerHTML == "Need Easement" || event.target.innerHTML == "Pending" ||
+            event.target.innerHTML == "Have Easement" || event.target.innerHTML == "Waiting" || event.target.innerHTML == "Haven't Checked" ||
+            event.target.innerHTML == "Past Today" || event.target.innerHTML == "Under 14 Days" || event.target.innerHTML == "Under 31 Days" ||
+            event.target.innerHTML == "Over 31 Days" || event.target.innerHTML == "Expired" || event.target.innerHTML == "Started" || 
+            event.target.innerHTML == "Received" || event.target.innerHTML == "Applied" || event.target.innerHTML == "Don't Need" || 
+            event.target.innerHTML == "Expiring Soon" || event.target.innerHTML == "Ext. Submitted") {
+                deselectAllColorsOptions();
+                event.target.classList.add("activeTab");
+                displayColorsOptionData(event.target.innerHTML);
+            }
+    })
+
+        /* Colors */
+    settingsDisplayInnerColorsBottom.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayInnerColorsBottom");
+
+        if (event.target.innerHTML == "Yellow" || event.target.innerHTML == "Orange" || event.target.innerHTML == "Red" ||
+            event.target.innerHTML == "Green" || event.target.innerHTML == "Teal" || event.target.innerHTML == "Pink" ||
+            event.target.innerHTML == "Blue") {
+                settingsDisplayInnerColorsLabel.innerHTML = "New Color Assigned:"
+                currentColorAssignedBox.innerHTML = event.target.innerHTML;
+            }
+    })
+
+        /* Tabs */
+
+    /* General (Top) */
+    settingsDisplayTabColors.addEventListener("click", (event) => {
+        console.log("Clicked - settingsDisplayTabColors");
+
+        // Display
+        revealSettingsColorsDisplay();
+
+        // Tabs
+        settingsDisplayTabColors.classList.add("hidden");
+        settingsDisplayTabColorsActive.classList.remove("hidden");
+
+    })
+    settingsDisplayTabColorsActive.addEventListener("click", (event) => {
+        console.log("Clicked - settingsDisplayTabColorsActive");
+
+        // Display
+        hideSettingsColorsDisplay();
+
+        // Tabs
+        settingsDisplayTabColors.classList.remove("hidden");
+        settingsDisplayTabColorsActive.classList.add("hidden");
+    })
+
+    /* Colors */
+    settingsDisplayTabColorsCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsCrd");
+        
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealAssessdateOptions();
+
+        settingsDisplayTabColorsCrd.classList.add("hidden");
+        settingsDisplayTabColorsCrdActive.classList.remove("hidden");        
+    })
+    settingsDisplayTabColorsCrdActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsCrdActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsCrd.classList.remove("hidden");
+        settingsDisplayTabColorsCrdActive.classList.add("hidden");        
+    })
+    settingsDisplayTabColorsRcd.addEventListener("click", (event) => {
+        console.log("Clicked - settingsDisplayTabColorsRcd");
+
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealAssessdateOptions();
+
+        settingsDisplayTabColorsRcd.classList.add("hidden");
+        settingsDisplayTabColorsRcdActive.classList.remove("hidden");
+    })
+    settingsDisplayTabColorsRcdActive.addEventListener("click", (event) => {
+        console.log("Clicked - settingsDisplayTabColorsRcdActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsRcd.classList.remove("hidden");
+        settingsDisplayTabColorsRcdActive.classList.add("hidden");
+    })
+    settingsDisplayTabColorsPermitStatus.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitStatus");
+
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealPermitStatusOptions();
+
+        settingsDisplayTabColorsPermitStatus.classList.add("hidden");
+        settingsDisplayTabColorsPermitStatusActive.classList.remove("hidden");
+
+    })
+    settingsDisplayTabColorsPermitStatusActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitStatusActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsPermitStatus.classList.remove("hidden");
+        settingsDisplayTabColorsPermitStatusActive.classList.add("hidden");
+
+    })
+    settingsDisplayTabColorsPermitStart.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitStart");
+
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealPermitStartOptions();
+
+        settingsDisplayTabColorsPermitStart.classList.add("hidden");
+        settingsDisplayTabColorsPermitStartActive.classList.remove("hidden");
+
+    })
+    settingsDisplayTabColorsPermitStartActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitStartActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsPermitStart.classList.remove("hidden");
+        settingsDisplayTabColorsPermitStartActive.classList.add("hidden");
+
+    })
+    settingsDisplayTabColorsPermitEnd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitEnd");
+        
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealAssessdateOptions();
+
+        settingsDisplayTabColorsPermitEnd.classList.add("hidden");
+        settingsDisplayTabColorsPermitEndActive.classList.remove("hidden");
+    })
+    settingsDisplayTabColorsPermitEndActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabColorsPermitEndActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsPermitEnd.classList.remove("hidden");
+        settingsDisplayTabColorsPermitEndActive.classList.add("hidden");
+    })
+    settingsDisplayTabColorsEasementStatus.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingDisplayTabColorsEasementStatus");
+
+        deselectAllColorsTabs();
+        hideAllStatusOptions();
+        revealEasementStatusOptions();
+
+        settingsDisplayTabColorsEasementStatus.classList.add("hidden");
+        settingsDisplayTabColorsEasementStatusActive.classList.remove("hidden");
+
+    })
+    settingsDisplayTabColorsEasementStatusActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingDisplayTabColorsEasementStatusActive");
+
+        hideAllStatusOptions();
+
+        settingsDisplayTabColorsEasementStatus.classList.remove("hidden");
+        settingsDisplayTabColorsEasementStatusActive.classList.add("hidden");
+
+    })
+
+    /* Settings "Open" and X buttons */
+    settingsButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsButton");
+
+        settingsDisplayContainer.classList.remove("hidden");
+    })
+    settingsXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsXButton");
+
+        settingsDisplayContainer.classList.add("hidden");
     })
 
 
