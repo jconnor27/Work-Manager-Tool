@@ -1897,7 +1897,6 @@ function assessPermitStartDate(startDate, endDate) {
     if (data == -9999) { // date not set - set as 01/01/0001 by me by default
         return '#dbea06ca'; // yellowish
     } else if (cur >= end) { // Permit has expired
-        console.log("*** RED");
         return '#ff3191cd'; // redish
     } else if (start >= cur) {// Permit has started 
         return 'rgba(87, 245, 43, 0.627)'; // greenish
@@ -1910,14 +1909,20 @@ function assessPermitStatus(status) {
 
     if (status == "Applied") {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
-    } else if (status == "Received" || status == "Extension Received" || status == "Don't Need") {
+    } else if (status == "Received" || status == "Extension Received") {
         return 'rgba(87, 245, 43, 0.627)'; // green
-    } else if (status == "Expiring Soon" || status == "Extension Submitted") {
+    } else if (status == "Don't Need") {
+        return 'rgba(87, 245, 43, 0.627)'; // green
+    } else if (status == "Expiring Soon") {
+        return '#ea8f06ca'; // orangish
+    } else if (status == "Extension Submitted") {
         return '#ea8f06ca'; // orangish
     } else if (status == "Expired") {
         return '#ff3191cd'; // redish
+    } else if (status == "Haven't Checked") {
+        return '#dbea06ca'; // yellowish
     } else {
-        // status must = "Haven't Checked"
+        // status must = "Not Set"
         return '#dbea06ca'; // yellowish
     }
 }
@@ -1932,8 +1937,10 @@ function assessEasementStatus(status) {
         return 'rgba(87, 245, 43, 0.627)'; // green
     } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
         return 'rgba(39, 252, 203, 0.83)'; // tealish
+    } else if (status == "Haven't Checked") {
+        return '#dbea06ca'; // yellowish
     } else {
-        // status must = "Haven't Checked"
+        // status must = "Not Set"
         return '#dbea06ca'; // yellowish
     }
 }
@@ -1941,8 +1948,6 @@ function assessEasementStatus(status) {
    Returns a color to style the containers background */
    function assessDate(date) {
     console.log("Entered - assessDate(date)");
-
-    console.log(date);
 
     const curDate = new Date();
     const temp = date - curDate;
@@ -1952,17 +1957,14 @@ function assessEasementStatus(status) {
     /* NOTES: Have to cascade this conditional to assign colors properly */
 
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
-        return '#dbea06ca';
+        return '#dbea06ca'; // yellowish
     } else if (date < curDate) {
-        console.log("ggg ***");
-        return '#ed3939c3';
+        return '#ed3939c3'; // dark red
     } else if (data <= 14) {
         return '#ff3191cd'; // reddish
     } else if (data <= 31) {
         return '#ea8f06ca'; // orangish
     } else {
-        console.log("Data = ");
-        console.log(data);
         return "white";
     }
     
