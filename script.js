@@ -843,12 +843,61 @@ class PaginatedComments {
         }
     }
 }
-
-/*class ColorPreferences {
+/* Class sets default color values for some date and dropdown elements. Can load in saved file of 
+   user color preferences separately from allWr list */
+class ColorPreferences {
+    /* Sets all color defaults */
     constructor() {
-        this.notSetCrd =
+
+            /* CRD */
+        this.crdNotSet = '#dbea06ca'; // yellowish
+        this.crdPastToday = '#ed3939c3'; // dark red
+        this.crdUnder14 = '#ff3191cd'; // reddish
+        this.crdUnder31 = '#ea8f06ca'; // orangish
+        this.crdOver31 = "white"; // white
+
+            /* CRD */
+        this.rcdNotSet = '#dbea06ca'; // yellowish
+        this.rcdPastToday = '#ed3939c3'; // dark red
+        this.rcdUnder14 = '#ff3191cd'; // reddish
+        this.rcdUnder31 = '#ea8f06ca'; // orangish
+        this.rcdOver31 = "white"; // white
+
+            /* Permit Status */
+        this.permitStatusNotSet = '#dbea06ca'; // yellowish
+        this.permitStatusApplied = 'rgba(39, 252, 203, 0.83)'; // tealish
+        this.permitStatusReceived = 'rgba(87, 245, 43, 0.627)'; // green
+        this.permitStatusDontNeed = 'rgba(87, 245, 43, 0.627)'; // green
+        this.permitStatusExpiringSoon = '#ea8f06ca'; // orangish
+        this.permitStatusExtensionSubmitted = '#ea8f06ca'; // orangish
+        this.permitStatusExpired = '#ff3191cd'; // redish
+        this.permitStatusHaventChecked = '#dbea06ca'; // yellowish
+
+            /* Permit Start Date */
+        this.permitStartNotSet = '#dbea06ca'; // yellowish
+        this.permitStartExpired = '#ff3191cd'; // redish
+        this.permitStartStarted = 'rgba(87, 245, 43, 0.627)'; // greenish
+        this.permitStartSet = 'rgba(39, 252, 203, 0.83)'; // tealish
+
+            /* Permit End Date */
+        this.permitEndNotSet = '#dbea06ca'; // yellowish
+        this.permitEndPastToday = '#ed3939c3'; // dark red
+        this.permitEndUnder14 = '#ff3191cd'; // reddish
+        this.permitEndUnder31 = '#ea8f06ca'; // orangish
+        this.permitEndOver31 = "white"; // white
+
+            /* Easement Status */
+        this.easementStatusNotSet = '#dbea06ca'; // yellowish
+        this.easementStatusNeedEasement = '#ff3191cd'; // redish
+        this.easementStatusPending = '#dbea06ca'; // yellowish
+        this.easementStatusDontNeed = 'rgba(87, 245, 43, 0.627)'; // green
+        this.easementStatusHaveEasement = 'rgba(87, 245, 43, 0.627)'; // green
+        this.easementStatusWaiting = 'rgba(39, 252, 203, 0.83)'; // tealish
+        this.easementStatusHaventChecked = '#dbea06ca'; // yellowish
     }
-}*/
+
+
+}
 
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
@@ -1124,7 +1173,7 @@ function readFile() {
 }
 
     /* InjectHTML Functions */
-function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
+function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
     console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ")");
     
     const pag = new Paginated(allWrList);
@@ -1148,7 +1197,7 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
 
     for (var i = 0; i < pages[currentPageAllWr].content.length; i++) {
         
-        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1);
+        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1, userColors);
         revealWrRow(i + 1);
     }
 
@@ -1186,7 +1235,7 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr) {
         prev.disabled = true;
     }
 }
-function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
+function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
     console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
 
     const pag = new Paginated(allWrList);
@@ -1198,7 +1247,7 @@ function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits) {
     tempAllWrList.innerHTML = allWrList;
 
     for (var i = 0; i < pages[currentPagePermits].content.length; i++) {
-        setPermitRowValues(pages[currentPagePermits].content[i], i + 1);
+        setPermitRowValues(pages[currentPagePermits].content[i], i + 1, userColors);
         revealPermitRow(i + 1);
     }
 
@@ -1292,7 +1341,7 @@ function injectHTMLAddCommentTabComment(comment, index) {
 
         /* Set/Reveal Rows */
     /* Permits Tab */
-function setPermitRowValues(wr, rowNumber) {
+function setPermitRowValues(wr, rowNumber, userColors) {
     console.log("Entered - setPermitRowValues( + wr + ,  + rowNumber )");
 
     let rowNumberText = convertNumText(rowNumber); 
@@ -1310,27 +1359,27 @@ function setPermitRowValues(wr, rowNumber) {
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
-    status.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus);
+    status.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus, userColors);
 
     const startDate = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
     startDate.value = formatDate(wr.permit.startDate);
     startDate.zIndex = 2;
-    startDate.style.backgroundColor = assessPermitStartDate(wr.permit.startDate, wr.permit.endDate);
+    startDate.style.backgroundColor = assessPermitStartDate(wr.permit.startDate, wr.permit.endDate, userColors);
 
     const endDate = document.getElementById("permits_tab_row_" + rowNumberText + "_end_date");
     endDate.value = formatDate(wr.permit.endDate);
     let date = new Date(wr.permit.endDate);
-    endDate.style.backgroundColor = assessDate(date);
+    endDate.style.backgroundColor = assessDatePermitEnd(date, userColors);
 
     const crd = document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date");
     crd.value = wr.crd;
     date = new Date(wr.crd);
-    crd.style.backgroundColor = assessDate(date);
+    crd.style.backgroundColor = assessDateCRD(date, userColors);
 
     const rcd = document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date");
     rcd.value = wr.rcd;
     date = new Date(wr.rcd);
-    rcd.style.backgroundColor = assessDate(date);
+    rcd.style.backgroundColor = assessDateRCD(date, userColors);
 
     const comments = document.getElementById("permits_tab_row_" + rowNumberText + "_comments");
     const tempLength = wr.commentsGeneral.comments.length;
@@ -1375,7 +1424,7 @@ function revealPermitRow(row) {
 }
 
     /* AllWr Tab */
-function setAllWrRowValues(wr, rowNumber) {
+function setAllWrRowValues(wr, rowNumber, userColors) {
     console.log("Entered - setAllWrRowValues( + wr + ,  + rowNumber = " + rowNumber + ")");
 
     let rowNumberText = convertNumText(rowNumber);
@@ -1389,12 +1438,12 @@ function setAllWrRowValues(wr, rowNumber) {
     const crd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd");
     crd.value = wr.crd;
     let date = new Date(wr.crd);
-    crd.style.backgroundColor = assessDate(date);
+    crd.style.backgroundColor = assessDateCRD(date, userColors);
 
     const rcd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd");
     rcd.value = wr.rcd;
     date = new Date(wr.rcd);
-    rcd.style.backgroundColor = assessDate(date);
+    rcd.style.backgroundColor = assessDateRCD(date, userColors);
 
     const generalStatus = document.getElementById("general_status_dd_" + rowNumber + "_current");
     generalStatus.innerText = wr.generalStatus;
@@ -1409,11 +1458,11 @@ function setAllWrRowValues(wr, rowNumber) {
 
     const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
     permitStatus.innerText = wr.permit.permitStatus;
-    permitStatus.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus);
+    permitStatus.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus, userColors);
 
     const easementStatus = document.getElementById("easement_status_dd_" + rowNumber + "_current");
     easementStatus.innerText = wr.easementRequestStatus;
-    easementStatus.style.backgroundColor = assessEasementStatus(wr.easementRequestStatus);
+    easementStatus.style.backgroundColor = assessEasementStatus(wr.easementRequestStatus, userColors);
 
 
     const comments = document.getElementById("all_wr_tab_row_" + rowNumberText + "_comments");
@@ -1891,7 +1940,7 @@ function permitExists(wrNum, allWrList) {
 }
 
     /* Coloring Functions */
-function assessPermitStartDate(startDate, endDate) {
+function assessPermitStartDate(startDate, endDate, userColors) {
     console.log("Entered - assessPermitStartDate(startDate = " + startDate + " - endDate = " + endDate + ")");
 
     const start = new Date(startDate);
@@ -1901,61 +1950,61 @@ function assessPermitStartDate(startDate, endDate) {
     const data = convertDate(rawData);
     
     if (data == -9999) { // date not set - set as 01/01/0001 by me by default
-        return '#dbea06ca'; // yellowish
-    } else if (cur >= end) { // Permit has expired
-        return '#ff3191cd'; // redish
+        return userColors.permitStartNotSet; // Yellow by default
+    } else if (cur >= end) { // Permit has expired 
+        return userColors.permitStartExpired; // Red by default
     } else if (start >= cur) {// Permit has started 
-        return 'rgba(87, 245, 43, 0.627)'; // greenish
+        return  userColors.permitStartStarted;// Green by default
     } else { // Permit date has been set but Permit has not started
-        return 'rgba(39, 252, 203, 0.83)'; // tealish
+        return userColors.permitStartSet // Tealish by default
     }
 }
-function assessPermitStatus(status) {
+function assessPermitStatus(status, userColors) {
     console.log("Entered - assessPermitStatus(" + status +")");
 
     if (status == "Applied") {
-        return 'rgba(39, 252, 203, 0.83)'; // tealish
+        return userColors.permitStatusApplied; // Tealish by default
     } else if (status == "Received" || status == "Extension Received") {
-        return 'rgba(87, 245, 43, 0.627)'; // green
+        return userColors.permitStatusReceived; // Green by default
     } else if (status == "Don't Need") {
-        return 'rgba(87, 245, 43, 0.627)'; // green
+        return userColors.permitStatusDontNeed; // Green by default
     } else if (status == "Expiring Soon") {
-        return '#ea8f06ca'; // orangish
+        return userColors.permitStatusExpiringSoon; // Orange by default
     } else if (status == "Extension Submitted") {
-        return '#ea8f06ca'; // orangish
+        return userColors.permitStatusExtensionSubmitted; // Orange by default
     } else if (status == "Expired") {
-        return '#ff3191cd'; // redish
+        return userColors.permitStatusExpired; // Red by default
     } else if (status == "Haven't Checked") {
-        return '#dbea06ca'; // yellowish
+        return userColors.permitStatusHaventChecked; // Yellow by default
     } else {
         // status must = "Not Set"
-        return '#dbea06ca'; // yellowish
+        return userColors.permitStartNotSet; // Yellow by default
     }
 }
-function assessEasementStatus(status) {
+function assessEasementStatus(status, userColors) {
     console.log("Entered - assessEasementStatus(" + status + ")");
 
     if (status == "Need to Submit" || status == "Need Easement") {
-        return '#ff3191cd'; // redish
+        return userColors.easementStatusNeedEasement; // Red by default
     } else if (status == "Pending") {
-        return '#dbea06ca'; // yellowish
+        return userColors.easementStatusPending; // Yellow by default
     } else if (status == "Don't Need") {
-        return 'rgba(87, 245, 43, 0.627)'; // green
+        return userColors.easementStatusDontNeed; // Green by default
     } else if (status == "Have Easement") {
-        return 'rgba(87, 245, 43, 0.627)'; // green
+        return userColors.easementStatusHaveEasement; // Green by default
     } else if (status == "Waiting - Creation" || status == "Waiting - Customer") {
-        return 'rgba(39, 252, 203, 0.83)'; // tealish
+        return userColors.easementStatusWaiting;// Tealish
     } else if (status == "Haven't Checked") {
-        return '#dbea06ca'; // yellowish
+        return userColors.easementStatusHaventChecked; // Yellow by default
     } else {
         // status must = "Not Set"
-        return '#dbea06ca'; // yellowish
+        return userColors.easementStatusNotSet; // Yellow by default
     }
 }
 /* Compares the date param to the current date in real life and
    Returns a color to style the containers background */
-   function assessDate(date) {
-    console.log("Entered - assessDate(date)");
+   function assessDateCRD(date, userColors) {
+    console.log("Entered - assessDateCRD(date)");
 
     const curDate = new Date();
     const temp = date - curDate;
@@ -1965,19 +2014,63 @@ function assessEasementStatus(status) {
     /* NOTES: Have to cascade this conditional to assign colors properly */
 
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
-        return '#dbea06ca'; // yellowish
+        return userColors.crdNotSet;// Yellow by default
     } else if (date < curDate) {
-        return '#ed3939c3'; // dark red
+        return userColors.crdPastToday; // Dark red by default
     } else if (data <= 14) {
-        return '#ff3191cd'; // reddish
+        return userColors.crdUnder14; // Red by default
     } else if (data <= 31) {
-        return '#ea8f06ca'; // orangish
+        return userColors.crdUnder31; // Orange by default
     } else {
-        return "white";
+        // Over 31 days
+        return userColors.crdOver31; // White by default
     }
-    
-    
+}
+function assessDateRCD(date, userColors) {
+    console.log("Entered - assessDateRCD(date)");
 
+    const curDate = new Date();
+    const temp = date - curDate;
+    const dateDifference = new Date(temp);
+    const data = convertDate(dateDifference);
+
+    /* NOTES: Have to cascade this conditional to assign colors properly */
+
+    if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
+        return userColors.rcdNotSet;// Yellow by default
+    } else if (date < curDate) {
+        return userColors.rcdPastToday; // Dark red by default
+    } else if (data <= 14) {
+        return userColors.rcdUnder14; // Red by default
+    } else if (data <= 31) {
+        return userColors.rcdUnder31; // Orange by default
+    } else {
+        // Over 31 days
+        return userColors.rcdOver31; // White by default
+    }
+}
+function assessDatePermitEnd(date, userColors) {
+    console.log("Entered - assessDatePermitEnd(date)");
+
+    const curDate = new Date();
+    const temp = date - curDate;
+    const dateDifference = new Date(temp);
+    const data = convertDate(dateDifference);
+
+    /* NOTES: Have to cascade this conditional to assign colors properly */
+
+    if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
+        return userColors.permitEndNotSet;// Yellow by default
+    } else if (date < curDate) {
+        return userColors.permitEndPastToday; // Dark red by default
+    } else if (data <= 14) {
+        return userColors.permitEndUnder14; // Red by default
+    } else if (data <= 31) {
+        return userColors.permitEndUnder31; // Orange by default
+    } else {
+        // Over 31 days
+        return userColors.permitEndOver31; // White by default
+    }
 }
 /* Helper for assessDate - takes in data as Date object and
    Returns the data - as the number of days */
@@ -2455,6 +2548,8 @@ async function mainEvent() {
     const permitCommentCount = 6;
     const tempCommentsCount = 7;
     const tempAllCommentCount = 14;
+
+    let userColors = new ColorPreferences(); 
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
@@ -3587,7 +3682,7 @@ async function mainEvent() {
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
             const d = new Date(currentWr.crd);
-            document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDate(d);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDateCRD(d, userColors);
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
             
@@ -3648,7 +3743,7 @@ async function mainEvent() {
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
             const d = new Date(currentWr.rcd);
-            document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDate(d);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDateRCD(d, userColors);
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
             
@@ -3778,8 +3873,8 @@ async function mainEvent() {
             currentWr.generalStatus = tempCurrent.innerHTML;
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
         }
@@ -3917,11 +4012,10 @@ async function mainEvent() {
                 currentWr.permit.dateApplied = tempDate;
             }
 
-
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
         }
@@ -4044,8 +4138,8 @@ async function mainEvent() {
             currentWr.easementRequestStatus = tempCurrent.innerHTML;
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
         }
@@ -4104,7 +4198,7 @@ async function mainEvent() {
         console.log(curPageAllWr);
 
         curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1, userColors);
         currentPageAllWr += 1;
 
         return;
@@ -4113,7 +4207,7 @@ async function mainEvent() {
         console.log("Fired - Clicked all_wr_tab_prev_button");
 
         curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors);
         currentPageAllWr -= 1;
 
         return; // Can remove?
@@ -4340,7 +4434,7 @@ async function mainEvent() {
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
             const d = new Date(currentWr.crd);
-            document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDate(d);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDateCRD(d, userColors);
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
             
@@ -4404,7 +4498,7 @@ async function mainEvent() {
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
             const d = new Date(currentWr.rcd);
-            document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDate(d);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDateRCD(d, userColors);
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
         }
@@ -4546,8 +4640,8 @@ async function mainEvent() {
             allWrList[curWrIndex] = currentWr;
 
             /* Updating Page (Display) */
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
         }
@@ -4611,10 +4705,11 @@ async function mainEvent() {
         if (event.target.value != currentWr.permit.startDate) {
             currentWr.permit.startDate = event.target.value;
             const d = new Date(currentWr.permit.startDate);
-            document.getElementById("permits_tab_row_" + rowNumberText + "_start_date").style.backgroundColor = assessPermitStartDate(d);
+            const d2 = new Date(currentWr.permit.endDate);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_start_date").style.backgroundColor = assessPermitStartDate(d, d2, userColors);
             
-            const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            const d3 = new Date();
+            const tempDate = d3.getFullYear() + "-" + formatMonth((d3.getMonth() + 1)) + "-" + d3.getDate();
             currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;            
         }
@@ -4681,7 +4776,7 @@ async function mainEvent() {
         if (event.target.value != currentWr.permit.endDate) {
             currentWr.permit.endDate = event.target.value;
             const d = new Date(currentWr.permit.endDate);
-            document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDate(d);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDatePermitEnd(d, userColors);
             const d2 = new Date();
             const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
             currentWr.permit.dateUpdated = tempDate;
@@ -4858,7 +4953,7 @@ async function mainEvent() {
         console.log("Fired - Clicked permits_tab_next_button");
 
         curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1, userColors);
         currentPagePermits += 1;
 
             return;
@@ -4867,7 +4962,7 @@ async function mainEvent() {
         console.log("Fired - Clicked permits_tab_prev_button");
 
         curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1, userColors);
         currentPagePermits -= 1;
             
         return;
@@ -4935,8 +5030,8 @@ async function mainEvent() {
     
                             console.log("allWrList added to internal list");
     
-                            injectHTMLAllWrTabDisplay(allWrList, 0);
-                            injectHTMLPermitsTabDisplay(allWrList, 0);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
@@ -4954,8 +5049,8 @@ async function mainEvent() {
                             tempAllWrList.innerHTML = allWrList;
                             console.log("allWrList added to internal list");
         
-                            injectHTMLPermitsTabDisplay(allWrList, 0);
-                            injectHTMLAllWrTabDisplay(allWrList, 0);
+                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                             
@@ -5015,8 +5110,8 @@ async function mainEvent() {
                         tempAllWrList.innerHTML = allWrList;
                         console.log("allWrList added to internal list");
         
-                        injectHTMLPermitsTabDisplay(allWrList, 0);
-                        injectHTMLAllWrTabDisplay(allWrList, 0);
+                        injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                        injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
                         document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                         document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         
@@ -5060,8 +5155,8 @@ async function mainEvent() {
                     const tempAllWrList = document.getElementById("temp_all_wr_list");
                     tempAllWrList.innerHTML = allWrList;
                     console.log("allWrList added to internal list");   
-                    injectHTMLPermitsTabDisplay(allWrList, 0);
-                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
@@ -5174,8 +5269,8 @@ async function mainEvent() {
 
                     console.log("allWrList added to internal list");
 
-                    injectHTMLAllWrTabDisplay(allWrList, 0);
-                    injectHTMLPermitsTabDisplay(allWrList, 0);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 } else { // at least 1 wr exists
@@ -5185,8 +5280,8 @@ async function mainEvent() {
                     tempAllWrList.innerHTML = allWrList;
                     console.log("allWrList added to internal list");
 
-                    injectHTMLPermitsTabDisplay(allWrList, 0);
-                    injectHTMLAllWrTabDisplay(allWrList, 0);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
@@ -6334,8 +6429,8 @@ async function mainEvent() {
         }
 
         // Still inject empty list to hide rows
-        injectHTMLAllWrTabDisplay(allWrListAssessed, 0);
-        injectHTMLPermitsTabDisplay(allWrListAssessed, 0);
+        injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors);
+        injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors);
             
         // Below hides whichever prev/next container shouldn't be visible
         if (allWrTab.classList.contains("hidden")) { // allWrTab is active
@@ -6374,8 +6469,8 @@ async function mainEvent() {
         }
 
         // Still inject empty list to hide rows
-        injectHTMLAllWrTabDisplay(allWrListFiltered, 0);
-        injectHTMLPermitsTabDisplay(allWrListFiltered, 0);
+        injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors);
+        injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors);
 
         // Below hides whichever prev/next container shouldn't be visible
         if (allWrTab.classList.contains("hidden")) { // allWrTab is active
@@ -6888,6 +6983,8 @@ async function mainEvent() {
         document.getElementById("option_element_expired").classList.remove("hidden");
         document.getElementById("option_element_started").classList.remove("hidden");
         document.getElementById("option_element_received").classList.remove("hidden");
+        document.getElementById("option_element_set").classList.remove("hidden");
+
     }
     function revealPermitStatusOptions() {
         console.log("Entered - revealPermitStatusOptions()");
@@ -6921,6 +7018,7 @@ async function mainEvent() {
         document.getElementById("option_element_dont_need").classList.add("hidden");
         document.getElementById("option_element_expiring_soon").classList.add("hidden");
         document.getElementById("option_element_extension_submitted").classList.add("hidden");
+        document.getElementById("option_element_set").classList.add("hidden");
     }
     function deselectAllColorsTabs() {
         console.log("deselectAllColorsTab()");
@@ -6989,7 +7087,7 @@ async function mainEvent() {
 
         if (event.target.innerHTML == "Yellow" || event.target.innerHTML == "Orange" || event.target.innerHTML == "Red" ||
             event.target.innerHTML == "Green" || event.target.innerHTML == "Teal" || event.target.innerHTML == "Pink" ||
-            event.target.innerHTML == "Blue") {
+            event.target.innerHTML == "Blue" || event.target.innerHTML == "White") {
                 settingsDisplayInnerColorsLabel.innerHTML = "New Color Assigned:"
                 currentColorAssignedBox.innerHTML = event.target.innerHTML;
             }
@@ -7224,7 +7322,7 @@ async function mainEvent() {
 
 
         if (allWrList.length > 0) {
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
             console.log("List updated");
         } else {
             console.log("List not updated.");
@@ -7293,7 +7391,7 @@ async function mainEvent() {
             trimByAll.checked = true;
         }
         if (allWrList.length > 0) {
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
             console.log("List updated");
         } else {
             console.log("List not updated.");
