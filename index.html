@@ -1147,8 +1147,8 @@
             <div class="settingsDisplayRowTwo" id="settings_display_row_one">
 
                 <!-- Color Tabs -->
-                <div class="settingsDisplayTab hidden" id="settings_display_tab_colors">Colors</div>
-                <div class="settingsDisplayTab activeTab " id="settings_display_tab_colors_active">Colors</div>
+                <div class="settingsDisplayTab " id="settings_display_tab_colors">Colors</div>
+                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_colors_active">Colors</div>
 
                 <!-- Preference Tabs -->
                 <div class="settingsDisplayTab filterSectionInactive" id="settings_display_tab_preferences">Preferences</div>
@@ -1159,7 +1159,7 @@
             <div class="settingsDisplayLowerDisplayContainer" id="settings_display_lower_display_container">
                 
                 <!-- Left Side -->
-                <div class="settingsDisplayLowerDisplayContainerColorsLeft" id="settings_display_lower_display_container_colors_left">
+                <div class="settingsDisplayLowerDisplayContainerColorsLeft hidden" id="settings_display_lower_display_container_colors_left">
                     
                     <!-- Label -->
                     <div class="settingsDisplayTabLower">Options</div>
@@ -1199,7 +1199,7 @@
                 </div>
 
                 <!-- Right Side -->
-                <div class="settingsDisplayLowerDisplayContainerColorsRight" id="settings_display_lower_display_container_colors_right">
+                <div class="settingsDisplayLowerDisplayContainerColorsRight hidden" id="settings_display_lower_display_container_colors_right">
                     
                     <!-- Tabs -->
                     <div class="settingsDisplayColorsTabsContainer">
@@ -1226,7 +1226,7 @@
                     <div class="settingsDisplayInnerColors" id="settings_display_inner_colors">
                         
                         <!-- Top -->
-                        <div class="settingsDisplayInnerColorsTop">
+                        <div class="settingsDisplayInnerColorsTop hidden" id="settings_display_inner_colors_top">
                             <label class="settingsDisplayInnerColorsLabel" id="settings_display_inner_colors_label">Current Color Assigned:</label>
                             <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
                             <button type="button" class="colorSaveButton" id="color_save_button">Save</button>
@@ -1234,16 +1234,16 @@
 
                         <!-- Bottom -->
                         <div class="settingsDisplayInnerColorsBottom hidden" id="settings_display_inner_colors_bottom">
-                            <div class="colorOption" id="color_option_white">White</div>
-                            <div class="colorOption" id="color_option_yellow">Yellow</div>
-                            <div class="colorOption" id="color_option_orange">Orange</div>
-                            <div class="colorOption" id="color_option_red">Red</div>
-                            <div class="colorOption" id="color_option_green">Green</div>
-                            <div class="colorOption" id="color_option_teal">Teal</div>
-                            <div class="colorOption" id="color_option_blue">Blue</div>
-                            <div class="colorOption" id="color_option_pink">Pink</div>
-
-
+                            <div class="colorOption" style="background-color: white;" id="color_option_white">White</div>
+                            <div class="colorOption" style="background-color: #dbea06ca;" id="color_option_yellow">Yellow</div>
+                            <div class="colorOption" style="background-color: #ea8f06ca;" id="color_option_orange">Orange</div>
+                            <div class="colorOption" style="background-color: #ff3191cd;" id="color_option_red">Red</div>
+                            <div class="colorOption" style="background-color: #ed3939c3;" id="color_option_dark_red">Dark Red</div>
+                            <div class="colorOption" style="background-color: rgba(87, 245, 43, 0.627);"id="color_option_green">Green</div>
+                            <div class="colorOption" style="background-color: rgba(39, 252, 203, 0.83);"id="color_option_teal">Teal</div>
+                            <div class="colorOption" style="background-color: #1913d9c3;"id="color_option_blue">Blue</div>
+                            <div class="colorOption" style="background-color: #ed39cfc3;"id="color_option_pink">Pink</div>
+                            <div class="colorOption" style="background-color: #9722dfc3;"id="color_option_pink">Purple</div>
 
 
                         </div>

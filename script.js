@@ -896,6 +896,33 @@ class ColorPreferences {
         this.easementStatusHaventChecked = '#dbea06ca'; // yellowish
     }
 
+    // Takes raw color value and returns text value
+    getName(color) {
+        console.log("Entered - ColorPreferences - getName(" + color + ")");
+
+        if (color == "white") {
+            return "White";
+        } else if (color == '#dbea06ca') {
+            return "Yellow";
+        } else if (color == '#ea8f06ca') {
+            return "Orange";
+        } else if (color == '#ff3191cd') {
+            return "Red";
+        } else if (color == '#ed3939c3') {
+            return "Dark Red";
+        } else if (color == 'rgba(87, 245, 43, 0.627)') {
+            return "Green";
+        } else if (color == 'rgba(39, 252, 203, 0.83)') {
+            return "Teal";
+        } else if (color == '#1913d9c3') {
+            return "Blue";
+        } else if (color == '#ed39cfc3') {
+            return "Pink";
+        } else if (color == '#9722dfc3') {
+            return "Purple";
+        }
+    }
+
 
 }
 
@@ -6941,6 +6968,7 @@ async function mainEvent() {
     const settingsDisplayColorOptionsContainer = document.querySelector("#settings_display_color_options_container");
     const settingsDisplayInnerColorsBottom = document.querySelector("#settings_display_inner_colors_bottom")
     const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
+    const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
 
     function hideSettingsColorsDisplay() {
         console.log("Entered - hideSettingsColorsDisplay()");
@@ -7061,7 +7089,65 @@ async function mainEvent() {
         console.log("Entered - displayColorsOptionData(" + option + ")");
 
         settingsDisplayInnerColorsBottom.classList.remove("hidden");
-        // Need to fill in once data/object is made
+
+        if (settingsDisplayTabColorsCrd.classList.contains("hidden")) { // CRD tab is active
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.crdNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.crdNotSet; 
+            } else if (option == "Past Today") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.crdPastToday);
+                currentColorAssignedBox.style.backgroundColor = userColors.crdPastToday; 
+            } else if (option == "Under 14 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.crdUnder14);
+                currentColorAssignedBox.style.backgroundColor = userColors.crdUnder14; 
+            } else if (option == "Under 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.crdUnder31);
+                currentColorAssignedBox.style.backgroundColor = userColors.crdUnder31;
+            } else if (option == "Over 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.crdOver31);
+                currentColorAssignedBox.style.backgroundColor = userColors.crdOver31;
+            }
+        } else if (settingsDisplayTabColorsRcd.classList.contains("hidden")) { // RCD tab is active
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.rcdNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.rcdNotSet; 
+            } else if (option == "Past Today") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.rcdPastToday);
+                currentColorAssignedBox.style.backgroundColor = userColors.rcdPastToday; 
+            } else if (option == "Under 14 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.rcdUnder14);
+                currentColorAssignedBox.style.backgroundColor = userColors.rcdUnder14; 
+            } else if (option == "Under 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.rcdUnder31);
+                currentColorAssignedBox.style.backgroundColor = userColors.rcdUnder31;
+            } else if (option == "Over 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.rcdOver31);
+                currentColorAssignedBox.style.backgroundColor = userColors.rcdOver31;
+            } 
+        } else if (settingsDisplayTabColorsPermitStatus.classList.contains("hidden")) {
+            
+        } else if (settingsDisplayTabColorsPermitStart.classList.contains("hidden")) {
+            
+        } else if (settingsDisplayTabColorsPermitEnd.classList.contains("hidden")) { // Permit End tab is active
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitEndNotSet; 
+            } else if (option == "Past Today") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndPastToday);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitEndPastToday; 
+            } else if (option == "Under 14 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndUnder14);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitEndUnder14; 
+            } else if (option == "Under 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndUnder31);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitEndUnder31;
+            } else if (option == "Over 31 Days") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndOver31);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitEndOver31;
+            } 
+                // Need to fill in once data/object is made
+            // Keep adding if statements and bodies
+        }
     }
 
         /* Options */
@@ -7087,9 +7173,10 @@ async function mainEvent() {
 
         if (event.target.innerHTML == "Yellow" || event.target.innerHTML == "Orange" || event.target.innerHTML == "Red" ||
             event.target.innerHTML == "Green" || event.target.innerHTML == "Teal" || event.target.innerHTML == "Pink" ||
-            event.target.innerHTML == "Blue" || event.target.innerHTML == "White") {
+            event.target.innerHTML == "Blue" || event.target.innerHTML == "White" || event.target.innerHTML == "Dark Red") {
                 settingsDisplayInnerColorsLabel.innerHTML = "New Color Assigned:"
                 currentColorAssignedBox.innerHTML = event.target.innerHTML;
+                currentColorAssignedBox.style.backgroundColor = event.target.style.backgroundColor;
             }
     })
 
@@ -7126,6 +7213,8 @@ async function mainEvent() {
         hideAllStatusOptions();
         revealAssessdateOptions();
 
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+
         settingsDisplayTabColorsCrd.classList.add("hidden");
         settingsDisplayTabColorsCrdActive.classList.remove("hidden");        
     })
@@ -7133,6 +7222,8 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsDisplayTabColorsCrdActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsCrd.classList.remove("hidden");
         settingsDisplayTabColorsCrdActive.classList.add("hidden");        
@@ -7144,6 +7235,8 @@ async function mainEvent() {
         hideAllStatusOptions();
         revealAssessdateOptions();
 
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+
         settingsDisplayTabColorsRcd.classList.add("hidden");
         settingsDisplayTabColorsRcdActive.classList.remove("hidden");
     })
@@ -7151,6 +7244,8 @@ async function mainEvent() {
         console.log("Clicked - settingsDisplayTabColorsRcdActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsRcd.classList.remove("hidden");
         settingsDisplayTabColorsRcdActive.classList.add("hidden");
@@ -7161,7 +7256,9 @@ async function mainEvent() {
         deselectAllColorsTabs();
         hideAllStatusOptions();
         revealPermitStatusOptions();
-
+        
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+        
         settingsDisplayTabColorsPermitStatus.classList.add("hidden");
         settingsDisplayTabColorsPermitStatusActive.classList.remove("hidden");
 
@@ -7170,6 +7267,8 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsDisplayTabColorsPermitStatusActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsPermitStatus.classList.remove("hidden");
         settingsDisplayTabColorsPermitStatusActive.classList.add("hidden");
@@ -7182,6 +7281,8 @@ async function mainEvent() {
         hideAllStatusOptions();
         revealPermitStartOptions();
 
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+
         settingsDisplayTabColorsPermitStart.classList.add("hidden");
         settingsDisplayTabColorsPermitStartActive.classList.remove("hidden");
 
@@ -7190,6 +7291,8 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsDisplayTabColorsPermitStartActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsPermitStart.classList.remove("hidden");
         settingsDisplayTabColorsPermitStartActive.classList.add("hidden");
@@ -7202,6 +7305,8 @@ async function mainEvent() {
         hideAllStatusOptions();
         revealAssessdateOptions();
 
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+
         settingsDisplayTabColorsPermitEnd.classList.add("hidden");
         settingsDisplayTabColorsPermitEndActive.classList.remove("hidden");
     })
@@ -7209,6 +7314,8 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsDisplayTabColorsPermitEndActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsPermitEnd.classList.remove("hidden");
         settingsDisplayTabColorsPermitEndActive.classList.add("hidden");
@@ -7220,6 +7327,8 @@ async function mainEvent() {
         hideAllStatusOptions();
         revealEasementStatusOptions();
 
+        settingsDisplayInnerColorsTop.classList.remove("hidden");
+
         settingsDisplayTabColorsEasementStatus.classList.add("hidden");
         settingsDisplayTabColorsEasementStatusActive.classList.remove("hidden");
 
@@ -7228,6 +7337,8 @@ async function mainEvent() {
         console.log("Fired - Clicked settingDisplayTabColorsEasementStatusActive");
 
         hideAllStatusOptions();
+
+        settingsDisplayInnerColorsTop.classList.add("hidden");
 
         settingsDisplayTabColorsEasementStatus.classList.remove("hidden");
         settingsDisplayTabColorsEasementStatusActive.classList.add("hidden");
