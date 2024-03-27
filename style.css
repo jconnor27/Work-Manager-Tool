@@ -2208,8 +2208,8 @@ h5 {
     flex-direction: row;
     align-items: center;
     margin-top: 15px;
-    width: 600px;
-    justify-content: space-between;
+    width: 1200px;
+    /*justify-content: space-between;*/
 }
 
 .settingsDisplayRowTwo {
@@ -2222,6 +2222,7 @@ h5 {
 .settingsXButton {
     font-size: 20px;
     margin-left: 15px;
+    margin-right: 450px;
 }
 
 .settingsDisplayContainerLabel {
@@ -2308,6 +2309,7 @@ h5 {
     padding: 5px;
     width: 75px;
     justify-content: center;
+    margin-right: 380px;
 }
 
 .colorSaveButton {
@@ -2340,6 +2342,21 @@ h5 {
     align-items: center;
     justify-content: center;
 
+}
+
+.settingsLoadButton, .settingsSyncButton {
+    display: flex;
+    margin-right: 30px;
+    margin-left: 10px;
+    padding: 5px;
+    height: 30px;
+}
+
+.settingsLoadSyncContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 .hidden {

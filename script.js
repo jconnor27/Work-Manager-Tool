@@ -850,50 +850,124 @@ class ColorPreferences {
     constructor() {
 
             /* CRD */
-        this.crdNotSet = '#dbea06ca'; // yellowish
-        this.crdPastToday = '#ed3939c3'; // dark red
-        this.crdUnder14 = '#ff3191cd'; // reddish
-        this.crdUnder31 = '#ea8f06ca'; // orangish
+        this.crdNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+        this.crdPastToday = 'rgba(237, 57, 57, 0.765)' //'#ed3939c3'; // Red
+        this.crdUnder14 = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
+        this.crdUnder31 = 'rgba(234, 143, 6, 0.792)'; //'#ea8f06ca'; // orangish
         this.crdOver31 = "white"; // white
 
             /* CRD */
-        this.rcdNotSet = '#dbea06ca'; // yellowish
-        this.rcdPastToday = '#ed3939c3'; // dark red
-        this.rcdUnder14 = '#ff3191cd'; // reddish
-        this.rcdUnder31 = '#ea8f06ca'; // orangish
+        this.rcdNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+        this.rcdPastToday = 'rgba(237, 57, 57, 0.765)' //'#ed3939c3'; // Red
+        this.rcdUnder14 = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
+        this.rcdUnder31 = 'rgba(234, 143, 6, 0.792)'; //'#ea8f06ca'; // orangish
         this.rcdOver31 = "white"; // white
 
             /* Permit Status */
-        this.permitStatusNotSet = '#dbea06ca'; // yellowish
+        this.permitStatusNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
         this.permitStatusApplied = 'rgba(39, 252, 203, 0.83)'; // tealish
         this.permitStatusReceived = 'rgba(87, 245, 43, 0.627)'; // green
         this.permitStatusDontNeed = 'rgba(87, 245, 43, 0.627)'; // green
-        this.permitStatusExpiringSoon = '#ea8f06ca'; // orangish
-        this.permitStatusExtensionSubmitted = '#ea8f06ca'; // orangish
-        this.permitStatusExpired = '#ff3191cd'; // redish
-        this.permitStatusHaventChecked = '#dbea06ca'; // yellowish
+        this.permitStatusExpiringSoon = 'rgba(234, 143, 6, 0.792)'; //'#ea8f06ca'; // orangish
+        this.permitStatusExtensionSubmitted = 'rgba(234, 143, 6, 0.792)'; //'#ea8f06ca'; // orangish
+        this.permitStatusExpired = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
+        this.permitStatusHaventChecked = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
 
             /* Permit Start Date */
-        this.permitStartNotSet = '#dbea06ca'; // yellowish
-        this.permitStartExpired = '#ff3191cd'; // redish
+        this.permitStartNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+        this.permitStartExpired = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
         this.permitStartStarted = 'rgba(87, 245, 43, 0.627)'; // greenish
         this.permitStartSet = 'rgba(39, 252, 203, 0.83)'; // tealish
 
             /* Permit End Date */
-        this.permitEndNotSet = '#dbea06ca'; // yellowish
-        this.permitEndPastToday = '#ed3939c3'; // dark red
-        this.permitEndUnder14 = '#ff3191cd'; // reddish
-        this.permitEndUnder31 = '#ea8f06ca'; // orangish
+        this.permitEndNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+        this.permitEndPastToday = 'rgba(237, 57, 57, 0.765)' //'#ed3939c3'; // Red
+        this.permitEndUnder14 = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
+        this.permitEndUnder31 = 'rgba(234, 143, 6, 0.792)'; //'#ea8f06ca'; // orangish
         this.permitEndOver31 = "white"; // white
 
             /* Easement Status */
-        this.easementStatusNotSet = '#dbea06ca'; // yellowish
-        this.easementStatusNeedEasement = '#ff3191cd'; // redish
-        this.easementStatusPending = '#dbea06ca'; // yellowish
+        this.easementStatusNotSet = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+        this.easementStatusNeedEasement = 'rgba(255, 49, 145, 0.804)' //'#ff3191cd'; // Magenta
+        this.easementStatusPending = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
         this.easementStatusDontNeed = 'rgba(87, 245, 43, 0.627)'; // green
         this.easementStatusHaveEasement = 'rgba(87, 245, 43, 0.627)'; // green
         this.easementStatusWaiting = 'rgba(39, 252, 203, 0.83)'; // tealish
-        this.easementStatusHaventChecked = '#dbea06ca'; // yellowish
+        this.easementStatusHaventChecked = 'rgba(219, 234, 6, 0.792)'; //'#dbea06ca'; // yellowish
+    }
+
+    change(setting, value) {
+        console.log("Entered - ColorPreferences - change(setting: " + setting + ", value: " + value + ")");
+
+        if (setting == "crdNotSet") {
+            this.crdNotSet = value;
+        } else if (setting == "crdPastToday") {
+            this.crdPastToday = value;
+        } else if (setting == "crdUnder14") {
+            this.crdUnder14 = value;
+        } else if (setting == "crdUnder31") {
+            this.crdUnder31 = value;
+        } else if (setting == "crdOver31") {
+            this.crdOver31 = value;
+        } else if (setting == "rcdNotSet") {
+            this.rcdNotSet = value;
+        } else if (setting == "rcdPastToday") {
+            this.rcdPastToday = value;
+        } else if (setting == "rcdUnder14") {
+            this.rcdUnder14 = value;
+        } else if (setting == "rcdUnder31") {
+            this.rcdUnder31 = value;
+        } else if (setting == "rcdOver31") {
+            this.rcdOver31 = value;
+        } else if (setting == "permitStatusNotSet") {
+            this.permitStatusNotSet = value;
+        } else if (setting == "permitStatusApplied") {
+            this.permitStatusApplied = value;
+        } else if (setting == "permitStatusReceived") {
+            this.permitStatusReceived = value;
+        } else if (setting == "permitStatusDontNeed") {
+            this.permitStatusDontNeed = value;
+        } else if (setting == "permitStatusExpiringSoon") {
+            this.permitStatusExpiringSoon = value;
+        } else if (setting == "permitStatusExtensionSubmitted") {
+            this.permitStatusExtensionSubmitted = value;
+        } else if (setting == "permitStatusExpired") {
+            this.permitStatusExpired = value;
+        } else if (setting == "permitStatusHaventChecked") {
+            this.permitStatusHaventChecked = value;
+        } else if (setting == "permitStartNotSet") {
+            this.permitStartNotSet = value;
+        } else if (setting == "permitStartExpired") {
+            this.permitStartExpired = value;
+        } else if (setting == "permitStartStarted") {
+            this.permitStartStarted = value;
+        } else if (setting == "permitStartSet") {
+            this.permitStartSet = value;
+        } else if (setting == "permitEndNotSet") {
+            this.permitEndNotSet = value;
+        } else if (setting == "permitEndPastToday") {
+            this.permitEndPastToday = value;
+        } else if (setting == "permitEndUnder14") {
+            this.permitEndUnder14 = value;
+        } else if (setting == "permitEndUnder31") {
+            this.permitEndUnder31 = value;
+        } else if (setting == "permitEndOver31") {
+            this.permitEndOver31 = value;
+        } else if (setting == "easementStatusNotSet") {
+            this.easementStatusNotSet = value;
+        } else if (setting == "easementStatusNeedEasement") {
+            this.easementStatusNeedEasement = value;
+        } else if (setting == "easementStatusPending") {
+            this.easementStatusPending = value;
+        } else if (setting == "easementStatusDontNeed") {
+            this.easementStatusDontNeed = value;
+        } else if (setting == "easementStatusHaveEasement") {
+            this.easementStatusHaveEasement = value;
+        } else if (setting == "easementStatusWaiting") {
+            this.easementStatusWaiting = value;
+        } else if (setting == "easementStatusHaventChecked") {
+            this.easementStatusHaventChecked = value;
+        }
     }
 
     // Takes raw color value and returns text value
@@ -902,28 +976,176 @@ class ColorPreferences {
 
         if (color == "white") {
             return "White";
-        } else if (color == '#dbea06ca') {
+        } else if (color == '#dbea06ca' || color == 'rgba(219, 234, 6, 0.792)') {
             return "Yellow";
-        } else if (color == '#ea8f06ca') {
+        } else if (color == '#ea8f06ca' || color == 'rgba(234, 143, 6, 0.792)') {
             return "Orange";
-        } else if (color == '#ff3191cd') {
+        } else if (color == '#ff3191cd' || color == 'rgba(255, 49, 145, 0.804)') {
+            return "Magenta";
+        } else if (color == '#ed3939c3' || color == 'rgba(237, 57, 57, 0.765)') {
             return "Red";
-        } else if (color == '#ed3939c3') {
-            return "Dark Red";
         } else if (color == 'rgba(87, 245, 43, 0.627)') {
             return "Green";
         } else if (color == 'rgba(39, 252, 203, 0.83)') {
             return "Teal";
-        } else if (color == '#1913d9c3') {
+        } else if (color == '#1913d9c3' || color == 'rgba(25, 19, 217, 0.765)') {
             return "Blue";
-        } else if (color == '#ed39cfc3') {
+        } else if (color == '#ed39cfc3' || color == 'rgba(237, 57, 207, 0.765)') {
             return "Pink";
-        } else if (color == '#9722dfc3') {
+        } else if (color == '#9722dfc3' || color == 'rgba(151, 34, 223, 0.765)') {
             return "Purple";
         }
     }
 
+    getValue(setting) {
+        console.log("Entered - ColorPreference - getValue(setting)");
 
+            if (setting == "crdNotSet") {
+                return this.crdNotSet;
+            } else if (setting == "crdPastToday") {
+                return this.crdPastToday;
+            } else if (setting == "crdUnder14") {
+                return this.crdUnder14;
+            } else if (setting == "crdUnder31") {
+                return this.crdUnder31;
+            } else if (setting == "crdOver31") {
+                return this.crdOver31;
+            } else if (setting == "rcdNotSet") {
+                return this.rcdNotSet;
+            } else if (setting == "rcdPastToday") {
+                return this.rcdPastToday;
+            } else if (setting == "rcdUnder14") {
+                return this.rcdUnder14;
+            } else if (setting == "rcdUnder31") {
+                return this.rcdUnder31;
+            } else if (setting == "rcdOver31") {
+                return this.rcdOver31;
+            } else if (setting == "permitStatusNotSet") {
+                return this.permitStatusNotSet;
+            } else if (setting == "permitStatusApplied") {
+                return this.permitStatusApplied;
+            } else if (setting == "permitStatusReceived") {
+                return this.permitStatusReceived;
+            } else if (setting == "permitStatusDontNeed") {
+                return this.permitStatusDontNeed;
+            } else if (setting == "permitStatusExpiringSoon") {
+                return this.permitStatusExpiringSoon;
+            } else if (setting == "permitStatusExtensionSubmitted") {
+                return this.permitStatusExtensionSubmitted;
+            } else if (setting == "permitStatusExpired") {
+                return this.permitStatusExpired;
+            } else if (setting == "permitStatusHaventChecked") {
+                return this.permitStatusHaventChecked;
+            } else if (setting == "permitStartNotSet") {
+                return this.permitStartNotSet;
+            } else if (setting == "permitStartExpired") {
+                return this.permitStartExpired;
+            } else if (setting == "permitStartStarted") {
+                return this.permitStartStarted;
+            } else if (setting == "permitStartSet") {
+                return this.permitStartSet;
+            } else if (setting == "permitEndNotSet") {
+                return this.permitEndNotSet;
+            } else if (setting == "permitEndPastToday") {
+                return this.permitEndPastToday;
+            } else if (setting == "permitEndUnder14") {
+                return this.permitEndUnder14;
+            } else if (setting == "permitEndUnder31") {
+                return this.permitEndUnder31;
+            } else if (setting == "permitEndOver31") {
+                return this.permitEndOver31;
+            } else if (setting == "easementStatusNotSet") {
+                return this.easementStatusNotSet;
+            } else if (setting == "easementStatusNeedEasement") {
+                return this.easementStatusNeedEasement;
+            } else if (setting == "easementStatusPending") {
+                return this.easementStatusPending;
+            } else if (setting == "easementStatusDontNeed") {
+                return this.easementStatusDontNeed;
+            } else if (setting == "easementStatusHaveEasement") {
+                return this.easementStatusHaveEasement;
+            } else if (setting == "easementStatusWaiting") {
+                return this.easementStatusWaiting;
+            } else if (setting == "easementStatusHaventChecked") {
+                return this.easementStatusHaventChecked;
+            }
+        
+    }
+
+    /* Takes in a string containing values to all ColorPreference variables */
+    load(str) {
+        console.log("Entered - ColorPreferences - load(str)");
+
+        let data = [];
+
+        while (str.length > 1) {
+            const index = str.indexOf('*');
+            const temp = str.substring(0, index);
+            data.push(temp);
+            str = str.substring(index + 1);
+        }
+
+        /* CRD */
+        this.crdNotSet = data[0];
+        this.crdPastToday = data[1];
+        this.crdUnder14 = data[2];
+        this.crdUnder31 = data[3];
+        this.crdOver31 = data[4];
+
+            /* CRD */
+        this.rcdNotSet = data[5];
+        this.rcdPastToday = data[6];
+        this.rcdUnder14 = data[7];
+        this.rcdUnder31 = data[8];
+        this.rcdOver31 = data[9];
+
+            /* Permit Status */
+        this.permitStatusNotSet = data[10];
+        this.permitStatusApplied = data[11];
+        this.permitStatusReceived = data[12];
+        this.permitStatusDontNeed = data[13];
+        this.permitStatusExpiringSoon = data[14];
+        this.permitStatusExtensionSubmitted = data[15];
+        this.permitStatusExpired = data[16];
+        this.permitStatusHaventChecked = data[17];
+
+            /* Permit Start Date */
+        this.permitStartNotSet = data[18];
+        this.permitStartExpired = data[19];
+        this.permitStartStarted = data[20];
+        this.permitStartSet = data[21];
+            /* Permit End Date */
+        this.permitEndNotSet = data[22];
+        this.permitEndPastToday = data[23];
+        this.permitEndUnder14 = data[24];
+        this.permitEndUnder31 = data[25];
+        this.permitEndOver31 = data[26];
+
+            /* Easement Status */
+        this.easementStatusNotSet = data[27];
+        this.easementStatusNeedEasement = data[28];
+        this.easementStatusPending = data[29];
+        this.easementStatusDontNeed = data[30];
+        this.easementStatusHaveEasement = data[31];
+        this.easementStatusWaiting = data[32];
+        this.easementStatusHaventChecked = data[33];
+    }
+
+    toString() {
+        console.log("Entered - ColorPreferences - toString()");
+
+        const str = this.crdNotSet + "*" + this.crdPastToday + "*" + this.crdUnder14 + "*" + this.crdUnder31 + "*" + this.crdOver31 + "*" + 
+            this.rcdNotSet + "*" + this.rcdPastToday + "*" + this.rcdUnder14 + "*" + this.rcdUnder31 + "*" + this.rcdOver31 + "*" + 
+            this.permitStatusNotSet + "*" + this.permitStatusApplied + "*" + this.permitStatusReceived + "*" + this.permitStatusDontNeed + "*" + 
+            this.permitStatusExpiringSoon + "*" + this.permitStatusExtensionSubmitted + "*" + this.permitStatusExpired + "*" + 
+            this.permitStatusHaventChecked + "*" + this.permitStartNotSet + "*" + this.permitStartExpired + "*" + this.permitStartStarted + "*" + 
+            this.permitStartSet + "*" + this.permitEndNotSet + "*" + this.permitEndPastToday + "*" + this.permitEndUnder14 + "*" + 
+            this.permitEndUnder31 + "*" + this.permitEndOver31 + "*" + this.easementStatusNotSet + "*" + this.easementStatusNeedEasement + "*" + 
+            this.easementStatusPending + "*" + this.easementStatusDontNeed + "*" + this.easementStatusHaveEasement + "*" +
+            this.easementStatusWaiting + "*" + this.easementStatusHaventChecked + "*";  //34 *'s
+
+        return str;
+    }
 }
 
 /* Takes an array of commentItem objects and injects them to the specified tab
@@ -939,8 +1161,6 @@ function updateComments(comments, tab) {
         document.getElementById("add_comment_tab_existing_comments").innerHTML = "";
     }
 
-    console.log("comments  = ");
-    console.log(comments);
     for (var i = 0; i < comments.length; i++) {
         if (tab == "addWr") {
             injectHTMLAddTabWrComment(comments[i], i);
@@ -1171,12 +1391,12 @@ async function writeFile(contents) {
     await writable.write(contents);
     await writable.close();
 }
-async function saveFile(allWrList) {
+async function saveFile(allWrList, userColors) {
     console.log("Entered - saveFile()");
 
     const d = new Date();
     const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
-    const data = [now, allWrList]
+    const data = [userColors, now, allWrList];
     const dataBlob = new Blob(data);
 
     const newHandle = await window.showSaveFilePicker();
@@ -1188,11 +1408,16 @@ async function saveFile(allWrList) {
     
 }
 function readFile() {
+    console.log("Entered - readFile()");
+
     var selected = document.getElementById("allWrListFile").files[0];
 
     var reader = new FileReader();
     reader.addEventListener("loadend", function() {
-        let allWrList = parseWrString(reader.result);
+        let data = splitColorPreferences(reader.result);
+        let colorPreferencesStr = data[0];
+        let allWrList = parseWrString(data[1]);
+        document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
         document.getElementById("footer_button_sync").classList.remove("hidden");
     });
@@ -1556,6 +1781,27 @@ function setFooterDate(dateTime) {
 }
 
     /* Parse Functions */
+/* Removes saved color preferences from the front of the saved string */
+function splitColorPreferences(str) {
+    console.log("Entered - splitColorPreferences(str)");
+
+    let count = 0;
+    let temp = str;
+    let index = 0;
+
+    while (count < 34) { // num of *'s in ColorPreferences toString()
+        const tempIndex = temp.indexOf('*');
+        index += tempIndex + 1;
+        temp = temp.substring(tempIndex + 1);
+        count++;
+    }
+
+    const colorPreferencesStr = str.substring(0, index);
+    const allWrListRaw = str.substring(index);
+
+    return [colorPreferencesStr, allWrListRaw];
+}
+
 function parseWrString(str) {
     console.log("Entered - parseWrString(str)");
 
@@ -1979,7 +2225,7 @@ function assessPermitStartDate(startDate, endDate, userColors) {
     if (data == -9999) { // date not set - set as 01/01/0001 by me by default
         return userColors.permitStartNotSet; // Yellow by default
     } else if (cur >= end) { // Permit has expired 
-        return userColors.permitStartExpired; // Red by default
+        return userColors.permitStartExpired; // Magenta by default
     } else if (start >= cur) {// Permit has started 
         return  userColors.permitStartStarted;// Green by default
     } else { // Permit date has been set but Permit has not started
@@ -2000,7 +2246,7 @@ function assessPermitStatus(status, userColors) {
     } else if (status == "Extension Submitted") {
         return userColors.permitStatusExtensionSubmitted; // Orange by default
     } else if (status == "Expired") {
-        return userColors.permitStatusExpired; // Red by default
+        return userColors.permitStatusExpired; // Magenta by default
     } else if (status == "Haven't Checked") {
         return userColors.permitStatusHaventChecked; // Yellow by default
     } else {
@@ -2012,7 +2258,7 @@ function assessEasementStatus(status, userColors) {
     console.log("Entered - assessEasementStatus(" + status + ")");
 
     if (status == "Need to Submit" || status == "Need Easement") {
-        return userColors.easementStatusNeedEasement; // Red by default
+        return userColors.easementStatusNeedEasement; // Magenta by default
     } else if (status == "Pending") {
         return userColors.easementStatusPending; // Yellow by default
     } else if (status == "Don't Need") {
@@ -2043,9 +2289,9 @@ function assessEasementStatus(status, userColors) {
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
         return userColors.crdNotSet;// Yellow by default
     } else if (date < curDate) {
-        return userColors.crdPastToday; // Dark red by default
+        return userColors.crdPastToday; // Red by default
     } else if (data <= 14) {
-        return userColors.crdUnder14; // Red by default
+        return userColors.crdUnder14; // Magenta by default
     } else if (data <= 31) {
         return userColors.crdUnder31; // Orange by default
     } else {
@@ -2066,9 +2312,9 @@ function assessDateRCD(date, userColors) {
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
         return userColors.rcdNotSet;// Yellow by default
     } else if (date < curDate) {
-        return userColors.rcdPastToday; // Dark red by default
+        return userColors.rcdPastToday; // Red by default
     } else if (data <= 14) {
-        return userColors.rcdUnder14; // Red by default
+        return userColors.rcdUnder14; // Magenta by default
     } else if (data <= 31) {
         return userColors.rcdUnder31; // Orange by default
     } else {
@@ -2089,9 +2335,9 @@ function assessDatePermitEnd(date, userColors) {
     if (data == -9999) {  // date not set - set as 01/01/0001 by me by default
         return userColors.permitEndNotSet;// Yellow by default
     } else if (date < curDate) {
-        return userColors.permitEndPastToday; // Dark red by default
+        return userColors.permitEndPastToday; // Red by default
     } else if (data <= 14) {
-        return userColors.permitEndUnder14; // Red by default
+        return userColors.permitEndUnder14; // Magenta by default
     } else if (data <= 31) {
         return userColors.permitEndUnder31; // Orange by default
     } else {
@@ -2580,7 +2826,7 @@ async function mainEvent() {
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
-    let tempAllComments = new PaginatedComments(14, "addComment");
+    let tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
     
     /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
     const inTestMode = false;
@@ -6969,6 +7215,9 @@ async function mainEvent() {
     const settingsDisplayInnerColorsBottom = document.querySelector("#settings_display_inner_colors_bottom")
     const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
     const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
+    const colorLocalSaveButton = document.querySelector("#color_local_save_button");
+    const settingsLoadButton = document.querySelector("#settings_load_button");
+    const settingsSyncButton = document.querySelector("#settings_sync_button");
 
     function hideSettingsColorsDisplay() {
         console.log("Entered - hideSettingsColorsDisplay()");
@@ -7010,7 +7259,7 @@ async function mainEvent() {
         document.getElementById("option_element_not_set").classList.remove("hidden");
         document.getElementById("option_element_expired").classList.remove("hidden");
         document.getElementById("option_element_started").classList.remove("hidden");
-        document.getElementById("option_element_received").classList.remove("hidden");
+        //document.getElementById("option_element_received").classList.remove("hidden");
         document.getElementById("option_element_set").classList.remove("hidden");
 
     }
@@ -7084,7 +7333,10 @@ async function mainEvent() {
         document.getElementById("option_element_dont_need").classList.remove("activeTab");
         document.getElementById("option_element_expiring_soon").classList.remove("activeTab");
         document.getElementById("option_element_extension_submitted").classList.remove("activeTab");
+        document.getElementById("option_element_set").classList.remove("activeTab");
+
     }
+    /* Displays the current saved data for the user selected option */
     function displayColorsOptionData(option) {
         console.log("Entered - displayColorsOptionData(" + option + ")");
 
@@ -7125,9 +7377,45 @@ async function mainEvent() {
                 currentColorAssignedBox.style.backgroundColor = userColors.rcdOver31;
             } 
         } else if (settingsDisplayTabColorsPermitStatus.classList.contains("hidden")) {
-            
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusNotSet; 
+            } else if (option == "Don't Need") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusDontNeed);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusDontNeed; 
+            } else if (option == "Applied") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusApplied);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusApplied; 
+            } else if (option == "Received") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusReceived);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusReceived; 
+            } else if (option == "Expiring Soon") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusExpiringSoon);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusExpiringSoon; 
+            } else if (option == "Ext. Submitted") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusExtensionSubmitted);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusExtensionSubmitted; 
+            } else if (option == "Expired") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusExpired);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusExpired; 
+            } else if (option == "Haven't Checked") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStatusHaventChecked);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStatusHaventChecked; 
+            }
         } else if (settingsDisplayTabColorsPermitStart.classList.contains("hidden")) {
-            
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStartNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStartNotSet; 
+            } else if (option == "Started") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStartStarted);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStartStarted; 
+            } else if (option == "Expired") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStartExpired);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStartExpired; 
+            } else if (option == "Set - Not Started") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitStartSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.permitStartSet; 
+            } 
         } else if (settingsDisplayTabColorsPermitEnd.classList.contains("hidden")) { // Permit End tab is active
             if (option == "Not Set") {
                 currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndNotSet);
@@ -7149,6 +7437,84 @@ async function mainEvent() {
             // Keep adding if statements and bodies
         }
     }
+    /* Return ID version of active color tab for colorLocalSaveButton */
+    function getActiveColorTabId() {
+        console.log("Entered - getActiveColorTabId()");
+
+        if (settingsDisplayTabColorsCrd.classList.contains("hidden")) { // crd tab is active
+            return "crd";
+        } else if (settingsDisplayTabColorsRcd.classList.contains("hidden")) { // rcd tab is active
+            return "rcd";
+        } else if (settingsDisplayTabColorsPermitStatus.classList.contains("hidden")) { // permit status tab is active
+            return ("permitStatus");
+        } else if (settingsDisplayTabColorsPermitStart.classList.contains("hidden")) { // permit start date tab is active
+            return "permitStart";
+        } else if (settingsDisplayTabColorsPermitEnd.classList.contains("hidden")) { // permit end date tab is active
+            return "permitEnd";
+        } else if (settingsDisplayTabColorsEasementStatus.classList.contains("hidden")) { // easement status tab is active
+            return "easementStatus";
+        }
+    }
+    /* Return ID version of active option for colorLocalSaveButton */
+    function getActiveColorOptionId() {
+        console.log("Entered - getActiveColorOptionID()");
+
+        if (document.getElementById("option_element_not_set").classList.contains("activeTab")) {
+            return "NotSet";
+        } else if (document.getElementById("option_element_need_easement").classList.contains("activeTab")) {
+            return "NeedEasement";
+        } else if (document.getElementById("option_element_pending").classList.contains("activeTab")) {
+            return "Pending";
+        } else if (document.getElementById("option_element_have_easement").classList.contains("activeTab")) {
+            return "HaveEasement";
+        } else if (document.getElementById("option_element_waiting").classList.contains("activeTab")) {
+            return "Waiting";
+        } else if (document.getElementById("option_element_havent_checked").classList.contains("activeTab")) {
+            return "HaventChecked";
+        } else if (document.getElementById("option_element_past_today").classList.contains("activeTab")) {
+            return "PastToday";
+        } else if (document.getElementById("option_element_under_14").classList.contains("activeTab")) {
+            return "Under14";
+        } else if (document.getElementById("option_element_under_31").classList.contains("activeTab")) {
+            return "Under31";
+        } else if (document.getElementById("option_element_over_31").classList.contains("activeTab")) {
+            return "Over31";
+        } else if (document.getElementById("option_element_expired").classList.contains("activeTab")) {
+            return "Expired";
+        } else if (document.getElementById("option_element_started").classList.contains("activeTab")) {
+            return "Started";
+        } else if (document.getElementById("option_element_received").classList.contains("activeTab")) {
+            return "Received";
+        } else if (document.getElementById("option_element_applied").classList.contains("activeTab")) {
+            return "Applied";
+        } else if (document.getElementById("option_element_dont_need").classList.contains("activeTab")) {
+            return "DontNeed";
+        } else if (document.getElementById("option_element_expiring_soon").classList.contains("activeTab")) {
+            return "ExpiringSoon";
+        } else if (document.getElementById("option_element_extension_submitted").classList.contains("activeTab")) {
+            return "ExtensionSubmitted";
+        } else if (document.getElementById("option_element_set").classList.contains("activeTab")) {
+            return "Set";
+        }
+    }
+
+    
+
+        /* Save Button */
+    colorLocalSaveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked colorLocalSaveButton");
+
+        const curColorTab = getActiveColorTabId();
+        const curColorOption = getActiveColorOptionId();
+
+        let str = "";
+        str += curColorTab + curColorOption;
+
+        userColors.change(str, currentColorAssignedBox.style.backgroundColor);
+        settingsDisplayInnerColorsLabel.innerHTML = "Current Color Assigned:"
+        colorLocalSaveButton.classList.add("hidden");
+        document.getElementById("current_color_assigned_box").style.marginRight = '380px';
+    })
 
         /* Options */
     settingsDisplayColorOptionsContainer.addEventListener("click", (event) => {
@@ -7160,7 +7526,7 @@ async function mainEvent() {
             event.target.innerHTML == "Past Today" || event.target.innerHTML == "Under 14 Days" || event.target.innerHTML == "Under 31 Days" ||
             event.target.innerHTML == "Over 31 Days" || event.target.innerHTML == "Expired" || event.target.innerHTML == "Started" || 
             event.target.innerHTML == "Received" || event.target.innerHTML == "Applied" || event.target.innerHTML == "Don't Need" || 
-            event.target.innerHTML == "Expiring Soon" || event.target.innerHTML == "Ext. Submitted") {
+            event.target.innerHTML == "Expiring Soon" || event.target.innerHTML == "Ext. Submitted" || event.target.innerHTML == "Set - Not Started") {
                 deselectAllColorsOptions();
                 event.target.classList.add("activeTab");
                 displayColorsOptionData(event.target.innerHTML);
@@ -7171,10 +7537,26 @@ async function mainEvent() {
     settingsDisplayInnerColorsBottom.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayInnerColorsBottom");
 
-        if (event.target.innerHTML == "Yellow" || event.target.innerHTML == "Orange" || event.target.innerHTML == "Red" ||
+        if (event.target.innerHTML == "Yellow" || event.target.innerHTML == "Orange" || event.target.innerHTML == "Magenta" ||
             event.target.innerHTML == "Green" || event.target.innerHTML == "Teal" || event.target.innerHTML == "Pink" ||
-            event.target.innerHTML == "Blue" || event.target.innerHTML == "White" || event.target.innerHTML == "Dark Red") {
-                settingsDisplayInnerColorsLabel.innerHTML = "New Color Assigned:"
+            event.target.innerHTML == "Blue" || event.target.innerHTML == "White" || event.target.innerHTML == "Red" ||
+            event.target.innerHTML == "Purple") {
+                const curColorTab = getActiveColorTabId();
+                const curColorOption = getActiveColorOptionId();
+                let str = "";
+                str += curColorTab + curColorOption;
+
+                if (event.target.innerHTML != userColors.getName(userColors.getValue(str))) {
+                    
+                    settingsDisplayInnerColorsLabel.innerHTML = "New Color Assigned:"
+                    
+                    document.getElementById("current_color_assigned_box").style.marginRight = '0px';
+                    colorLocalSaveButton.classList.remove("hidden");
+                } else {
+                    settingsDisplayInnerColorsLabel.innerHTML = "Current Color Assigned:"
+                    colorLocalSaveButton.classList.add("hidden");
+                    document.getElementById("current_color_assigned_box").style.marginRight = '380px';
+                }
                 currentColorAssignedBox.innerHTML = event.target.innerHTML;
                 currentColorAssignedBox.style.backgroundColor = event.target.style.backgroundColor;
             }
@@ -7193,6 +7575,9 @@ async function mainEvent() {
         settingsDisplayTabColors.classList.add("hidden");
         settingsDisplayTabColorsActive.classList.remove("hidden");
 
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings - Colors</b>`;
+
     })
     settingsDisplayTabColorsActive.addEventListener("click", (event) => {
         console.log("Clicked - settingsDisplayTabColorsActive");
@@ -7203,6 +7588,9 @@ async function mainEvent() {
         // Tabs
         settingsDisplayTabColors.classList.remove("hidden");
         settingsDisplayTabColorsActive.classList.add("hidden");
+
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings</b>`;
     })
 
     /* Colors */
@@ -7367,6 +7755,9 @@ async function mainEvent() {
         const tempStorage = document.getElementById("temp_storage").innerHTML;
         const tempList = parseWrString(tempStorage);
 
+        const tempColorPreferences = document.getElementById("temp_color_storage").innerHTML;
+        userColors.load(tempColorPreferences);
+
         for (let i = 0; i < tempList.length; i++) {
             allWrList[allWrList.length] = tempList[i];
         }
@@ -7377,7 +7768,6 @@ async function mainEvent() {
         document.getElementById('all_wr_tab').click();
 
         const tempAllWrList = document.createElement("tempAllWrList");
-
 
         tempAllWrList.classList.add("hidden");
         tempAllWrList.id = "temp_all_wr_list";
@@ -7396,7 +7786,7 @@ async function mainEvent() {
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
 
-        saveFile(allWrList);
+        saveFile(allWrList, userColors);
     })
 
             /* Tab Event Listeners */

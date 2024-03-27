@@ -1134,7 +1134,7 @@
     </div>
 
     <!-- Settings Display -->
-    <div class="settingsDisplayContainer " id="settings_display_container">
+    <div class="settingsDisplayContainer hidden" id="settings_display_container">
         <div class="settingsDisplayRowsContainer" id="settings_display_rows_container">
             
             <!-- Row One -->
@@ -1229,7 +1229,7 @@
                         <div class="settingsDisplayInnerColorsTop hidden" id="settings_display_inner_colors_top">
                             <label class="settingsDisplayInnerColorsLabel" id="settings_display_inner_colors_label">Current Color Assigned:</label>
                             <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
-                            <button type="button" class="colorSaveButton" id="color_save_button">Save</button>
+                            <button type="button" class="colorSaveButton hidden" id="color_local_save_button">Save</button>
                         </div>
 
                         <!-- Bottom -->
@@ -1237,8 +1237,8 @@
                             <div class="colorOption" style="background-color: white;" id="color_option_white">White</div>
                             <div class="colorOption" style="background-color: #dbea06ca;" id="color_option_yellow">Yellow</div>
                             <div class="colorOption" style="background-color: #ea8f06ca;" id="color_option_orange">Orange</div>
-                            <div class="colorOption" style="background-color: #ff3191cd;" id="color_option_red">Red</div>
-                            <div class="colorOption" style="background-color: #ed3939c3;" id="color_option_dark_red">Dark Red</div>
+                            <div class="colorOption" style="background-color: #ff3191cd;" id="color_option_red">Magenta</div>
+                            <div class="colorOption" style="background-color: #ed3939c3;" id="color_option_dark_red">Red</div>
                             <div class="colorOption" style="background-color: rgba(87, 245, 43, 0.627);"id="color_option_green">Green</div>
                             <div class="colorOption" style="background-color: rgba(39, 252, 203, 0.83);"id="color_option_teal">Teal</div>
                             <div class="colorOption" style="background-color: #1913d9c3;"id="color_option_blue">Blue</div>
@@ -1293,8 +1293,7 @@
             <label for="data_from_value_time" class="dataFromValueAllLabel" id="data_from_value_all_label">(Time of Last Save)</label>
             <button type="button" class="footerButton" id="footer_button_load">Load</button>
             <button type="button" class="footerButton hidden" id="footer_button_sync">Sync</button>
-            <input type="file" class="hidden" value="Load" id="allWrListFile"
-                accept="text/plain" onchange="readFile()" />
+            <input type="file" class="hidden" value="Load" id="allWrListFile" accept="text/plain" onchange="readFile()" />
             <button type="button" class="footerButton" id="footer_button_save">Save</button>
         </div>
         
