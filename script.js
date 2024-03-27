@@ -7216,9 +7216,7 @@ async function mainEvent() {
     const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
     const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
     const colorLocalSaveButton = document.querySelector("#color_local_save_button");
-    const settingsLoadButton = document.querySelector("#settings_load_button");
-    const settingsSyncButton = document.querySelector("#settings_sync_button");
-
+    
     function hideSettingsColorsDisplay() {
         console.log("Entered - hideSettingsColorsDisplay()");
 
@@ -7433,8 +7431,29 @@ async function mainEvent() {
                 currentColorAssignedBox.innerHTML = userColors.getName(userColors.permitEndOver31);
                 currentColorAssignedBox.style.backgroundColor = userColors.permitEndOver31;
             } 
-                // Need to fill in once data/object is made
-            // Keep adding if statements and bodies
+        } else if (settingsDisplayTabColorsEasementStatus.classList.contains("hidden")) { // Easement Status tab is active
+            if (option == "Not Set") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusNotSet);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusNotSet; 
+            } else if (option == "Don't Need") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusDontNeed);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusDontNeed; 
+            } else if (option == "Need Easement") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusNeedEasement);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusNeedEasement; 
+            } else if (option == "Pending") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusPending);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusPending; 
+            } else if (option == "Have Easement") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusHaveEasement);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusHaveEasement; 
+            } else if (option == "Waiting") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusWaiting);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusWaiting; 
+            } else if (option == "Haven't Checked") {
+                currentColorAssignedBox.innerHTML = userColors.getName(userColors.easementStatusHaventChecked);
+                currentColorAssignedBox.style.backgroundColor = userColors.easementStatusHaventChecked; 
+            } 
         }
     }
     /* Return ID version of active color tab for colorLocalSaveButton */
@@ -7497,8 +7516,6 @@ async function mainEvent() {
             return "Set";
         }
     }
-
-    
 
         /* Save Button */
     colorLocalSaveButton.addEventListener("click", (event) => {
@@ -7612,6 +7629,11 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
+
 
         settingsDisplayTabColorsCrd.classList.remove("hidden");
         settingsDisplayTabColorsCrdActive.classList.add("hidden");        
@@ -7634,6 +7656,10 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
 
         settingsDisplayTabColorsRcd.classList.remove("hidden");
         settingsDisplayTabColorsRcdActive.classList.add("hidden");
@@ -7657,6 +7683,10 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
 
         settingsDisplayTabColorsPermitStatus.classList.remove("hidden");
         settingsDisplayTabColorsPermitStatusActive.classList.add("hidden");
@@ -7681,6 +7711,10 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
 
         settingsDisplayTabColorsPermitStart.classList.remove("hidden");
         settingsDisplayTabColorsPermitStartActive.classList.add("hidden");
@@ -7704,6 +7738,10 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
 
         settingsDisplayTabColorsPermitEnd.classList.remove("hidden");
         settingsDisplayTabColorsPermitEndActive.classList.add("hidden");
@@ -7727,6 +7765,10 @@ async function mainEvent() {
         hideAllStatusOptions();
 
         settingsDisplayInnerColorsTop.classList.add("hidden");
+        settingsDisplayInnerColorsBottom.classList.add("hidden");
+        deselectAllColorsOptions();
+        currentColorAssignedBox.innerHTML = "Not Set"
+        currentColorAssignedBox.style.backgroundColor = 'white';
 
         settingsDisplayTabColorsEasementStatus.classList.remove("hidden");
         settingsDisplayTabColorsEasementStatusActive.classList.add("hidden");
