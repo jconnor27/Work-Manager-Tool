@@ -7785,6 +7785,16 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsXButton");
 
         settingsDisplayContainer.classList.add("hidden");
+
+        if (settingsDisplayTabColors.classList.contains("hidden")) { // settingsDisplayTabColors is active
+            settingsDisplayTabColorsActive.click();
+            deselectAllColorsOptions();
+            deselectAllColorsTabs();
+            settingsDisplayInnerColorsTop.classList.add("hidden");
+            settingsDisplayInnerColorsBottom.classList.add("hidden");
+            currentColorAssignedBox.innerHTML = "Not Set";
+            currentColorAssignedBox.style.backgroundColor = "white";
+        }
     })
 
 
