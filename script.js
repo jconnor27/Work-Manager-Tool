@@ -7641,6 +7641,9 @@ async function mainEvent() {
             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         } else if (permitsTab.classList.contains("hidden")) {
             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+        } else if (addTab.classList.contains("hidden")) {
+            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
         }
     }
 
@@ -8092,6 +8095,8 @@ async function mainEvent() {
             settingsDisplayInnerColorsBottom.classList.add("hidden");
             currentColorAssignedBox.innerHTML = "Not Set";
             currentColorAssignedBox.style.backgroundColor = "white";
+        } else if (settingsDisplayTabPreferences.classList.contains("hidden")) {
+            settingsDisplayTabPreferencesActive.click();
         }
     })
 
