@@ -849,7 +849,7 @@
             <!-- Add Tab Display Container-->
             <div class="addDisplayContainer hidden" id="add_display_container">
                 <div class="addTabDisplayTop" id="add_tab_display_top">
-                    <div class="addTabDisplayLabel">Add / Update&ensp;</div>
+                    <div class="addTabDisplayLabel" id="add_tab_display_header_left">Add / Update&ensp;</div>
                     <div class="addTabDisplayLabel" id="add_tab_display_header_label">"Work Request"</div>
                 </div>
                 <!-- Wr Num Textfield and Get/Update/Add Buttons -->
@@ -1151,14 +1151,14 @@
                 <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_colors_active">Colors</div>
 
                 <!-- Preference Tabs -->
-                <div class="settingsDisplayTab filterSectionInactive" id="settings_display_tab_preferences">Preferences</div>
-                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_perferences_active">Preferences</div>
+                <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
+                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_preferences_active">Preferences</div>
             </div>
 
             <!-- Lower Display -->
             <div class="settingsDisplayLowerDisplayContainer" id="settings_display_lower_display_container">
                 
-                <!-- Left Side -->
+                <!-- Colors - Left Side -->
                 <div class="settingsDisplayLowerDisplayContainerColorsLeft hidden" id="settings_display_lower_display_container_colors_left">
                     
                     <!-- Label -->
@@ -1198,7 +1198,7 @@
                     </div>
                 </div>
 
-                <!-- Right Side -->
+                <!-- Colors - Right Side -->
                 <div class="settingsDisplayLowerDisplayContainerColorsRight hidden" id="settings_display_lower_display_container_colors_right">
                     
                     <!-- Tabs -->
@@ -1248,6 +1248,56 @@
 
                         </div>
                     </div>
+                </div>
+
+                <!-- Preferences Container -->
+                <div class="settingsDisplayLowerDisplayContainerPreferences hidden" id="settings_display_lower_display_container_preferences">
+                    
+                    <!-- Save Button Container -->
+                    <div class="settingsPreferencesSaveContainer">
+                        <button type="button" class="settingsPreferencesSaveButton hidden" id="settings_preferences_save_button">Save</button>
+                    </div>
+
+                    <!-- Row One -->
+                    <div class="settingsDisplayRowOnePreferences" id="settings_display_row_one_preferences">
+                        <div class="settingsPreferencesText">Rows Per Page:</div>
+                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_rows_per_page" disabled>
+                    </div>
+
+                    <!-- Row Two -->
+                    <div class="settingsDisplayRowTwoPreferences">
+                        <div class="settingsPreferencesText"># of Comments - Add/Update Wr:</div>
+                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_wr">
+                    </div>
+
+                    <!-- Row Three-->
+                    <div class="settingsDisplayRowThreePreferences">
+                        <div class="settingsPreferencesText"># of Comments - Update Permit:</div>
+                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_permit">
+                    </div>
+
+                    <!-- Row Four -->
+                    <div class="settingsDisplayRowFourPreferences">
+                        <div class="settingsPreferencesText"># of Comments - Add/Update Comment:</div>
+                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_comment">
+                    </div>
+
+                    <!-- Clear 7010 Jobs Button -->
+                    <button type="button" class="settingsPreferencesClear7010Button" id="settings_preferences_clear_7010_button">Clear - 7010 Jobs</button>
+
+                </div>
+
+                <!-- Popup for 7010 Jobs Button -->
+                <div class="clear7010PopUpContainer hidden" id="clear_7010_pop_up_container">
+                    <div class="clear7010PopUp" id="clear_7010_pop_up">
+                        <button type="button" class="clear7010PopUpXButton" id="clear_7010_pop_up_x_button">X</button>
+                        <div class="clear7010PopUpRowOne"> Are You Sure You Want to DELETE ALL<br>7010 Jobs From Your Saved Data?</div>
+                        <div class="clear7010PopUpRowTwo">
+                            <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_no">No</button>
+                            <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_yes">Yes</button>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

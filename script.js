@@ -1147,6 +1147,42 @@ class ColorPreferences {
         return str;
     }
 }
+class SystemPreferences {
+    constructor() {
+        this.rowsOnPage = 8;
+        this.permitCommentCount = 6;
+        this.tempCommentsCount = 7;
+        this.tempAllCommentCount = 14;
+    }
+
+    load(str) {
+        console.log("Entered - SystemPreferences - load(str)");
+
+        let data = [];
+
+        while (str.length > 1) {
+            const index = str.indexOf('@');
+            const temp = str.substring(0, index);
+            data.push(temp);
+            str = str.substring(index + 1);
+        }
+
+        this.rowsOnPage = data[0];
+        this.permitCommentCount = data[1];
+        this.tempCommentsCount = data[2];
+        this.tempAllCommentCount = data[3];
+    }
+
+    toString() {
+        console.log("Entered - SystemPreferences - toString()");
+
+        let str = "";
+
+        str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@";
+
+        return str;
+    }
+}
 
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
@@ -1391,12 +1427,12 @@ async function writeFile(contents) {
     await writable.write(contents);
     await writable.close();
 }
-async function saveFile(allWrList, userColors) {
+async function saveFile(allWrList, userColors, systemPreferences) {
     console.log("Entered - saveFile()");
 
     const d = new Date();
     const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
-    const data = [userColors, now, allWrList];
+    const data = [systemPreferences, userColors, now, allWrList];
     const dataBlob = new Blob(data);
 
     const newHandle = await window.showSaveFilePicker();
@@ -1414,9 +1450,12 @@ function readFile() {
 
     var reader = new FileReader();
     reader.addEventListener("loadend", function() {
-        let data = splitColorPreferences(reader.result);
-        let colorPreferencesStr = data[0];
+        let data = splitSystemPreferences(reader.result);
+        let data2 = splitColorPreferences(data[1]);
+        let systemPreferencesStr = data[0];
+        let colorPreferencesStr = data2[0];
         let allWrList = parseWrString(data[1]);
+        document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterend", `<div class="hidden" id="temp_system_storage">${systemPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
         document.getElementById("footer_button_sync").classList.remove("hidden");
@@ -1800,6 +1839,25 @@ function splitColorPreferences(str) {
     const allWrListRaw = str.substring(index);
 
     return [colorPreferencesStr, allWrListRaw];
+}
+
+function splitSystemPreferences(str) {
+    console.log("Entered - splitSystemPreferences(str)");
+
+    let count = 0;
+    let temp = str;
+    let index = 0;
+
+    while (count < 4) {
+        const tempIndex = temp.indexOf('@');
+        index += tempIndex + 1;
+        temp = temp.substring(tempIndex + 1);
+        count++;
+    }
+    const systemPreferencesStr = str.substring(0, index);
+    const allWrListRaw = str.substring(index);
+
+    return [systemPreferencesStr, allWrListRaw];
 }
 
 function parseWrString(str) {
@@ -2815,12 +2873,14 @@ async function mainEvent() {
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     let permitDateChangeValues = [];
+
+    let systemPreferences = new SystemPreferences();
     
-    const rowsOnPage = 8;
+    const rowsOnPage = systemPreferences.rowsOnPage;
     
-    const permitCommentCount = 6;
-    const tempCommentsCount = 7;
-    const tempAllCommentCount = 14;
+    const permitCommentCount = systemPreferences.permitCommentCount;
+    const tempCommentsCount = systemPreferences.tempCommentsCount;
+    const tempAllCommentCount = systemPreferences.tempAllCommentCount;
 
     let userColors = new ColorPreferences(); 
 
@@ -3112,6 +3172,12 @@ async function mainEvent() {
         addTabCommentTypeContainer.insertAdjacentHTML("beforeend", `<label class="addTabCommentTextfieldLabel" 
             id="add_tab_comment_type_dd_label">Comment Type:</label>`);
         addTabCommentTypeContainer.insertAdjacentElement("beforeend", ddRow);
+
+        /* Settings System Preference Values */
+        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
+        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
+        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
+        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
     };
 
         /* Deslect Header Tab Functions */
@@ -6875,6 +6941,11 @@ async function mainEvent() {
     
             clearAddTabCheckboxes();
             filterCheckboxAddWr.checked = true;
+
+            if (document.getElementById("add_tab_display_header_left").innerHTML == "Update") {
+                document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
+            }
+
             clearAddTabDisplays();
             addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
             addTabDisplayWorkRequestNumberLabel.innerHTML = "New Work Request Number";
@@ -6893,6 +6964,9 @@ async function mainEvent() {
     
             clearAddTabCheckboxes();
             filterCheckboxAddPermit.checked = true;
+            document.getElementById("add_tab_display_header_left").innerHTML = "Update";
+            document.getElementById("add_tab_display_header_left").style.marginRight = '20px';
+
             
             clearAddTabDisplays();
             addTabDisplayHeaderLabel.innerHTML = "\"Permit\"";
@@ -6913,6 +6987,10 @@ async function mainEvent() {
 
         clearAddTabCheckboxes();
         filterCheckboxAddComment.checked = true;
+
+        if (document.getElementById("add_tab_display_header_left").innerHTML == "Update") {
+            document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
+        }
 
         clearAddTabDisplays();
         addTabDisplayHeaderLabel.innerHTML = "\"Comment\"";
@@ -7216,6 +7294,19 @@ async function mainEvent() {
     const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
     const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
     const colorLocalSaveButton = document.querySelector("#color_local_save_button");
+    const settingsDisplayLowerDisplayContainerPreferences = document.querySelector("#settings_display_lower_display_container_preferences");
+    const settingsPreferencesTextfieldRowsPerPage = document.querySelector("#settings_preferences_textfield_rows_per_page");
+    const settingsPreferencesTextfieldCommentsWr = document.querySelector("#settings_preferences_textfield_comments_wr");
+    const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
+    const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
+    const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
+    const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
+    const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
+    const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
+    const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
+    const clear7010PopUpContainer = document.querySelector("#clear_7010_pop_up_container");
+
+
     
     function hideSettingsColorsDisplay() {
         console.log("Entered - hideSettingsColorsDisplay()");
@@ -7516,8 +7607,178 @@ async function mainEvent() {
             return "Set";
         }
     }
+    /* Return true if the data in Settings - Preferences doesn't match what is saved */
+    function systemPreferencesChanged() {
+        console.log("Entered - systemPreferencesChanged()");
 
-        /* Save Button */
+        if (settingsPreferencesTextfieldRowsPerPage.value == systemPreferences.rowsOnPage && 
+            settingsPreferencesTextfieldCommentsWr.value == systemPreferences.tempCommentsCount &&
+            settingsPreferencesTextfieldCommentsPermit.value == systemPreferences.permitCommentCount &&
+            settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount) {
+                return false;
+        } else {
+            return true;
+        }
+    }
+    function remove7010Jobs() {
+        console.log("Entered - remove7010Jobs()");
+
+        let temp = [];
+
+        for (var i = 0; i < allWrList.length; i++) {
+            if (allWrList[i].generalStatus != "7010'd") {
+                temp.push(allWrList[i]);
+            }
+        }
+        allWrList = temp;
+        filteredList = temp;
+
+        injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+        injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+            
+        // Below hides whichever prev/next container shouldn't be visible
+        if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+        } else if (permitsTab.classList.contains("hidden")) {
+            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
+        }
+    }
+
+        /* Popup Buttons */
+    clear7010PopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clear7010PopUpButtonYes");
+
+        remove7010Jobs();
+        clear7010PopUpContainer.classList.add("hidden");
+
+    })
+    clear7010PopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clear7010PopUpButtonNo");
+
+        clear7010PopUpContainer.classList.add("hidden");
+    })
+    clear7010PopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clear7010PopUpXButton");
+
+        clear7010PopUpContainer.classList.add("hidden");        
+    })
+
+    settingsPreferencesClear7010Button.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesClear7010Button");
+
+        clear7010PopUpContainer.classList.remove("hidden");
+    })
+
+        /* System Preferences */
+    settingsPreferencesTextfieldRowsPerPage.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldRowsPerPage");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldRowsPerPage.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldRowsPerPage");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesTextfieldCommentsWr.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldCommentsWr");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldCommentsWr.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldCommentsWr");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesTextfieldCommentsPermit.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldCommentsPermit");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldCommentsPermit.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldCommentsPermit");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesTextfieldCommentsComment.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldCommentsComment");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldCommentsComment.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldCommentsComment");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    
+
+        /* Save Buttons */
+    settingsPreferencesSaveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesSaveButton");
+
+        let str = "";
+
+        str += settingsPreferencesTextfieldRowsPerPage + "@" + settingsPreferencesTextfieldCommentsWr + "@" + 
+               settingsPreferencesTextfieldCommentsPermit + "@" + settingsPreferencesTextfieldCommentsComment + "@";
+
+        systemPreferences.load(str);
+
+        settingsPreferencesSaveButton.classList.add("hidden");
+        document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+
+    })
     colorLocalSaveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked colorLocalSaveButton");
 
@@ -7585,6 +7846,10 @@ async function mainEvent() {
     settingsDisplayTabColors.addEventListener("click", (event) => {
         console.log("Clicked - settingsDisplayTabColors");
 
+        if (settingsDisplayTabPreferences.classList.contains("hidden")) {
+            settingsDisplayTabPreferencesActive.click();
+        }
+
         // Display
         revealSettingsColorsDisplay();
 
@@ -7605,6 +7870,36 @@ async function mainEvent() {
         // Tabs
         settingsDisplayTabColors.classList.remove("hidden");
         settingsDisplayTabColorsActive.classList.add("hidden");
+
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings</b>`;
+    })
+    settingsDisplayTabPreferences.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPreferences");
+
+        if (settingsDisplayTabColors.classList.contains("hidden")) { // colors tab is active
+            settingsDisplayTabColorsActive.click();
+        }
+
+        // Display
+        settingsDisplayLowerDisplayContainerPreferences.classList.remove("hidden");
+
+        // Tabs
+        settingsDisplayTabPreferences.classList.add("hidden");
+        settingsDisplayTabPreferencesActive.classList.remove("hidden");
+
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings - Preferences</b>`;
+    })
+    settingsDisplayTabPreferencesActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPreferencesActive");
+
+        // Display
+        settingsDisplayLowerDisplayContainerPreferences.classList.add("hidden");
+
+        // Tabs
+        settingsDisplayTabPreferences.classList.remove("hidden");
+        settingsDisplayTabPreferencesActive.classList.add("hidden");
 
         // Updating Header
         settingsDisplayContainerLabel.innerHTML = `<b>Settings</b>`;
@@ -7775,6 +8070,9 @@ async function mainEvent() {
 
     })
 
+
+    // Add clear 7010 button or option
+
     /* Settings "Open" and X buttons */
     settingsButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsButton");
@@ -7810,6 +8108,9 @@ async function mainEvent() {
         const tempColorPreferences = document.getElementById("temp_color_storage").innerHTML;
         userColors.load(tempColorPreferences);
 
+        const tempSystemPreferences = document.getElementById("temp_system_storage").innerHTML;
+        systemPreferences.load(tempSystemPreferences);
+
         for (let i = 0; i < tempList.length; i++) {
             allWrList[allWrList.length] = tempList[i];
         }
@@ -7838,7 +8139,7 @@ async function mainEvent() {
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
 
-        saveFile(allWrList, userColors);
+        saveFile(allWrList, userColors, systemPreferences);
     })
 
             /* Tab Event Listeners */

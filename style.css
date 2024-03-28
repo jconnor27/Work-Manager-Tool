@@ -2359,6 +2359,118 @@ h5 {
     justify-content: center;
 }
 
+.settingsDisplayLowerDisplayContainerPreferences {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.settingsPreferencesSaveContainer {
+    display: flex;
+    width: 1100px;
+    justify-content: flex-end;
+}
+
+.settingsDisplayRowOnePreferences {
+    display: flex;
+    flex-direction: row;
+    margin-left: 250px;
+    margin-top: 95px;
+}
+
+.settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences {
+    display: flex;
+    flex-direction: row;
+    margin-left: 250px;
+    margin-top: 40px;
+}
+
+.settingsPreferencesSaveButton {
+    display: flex;
+    font-size: large;
+    margin-right: 30px;
+    margin-left: 10px;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.settingsPreferencesText {
+    font-size: large;
+}
+
+.settingsPreferencesNumfield {
+    display: flex;
+    font-size: large;
+    width: 40px;
+    padding-left: 10px;
+    border: 2px solid black;
+    margin-left: 10px;
+}
+
+.settingsPreferencesClear7010Button {
+    display: flex;
+    font-size: large;
+    width: 100px;
+    margin-left: 500px;
+    margin-top: 100px;
+}
+
+.clear7010PopUp {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 200px;
+    background-color: rgb(248, 98, 98);
+    position: absolute;
+    z-index: 3;
+    margin-left: 535px;
+    margin-top: 200px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.clear7010PopUpRowOne {
+    display: flex;
+    font-size: large;
+    margin-top: 20px;
+}
+
+.clear7010PopUpRowTwo {
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px;
+    justify-content: center;
+}
+
+.clear7010PopUpButton {
+    font-size: large;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.clear7010PopUpContainer {
+    display: flex;
+    z-index: 3;
+    height: 815px;
+    width: 1426px;
+    border: 2px solid black;
+    position: absolute;
+    left: 0;
+    top: 0;
+    align-items: center;
+}
+
+.clear7010PopUpXButton {
+    display: flex;
+    font-size: large;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    margin-top: -10px;
+    margin-left: -5px;
+}
+
 .hidden {
     display: none;
     
