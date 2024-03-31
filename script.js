@@ -391,6 +391,126 @@ class GeneralStatusDDMenu {
     }
 }
 
+class ToDoTypeDDMenu {
+    constructor(rowNumber) {
+        this.curOption = "Not Set";
+        this.rowNumber = rowNumber;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Entered - ToDoTypeDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Entered - ToDoTypeDDMenu - setWidth(" + width + ")");
+    }
+
+    makeRowElement() {
+        console.log("Entered - ToDoTypeDDMenu - makeRowElement()");
+
+        let rowElement = document.createElement("toDoTypeDDMenu");
+        rowElement.id = "to_do_type_dd_row_" + this.rowNumber;
+
+        rowElement.classList.add("toDoTypeRowElement");
+
+        let str = document.createElement("toDoTypeDDMenuContentBox");
+
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Contact Customer"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Service Calc + Coding"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - NJUNS"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - Permit"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - Easment"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Site Visit"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Design"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Revisions"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"General"}</div>`);
+
+        str.style.display = 'none';
+        str.style.position = 'absolute';
+        str.style.marginTop = '200px';
+        str.style.backgroundColor = "white";
+        str.style.height = '240px';
+        str.style.width = '350px';
+        str.style.flexWrap = 'wrap';
+        str.style.zIndex = '1';
+        str.id = "to_do_type_dd_" + this.rowNumber + "_content";
+
+        rowElement.innerHTML = `<div class="toDoTypeDDMenuBox" id="to_do_type_dd_${this.rowNumber}_current">${this.curOption}</div>` +
+        `<button type"button" class="toDoTypeDDMenuButton" id="to_do_type_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
+
+        return rowElement;
+    }
+}
+
+class ToDoTabDDMenu {
+    constructor(rowNumber) {
+        this.curOption = "Not Set";
+        this.rowNumber = rowNumber;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Entered - ToDoTabDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Entered - ToDoTabDDMenu - setWidth(" + width + ")");
+    }
+
+    makeRowElement() {
+        console.log("Entered - ToDoTabDDMenu - makeRowElement()");
+
+        let rowElement = document.createElement("toDoTabDDMenu");
+        rowElement.id = "to_do_tab_dd_row_" + this.rowNumber;
+
+        rowElement.classList.add("toDoTabRowElement");
+
+        let str = document.createElement("toDoTabDDMenuContentBox");
+
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"General"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Mentor"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Coordinator"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"On Return To Office"}</div>`);
+
+        str.style.display = 'none';
+        str.style.position = 'absolute';
+        str.style.marginTop = '45px';
+        str.style.backgroundColor = "white";
+        /*str.style.height = '270px';
+        str.style.width = '350px';
+        str.style.flexWrap = 'wrap';*/
+        str.style.zIndex = '1';
+        str.id = "to_do_tab_dd_" + this.rowNumber + "_content";
+
+        rowElement.innerHTML = `<div class="toDoTabDDMenuBox" id="to_do_tab_dd_${this.rowNumber}_current">${this.curOption}</div>` +
+        `<button type"button" class="toDoTabDDMenuButton" id="to_do_tab_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.style.height = this.height;
+        }
+
+        return rowElement;
+    }
+}
+
 class Permit {
     constructor(workRequestNumber, permitStatus, dateUpdated, dateApplied, priorityNumber, crd, rcd, startDate, endDate, creationDate) {
         this.workRequestNumber = workRequestNumber;
@@ -2602,6 +2722,7 @@ async function mainEvent() {
     const addTabDisplayAddWr = document.querySelector("#add_tab_display_add_wr");
     const addTabDisplayAddPermit = document.querySelector("#add_tab_display_add_permit");
     const addTabDisplayAddComment = document.querySelector("#add_tab_display_add_comment");
+    const addTabDisplayAddToDo = document.querySelector("#add_tab_display_to_do");
 
     /* Load and Save Buttons */
     const footerButtonSave = document.querySelector("#footer_button_save");
@@ -2859,8 +2980,13 @@ async function mainEvent() {
     const addTabPermitStatusContainer = document.querySelector("#add_tab_permit_status_container");
     const addTabEasementStatusContainer = document.querySelector("#add_tab_easement_status_container");
     const addTabCommentTypeContainer = document.querySelector("#add_tab_comment_type_dd_container")
+    
         /* Update Permit */
     const addTabAddPermitStatusContainer = document.querySelector("#add_tab_add_permit_status_container");
+    
+        /* Add/Update To-Do */
+    const addTabDisplayToDoDDMenuTabContainer = document.querySelector("#add_tab_display_to_do_dd_menu_tab_container");
+    const addTabDisplayToDoDDMenuTypeContainer = document.querySelector("#add_tab_display_to_do_dd_menu_type_container");
 
     
 
@@ -2892,10 +3018,20 @@ async function mainEvent() {
     const inTestMode = false;
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
+    function testFunction() {
+        console.log("** TEST FUNCTION **");
+
+        addTab.click();
+        filterCheckboxAddToDo.click();
+    }
+
 
     /* Adds all dropdowns */
     window.onload = function() {
         console.log("Entered - Window.onload function");
+
+        // Running test function
+        testFunction();
 
         /* All Wr Tab DDs */
 
@@ -3178,6 +3314,26 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
         settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
+
+            /* To Do Tab DD Menus */
+        /* Tab */
+        dd = new ToDoTabDDMenu("0");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+
+        addTabDisplayToDoDDMenuTabContainer.innerHTML = "";
+        addTabDisplayToDoDDMenuTabContainer.insertAdjacentHTML("beforeend", `<label for="add_tab_display_to_do_dd_menu_tab_container" class="addTabDisplayToDoTabDDLabel">Tab: </label>`);
+        addTabDisplayToDoDDMenuTabContainer.insertAdjacentElement("beforeend", ddRow);
+        /* Type */
+        dd = new ToDoTypeDDMenu("0");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+        ddRow = dd.makeRowElement();
+
+        addTabDisplayToDoDDMenuTypeContainer.innerHTML = "";
+        addTabDisplayToDoDDMenuTypeContainer.insertAdjacentHTML("beforeend", `<label for="add_tab_display_to_do_dd_menu_type_container" class="addTabDisplayToDoTypeDDLabel">Type: </label>`);
+        addTabDisplayToDoDDMenuTypeContainer.insertAdjacentElement("beforeend", ddRow);
     };
 
         /* Deslect Header Tab Functions */
@@ -3700,6 +3856,7 @@ async function mainEvent() {
         addTabDisplayAddWr.classList.add("hidden");
         addTabDisplayAddPermit.classList.add("hidden");
         addTabDisplayAddComment.classList.add("hidden");
+        addTabDisplayAddToDo.classList.add("hidden");
     }
 
     
@@ -5895,6 +6052,61 @@ async function mainEvent() {
         }
     })
 
+        /* Add/Update To-Do */
+        addTabDisplayToDoDDMenuTabContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoDDMenuTabContainer");
+
+        const tempContent = document.getElementById("to_do_tab_dd_0_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            tempContent.style.marginTop = '230px';
+            tempContent.style.width = '90px';
+            tempContent.style.paddingLeft = '20px';
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("to_do_tab_dd_0_current");
+
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+            }
+        }
+    })
+    addTabDisplayToDoDDMenuTypeContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoDDMenuTypeContainer");
+
+        const tempContent = document.getElementById("to_do_type_dd_0_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            tempContent.style.marginTop = '240px';
+            tempContent.style.width = '230px';
+            tempContent.style.height = '200px';
+            tempContent.style.paddingLeft = '20px';
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("to_do_type_dd_0_current");
+
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+            }
+        }
+    })
+
         /* Customer Contacted Check Box Event Listeners */
     customerContactedCheckboxNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked customer_contacted_checkbox_no");
@@ -6958,6 +7170,29 @@ async function mainEvent() {
             if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
                 addTabGetButton.disabled = false;
             }
+    })
+    filterCheckboxAddToDo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked filterCheckboxAddToDo");
+
+        clearAddTabCheckboxes();
+        filterCheckboxAddToDo.checked = true;
+
+        if (document.getElementById("add_tab_display_header_left").innerHTML == "Update") {
+            document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
+        }
+
+        clearAddTabDisplays();
+        addTabDisplayHeaderLabel.innerHTML = "\"To-Do\"";
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "New To-Do Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
+
+        /* Revealing add button */
+        addTabAddButton.classList.remove("hidden");
+        addTabDisplayAddToDo.classList.remove("hidden");
+
+        if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
+            addTabGetButton.disabled = false;
+        }
     })
     filterCheckboxAddPermit.addEventListener("change", (event) => {
             console.log("Fired - Clicked filterContainerAddPermit");

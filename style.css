@@ -861,6 +861,18 @@ h5 {
     align-items: center;
 }
 
+.addTabDisplayToDoTabDDContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.addTabDisplayToDoTypeDDContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .addTabTextfield {
     border: 2px solid black;
     height: 40px;
@@ -1316,6 +1328,35 @@ h5 {
     font-size: small;
 }
 
+.toDoTabDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 80px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+    margin-left: 22px;
+}
+
+.toDoTypeDDMenuBox {
+    display: flex;
+    border: 2px solid black;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    padding-left: .25rem;
+    padding-right: .25rem;
+    width: 80px;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    font-size: small;
+}
+
 .easementStatusDDMenuBox {
     display: flex;
     border: 2px solid black;
@@ -1366,6 +1407,18 @@ h5 {
     font-size: large;
 }
 
+.toDoTabDDMenuButton {
+    width: 25px;
+    height: 46px;
+    font-size: large;
+}
+
+.toDoTypeDDMenuButton {
+    width: 25px;
+    height: 46px;
+    font-size: large;
+}
+
 .easementStatusDDMenuButton {
     width: 25px;
     height: 46px;
@@ -1403,6 +1456,26 @@ h5 {
 }
 
 .generalStatusRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.toDoTabRowElement {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 96px;
+}
+
+.toDoTypeRowElement {
     display: flex;
     flex-direction: row;
     position: relative;
@@ -2401,7 +2474,7 @@ h5 {
 .settingsPreferencesNumfield {
     display: flex;
     font-size: large;
-    width: 40px;
+    width: 50px;
     padding-left: 10px;
     border: 2px solid black;
     margin-left: 10px;
@@ -2469,6 +2542,82 @@ h5 {
     justify-content: center;
     margin-top: -10px;
     margin-left: -5px;
+}
+
+.addTabDisplayToDo {
+    display: flex;
+    flex-direction: column;
+    width: 1115px;
+    height: 704px;
+}
+
+.addTabDisplayToDoRowOne {
+    display: flex;
+    flex-direction: row;
+    width: 1115px;
+    margin-top: 50px;
+    align-items: center;
+
+}
+
+.addTabDisplayToDoRowTwo {
+    display: flex;
+    flex-direction: row;
+    width: 1115px;
+    margin-top: 50px;
+    align-items: center;
+}
+
+.addTabDisplayToDoTabDDLabelContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 100px;
+}
+
+.addTabDisplayToDoTypeDDContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 100px;
+}
+
+.addTabDisplayToDoTabDDLabel, .addTabDisplayToDoTypeDDLabel, .addTabDisplayDueDateLabel {
+    font-size: large;
+}
+
+.addTabDisplayToDoDueDateContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 200px;
+    align-items: baseline;
+    
+}
+
+.addTabDisplayDueDateInputContainer {
+    display: flex;
+    flex-direction: row;
+    width: 400px;
+    justify-content: space-between;
+    margin-left: 30px;
+}
+
+.dayOfWeekBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    
+}
+
+.addTabDisplayDayOfWeekContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayDayOfWeekDate {
+    border: 2px solid black;
+    padding: .5rem;
 }
 
 .hidden {
