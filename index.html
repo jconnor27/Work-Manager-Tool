@@ -1019,17 +1019,8 @@
                         <div class="addTabDisplayToDoDueDateContainer">
                             <label class="addTabDisplayDueDateLabel">Due Date: </label>
                             <div class="addTabDisplayDueDateInputContainer">
-                                <div class="addTabDisplayDayOfWeekContainer" id="addTabDisplayDayOfWeekContainer">
-                                    <div class="dayOfWeekBox" id="day_of_week_box_monday">M</div>
-                                    <div class="dayOfWeekBox hidden activeTab" id="day_of_week_box_monday_active">M</div>
-                                    <div class="dayOfWeekBox" id="day_of_week_box_tuesday">Tu</div>
-                                    <div class="dayOfWeekBox hidden activeTab" id="day_of_week_box_tuesday_active">Tu</div>
-                                    <div class="dayOfWeekBox" id="day_of_week_box_wednesday">W</div>
-                                    <div class="dayOfWeekBox hidden activeTab" id="day_of_week_box_wednesday_active">W</div>
-                                    <div class="dayOfWeekBox" id="day_of_week_box_thursday">Th</div>
-                                    <div class="dayOfWeekBox hidden activeTab" id="day_of_week_box_thursday_active">Th</div>
-                                    <div class="dayOfWeekBox" id="day_of_week_box_friday">F</div>
-                                    <div class="dayOfWeekBox hidden activeTab" id="day_of_week_box_friday_active">F</div>
+                                <div class="addTabDisplayDayOfWeekContainer" id="add_tab_display_day_of_week_container">
+                                    <!-- Inserting Object in JS -->
                                 </div>
                                 Or
                                 <input type="date" class="addTabDisplayDayOfWeekDate" id="add_tab_display_day_of_week_date">
@@ -1042,6 +1033,22 @@
                         <div class="addTabDisplayToDoTypeDDContainer" id="add_tab_display_to_do_dd_menu_type_container">
                             <label for="add_tab_display_to_do_dd_menu_type_container" class="addTabDisplayToDoTypeDDLabel">Type: </label>
                             <!-- Inserting DD in JS -->
+                        </div>
+                        <div class="addTabDisplayToDoCreationDateContainer">
+                            <label for="add_tab_display_to_do_creation_date" class="addTabDisplayToDoCreationDateLabel">Creation Date: </label>
+                            <input type="date" class="addTabDisplayToDoCreationDateBox" id="add_tab_display_to_do_creation_date" value="0001-01-01">
+                        </div>
+                        <div class="addTabDisplayToDoCompleteContainer">
+                            <label for="add_tab_display_to_do_completed" class="addTabDisplayToDoCompletedBoxLabel">Completed: </label>
+                            <input type="checkbox" class="addTabDisplayToDoCompletedBox" id="add_tab_display_to_do_completed">
+                        </div>
+                    </div>
+
+                    <!-- Row Three -->
+                    <div class="addTabDisplayToDoRowThree">
+                        <div class="addTabDisplayToDoRowThreeBox">
+                            <label for="add_tab_display_to_do_row_three_textfield" class="addTabDisplayToDoRowThreeTextfieldLabel">To-Do: Notes</label>
+                            <input type="text" class="addTabDisplayToDoRowThreeTextfield" id="add_tab_display_to_do_row_three_textfield">
                         </div>
                     </div>
                 </div>

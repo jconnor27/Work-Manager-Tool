@@ -2587,7 +2587,7 @@ h5 {
 .addTabDisplayToDoDueDateContainer {
     display: flex;
     flex-direction: row;
-    margin-left: 200px;
+    margin-left: 150px;
     align-items: baseline;
     
 }
@@ -2595,7 +2595,7 @@ h5 {
 .addTabDisplayDueDateInputContainer {
     display: flex;
     flex-direction: row;
-    width: 400px;
+    width: 450px;
     justify-content: space-between;
     margin-left: 30px;
 }
@@ -2618,6 +2618,71 @@ h5 {
 .addTabDisplayDayOfWeekDate {
     border: 2px solid black;
     padding: .5rem;
+}
+
+.dayOfWeekPageObject {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayToDoCreationDateContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayToDoCreationDateLabel {
+    font-size: large;
+    margin-right: 30px;
+    margin-left: 140px;
+}
+
+.addTabDisplayToDoCreationDateBox {
+    display: flex;
+    border: 2px solid black;
+}
+
+.addTabDisplayToDoCompleteContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayToDoCompletedBoxLabel {
+    font-size: large;
+    margin-right: 20px;
+    margin-left: 170px;
+}
+
+.addTabDisplayToDoRowThree {
+    display: flex;
+    flex-direction: row;
+    width: 1115px;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.addTabDisplayToDoRowThreeBox {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 200px;
+    border: 2px solid black;
+    padding: 20px;
+}
+
+.addTabDisplayToDoRowThreeTextfieldLabel {
+    display: flex;
+    font-size: large;
+}
+
+.addTabDisplayToDoRowThreeTextfield {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    height: 150px;
+    margin-top: 20px;
+    padding: 15px;
+    
 }
 
 .hidden {
