@@ -1613,6 +1613,17 @@ h5 {
     margin-right: -190px;
 }
 
+.errorMessageInvalidToDoId {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    color: red;
+    margin-left: -20px;
+    margin-right: -150px;
+}
+
 .noWrFound {
     display: flex;
     font-size: large;
@@ -2665,7 +2676,7 @@ h5 {
     display: flex;
     flex-direction: column;
     width: 1000px;
-    height: 200px;
+    height: 250px;
     border: 2px solid black;
     padding: 20px;
 }
@@ -2678,11 +2689,49 @@ h5 {
 .addTabDisplayToDoRowThreeTextfield {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     border: 2px solid black;
-    height: 150px;
+    height: 50px;
+    width: 1000px;
     margin-top: 20px;
     padding: 15px;
-    
+}
+
+.addTabDisplayToDoRowThreeBoxTop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.addTabDisplayToDoRowThreeAddButton {
+    font-size: large;
+}
+
+.addTabDisplayToDoRowZero {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayToDoRowZeroNumfieldLabel {
+    display: flex;
+    font-size: large;
+    margin-left: 220px;
+}
+
+.addTabDisplayToDoRowZeroNumfield {
+    display: flex;
+    border: 2px solid black;
+    margin-left: 43px;
+    width: 140px;
+}
+
+.addTabDisplayToDoRowThreeNotesToAdd {
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    border: 2px solid black;
+    padding: 10px;
+    margin-top: 10px;
 }
 
 .hidden {

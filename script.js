@@ -708,6 +708,23 @@ class Error {
             temp.remove();
         }, 3000)
     }
+
+    displayInvalidToDoId() {
+        console.log("Entered - displayInvalidToDoId()");
+
+        
+    }
+
+    displaySelectToDoType() {
+        console.log("Entered - displaySelectToDoType()");
+
+        const temp = document.getElementById("add_tab_display_to_do_dd_menu_type_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidToDoId" id="error_invalid_to_do_id"> Select To-Do Type</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_invalid_to_do_id");
+            temp.remove();
+        }, 3000)
+    } 
 }
 
 class workRequest {
@@ -1423,6 +1440,111 @@ class DayOfWeekPageObject {
             document.getElementById("day_of_week_box_saturday").click();
         } 
     }*/
+}
+
+// Master list of all ToDoDayObjects
+class ToDoMasterList {
+    constructor() {
+        this.list = []; // list of all ToDoDay objects
+    }
+
+    add(toDo) {
+        console.log("Entered - ToDoMasterList - add(toDo)");
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].date == toDo.dueDate) { // ToDoDayObject exists for the toDo's date
+                this.list[i].add(toDo);
+                return; // Should prevent me from getting below and adding twice
+            }
+        }
+        // If I get here, I did not add the toDo yet
+        const temp = new ToDoDayObject(toDo.dueDate);
+        temp.add(toDo);
+        this.list.push(temp);
+    }
+
+    // Used to get unique IDs
+    getCount() {
+        console.log("Entered - ToDoMasterList - getCount");
+
+        let count = 1;
+
+        console.log(this.list);
+
+        for (var i = 0; i < this.list.length; i++) {
+            for (var j = 0; j < this.list[i].list.length; j++) {
+                count += 1;
+            }
+        }
+
+        return count;
+    }
+
+    toString() {
+        console.log("Entered - ToDoMasterList - toString()");
+
+        let str = "";
+
+        for (var i = 0; i < this.list.length; i++) {
+            str.push(this.list[i]);
+        }
+
+        return str;
+    }
+
+}
+
+// List of all To-Do's for a specific day
+class ToDoDayObject {
+    constructor(date) {
+        this.date = date;
+        this.list = []; // List of To-Do's for the day
+    }
+
+    add(toDo) {
+        console.log("Entered - ToDoDayObject - add(toDo)");
+
+        this.list.push(toDo);
+    }
+
+    toString() {
+        console.log("Entered - ToDoDayObject - toString()");
+
+        let str = "";
+        str += this.date + "*";
+
+        for (var i = 0; i < this.list.length; i++) {
+            str += this.list[i];
+        }
+
+        return str;
+    }
+}
+
+class ToDoObject {
+    constructor(toDoId, tab, dueDate, type, creationDate, completed, notes) {
+        this.toDoId = toDoId;
+        this.tab = tab;
+        this.dueDate = dueDate;
+        this.type = type;
+        this.creationDate = creationDate;
+        this.completed = completed;
+        this.notes = notes; // will be an array strs
+    }
+
+    toString() {
+        console.log("Entered - ToDoObject - toString()");
+
+        let str = "";
+
+        str += this.toDoId + "*" + this.tab + "*" + this.dueDate + "*" + this.type + "*" + this.creationDate + "*" + this.completed + "*";
+
+        for (var i = 0; i < this.notes.length; i++) {
+            str += this.notes[i] + "*@%";
+        }
+
+        return str;
+    }
 }
 
 /* Takes an array of commentItem objects and injects them to the specified tab
@@ -3111,6 +3233,10 @@ async function mainEvent() {
     const addTabDisplayDayOfWeekContainer = document.querySelector("#add_tab_display_day_of_week_container");
     const addTabDisplayDayOfWeekDate = document.querySelector("#add_tab_display_day_of_week_date");
     const addTabDisplayToDoCreationDate = document.querySelector("#add_tab_display_to_do_creation_date");
+    const addTabDisplayToDoRowThreeAddButton = document.querySelector("#add_tab_display_to_do_row_three_add_button");
+    const addTabDisplayToDoRowThreeTextfield = document.querySelector("#add_tab_display_to_do_row_three_textfield");
+    const addTabDisplayToDoRowThreeNotesToAdd = document.querySelector("#add_tab_display_to_do_row_three_notes_to_add");
+    const addTabDisplayToDoRowZeroNumfield = document.querySelector("#add_tab_display_to_do_row_zero_numfield");
     
 
         /* Variable */
@@ -3124,6 +3250,7 @@ async function mainEvent() {
     let permitDateChangeValues = [];
 
     let systemPreferences = new SystemPreferences();
+    let toDoMasterList = new ToDoMasterList();
     
     const rowsOnPage = systemPreferences.rowsOnPage;
     
@@ -3146,6 +3273,7 @@ async function mainEvent() {
 
         addTab.click();
         filterCheckboxAddToDo.click();
+        addTabAddButton.disabled = false;
     }
 
 
@@ -3463,20 +3591,7 @@ async function mainEvent() {
         let pageObjectRow = pageObject.makeRowElement();
         addTabDisplayDayOfWeekContainer.insertAdjacentHTML = "";
         addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
-        setDay(pageObject.cur);
-
-        today = new Date();
-        year = today.getFullYear();
-        month = today.getMonth() + 1;
-        if (month < 10) {
-            month = "0" + month;
-        }
-        day = today.getDate();
-            day = "0" + day;
-        if (day < 10) {
-        }
-        addTabDisplayDayOfWeekDate.value = (year + "-" + month + "-" + day);
-        addTabDisplayToDoCreationDate.value = (year + "-" + month + "-" + day);
+        resetDisplayToDoAddUpdate(); // Initializing display values for today
     };
 
         /* Deslect Header Tab Functions */
@@ -3912,6 +4027,37 @@ async function mainEvent() {
             document.getElementById("comment_to_add_item_" + i).remove(); 
         }*/
         tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // Emptying tempComments
+    }
+            /* To-Do */
+    function displayToDoAddUpdate(toDo) {
+        console.log("Entered - displayToDoAddUpdate(toDo)");
+
+        // Will fill in
+    }
+    function resetDisplayToDoAddUpdate() {
+        console.log("Entered - resetDisplayToDoAddUpdate()");
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
+        document.getElementById("to_do_tab_dd_0_current").innerHTML = "General";
+        document.getElementById("to_do_type_dd_0_current").innerHTML = "Not Set";
+        addTabDisplayDayOfWeekDate.value = (year + "-" + month + "-" + day);
+        setDay(d.getDay());
+        addTabDisplayToDoCreationDate.value = (year + "-" + month + "-" + day);
+        document.getElementById("add_tab_display_to_do_completed").checked = false;
+        addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
+        addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "";
+        
     }
             /* Permit */
     function displayPermitAddUpdate(wr) {
@@ -5927,10 +6073,29 @@ async function mainEvent() {
                 h.displayWrAdded(wr.workRequestNumber);
                 resetDisplayWrAddUpdate();
             }
-        } else if (filterCheckboxAddPermit.checked == true) {
-            /* need to add safety checks later */
+        } else if (filterCheckboxAddToDo.checked == true) {
 
-            /* Can't get here, button is hidden */
+            let notes = [];
+
+            var i = 0;
+
+            while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
+                notes.push(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML);
+                i++;
+            }
+            if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount()) {
+                e.displayInvalidToDoId(); // can't get here - buttons hides
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "Not Set") {
+                e.displaySelectToDoType();
+            } else {
+                const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
+                addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
+                document.getElementById("add_tab_display_to_do_completed").checked, notes);
+                
+                toDoMasterList.add(toDo);
+                resetDisplayToDoAddUpdate();
+            }
+            
         }
     })
     addTabClearButton.addEventListener("click", (event) => {
@@ -6483,7 +6648,7 @@ async function mainEvent() {
         }
     })
 
-        /* Add Tab To-Do */
+            /* Add Tab To-Do */
     function clearDays() {
         console.log("Entered - clearDays()");
         document.getElementById("day_of_week_box_sunday_active").classList.add("hidden");
@@ -6679,6 +6844,46 @@ async function mainEvent() {
         }
     }
 
+        /* Notes to add */
+    addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
+
+        if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
+            let temp = 0;
+
+            while (document.getElementById("add_tab_display_to_do_note_item_" + temp) != undefined) {
+                temp++;
+            }
+
+            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${temp}">${addTabDisplayToDoRowThreeTextfield.value}</li>`);
+            addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
+        }
+    })
+    addTabDisplayToDoRowThreeTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoRowThreeTextfield");
+
+        if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
+            addTabDisplayToDoRowThreeTextfield.select();
+        }
+    })
+    addTabDisplayToDoRowZeroNumfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoRowZeroNumfield");
+
+        if (addTabDisplayToDoRowZeroNumfield.value != undefined && addTabDisplayToDoRowZeroNumfield.value.length > 0) {
+            addTabDisplayToDoRowZeroNumfield.select();
+        }
+    })
+    addTabDisplayToDoRowZeroNumfield.addEventListener("change", (event) => {
+        console.log("Fired - Changed addTabDisplayToDoRowZeroNumfield");
+
+        if (addTabDisplayToDoRowZeroNumfield.value != undefined && addTabDisplayToDoRowZeroNumfield.value.length > 0) {
+            addTabAddButton.disabled = false;
+        } else {
+            addTabAddButton.disabled = true;
+        }
+    })
+
+        /* Day of week page object */
     addTabDisplayDayOfWeekContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayDayOfWeekContainer");
 
@@ -6742,6 +6947,8 @@ async function mainEvent() {
         const curDay = d.getDay();
         setDay(curDay);        
     })
+
+
 
     
         /* Add Tab Permit */
@@ -7580,6 +7787,8 @@ async function mainEvent() {
         clearAddTabCheckboxes();
         filterCheckboxAddToDo.checked = true;
 
+        //addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
+
         if (document.getElementById("add_tab_display_header_left").innerHTML == "Update") {
             document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
         }
@@ -7592,6 +7801,10 @@ async function mainEvent() {
         /* Revealing add button */
         addTabAddButton.classList.remove("hidden");
         addTabDisplayAddToDo.classList.remove("hidden");
+
+        /* Setting To-Do ID field to next unique number in Masterlist */
+        addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
+        addTabAddButton.disabled = false;
 
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
@@ -8847,6 +9060,9 @@ async function mainEvent() {
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
+
+        /* Reseting (Actually used for initializing) add To-Do display */
+        resetDisplayToDoAddUpdate();
 
         permitDateChangeValues = [addTabPermitDateApplied.value, addTabPermitStart.value, addTabPermitExpiration.value];
 

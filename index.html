@@ -1008,6 +1008,12 @@
                 <!-- Add Tab Display Specific - To-Do -->
                 <div class="addTabDisplayToDo " id="add_tab_display_to_do">
                     
+                    <!-- Row Zero -->
+                    <div class="addTabDisplayToDoRowZero">
+                        <label for="add_tab_display_to_do_row_zero_numfield" class="addTabDisplayToDoRowZeroNumfieldLabel">New "To-Do" ID#:</label>
+                        <input type="number" class="addTabDisplayToDoRowZeroNumfield" id="add_tab_display_to_do_row_zero_numfield">
+                    </div>
+
                     <!-- Row One -->
                     <div class="addTabDisplayToDoRowOne">
                         <div class="addTabDisplayToDoTabDDLabelContainer">
@@ -1047,8 +1053,14 @@
                     <!-- Row Three -->
                     <div class="addTabDisplayToDoRowThree">
                         <div class="addTabDisplayToDoRowThreeBox">
-                            <label for="add_tab_display_to_do_row_three_textfield" class="addTabDisplayToDoRowThreeTextfieldLabel">To-Do: Notes</label>
-                            <input type="text" class="addTabDisplayToDoRowThreeTextfield" id="add_tab_display_to_do_row_three_textfield">
+                            <div class="addTabDisplayToDoRowThreeBoxTop">
+                                <label for="add_tab_display_to_do_row_three_textfield" class="addTabDisplayToDoRowThreeTextfieldLabel">To-Do: Notes</label>
+                                <button type="button" class="addTabDisplayToDoRowThreeAddButton" id="add_tab_display_to_do_row_three_add_button">+</button>
+                            </div>
+                            <input type="text" class="addTabDisplayToDoRowThreeTextfield" id="add_tab_display_to_do_row_three_textfield" value="Enter Note Here">
+                            <div class="addTabDisplayToDoRowThreeNotesToAdd" id="add_tab_display_to_do_row_three_notes_to_add">
+                                <!-- Empty container for notes to add -->
+                            </div>
                         </div>
                     </div>
                 </div>
