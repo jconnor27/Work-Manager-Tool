@@ -1010,7 +1010,7 @@
                     
                     <!-- Row Zero -->
                     <div class="addTabDisplayToDoRowZero">
-                        <label for="add_tab_display_to_do_row_zero_numfield" class="addTabDisplayToDoRowZeroNumfieldLabel">New "To-Do" ID#:</label>
+                        <label for="add_tab_display_to_do_row_zero_numfield" class="addTabDisplayToDoRowZeroNumfieldLabel" id="add_tab_display_to_do_row_zero_numfield_label">New "To-Do" ID#:</label>
                         <input type="number" class="addTabDisplayToDoRowZeroNumfield" id="add_tab_display_to_do_row_zero_numfield">
                     </div>
 
@@ -1054,8 +1054,22 @@
                     <div class="addTabDisplayToDoRowThree">
                         <div class="addTabDisplayToDoRowThreeBox">
                             <div class="addTabDisplayToDoRowThreeBoxTop">
-                                <label for="add_tab_display_to_do_row_three_textfield" class="addTabDisplayToDoRowThreeTextfieldLabel">To-Do: Notes</label>
-                                <button type="button" class="addTabDisplayToDoRowThreeAddButton" id="add_tab_display_to_do_row_three_add_button">+</button>
+                                <label for="add_tab_display_to_do_row_three_textfield" class="addTabDisplayToDoRowThreeTextfieldLabel" 
+                                    id="add_tab_display_to_do_row_three_textfield_label">To-Do: Notes</label>
+                                
+                                <!-- Prev Next container -->
+                                <div class="addTabDisplayToDoRowThreePrevNextContainer hidden" id="add_tab_display_to_do_row_three_prev_next_container">
+                                    <button type="button" class="pagePrevButton" id="add_tab_display_to_do_prev_button" disabled>Prev</button>
+                                    <div class="currentPageBox" id="add_tab_display_to_do_current_page_box">1</div>
+                                    <button type="button" class="pageNextButton" id="add_tab_display_to_do_next_button" disabled>Next</button>
+                                </div>
+
+                                <!-- Add and Remove Buttons -->
+                                <div class="addTabDisplayToDoRowThreeBoxTopButtonsContainer" id="add_tab_display_to_do_row_three_box_top_buttons_container">
+                                    <button type="button" class="addTabDisplayToDoRowThreeRemoveButton" id="add_tab_display_to_do_row_three_remove_button">-</button>
+                                    <button type="button" class="addTabDisplayToDoRowThreeAddButton" id="add_tab_display_to_do_row_three_add_button">+</button>
+                                </div>
+                                
                             </div>
                             <input type="text" class="addTabDisplayToDoRowThreeTextfield" id="add_tab_display_to_do_row_three_textfield" value="Enter Note Here">
                             <div class="addTabDisplayToDoRowThreeNotesToAdd" id="add_tab_display_to_do_row_three_notes_to_add">

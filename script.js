@@ -79,6 +79,18 @@ class CommentItem {
     }
 }
 
+class NoteItem {
+    constructor(note) {
+        this.note = note;
+    }
+
+    toString() {
+        console.log("Entered - NoteItem - toString()");
+
+        return this.note;
+    }
+}
+
 class Comments {
     constructor(commentsToAdd) {
         console.log("Entered - Comments - Constructor(" + commentsToAdd + ")");
@@ -535,7 +547,7 @@ class Permit {
         return permitSTR;
     }
 }
-
+/* Haptix Class used to insert added/updated/no change prompts */
 class Haptix {
     constructor() {
 
@@ -599,8 +611,41 @@ class Haptix {
             temp.remove();
         }, 3000);
     }
-}
 
+    displayToDoAdded(toDoId) {
+        console.log("Entered - displayToDoAdded(" + toDoId + ")");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_zero_numfield");
+        temp.insertAdjacentHTML("afterend", `<div class="toDoAddedPrompt" id="to_do_added_prompt">To-Do (Id#: ${toDoId} ) Added</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_added_prompt");
+            temp.remove();
+        }, 3000);
+    }
+
+    displayToDoUpdated(toDoId) {
+        console.log("Entered - displayToDoUpdated(" + toDoId + ")");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_zero_numfield");
+        temp.insertAdjacentHTML("afterend", `<div class="toDoUpdatedPrompt" id="to_do_updated_prompt">To-Do (Id#: ${toDoId} ) Updated</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_updated_prompt");
+            temp.remove();
+        }, 3000);
+    }
+
+    displayNoChangesToDo(toDoId) {
+        console.log("Entered - displayNoChangesToDo(" + toDoId + ")");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_zero_numfield");
+        temp.insertAdjacentHTML("afterend", `<div class="noChangesToDoPrompt" id="no_changes_to_do_prompt">No Changes For To-Do (Id#:${toDoId})</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("no_changes_to_do_prompt");
+            temp.remove();
+        }, 3000);
+    }
+}
+/* Error Class used to insert error prompts */
 class Error {
     constructor() {
 
@@ -725,6 +770,17 @@ class Error {
             temp.remove();
         }, 3000)
     } 
+
+    displayMustAddNoteForGeneralTypeToDo() {
+        console.log("Entered - displayMustAddNoteForGeneralTypeToDo()");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_three_add_button");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageMustAddNoteForGeneralTypeComment" id="error_message">Must Add At Least One Note For \"General\" Type To-Do</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_message");
+            temp.remove();
+        }, 3000)
+    }
 }
 
 class workRequest {
@@ -960,6 +1016,8 @@ class PaginatedComments {
             updateComments(temp, "addPermit");
         } else if (this.tab == "addComment") {
             updateComments(temp, "addComment");
+        } else if (this.tab == "addToDo") {
+            updateComments(temp, "addToDo");
         }
 
         if (this.list.length > this.pageSize) {
@@ -975,6 +1033,11 @@ class PaginatedComments {
             } else if (this.tab == "addComment") {
                 document.getElementById("add_comment_tab_next_prev_container").classList.remove("hidden");
                 document.getElementById("add_comment_tab_next_button").disabled = false;   
+            } else if (this.tab == "addToDo") {
+                document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.remove("hidden");
+                document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '410px';
+                document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '35px';
+                document.getElementById("add_tab_display_to_do_next_button").disabled = false;
             }
                  
         }
@@ -1463,13 +1526,24 @@ class ToDoMasterList {
         this.list.push(temp);
     }
 
+    getToDo(toDoId) {
+        console.log("Entered - ToDoMasterList - getToDo(" + toDoId + ")");
+
+        for (var i = 0; i < this.list.length; i++) {
+            for (var j = 0; j < this.list[i].list.length; j++) {
+                if (this.list[i].list[j].toDoId == toDoId) {
+                    return [1, this.list[i].list[j], i, j];
+                }
+            }
+        }
+        return 0; // returns 0 if toDoId not found
+    }
+
     // Used to get unique IDs
     getCount() {
         console.log("Entered - ToDoMasterList - getCount");
 
         let count = 1;
-
-        console.log(this.list);
 
         for (var i = 0; i < this.list.length; i++) {
             for (var j = 0; j < this.list[i].list.length; j++) {
@@ -1522,7 +1596,7 @@ class ToDoDayObject {
 }
 
 class ToDoObject {
-    constructor(toDoId, tab, dueDate, type, creationDate, completed, notes) {
+    constructor(toDoId, tab, dueDate, type, creationDate, completed, notes, workRequestNumber) {
         this.toDoId = toDoId;
         this.tab = tab;
         this.dueDate = dueDate;
@@ -1530,10 +1604,42 @@ class ToDoObject {
         this.creationDate = creationDate;
         this.completed = completed;
         this.notes = notes; // will be an array strs
+        this.workRequestNumber = workRequestNumber; // may be undefined at times
+    }
+
+    compare(toDo) {
+        console.log("Entered - ToDoObject - compare(" + toDo + ")");
+
+        // Below statement is if both toDo's have WR#s and they are equivelant 
+        if (this.workRequestNumber != undefined && toDo.workRequestNumber != undefined && this.workRequestNumber == toDo.workRequestNumber ||
+            this.workRequestNumber == undefined && toDo.workRequestNumber == undefined) { // Both toDo's do not have a WR#
+            if (this.toDoId == toDo.toDoId && this.tab == toDo.tab && this.dueDate == toDo.dueDate && this.type == toDo.type &&
+                this.creationDate == toDo.creationDate && this.completed == toDo.completed && this.notes.length == toDo.notes.length) {
+                    
+                    /* Checking Notes now */
+                    for (var i = 0; i < this.notes.length; i++) {
+                        if (this.notes[i] != toDo.notes[i]) {
+                            return 0;
+                        }
+                    }
+                    /* Will only get here if every note for "this" is the same as for "toDo" (index sensitive)*/
+                    return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+        
     }
 
     toString() {
         console.log("Entered - ToDoObject - toString()");
+
+        let temp = this.workRequestNumber;
+        if (temp == undefined) {
+            temp = "No Wr#";
+        }
 
         let str = "";
 
@@ -1542,6 +1648,9 @@ class ToDoObject {
         for (var i = 0; i < this.notes.length; i++) {
             str += this.notes[i] + "*@%";
         }
+
+        str += temp + "*";
+
 
         return str;
     }
@@ -1558,6 +1667,8 @@ function updateComments(comments, tab) {
         document.getElementById("add_tab_permit_comments_to_add").innerHTML = "";
     } else if (tab == "addComment") {
         document.getElementById("add_comment_tab_existing_comments").innerHTML = "";
+    } else if (tab == "addToDo") {
+        document.getElementById("add_tab_display_to_do_row_three_notes_to_add").innerHTML = "";
     }
 
     for (var i = 0; i < comments.length; i++) {
@@ -1567,6 +1678,8 @@ function updateComments(comments, tab) {
             injectHTMLAddTabPermitComment(comments[i], i);
         } else if (tab == "addComment") {
             injectHTMLAddCommentTabComment(comments[i], i);
+        } else if (tab == "addToDo") {
+            injectHTMLAddToDoNote(comments[i], i);
         }
     }
 }
@@ -1950,7 +2063,7 @@ function injectHTMLAddTabWrComment(comment, index) {
     /* Formatting date for display */
     elem.innerText = elem.innerText.substring(9, elem.innerText.length);
     const date = elem.innerText.substring(elem.innerText.length - 12, elem.innerText.length );
-    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 13);
+    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 12);
     
     commentsToAdd.classList.remove("hidden");
     commentsToAdd.insertAdjacentElement("beforeend", elem);
@@ -1967,7 +2080,7 @@ function injectHTMLAddTabPermitComment(comment, index) {
     /* Formatting date for display */
     elem.innerText = elem.innerText.substring(8, elem.innerText.length);
     const date = elem.innerText.substring(elem.innerText.length - 12, elem.innerText.length);
-    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 13);
+    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 12);
 
     commentsToAdd.classList.remove("hidden");
     commentsToAdd.insertAdjacentElement("beforeend", elem);
@@ -1988,9 +2101,21 @@ function injectHTMLAddCommentTabComment(comment, index) {
         elem.innerText = elem.innerText.substring(8, elem.innerText.length);
     }
     const date = elem.innerText.substring(elem.innerText.length - 12, elem.innerText.length);
-    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 13);
+    elem.innerText = date + " " + elem.innerText.substring(0, elem.innerText.length - 12);
 
     existingComments.insertAdjacentElement("beforeend", elem);
+}
+function injectHTMLAddToDoNote(note, index) {
+    console.log("Entered - injectHTMLAddToDoNote(" + note + ", " + index + ")");
+
+    const notesToAdd = document.getElementById("add_tab_display_to_do_row_three_notes_to_add");
+    const elem = document.createElement("noteItem");
+    elem.id = "add_tab_display_to_do_note_item_" + index;
+
+    elem.innerHTML = `<li class="addTabDisplayToDoNoteItem">${note}</li>`;
+    elem.innerText = '\u2022' + " " + note;
+
+    notesToAdd.insertAdjacentElement("beforeend", elem);
 }
 
         /* Set/Reveal Rows */
@@ -3234,20 +3359,25 @@ async function mainEvent() {
     const addTabDisplayDayOfWeekDate = document.querySelector("#add_tab_display_day_of_week_date");
     const addTabDisplayToDoCreationDate = document.querySelector("#add_tab_display_to_do_creation_date");
     const addTabDisplayToDoRowThreeAddButton = document.querySelector("#add_tab_display_to_do_row_three_add_button");
+    const addTabDisplayToDoRowThreeRemoveButton = document.querySelector("#add_tab_display_to_do_row_three_remove_button");
     const addTabDisplayToDoRowThreeTextfield = document.querySelector("#add_tab_display_to_do_row_three_textfield");
     const addTabDisplayToDoRowThreeNotesToAdd = document.querySelector("#add_tab_display_to_do_row_three_notes_to_add");
     const addTabDisplayToDoRowZeroNumfield = document.querySelector("#add_tab_display_to_do_row_zero_numfield");
-    
+    const addTabDisplayToDoPrevButton = document.querySelector("#add_tab_display_to_do_prev_button");
+    const addTabDisplayToDoNextButton = document.querySelector("#add_tab_display_to_do_next_button");
+
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
     let addTabPermitCommentsTextfieldInput = [];
     let addCommentTabTextfieldInput = [];
+    let addTabDisplayToDoRowThreeTextfieldInput = [];
     let allWrList = [];
     let filteredList = [];
     let currentPageAllWr = 0;
     let currentPagePermits = 0;
     let permitDateChangeValues = [];
+    let tempCurWrNumber = "";
 
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList();
@@ -3257,12 +3387,14 @@ async function mainEvent() {
     const permitCommentCount = systemPreferences.permitCommentCount;
     const tempCommentsCount = systemPreferences.tempCommentsCount;
     const tempAllCommentCount = systemPreferences.tempAllCommentCount;
+    const tempNotesCount = 3;
 
     let userColors = new ColorPreferences(); 
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
     let tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
+    let tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
     
     /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
     const inTestMode = false;
@@ -3281,8 +3413,7 @@ async function mainEvent() {
     window.onload = function() {
         console.log("Entered - Window.onload function");
 
-        // Running test function
-        testFunction();
+        
 
         /* All Wr Tab DDs */
 
@@ -3526,8 +3657,9 @@ async function mainEvent() {
             month = "0" + month;
         }
         let day = today.getDate();
-        console.log(today);
-        console.log(year + "-" + month + "-" + day);
+        if (day < 10) {
+            day = "0" + day;
+        }
 
         addTabWrCreationDate.value = (year + "-" + month + "-" + day);
 
@@ -3592,6 +3724,10 @@ async function mainEvent() {
         addTabDisplayDayOfWeekContainer.insertAdjacentHTML = "";
         addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
         resetDisplayToDoAddUpdate(); // Initializing display values for today
+
+
+        // Running test function
+        testFunction();
     };
 
         /* Deslect Header Tab Functions */
@@ -3988,7 +4124,12 @@ async function mainEvent() {
         console.log("Entered - resetDisplayWrAddUpdate()");
 
         const d = new Date();
-        const str = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+        
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const str = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + day;
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         addressLineTextfieldHouseNumber.value = "Enter House Number";
@@ -4032,7 +4173,35 @@ async function mainEvent() {
     function displayToDoAddUpdate(toDo) {
         console.log("Entered - displayToDoAddUpdate(toDo)");
 
-        // Will fill in
+        const d = new Date();
+
+        if (toDo.workRequestNumber != undefined) {
+            addTabNewWorkRequestNumber.value = toDo.workRequestNumber;
+        }
+
+        addTabDisplayToDoRowZeroNumfield.value = toDo.toDoId;
+        document.getElementById("to_do_tab_dd_0_current").innerHTML = toDo.tab;
+        addTabDisplayDayOfWeekDate.value = toDo.dueDate;
+        setDay(makeDate(toDo.dueDate).getDay());
+        document.getElementById("to_do_type_dd_0_current").innerHTML = toDo.type;
+        addTabDisplayToDoCreationDate.value = toDo.creationDate;
+        document.getElementById("add_tab_display_to_do_completed").checked = toDo.completed;
+
+        for (var i = 0; i < toDo.notes.length; i++) {
+            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${toDo.notes[i]}</li>`);
+        }
+
+        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "Current \"To-Do\" ID#: ";
+        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '198px';
+
+        tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
+
+        for (var i = 0; i < toDo.notes.length; i++) {
+            tempNotes.add(toDo.notes[i]);
+        }
+        if (toDo.notes.length == 0) {
+            addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "No Notes";
+        }
     }
     function resetDisplayToDoAddUpdate() {
         console.log("Entered - resetDisplayToDoAddUpdate()");
@@ -4048,6 +4217,7 @@ async function mainEvent() {
             day = "0" + day;
         }
 
+        addTabNewWorkRequestNumber.value = "";
         addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
         document.getElementById("to_do_tab_dd_0_current").innerHTML = "General";
         document.getElementById("to_do_type_dd_0_current").innerHTML = "Not Set";
@@ -4058,6 +4228,10 @@ async function mainEvent() {
         addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
         addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "";
         
+        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "New \"To-Do\" ID#: ";
+        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
+
+        tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
     }
             /* Permit */
     function displayPermitAddUpdate(wr) {
@@ -4115,7 +4289,7 @@ async function mainEvent() {
 
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
 
-        tempAllComments = new PaginatedComments(14, "addComment"); // emptying tempAllComments in case user add comments before getting wr
+        tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment"); // emptying tempAllComments in case user add comments before getting wr
 
         if (wr.commentsGeneral.comments.length > 0) {
             addCommentsTabCommentsRemoveButton.disabled = false;
@@ -4146,6 +4320,27 @@ async function mainEvent() {
         addTabDisplayAddPermit.classList.add("hidden");
         addTabDisplayAddComment.classList.add("hidden");
         addTabDisplayAddToDo.classList.add("hidden");
+    }
+
+        /* Takes in str in format of yyyy-mm-dd and returns date version */
+    function makeDate(str) {
+        console.log("Entered - makeDate(" + str + ")");
+
+        const year = str.substring(0,4);
+        let month = str.substring(5, 7);
+        if (month < 10) {
+            month = "0" + (month - 1);
+        }
+        let day = str.substring(8);
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let d = new Date();
+        d.setFullYear(year);
+        d.setMonth(month);
+        d.setDate(day);
+
+        return d;
     }
 
     
@@ -5767,12 +5962,16 @@ async function mainEvent() {
         const permitsTabPermitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML;
 
 
-        const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
+        if (filterCheckboxAddToDo.checked == false) {
+            
 
-        let curComments = curWrData[1].commentsGeneral.comments;
+        }
         
-        const curWrIndex = curWrData[2];
         if (filterCheckboxAddWr.checked == true) {
+            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
+
+            let curComments = curWrData[1].commentsGeneral.comments;
+            const curWrIndex = curWrData[2];
             
             if (addTabNewWorkRequestNumber.value.length != 8 && inTestMode == false) {
                 console.log("wr length != 8");
@@ -5850,6 +6049,10 @@ async function mainEvent() {
 
             
         } else if (filterCheckboxAddPermit.checked == true) {
+            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
+
+            let curComments = curWrData[1].commentsGeneral.comments;
+            const curWrIndex = curWrData[2];
             
             if (addTabNewWorkRequestNumber.value.length != 8 && inTestMode == false) {
                 console.log("wr length != 8");
@@ -5910,6 +6113,9 @@ async function mainEvent() {
             }
             
         } else if (filterCheckboxAddComment.checked == true) {
+
+            let curComments = curWrData[1].commentsGeneral.comments;
+            const curWrIndex = curWrData[2];
             let newComments = [];
             
             for (var i = 0; i < curComments.length; i++) {
@@ -5953,6 +6159,46 @@ async function mainEvent() {
                       
             }
             
+        } else if (filterCheckboxAddToDo.checked == true) {
+            let notes = [];
+
+            var i = 0;
+
+            while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
+                notes.push(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML);
+                i++;
+            }
+            if (addTabDisplayToDoRowZeroNumfield.value == undefined) {
+                e.displayInvalidToDoId(); // can't get here - buttons hides
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "Not Set") {
+                e.displaySelectToDoType();
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
+                e.displayMustAddNoteForGeneralTypeToDo();
+            } else {
+                const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
+                addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
+                document.getElementById("add_tab_display_to_do_completed").checked, notes, addTabNewWorkRequestNumber.value);
+                
+                const temp = toDoMasterList.getToDo(toDo.toDoId);
+
+                //toDoMasterList.list[temp[2]].list[temp[3]] = toDo;
+                const old = toDoMasterList.list[temp[2]].list[temp[3]];
+
+                console.log("old = ");
+                console.log(old);
+
+                console.log(toDo);
+
+                console.log("*** h");
+                console.log(old.compare(toDo));
+                if (old.compare(toDo) == 0) { // they are not equal
+                    toDoMasterList.list[temp[2]].list[temp[3]] = toDo;
+                    h.displayToDoUpdated(toDo.toDoId);
+                    resetDisplayToDoAddUpdate();
+                } else {
+                    h.displayNoChangesToDo(toDo.toDoId);
+                }
+            }
         }
         
     })
@@ -6002,6 +6248,16 @@ async function mainEvent() {
                 e.displayWrNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
             }
             
+        } else if (filterCheckboxAddToDo.checked == true) {
+            const curToDoId = addTabDisplayToDoRowZeroNumfield.value;
+            const curToDoData = toDoMasterList.getToDo(curToDoId);
+
+            if (curToDoData[0] != 0) {
+                resetDisplayToDoAddUpdate();
+                displayToDoAddUpdate(curToDoData[1]);
+                addTabUpdateButton.disabled = false;
+                addTabAddButton.disabled = true;
+            }
         }
         
     })
@@ -6087,12 +6343,15 @@ async function mainEvent() {
                 e.displayInvalidToDoId(); // can't get here - buttons hides
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "Not Set") {
                 e.displaySelectToDoType();
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
+                e.displayMustAddNoteForGeneralTypeToDo();
             } else {
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
                 document.getElementById("add_tab_display_to_do_completed").checked, notes);
                 
                 toDoMasterList.add(toDo);
+                h.displayToDoAdded(toDo.toDoId);
                 resetDisplayToDoAddUpdate();
             }
             
@@ -6107,6 +6366,8 @@ async function mainEvent() {
             resetDisplayPermitAddUpdate();
         } else if (filterCheckboxAddComment.checked == true) {
             resetDisplayCommentsAddUpdate();
+        } else if (filterCheckboxAddToDo.checked == true) {
+            resetDisplayToDoAddUpdate();
         }
     })
 
@@ -6409,6 +6670,12 @@ async function mainEvent() {
 
                 tempCurrent.innerHTML = event.target.innerHTML;
 
+                if (tempCurrent.innerHTML == "General") {
+                    document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes (REQUIRED)";
+                } else {
+                    document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes";
+                }
+
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
             }
@@ -6443,17 +6710,31 @@ async function mainEvent() {
     })
     addTabNewWorkRequestNumber.addEventListener("change", (event) => {
         console.log("Entered - addTabNewWorkRequestNumberEventListener - listening to add get/add button");
-        if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
-            addTabGetButton.disabled = false;
-            addTabUpdateButton.disabled = true;
-            //ddButton.disabled = true;
-        } else if (event.target.value.length == 8) { // wr is not right length
-            addTabAddButton.disabled = false;
-            addTabGetButton.disabled = true;
-            addTabUpdateButton.disabled = true;
+
+        if (filterCheckboxAddToDo.checked == false) { // For all tabs except addToDo
+            if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
+                addTabGetButton.disabled = false;
+                addTabUpdateButton.disabled = true;
+                //ddButton.disabled = true;
+            } else if (event.target.value.length == 8) { // wr is not right length
+                addTabAddButton.disabled = false;
+                addTabGetButton.disabled = true;
+                addTabUpdateButton.disabled = true;
+            } else {
+                addTabUpdateButton.disabled = true;
+            }
         } else {
-            addTabUpdateButton.disabled = true;
+            if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false || event.target.value.length == 0) { // The entered Wr exists
+                addTabGetButton.disabled = false;
+                addTabUpdateButton.disabled = false;
+                //ddButton.disabled = true;
+            } else {
+                addTabAddButton.disabled = true;
+                addTabUpdateButton.disabled = true;
+            } 
+            
         }
+       
     })
 
         /* Address Textfield  Inputs */
@@ -6561,11 +6842,13 @@ async function mainEvent() {
             console.log("Fired - Clicked add_tab_comments_add_button");
 
             const d = new Date();
-            let today = formatMonth((d.getMonth() + 1)) + "-" + d.getDate() + "-" + d.getFullYear();
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
     
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
-            //tempComments.push(comment); // updating internal list
-            //injectHTMLAddTabWrComment(comment, tempComments.length -1); // setting display
             addTabCommentsRemoveButton.disabled = false;
             tempComments.add(comment);
             addTabCommentsTextfield.value = "Type Comment Here"; // reseting entery textfield
@@ -6625,6 +6908,9 @@ async function mainEvent() {
         if (((index + 2) * tempCommentsCount) >= tempComments.list.length) {
             addTabWrCommentsNextButton.disabled = true;
         }
+
+        addTabCommentsRemoveButton.disabled = true; // bug when trying to remove from past page 1
+
     })
     addTabWrCommentsPrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabWrCommentsPrevButton");
@@ -6645,6 +6931,10 @@ async function mainEvent() {
 
         if ((index - 1) == 0) {
             addTabWrCommentsPrevButton.disabled = true;
+        }
+
+        if (document.getElementById("add_wr_tab_current_page_box").innerHTML == "1") {
+            addTabCommentsRemoveButton.disabled = false;
         }
     })
 
@@ -6843,20 +7133,98 @@ async function mainEvent() {
             }
         }
     }
+    function clearTempNotesSelections() {
+        console.log("Entered - clearTempNotesSelections");
+
+        for (var i = 0; i < tempNotesCount; i++) {
+            if (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
+                document.getElementById("add_tab_display_to_do_note_item_" + i).classList.remove("selectedComment");
+            }
+        }
+    }
+    function removeSelectedNotes() {
+        console.log("Entered - removeSelectedNotes()");
+
+        for (var i = 0; i < tempNotesCount; i++) {
+            const cur = document.getElementById("add_tab_display_to_do_note_item_" + i);
+            const curPageNum = document.getElementById("add_tab_display_to_do_current_page_box").innerHTML;
+
+            if (cur != null && cur.classList.contains("selectedComment")) {
+                document.getElementById("add_tab_display_to_do_note_item_" + i).remove();
+                const secondHalf = tempNotes.list.slice(tempNotes.list.length - 1 - i + 1);
+                const firstHalf = tempNotes.list.slice(0, tempNotes.list.length - 1 - i);
+                tempNotes.list = firstHalf.concat(secondHalf);
+
+                let newPage = [];
+
+                for (var j = tempNotes.list.length - 1 - ((curPageNum - 1) * tempNotesCount); j > tempNotes.list.length - 1 - ((curPageNum - 1) * tempNotesCount) - tempNotesCount; j--) {
+                    if (tempNotes.list[j] != undefined) {
+                        newPage.push(tempNotes.list[j]);
+                    }
+                }
+                updateComments(newPage, "addToDo");
+            }
+        }
+    }
 
         /* Notes to add */
+    addTabDisplayToDoRowThreeNotesToAdd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoRowThreeNotesToAdd");
+
+        console.log(event.target);
+
+        if (event.target.id.includes("add_tab_display_to_do_note_item") && event.target.classList.contains("selectedComment") != true) {
+            clearTempNotesSelections();
+            event.target.classList.add("selectedComment");
+        } else {
+            event.target.classList.remove("selectedComment");
+        }
+    })
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
 
         if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
-            let temp = 0;
+            const d = new Date();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            let today = d.getFullYear() + "-" + month + day;
+            const note = new NoteItem(addTabDisplayToDoRowThreeTextfieldInput);
+            addTabDisplayToDoRowThreeRemoveButton.disabled = false;
+            tempNotes.add(note);
+
+            addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
+            /*let temp = 0;
 
             while (document.getElementById("add_tab_display_to_do_note_item_" + temp) != undefined) {
                 temp++;
             }
 
             addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${temp}">${addTabDisplayToDoRowThreeTextfield.value}</li>`);
-            addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
+            addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";*/
+        }
+    })
+    addTabDisplayToDoRowThreeRemoveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoRowThreeRemoveButton");
+
+        removeSelectedNotes();
+
+        if (tempNotes.list.length == 0) {
+            addTabDisplayToDoRowThreeRemoveButton.disabled = true;
+        }
+        if (tempNotes.list.length < tempNotesCount + 1) {
+            document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.add("hidden");
+            document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '620px'
+
+
+        }
+        if (addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "" && document.getElementById("add_tab_display_to_do_current_page_box").innerHTML.trim() != "1") {
+            addTabDisplayToDoPrevButton.click();
         }
     })
     addTabDisplayToDoRowThreeTextfield.addEventListener("click", (event) => {
@@ -6866,6 +7234,17 @@ async function mainEvent() {
             addTabDisplayToDoRowThreeTextfield.select();
         }
     })
+    addTabDisplayToDoRowThreeTextfield.addEventListener("input", (event) => {
+        console.log("Input - addTabDisplayToDoRowThree - " + event.target.value);
+
+        addTabDisplayToDoRowThreeTextfieldInput = event.target.value;
+        
+        if (event.target.value != "Enter Note Here" && event.target.value.length > 0) {
+            addTabCommentsAddButton.disabled = false;
+        } else {
+            addTabCommentsAddButton.disabled = true;
+        }
+})
     addTabDisplayToDoRowZeroNumfield.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowZeroNumfield");
 
@@ -6881,6 +7260,60 @@ async function mainEvent() {
         } else {
             addTabAddButton.disabled = true;
         }
+
+        /* Enabling "Get" button if toDoId exists */
+        if (toDoMasterList.getToDo(addTabDisplayToDoRowZeroNumfield.value)[0] != 0) {
+            addTabGetButton.disabled = false;
+        }
+    })
+    addTabDisplayToDoNextButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoNextButton");
+
+        const index = document.getElementById("add_tab_display_to_do_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempNotes.list.length - 1 - (tempNotesCount * (index + 1)); i >= 0; i--) {
+            if (count < tempNotesCount) {
+                temp.push(tempNotes.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addToDo");
+        document.getElementById("add_tab_display_to_do_current_page_box").innerHTML = index + 2;
+        addTabDisplayToDoPrevButton.disabled = false;
+
+        if (((index + 2) * tempNotesCount) >= tempNotes.list.length) {
+            addTabDisplayToDoNextButton.disabled = true;
+        }
+
+        addTabDisplayToDoRowThreeRemoveButton.disabled = true; // bug when trying to remove from past page 1
+
+    })
+    addTabDisplayToDoPrevButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayToDoPrevButton");
+
+        const index = document.getElementById("add_tab_display_to_do_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempNotes.list.length - 1 - (tempNotesCount * (index - 1)); i >=0; i--) {
+            if (count < tempNotesCount) {
+                temp.push(tempNotes.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addToDo");
+        document.getElementById("add_tab_display_to_do_current_page_box").innerHTML = index;
+        addTabDisplayToDoNextButton.disabled = false;
+
+        if ((index - 1) == 0) {
+            addTabDisplayToDoPrevButton.disabled = true;
+        }
+        if (document.getElementById("add_tab_display_to_do_current_page_box").innerHTML == "1") {
+            addTabDisplayToDoRowThreeRemoveButton.disabled = false;
+        }
+
     })
 
         /* Day of week page object */
@@ -7005,7 +7438,11 @@ async function mainEvent() {
             console.log("Fired - Clicked add_tab_permit_comments_add_button");
 
             const d = new Date();
-            let today = formatMonth((d.getMonth() + 1)) + "-" + d.getDate() + "-" + d.getFullYear();
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
     
             const comment = new CommentItem(addTabPermitCommentsTextfieldInput, today, "Permit");
             //tempPermitComments.push(comment); // updating internal list
@@ -7016,7 +7453,11 @@ async function mainEvent() {
             
             // Setting Last Updated
             const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            let day2 = d2.getDate();
+            if (day2 < 10) {
+                day2 = "0" + day;
+            }
+            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + day2;
             addTabPermitDateUpdated.value = tempDate;
     
     })
@@ -7067,6 +7508,9 @@ async function mainEvent() {
         if (((index + 2) * permitCommentCount) >= tempPermitComments.list.length) {
             addTabPermitCommentNextButton.disabled = true;
         }
+
+        addTabPermitCommentsRemoveButton.disabled = true; // bug when trying to remove from past page 1
+
     })
     addTabPermitCommentPrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabPermitCommentPrevButton");
@@ -7087,6 +7531,10 @@ async function mainEvent() {
 
         if ((index - 1) == 0) {
             addTabPermitCommentPrevButton.disabled = true;
+        }
+
+        if (document.getElementById("add_permit_tab_current_page_box").innerHTML == "1") {
+            addTabPermitCommentsRemoveButton.disabled = false;
         }
     })
 
@@ -7115,7 +7563,7 @@ async function mainEvent() {
     function clearTempAllCommentsSelections() {
         console.log("Entered - clearTempAllCommentsSelections()");
 
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < tempAllCommentCount + 1; i++) {
             if (document.getElementById("existing_comment_item_" + i) != undefined) {
                 document.getElementById("existing_comment_item_" + i).classList.remove("selectedComment");
             }
@@ -7147,7 +7595,11 @@ async function mainEvent() {
             e.displayInvalidCommentType();
         } else {
             const d = new Date();
-            let today = formatMonth((d.getMonth() + 1)) + "-" + d.getDate() + "-" + d.getFullYear();
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
 
             const type = document.getElementById("comment_type_dd_menu_current").innerHTML;
     
@@ -7179,7 +7631,7 @@ async function mainEvent() {
         if (tempAllComments.list.length == 0) {
             addCommentsTabCommentsRemoveButton.disabled = true;
         }
-        if (tempAllComments.list.length < 15) {
+        if (tempAllComments.list.length < tempAllCommentCount + 1) {
             document.getElementById("add_comment_tab_next_prev_container").classList.add("hidden");
         }
         if (addCommentTabExistingComments.innerHTML == "" && document.getElementById("add_comment_tab_current_page_box").innerHTML != "1") {
@@ -7203,8 +7655,8 @@ async function mainEvent() {
         let temp = [];
         let count = 0;
         
-        for (var i = tempAllComments.list.length - 1 - (14 * (index + 1)); i >= 0; i--) {
-            if (count < 14) {
+        for (var i = tempAllComments.list.length - 1 - (tempAllCommentCount * (index + 1)); i >= 0; i--) {
+            if (count < tempAllCommentCount) {
                 temp.push(tempAllComments.list[i]);
                 count++;
             }
@@ -7213,7 +7665,7 @@ async function mainEvent() {
         document.getElementById("add_comment_tab_current_page_box").innerHTML = index + 2;
         addCommentTabExistingCommentsPrevButton.disabled = false;
 
-        if (((index + 2) * 14) >= tempAllComments.list.length) {
+        if (((index + 2) * tempAllCommentCount) >= tempAllComments.list.length) {
             addCommentTabExistingCommentsNextButton.disabled = true;
         }
 
@@ -7226,8 +7678,8 @@ async function mainEvent() {
         let temp = [];
         let count = 0;
 
-        for (var i = tempAllComments.list.length - 1 - (14 * (index - 1)); i >= 0; i--) {
-            if (count < 14) {
+        for (var i = tempAllComments.list.length - 1 - (tempAllCommentCount * (index - 1)); i >= 0; i--) {
+            if (count < tempAllCommentCount) {
                 temp.push(tempAllComments.list[i]);
                 count++;
             }
@@ -7238,6 +7690,10 @@ async function mainEvent() {
         
         if ((index - 1) == 0) {
             addCommentTabExistingCommentsPrevButton.disabled = true;
+        }
+
+        if (document.getElementById("add_comment_tab_current_page_box").innerHTML == "1") {
+            addCommentsTabCommentsRemoveButton.disabled = false;
         }
     })
 
@@ -7758,8 +8214,15 @@ async function mainEvent() {
         filterCheckboxAgeOld.checked = true;
     })
         /* Add Tab */
+    
     filterCheckboxAddWr.addEventListener("change", (event) => {
             console.log("Fired - Clicked filterContainerAddWr");
+
+            if (tempCurWrNumber != "") {
+                addTabNewWorkRequestNumber.value = tempCurWrNumber;
+                tempCurWrNumber = "";
+            }
+            addTabUpdateButton.disabled = true; // making user "get" wr when they switch add tabs
     
             clearAddTabCheckboxes();
             filterCheckboxAddWr.checked = true;
@@ -7783,6 +8246,10 @@ async function mainEvent() {
     })
     filterCheckboxAddToDo.addEventListener("click", (event) => {
         console.log("Fired - Clicked filterCheckboxAddToDo");
+
+        addTabUpdateButton.disabled = true; // making user "get" wr when they switch add tabs
+        tempCurWrNumber = addTabNewWorkRequestNumber.value;
+        addTabNewWorkRequestNumber.value = "";
 
         clearAddTabCheckboxes();
         filterCheckboxAddToDo.checked = true;
@@ -7813,6 +8280,12 @@ async function mainEvent() {
     filterCheckboxAddPermit.addEventListener("change", (event) => {
             console.log("Fired - Clicked filterContainerAddPermit");
     
+            if (tempCurWrNumber != "") {
+                addTabNewWorkRequestNumber.value = tempCurWrNumber;
+                tempCurWrNumber = "";
+            }
+            addTabUpdateButton.disabled = true; // making user "get" wr when they switch add tabs
+
             clearAddTabCheckboxes();
             filterCheckboxAddPermit.checked = true;
             document.getElementById("add_tab_display_header_left").innerHTML = "Update";
@@ -7835,6 +8308,12 @@ async function mainEvent() {
     })
     filterCheckboxAddComment.addEventListener("change", (event) => {
         console.log("Fired - Clicked filterContainerAddComment");
+
+        if (tempCurWrNumber != "") {
+            addTabNewWorkRequestNumber.value = tempCurWrNumber;
+            tempCurWrNumber = "";
+        }
+        addTabUpdateButton.disabled = true; // making user "get" wr when they switch add tabs
 
         clearAddTabCheckboxes();
         filterCheckboxAddComment.checked = true;

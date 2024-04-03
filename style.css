@@ -1624,6 +1624,15 @@ h5 {
     margin-right: -150px;
 }
 
+.errorMessageMustAddNoteForGeneralTypeComment {
+    display: flex;
+    font-size: large;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    
+}
+
 .noWrFound {
     display: flex;
     font-size: large;
@@ -1640,6 +1649,24 @@ h5 {
     width: 150px;
     margin-left: 50px;
     margin-right: -200px;
+}
+
+.toDoAddedPrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    margin-left: 30px;
+}
+
+.toDoUpdatedPrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    margin-left: 30px;
 }
 
 .permitUpdatedPrompt {
@@ -1673,6 +1700,15 @@ h5 {
     width: 150px;
     margin-left: 50px;
     margin-right: -200px;
+}
+
+.noChangesToDoPrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: orange;
+    margin-left: 30px;
 }
 
 .pageNextButton{
@@ -2684,6 +2720,7 @@ h5 {
 .addTabDisplayToDoRowThreeTextfieldLabel {
     display: flex;
     font-size: large;
+    width: 210px;
 }
 
 .addTabDisplayToDoRowThreeTextfield {
@@ -2700,11 +2737,32 @@ h5 {
 .addTabDisplayToDoRowThreeBoxTop {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addTabDisplayToDoRowThreeBoxTopButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 75px;
     justify-content: space-between;
+    margin-left: 700px;
 }
 
 .addTabDisplayToDoRowThreeAddButton {
     font-size: large;
+    height: 25px;
+    width: 25px;
+}
+.addTabDisplayToDoRowThreeRemoveButton {
+    display: flex;
+    font-size: x-large;
+    height: 25px;
+    width: 25px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5px;
+   
 }
 
 .addTabDisplayToDoRowZero {
@@ -2732,6 +2790,13 @@ h5 {
     border: 2px solid black;
     padding: 10px;
     margin-top: 10px;
+}
+
+.addTabDisplayToDoRowThreePrevNextContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 470px;
+    margin-right: 100px;
 }
 
 .hidden {
