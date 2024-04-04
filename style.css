@@ -2662,6 +2662,7 @@ h5 {
     flex-direction: row;
 }
 
+
 .addTabDisplayDayOfWeekDate {
     border: 2px solid black;
     padding: .5rem;
@@ -2797,6 +2798,80 @@ h5 {
     flex-direction: row;
     margin-left: 470px;
     margin-right: 100px;
+}
+
+.toDoDisplayContainer {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.toDoDisplayTabsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
+    justify-content: center;
+}
+
+.toDoHeader {
+    display: flex;
+    flex-direction: row;
+    width: 110px;
+    font-size: large;
+    border: 2px solid black;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+
+.toDoDisplayRowOne {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-top: 10px;
+
+}
+
+.toDoMoveIncompleteButton {
+    display: flex;
+    border: 2px solid black;
+    font-size: large;
+    width: 130px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 100px;
+}
+
+.toDoDisplayRowOneLabel {
+    display: flex;
+    font-size: x-large;
+    margin-left: 50px;
+}
+
+.toDoDisplayRowTwo {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.toDoRowElementLabel {
+    display: flex;
+    font-size: large;
+}
+
+.toDoDisplayRowElementContainer {
+    display: flex;
+    flex-direction: column;
+    width: 1100px;
 }
 
 .hidden {

@@ -367,6 +367,7 @@ class GeneralStatusDDMenu {
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Waiting - LL/SP/ Etc."}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Need to Visit"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"SVC Calcs + Coding"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply NJUNS"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply For Permit"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply For Easement"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Design"}</div>`);
@@ -3290,6 +3291,7 @@ async function mainEvent() {
     const filterCheckboxWaitingLL = document.querySelector("#filter_checkbox_waiting_ll");
     const filterCheckboxNeedToVisit = document.querySelector("#filter_checkbox_need_to_visit");
     const filterCheckboxSvcCalcs = document.querySelector("#filter_checkbox_svc_calcs");
+    const filterCheckboxCheckNJUNS = document.querySelector("#filter_checkbox_check_njuns");
     const filterCheckboxCheckPermit = document.querySelector("#filter_checkbox_check_permit");
     const filterCheckboxCheckEasement = document.querySelector("#filter_checkbox_check_easement");
     const filterCheckboxDesign = document.querySelector("#filter_checkbox_design");
@@ -3303,6 +3305,13 @@ async function mainEvent() {
     const filterCheckboxCancledOther = document.querySelector("#filter_checkbox_cancled_other");
     const filterCheckboxAgeNew = document.querySelector("#filter_checkbox_age_new_old");
     const filterCheckboxAgeOld = document.querySelector("#filter_checkbox_age_old_new");
+
+        /* To-Do Tab */
+    const filterCheckboxGeneral = document.querySelector("#filter_checkbox_general");
+    const filterCheckboxContactCustomer = document.querySelector("#filter_checkbox_contact_customer");
+    const filterCheckboxWaitingOther = document.querySelector("#filter_checkbox_waiting_other");
+
+
 
         /* Permits Tab */
             /* Checkboxes */
@@ -3328,6 +3337,10 @@ async function mainEvent() {
     const trimByNot7010 = document.querySelector("#footer_filter_checkbox_not_7010");
     const trimByAll = document.querySelector("#footer_filter_checkbox_all");
     const trimBy7010 = document.querySelector("#footer_filter_checkbox_7010");
+    const trimByNotComplete = document.querySelector("#footer_filter_checkbox_not_complete");
+    const trimByAllToDo = document.querySelector("#footer_filter_checkbox_all_to_do");
+    const trimByComplete = document.querySelector("#footer_filter_checkbox_complete");
+
 
     /* Search By Checkboxes + Textfield + Button*/
     const searchBySelectionCheckbox = document.querySelector("#search_by_selection_checkbox");
@@ -3366,6 +3379,11 @@ async function mainEvent() {
     const addTabDisplayToDoPrevButton = document.querySelector("#add_tab_display_to_do_prev_button");
     const addTabDisplayToDoNextButton = document.querySelector("#add_tab_display_to_do_next_button");
 
+    /* To-Do's Tab */
+    const toDoDisplayContainer = document.querySelector("#to_do_display_container");
+
+
+
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -3403,9 +3421,13 @@ async function mainEvent() {
     function testFunction() {
         console.log("** TEST FUNCTION **");
 
-        addTab.click();
+        //Testing To-Do's tab
+        toDoTab.click();
+
+        //Testing add To-Do's
+        /*addTab.click();
         filterCheckboxAddToDo.click();
-        addTabAddButton.disabled = false;
+        addTabAddButton.disabled = false;*/
     }
 
 
@@ -3756,6 +3778,34 @@ async function mainEvent() {
        
         allWrTab.classList.remove("hidden");
     }
+    function deselectAllToDoTab() {
+        console.log("Entered - deselectAllToDoTab()");
+
+    /* Revealing inactive button */
+    toDoTab.classList.remove("hidden");
+
+    /* Hiding features */
+    toDoTabActive.classList.add("hidden");
+    filterByBoxContainer.classList.add("hidden");
+    searchByBoxContainer.classList.add("hidden"); // May remove this
+    trimContainer.classList.add("hidden");
+    trimContainerLabel.classList.add("hidden");
+    switchTrimBoxes(""); // Anything but "toDo" as input switches to wr/permit boxes
+    switchTypeCheckboxes(""); // Anything but "toDo" as input switches to wr/permit boxes
+    toDoDisplayContainer.classList.add("hidden");
+
+    allWrStatusFiltersContainer.classList.add("hidden");
+    filterSectionStatusLabel.classList.add("hidden");    
+    filterSectionStatusLabel.innerHTML = "Status:";
+    
+
+    /* Removing Filter By Priority Number */
+    document.getElementById("filter_container_priority_number").classList.remove("hidden");
+    document.getElementById("filter_container_age_new_old").classList.remove("hidden");
+    document.getElementById("filter_container_crd").classList.remove("hidden");
+    document.getElementById("filter_container_age_old_new").classList.remove("hidden");
+    document.getElementById("filter_container_rcd").classList.remove("hidden");
+    }
     function deselectAllAddTab() {
         console.log("Entered - deselectAllAddTab");
 
@@ -3794,6 +3844,7 @@ async function mainEvent() {
         console.log("Entered - deselectAllTabs");
 
         deselectAllWrTab();
+        deselectAllToDoTab();
         deselectAllAddTab();
         deselectAllPermitsTab();
 
@@ -3804,6 +3855,7 @@ async function mainEvent() {
         uncheckTrimByCheckboxes();
         uncolorTrimByCheckboxes();
     }
+    
 
         /* Uncolor (Remove Highlight) Functions */
     function uncolorTrimByCheckboxes() {
@@ -3812,25 +3864,44 @@ async function mainEvent() {
         document.getElementById("footer_filter_container_not_7010").style.backgroundColor = "white";
         document.getElementById("footer_filter_container_all").style.backgroundColor = "white";
         document.getElementById("footer_filter_container_7010").style.backgroundColor = "white";
+        document.getElementById("footer_filter_container_not_complete").style.backgroundColor = "white";
+        document.getElementById("footer_filter_container_all_to_do").style.backgroundColor = "white";
+        document.getElementById("footer_filter_container_complete").style.backgroundColor = "white";
+
     }
     function uncolorAllWrFilterCheckboxes() {
         console.log("Entered - uncolorAllWrFilterCheckboxes");
     
-        document.getElementById("filter_container_waiting_ll").style.backgroundColor = "white"
-        document.getElementById("filter_container_need_to_visit").style.backgroundColor = "white"
-        document.getElementById("filter_container_svc_calcs").style.backgroundColor = "white"
-        document.getElementById("filter_container_check_permit").style.backgroundColor = "white"
-        document.getElementById("filter_container_check_easement").style.backgroundColor = "white"
-        document.getElementById("filter_container_design").style.backgroundColor = "white"
-        document.getElementById("filter_container_review_peer").style.backgroundColor = "white"
-        document.getElementById("filter_container_review_coordinator").style.backgroundColor = "white"
-        document.getElementById("filter_container_revisions").style.backgroundColor = "white"
-        document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor = "white"
-        document.getElementById("filter_container_waiting_customer_approved").style.backgroundColor = "white"
-        document.getElementById("filter_container_flag").style.backgroundColor = "white"
-        document.getElementById("filter_container_7010").style.backgroundColor = "white"
-        document.getElementById("filter_container_cancled_other").style.backgroundColor = "white"
+        document.getElementById("filter_container_waiting_ll").style.backgroundColor = "white";
+        document.getElementById("filter_container_need_to_visit").style.backgroundColor = "white";
+        document.getElementById("filter_container_svc_calcs").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_njuns").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_permit").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_easement").style.backgroundColor = "white";
+        document.getElementById("filter_container_design").style.backgroundColor = "white";
+        document.getElementById("filter_container_review_peer").style.backgroundColor = "white";
+        document.getElementById("filter_container_review_coordinator").style.backgroundColor = "white";
+        document.getElementById("filter_container_revisions").style.backgroundColor = "white";
+        document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor = "white";
+        document.getElementById("filter_container_waiting_customer_approved").style.backgroundColor = "white";
+        document.getElementById("filter_container_flag").style.backgroundColor = "white";
+        document.getElementById("filter_container_7010").style.backgroundColor = "white";
+        document.getElementById("filter_container_cancled_other").style.backgroundColor = "white";
     
+    }
+    function uncolorToDoFilterCheckboxes() {
+        console.log("Entered - uncolorToDoFilterCheckboxes()");
+
+        document.getElementById("filter_container_general").style.backgroundColor = "white";
+        document.getElementById("filter_container_contact_customer").style.backgroundColor = "white";
+        document.getElementById("filter_container_need_to_visit").style.backgroundColor = "white";
+        document.getElementById("filter_container_svc_calcs").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_njuns").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_permit").style.backgroundColor = "white";
+        document.getElementById("filter_container_check_easement").style.backgroundColor = "white";
+        document.getElementById("filter_container_design").style.backgroundColor = "white";
+        document.getElementById("filter_container_revisions").style.backgroundColor = "white";
+        document.getElementById("filter_container_waiting_other").style.backgroundColor = "white";
     }
     function uncolorGenericFilterCheckboxes() {
         console.log("Entered - uncolorGenericFlterCheckboxes");
@@ -3871,21 +3942,52 @@ async function mainEvent() {
     function uncheckAllWrFilterCheckboxes() {
         console.log("Entered - uncheckAllWrFilterCheckboxes");
     
-        document.getElementById("filter_checkbox_waiting_ll").checked = false;
+        
+
+        if (toDoTab.classList.contains("hidden")) {
+            document.getElementById("filter_checkbox_general").checked = false;
+            document.getElementById("filter_checkbox_contact_customer").checked = false;
+
+            document.getElementById("filter_checkbox_need_to_visit").checked = false;
+            document.getElementById("filter_checkbox_svc_calcs").checked = false;
+            document.getElementById("filter_checkbox_check_njuns").checked = false;
+            document.getElementById("filter_checkbox_check_permit").checked = false;
+            document.getElementById("filter_checkbox_check_easement").checked = false;
+            document.getElementById("filter_checkbox_design").checked = false;
+            document.getElementById("filter_checkbox_revisions").checked = false;
+            document.getElementById("filter_checkbox_waiting_other").checked = false;
+        } else {
+            document.getElementById("filter_checkbox_waiting_ll").checked = false;
+            document.getElementById("filter_checkbox_need_to_visit").checked = false;
+            document.getElementById("filter_checkbox_svc_calcs").checked = false;
+            document.getElementById("filter_checkbox_check_njuns").checked = false;
+            document.getElementById("filter_checkbox_check_permit").checked = false;
+            document.getElementById("filter_checkbox_check_easement").checked = false;
+            document.getElementById("filter_checkbox_design").checked = false;
+            document.getElementById("filter_checkbox_review_peer").checked = false;
+            document.getElementById("filter_checkbox_review_coordinator").checked = false;
+            document.getElementById("filter_checkbox_revisions").checked = false;
+            document.getElementById("filter_checkbox_waiting_customer_not_approved").checked = false;
+            document.getElementById("filter_checkbox_waiting_customer_approved").checked = false;
+            document.getElementById("filter_checkbox_flag").checked = false;
+            document.getElementById("filter_checkbox_7010").checked = false;
+            document.getElementById("filter_checkbox_cancled_other").checked = false;
+        }
+    
+    }
+    function uncheckToDoFilterCheckboxes() {
+        console.log("Entered - uncheckToDoFilterCheckboxes()");
+
+        document.getElementById("filter_checkbox_general").checked = false;
+        document.getElementById("filter_checkbox_contact_customer").checked = false;
         document.getElementById("filter_checkbox_need_to_visit").checked = false;
         document.getElementById("filter_checkbox_svc_calcs").checked = false;
+        document.getElementById("filter_checkbox_check_njuns").checked = false;
         document.getElementById("filter_checkbox_check_permit").checked = false;
         document.getElementById("filter_checkbox_check_easement").checked = false;
         document.getElementById("filter_checkbox_design").checked = false;
-        document.getElementById("filter_checkbox_review_peer").checked = false;
-        document.getElementById("filter_checkbox_review_coordinator").checked = false;
         document.getElementById("filter_checkbox_revisions").checked = false;
-        document.getElementById("filter_checkbox_waiting_customer_not_approved").checked = false;
-        document.getElementById("filter_checkbox_waiting_customer_approved").checked = false;
-        document.getElementById("filter_checkbox_flag").checked = false;
-        document.getElementById("filter_checkbox_7010").checked = false;
-        document.getElementById("filter_checkbox_cancled_other").checked = false;
-    
+        document.getElementById("filter_checkbox_waiting_other").checked = false;
     }
     function clearAddTabCheckboxes() {
         console.log("Entered - clearAddTabCheckboxes");
@@ -3966,6 +4068,7 @@ async function mainEvent() {
         filterCheckboxWaitingLL.disabled = false;
         filterCheckboxNeedToVisit.disabled = false;
         filterCheckboxSvcCalcs.disabled = false;
+        filterCheckboxCheckNJUNS.disabled = false;
         filterCheckboxCheckPermit.disabled = false;
         filterCheckboxCheckEasement.disabled = false;
         filterCheckboxDesign.disabled = false;
@@ -3987,6 +4090,11 @@ async function mainEvent() {
         filterCheckboxPermitExtensionReceived.disabled = false;
         filterCheckboxPermitDontNeed.disabled = false;
         filterCheckboxPermitHaventChecked.disabled = false;
+
+         /* To-Do Tab (only) Filter Checkboxes */
+         filterCheckboxGeneral.disabled = false;
+         filterCheckboxContactCustomer.disabled = false;
+         filterCheckboxWaitingOther.disabled = false;
         
         uncolorSearchByCheckboxes();
         uncheckSearchByCheckboxes();
@@ -4037,6 +4145,7 @@ async function mainEvent() {
         filterCheckboxWaitingLL.disabled = true;
         filterCheckboxNeedToVisit.disabled = true;
         filterCheckboxSvcCalcs.disabled = true;
+        filterCheckboxCheckNJUNS.disabled = true;
         filterCheckboxCheckPermit.disabled = true;
         filterCheckboxCheckEasement.disabled = true;
         filterCheckboxDesign.disabled = true;
@@ -4058,7 +4167,10 @@ async function mainEvent() {
         filterCheckboxPermitDontNeed.disabled = true;
         filterCheckboxPermitHaventChecked.disabled = true;
 
-
+        /* To-Do Tab (only) Filter Checkboxes */
+        filterCheckboxGeneral.disabled = true;
+        filterCheckboxContactCustomer.disabled = true;
+        filterCheckboxWaitingOther.disabled = true;
     }
     function disableAddCommentTabs() {
         console.log("Entered - disableAddCommentTabs");
@@ -7731,6 +7843,15 @@ async function mainEvent() {
                     }
                 }
                 return tempList;
+            } else if (document.getElementById("filter_checkbox_check_njuns").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For NJUNS") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
             } else if (document.getElementById("filter_checkbox_check_permit").checked == true) {
                 uncolorAllWrFilterCheckboxes();
                 document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
@@ -7835,6 +7956,109 @@ async function mainEvent() {
                 /* clearing highlights */
                 uncolorAllWrFilterCheckboxes();
                 return allWrList;
+            }
+        } else if (document.getElementById("to_do_tab").classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_general").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_checkbox_general").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                
+                /* Probably need to remove for all below */
+                /*for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Need to Visit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;*/
+            } else if (document.getElementById("filter_checkbox_contact_customer").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_checkbox_contact_customer").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                
+                /* Probably need to remove for all below */
+                /*for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Need to Visit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;*/
+            } else if (document.getElementById("filter_checkbox_need_to_visit").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                
+                /* Probably need to remove for all below */
+                /*for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Need to Visit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;*/
+            } else if (document.getElementById("filter_checkbox_svc_calcs").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "SVC Calcs + Coding") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_check_njuns").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For NJUNS") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_check_permit").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Permit") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_container_check_easement").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Check/ Apply For Easement") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_design").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Design") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_revisions").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Revisions") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else if (document.getElementById("filter_checkbox_waiting_other").checked == true) {
+                uncolorAllWrFilterCheckboxes();
+                document.getElementById("filter_checkbox_waiting_other").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
+                for (let i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].generalStatus == "Waiting/ Other") {
+                        tempList.push(allWrList[i]);
+                    }
+                }
+                return tempList;
+            } else {
+                console.log("returning toDoMasterList normal");
+                /* clearing highlights */
+                uncolorAllWrFilterCheckboxes();
+                return toDoMasterList;
             }
         } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
             if (filterCheckboxPermitApplied.checked == true) {
@@ -7941,11 +8165,25 @@ async function mainEvent() {
                     temp.push(list[i]);
                 }
             }
-        } else {
+        } else if (trimByAll.checked == true) {
             uncolorTrimByCheckboxes();
             document.getElementById("footer_filter_container_all").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
             console.log("trimByAll must be checked - returning list normal");
             return list;
+        } else if (trimByNotComplete.checked == true) {
+            uncolorTrimByCheckboxes();
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].generalStatus != "Not Complete") {
+                    temp.push(list[i]);
+                }
+            }
+        } else if (trimByComplete.checked == true) {
+            uncolorTrimByCheckboxes();
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].generalStatus != "Complete") {
+                    temp.push(list[i]);
+                }
+            }
         }
 
         return temp;
@@ -8141,6 +8379,29 @@ async function mainEvent() {
             if (filterCheckbox7010.checked == true) {
                 filterCheckbox7010.checked = false;
             }
+        }
+    })
+    trimByNotComplete.addEventListener("change", (event) => {
+        console.log("Changed - trimByNotComplete");
+
+        if (trimByNotComplete.checked == false) {
+            trimByNotComplete.checked = false;
+            trimByAllToDo.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByNotComplete.checked = true;
+        }
+
+    })
+    trimByComplete.addEventListener("change", (event) => {
+        console.log("Changed- trimByComplete");
+
+        if (trimByComplete.checked == false) {
+            trimByComplete.checked = false;
+            trimByAllToDo.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByComplete.checked = true;
         }
     })
 
@@ -8383,6 +8644,16 @@ async function mainEvent() {
         }
         
     })
+    filterCheckboxCheckNJUNS.addEventListener("change", (event) => {
+        console.log("Fired - changed - filtercheckboxCheckNJUNS");
+
+        if (filterCheckboxCheckNJUNS.checked == false) {
+            filterCheckboxCheckNJUNS.checked - false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxCheckNJUNS.checked = true;
+        }
+    })
     filterCheckboxCheckPermit.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCheckPermit");
 
@@ -8509,6 +8780,37 @@ async function mainEvent() {
         
     })
 
+        /* To-Do Tab */
+    filterCheckboxGeneral.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxGeneral");
+
+        if (filterCheckboxGeneral.checked == false) {
+            filterCheckboxGeneral.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxGeneral.checked = true;
+        }
+    })
+    filterCheckboxContactCustomer.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxContactCustomer");
+
+        if (filterCheckboxContactCustomer.checked == false) {
+            filterCheckboxContactCustomer.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxContactCustomer.checked = true;
+        }
+    })
+    filterCheckboxWaitingOther.addEventListener("change", (event) => {
+        console.log("Changed - filterCheckboxWaitingOther");
+
+        if (filterCheckboxWaitingOther.checked == false) {
+            filterCheckboxWaitingOther.checked = false;
+        } else {
+            uncheckAllWrFilterCheckboxes();
+            filterCheckboxWaitingOther.checked = true;
+        }
+    })
 
         /* Permits Tab */
     filterCheckboxPermitApplied.addEventListener("change", (event) => {
@@ -8755,6 +9057,7 @@ async function mainEvent() {
         document.getElementById("option_element_set").classList.remove("activeTab");
 
     }
+    
     /* Displays the current saved data for the user selected option */
     function displayColorsOptionData(option) {
         console.log("Entered - displayColorsOptionData(" + option + ")");
@@ -9524,6 +9827,110 @@ async function mainEvent() {
         deselectAllWrTab();
     })
 
+    function switchTrimBoxes(tab) {
+        console.log("Entered - switchTrimBoxes(" + tab + ")");
+
+        if (tab == "toDo") {
+            document.getElementById("footer_filter_container_not_complete").classList.remove("hidden");
+            document.getElementById("footer_filter_container_all_to_do").classList.remove("hidden");
+            document.getElementById("footer_filter_container_complete").classList.remove("hidden");
+
+            document.getElementById("footer_filter_container_not_7010").classList.add("hidden");
+            document.getElementById("footer_filter_container_all").classList.add("hidden");
+            document.getElementById("footer_filter_container_7010").classList.add("hidden");
+        } else {
+            document.getElementById("footer_filter_container_not_complete").classList.add("hidden");
+            document.getElementById("footer_filter_container_all_to_do").classList.add("hidden");
+            document.getElementById("footer_filter_container_complete").classList.add("hidden");
+
+            document.getElementById("footer_filter_container_not_7010").classList.remove("hidden");
+            document.getElementById("footer_filter_container_all").classList.remove("hidden");
+            document.getElementById("footer_filter_container_7010").classList.remove("hidden");
+        }
+    }
+    function switchTypeCheckboxes(tab) {
+        console.log("Entered - switchTypeCheckboxes(" + tab + ")");
+
+        if (tab == "toDo") {
+            /* Hiding WR only checkboxes */
+            document.getElementById("filter_container_waiting_ll").classList.add("hidden");
+            document.getElementById("filter_container_waiting_customer_not_approved").classList.add("hidden");
+            document.getElementById("filter_container_waiting_customer_approved").classList.add("hidden");
+            document.getElementById("filter_container_review_peer").classList.add("hidden");
+            document.getElementById("filter_container_review_coordinator").classList.add("hidden");
+            document.getElementById("filter_container_flag").classList.add("hidden");
+            document.getElementById("filter_container_7010").classList.add("hidden");
+            document.getElementById("filter_container_cancled_other").classList.add("hidden");
+
+            /* Revealing To-Do only checkboxes */
+            document.getElementById("filter_container_general").classList.remove("hidden");
+            document.getElementById("filter_container_contact_customer").classList.remove("hidden");
+            document.getElementById("filter_container_waiting_other").classList.remove("hidden");
+
+        } else {
+            /* Revealing WR only checkboxes */
+            document.getElementById("filter_container_waiting_ll").classList.remove("hidden");
+            document.getElementById("filter_container_waiting_customer_not_approved").classList.remove("hidden");
+            document.getElementById("filter_container_waiting_customer_approved").classList.remove("hidden");
+            document.getElementById("filter_container_review_peer").classList.remove("hidden");
+            document.getElementById("filter_container_review_coordinator").classList.remove("hidden");
+            document.getElementById("filter_container_flag").classList.remove("hidden");
+            document.getElementById("filter_container_7010").classList.remove("hidden");
+            document.getElementById("filter_container_cancled_other").classList.remove("hidden");
+
+            /* Hiding To-Do only checkboxes */
+            document.getElementById("filter_container_general").classList.add("hidden");
+            document.getElementById("filter_container_contact_customer").classList.add("hidden");
+            document.getElementById("filter_container_waiting_other").classList.add("hidden");
+
+        }
+    }
+    toDoTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoTab");
+
+        /* Deselecting all tabs */
+        deselectAllTabs();
+
+        /* Hiding inactive button */
+        toDoTab.classList.add("hidden");
+
+        /* Revealing features */
+        toDoTabActive.classList.remove("hidden");
+        filterByBoxContainer.classList.remove("hidden");
+        searchByBoxContainer.classList.remove("hidden"); // May remove this
+        trimContainer.classList.remove("hidden");
+        trimContainerLabel.classList.remove("hidden");
+        switchTrimBoxes("toDo");
+        switchTypeCheckboxes("toDo");
+        toDoDisplayContainer.classList.remove("hidden");
+
+        /* Most of the checkboxes match up with WR status' - will add and remove as needed */
+        allWrStatusFiltersContainer.classList.remove("hidden"); 
+        filterSectionStatusLabel.classList.remove("hidden");
+        filterSectionStatusLabel.innerHTML = "Type:";
+
+        /* Removing Filter By Priority Number */
+        document.getElementById("filter_container_priority_number").classList.add("hidden");
+        document.getElementById("filter_container_age_new_old").classList.add("hidden");
+        document.getElementById("filter_container_crd").classList.add("hidden");
+        document.getElementById("filter_container_age_old_new").classList.add("hidden");
+        document.getElementById("filter_container_rcd").classList.add("hidden");
+
+
+        /* Setting Page Defaults */
+        if (searchBySelectionCheckbox.checked == true) {
+            searchByWrCheckbox.checked = true;
+        } else {
+            filterCheckboxGeneral.checked = true;
+            trimByAllToDo.checked = true;
+        }
+    })
+    toDoTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoTabActive");
+
+        deselectAllToDoTab();
+    })
+
                     /* add Tab */
     addTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab");
@@ -9543,7 +9950,10 @@ async function mainEvent() {
         /* Reseting (Actually used for initializing) add To-Do display */
         resetDisplayToDoAddUpdate();
 
+        filterCheckboxAddWr.click();
+
         permitDateChangeValues = [addTabPermitDateApplied.value, addTabPermitStart.value, addTabPermitExpiration.value];
+
 
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
