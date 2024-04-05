@@ -831,7 +831,6 @@ class workRequest {
 
     makeRowElement() {
         console.log("Entered - workRequest - makeRowElement()");
-        console.log("this.wrAddressType = " + this.wrAddressType());
 
         let rowElement = document.createElement("rowElement");
         rowElement.classList.add("allWrDisplayWrRow");
@@ -1547,9 +1546,13 @@ class ToDoMasterList {
         let count = 1;
 
         for (var i = 0; i < this.list.length; i++) {
-            for (var j = 0; j < this.list[i].list.length; j++) {
+           
+            /*for (var j = 0; j < this.list[i].list.length; j++) {
                 count += 1;
-            }
+            }*/
+            count += this.list[i].contactCustomerList.length + this.list[i].siteVisitList.length + this.list[i].svcCalcList.length +
+                this.list[i].checkNJUNSList.length + this.list[i].checkPermitList.length + this.list[i].checkEasementList.length +
+                this.list[i].designList.length + this.list[i].revisionsList.length + this.list[i].generalList.length;
         }
 
         return count;
@@ -1573,26 +1576,94 @@ class ToDoMasterList {
 class ToDoDayObject {
     constructor(date) {
         this.date = date;
-        this.list = []; // List of To-Do's for the day
+        this.contactCustomerList = [];
+        this.siteVisitList = [];
+        this.svcCalcList = [];
+        this.checkNJUNSList = [];
+        this.checkPermitList = [];
+        this.checkEasementList = [];
+        this.designList = [];
+        this.revisionsList = [];
+        this.generalList = [];
+        //this.list = []; // List of To-Do's for the day
+    }
+
+    makePageElement() {
+        console.log("Entered - ToDoDayObject - makePageElement()");
+
+        let pageElement = document.createElement("pageElement");
+        pageElement.classList.add("toDoDisplayPageElement");
+
+        /* Contact Customer List */
+        if (this.contactCustomerList.length > 0) {
+            const contactCustomerListElem = document.createElement("contactCustomerList");
+            contactCustomerListElem.id = "contact_customer_list_" + this.date;
+            contactCustomerListElem.classList.add("toDoListTypeBorder");
+
+            contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visit"}</b></div>`;
+
+            for (var i = 0; i < this.contactCustomerList.length; i++) { // for each contact customer to-do ...
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.contactCustomerList[i].workRequestNumber}</div>`;
+    
+                for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.contactCustomerList[i].notes[j]}</div>`);
+                }
+                contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
+        }
+
+        
+        return pageElement;
     }
 
     add(toDo) {
         console.log("Entered - ToDoDayObject - add(toDo)");
 
-        this.list.push(toDo);
+        if (toDo.type == "Contact Customer") {
+            this.contactCustomerList.push(toDo);
+        } else if (toDo.type == "Site Visit") {
+            this.siteVisitList.push(toDo);
+        } else if (toDo.type == "Service Calc + Coding") {
+            this.svcCalcList.push(toDo);
+        } else if (toDo.type == "Check/Apply - NJUNS") {
+            this.checkNJUNSList.push(toDo);
+        } else if (toDo.type == "Check/Apply - Permit") {
+            this.checkPermitList.push(toDo);
+        } else if (toDo.type == "Check/Apply - Easement") {
+            this.checkEasementList.push(toDo);
+        } else if (toDo.type == "Design") {
+            this.designList.push(toDo);
+        } else if (toDo.type == "Revisions") {
+            this.revisionsList.push(toDo);
+        } else if (toDo.type == "General") {
+            this.generalList.push(toDo);
+        } 
+        //this.list.push(toDo);
     }
 
     toString() {
         console.log("Entered - ToDoDayObject - toString()");
 
         let str = "";
+
+        str += this.contactCustomerList.concat(this.siteVisitList.concat(this.svcCalcList.concat(this.checkNJUNSList.concat(
+            this.checkPermitList.concat(this.checkEasementList.concat(this.designList.concat(this.revisionsList.concat(this.generalList))))))));
+        
+        return str;
+
+        /*let str = "";
         str += this.date + "*";
 
         for (var i = 0; i < this.list.length; i++) {
             str += this.list[i];
         }
 
-        return str;
+        return str;*/
     }
 }
 
@@ -1607,6 +1678,14 @@ class ToDoObject {
         this.notes = notes; // will be an array strs
         this.workRequestNumber = workRequestNumber; // may be undefined at times
     }
+
+    /*makeRowElement() {
+        console.log("Entered - ToDoObject - makeRowElement()");
+
+        if (this.type == "Contact Customer") {
+
+        }
+    }*/
 
     compare(toDo) {
         console.log("Entered - ToDoObject - compare(" + toDo + ")");
@@ -3422,7 +3501,7 @@ async function mainEvent() {
         console.log("** TEST FUNCTION **");
 
         //Testing To-Do's tab
-        toDoTab.click();
+        //toDoTab.click();
 
         //Testing add To-Do's
         /*addTab.click();
@@ -6460,11 +6539,15 @@ async function mainEvent() {
             } else {
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
-                document.getElementById("add_tab_display_to_do_completed").checked, notes);
+                document.getElementById("add_tab_display_to_do_completed").checked, notes, addTabNewWorkRequestNumber.value);
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
                 resetDisplayToDoAddUpdate();
+
+                console.log(toDo);
+                let x = toDoMasterList.list[0].makePageElement();
+                document.getElementById("to_do_display_row_element_container").insertAdjacentElement("beforeend", x);
             }
             
         }

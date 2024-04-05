@@ -2874,6 +2874,27 @@ h5 {
     width: 1100px;
 }
 
+.toDoListNoBump {
+    display: flex;
+    margin-left: 10px;
+}
+
+.toDoListBumpOnce {
+    display: flex;
+    margin-left: 50px;
+}
+
+.toDoListBumpTwice {
+    display: flex;
+    margin-left: 80px;
+}
+
+.toDoListTypeBorder {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+}
+
 .hidden {
     display: none;
     
