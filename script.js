@@ -436,7 +436,7 @@ class ToDoTypeDDMenu {
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Service Calc + Coding"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - NJUNS"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - Permit"}</div>`);
-        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - Easment"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Check/ Apply - Easement"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Site Visit"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Design"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Revisions"}</div>`);
@@ -775,7 +775,7 @@ class Error {
     displayMustAddNoteForGeneralTypeToDo() {
         console.log("Entered - displayMustAddNoteForGeneralTypeToDo()");
 
-        const temp = document.getElementById("add_tab_display_to_do_row_three_add_button");
+        const temp = document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container");
         temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageMustAddNoteForGeneralTypeComment" id="error_message">Must Add At Least One Note For \"General\" Type To-Do</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_message");
@@ -1528,11 +1528,52 @@ class ToDoMasterList {
 
     getToDo(toDoId) {
         console.log("Entered - ToDoMasterList - getToDo(" + toDoId + ")");
+        console.log(this.list);
 
         for (var i = 0; i < this.list.length; i++) {
-            for (var j = 0; j < this.list[i].list.length; j++) {
-                if (this.list[i].list[j].toDoId == toDoId) {
-                    return [1, this.list[i].list[j], i, j];
+            for (var j = 0; j < this.list[i].contactCustomerList.length; j++) {
+                if (this.list[i].contactCustomerList[j].toDoId == toDoId) {
+                    return [1, this.list[i].contactCustomerList[j], i, j, "Contact Customer"];
+                }
+            }
+            for (var j = 0; j < this.list[i].siteVisitList.length; j++) {
+                if (this.list[i].siteVisitList[j].toDoId == toDoId) {
+                    return [1, this.list[i].siteVisitList[j], i, j, "Site Visit"];
+                }
+            }
+            for (var j = 0; j < this.list[i].svcCalcList.length; j++) {
+                if (this.list[i].svcCalcList[j].toDoId == toDoId) {
+                    return [1, this.list[i].svcCalcList[j], i, j, "Svc Calc"];
+                }
+            }
+            for (var j = 0; j < this.list[i].checkNJUNSList.length; j++) {
+                if (this.list[i].checkNJUNSList[j].toDoId == toDoId) {
+                    return [1, this.list[i].checkNJUNSList[j], i, j, "Check NJUNS"];
+                }
+            }
+            for (var j = 0; j < this.list[i].checkPermitList.length; j++) {
+                if (this.list[i].checkPermitList[j].toDoId == toDoId) {
+                    return [1, this.list[i].checkPermitList[j], i, j, "Check Permit"];
+                }
+            }
+            for (var j = 0; j < this.list[i].checkEasementList.length; j++) {
+                if (this.list[i].checkEasementList[j].toDoId == toDoId) {
+                    return [1, this.list[i].checkEasementList[j], i, j, "Check Easement"];
+                }
+            }
+            for (var j = 0; j < this.list[i].designList.length; j++) {
+                if (this.list[i].designList[j].toDoId == toDoId) {
+                    return [1, this.list[i].designList[j], i, j, "Design"];
+                }
+            }
+            for (var j = 0; j < this.list[i].revisionsList.length; j++) {
+                if (this.list[i].revisionsList[j].toDoId == toDoId) {
+                    return [1, this.list[i].revisionsList[j], i, j, "Revisions"];
+                }
+            }
+            for (var j = 0; j < this.list[i].generalList.length; j++) {
+                if (this.list[i].generalList[j].toDoId == toDoId) {
+                    return [1, this.list[i].generalList[j], i, j, "General"];
                 }
             }
         }
@@ -1546,7 +1587,6 @@ class ToDoMasterList {
         let count = 1;
 
         for (var i = 0; i < this.list.length; i++) {
-           
             /*for (var j = 0; j < this.list[i].list.length; j++) {
                 count += 1;
             }*/
@@ -1590,6 +1630,7 @@ class ToDoDayObject {
 
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
+        console.log(this);
 
         let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
@@ -1600,41 +1641,328 @@ class ToDoDayObject {
             contactCustomerListElem.id = "contact_customer_list_" + this.date;
             contactCustomerListElem.classList.add("toDoListTypeBorder");
 
-            contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visit"}</b></div>`;
+            contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customer:"}</b></div>`;
 
             for (var i = 0; i < this.contactCustomerList.length; i++) { // for each contact customer to-do ...
+
+                // Making Type Label Plural if list is > 1
+                if (this.contactCustomerList.length > 1) {
+                    contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customers:"}</b></div>`;
+                }
+
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.contactCustomerList[i].workRequestNumber}</div>`;
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                ${`<div class="toDoListBumpOnce">${this.contactCustomerList[i].workRequestNumber}</div>`}
+                ${`<div class="toDoListLabelButtonContainer">
+                    ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
+                    ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                </div`}
+                
+                </div>`;
     
                 for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.contactCustomerList[i].notes[j]}</div>`);
+                    const temp = `<div class="toDoNoteContainer">
+                    ${`<div class="toDoListBumpTwice">${this.contactCustomerList[i].notes[j]}</div>`}
+                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
                 }
                 contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
+                console.log("*** toDoObjectWrInfo_" + i + " was added to list elem");
+                pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
+                console.log("new page elem =");
+                console.log(pageElement);
             }
 
-            pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
+        }
+        /* Site Visit List */
+        if (this.siteVisitList.length > 0) {
+            const siteVisitListElem = document.createElement("siteVisitList");
+            siteVisitListElem.id = "site_visit_list_" + this.date;
+            siteVisitListElem.classList.add("toDoListTypeBorder");
+
+            siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visit:"}</b></div>`;
+
+            for (var i = 0; i < this.siteVisitList.length; i++) { // for each site visit to-do ...
+                
+                // Making Type Label Plural if list is > 1
+                if (this.siteVisitList.length > 1) {
+                    siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visits:"}</b></div>`;
+                }
+
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "site_visit_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                ${`<div class="toDoListBumpOnce">${this.siteVisitList[i].workRequestNumber}</div>`}
+                ${`<div class="toDoListLabelButtonContainer">
+                    ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
+                    ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                </div`}
+                
+                </div>`;
+
+                for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
+                    const temp = `<div class="toDoNoteContainer">
+                    ${`<div class="toDoListBumpTwice">${this.siteVisitList[i].notes[j]}</div>`}
+                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                siteVisitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the site visit list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", siteVisitListElem); // add the site visit list to the page elem
         }
 
-        
+        /* Svc Calc List */
+        if (this.svcCalcList.length > 0) {
+            const svcCalcListElem = document.createElement("svcCalcListElem");
+            svcCalcListElem.id = "svc_calc_list_" + this.date;
+            svcCalcListElem.classList.add("toDoListTypeBorder");
+
+            svcCalcListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Svc Calc + Coding:"}</b></div>`;
+
+            for (var i = 0; i < this.svcCalcList.length; i++) { // for each svc calc to-do ...
+                
+                // Making Type Label Plural if list is > 1
+                if (this.svcCalcList.length > 1) {
+                    svcCalcListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Svc Calcs + Coding:"}</b></div>`;
+                }
+
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "svc_calc_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                ${`<div class="toDoListBumpOnce">${this.svcCalcList[i].workRequestNumber}</div>`}
+                ${`<div class="toDoListLabelButtonContainer">
+                    ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
+                    ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                </div`}
+                
+                </div>`;
+                for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
+                    const temp = `<div class="toDoNoteContainer">
+                    ${`<div class="toDoListBumpTwice">${this.svcCalcList[i].notes[j]}</div>`}
+                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                svcCalcListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the svc calc list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", svcCalcListElem); // add the svc list to the page elem
+        }
+
+        /* Check NJUNS List */
+        if (this.checkNJUNSList.length > 0) {
+            const checkNJUNSListElem = document.createElement("checkNJUNSListElem");
+            checkNJUNSListElem.id = "check_njuns_list_" + this.date;
+            checkNJUNSListElem.classList.add("toDoListTypeBorder");
+
+            checkNJUNSListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for NJUNS:"}</b></div>`;
+
+            for (var i = 0; i < this.checkNJUNSList.length; i++) { // for each njuns to-do ...
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "check_njuns_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                ${`<div class="toDoListBumpOnce">${this.checkNJUNSList[i].workRequestNumber}</div>`}
+                ${`<div class="toDoListLabelButtonContainer">
+                    ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
+                    ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                </div`}
+                
+                </div>`;
+                for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
+                    const temp = `<div class="toDoNoteContainer">
+                    ${`<div class="toDoListBumpTwice">${this.checkNJUNSList[i].notes[j]}</div>`}
+                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                checkNJUNSListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check njuns list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", checkNJUNSListElem); // add the check njuns list to the page elem
+        }
+
+        /* Check Permit List */
+        if (this.checkPermitList.length > 0) {
+            const checkPermitListElem = document.createElement("checkPermitListElem");
+            checkPermitListElem.id = "check_permit_list_" + this.date;
+            checkPermitListElem.classList.add("toDoListTypeBorder");
+
+            checkPermitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Permit:"}</b></div>`;
+
+            for (var i = 0; i < this.checkPermitList.length; i++) { // for each permit to-do ...
+
+                // Making Type Label Plural if list is > 1
+                if (this.checkPermitList.length > 1) {
+                    checkPermitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Permits:"}</b></div>`;
+                }
+
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "check_permit_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoObjectContainer">
+                ${`<div class="toDoListBumpOnce">${this.checkPermitList[i].workRequestNumber}</div>`}
+                ${`<div class="toDoListLabelButtonContainer">
+                    ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
+                    ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                </div`}
+                
+                </div>`;
+                for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
+                    const temp = `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.checkPermitList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                checkPermitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", checkPermitListElem); // add the check permit list to the page elem
+        }
+
+        /* Check Easement List */
+        if (this.checkEasementList.length > 0) {
+            const checkEasementListElem = document.createElement("checkEasementListElem");
+            checkEasementListElem.id = "check_easement_list_" + this.date;
+            checkEasementListElem.classList.add("toDoListTypeBorder");
+
+            checkEasementListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Easement:"}</b></div>`;
+
+            for (var i = 0; i < this.checkEasementList.length; i++) {
+
+                // Making Type Label Plural if list is > 1
+                if (this.checkEasementList.length > 1) {
+                    checkEasementListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Easements:"}</b></div>`;
+                }
+
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "check_easement_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.checkEasementList[i].workRequestNumber}</div>`;
+
+                for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.checkEasementList[i].notes[j]}</div>`);
+                }
+                checkEasementListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check easement list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", checkEasementListElem); // add the check easement list to the page elem
+        }
+
+        /* Design List */
+        if (this.designList.length > 0) {
+            const designListElem = document.createElement("designListElem");
+            designListElem.id = "design_list_" + this.date;
+            designListElem.classList.add("toDoListTypeBorder");
+
+            designListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Design:"}</b></div>`;
+
+            for (var i = 0; i < this.designList.length; i++) {
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "design_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.designList[i].workRequestNumber}</div>`;
+
+                for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.designList[i].notes[j]}</div>`);
+                }
+                designListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the design list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", designListElem); // add the design list to the page elem            
+        }
+
+        /* Revisions List */
+        if (this.revisionsList.length > 0) {
+            const revisionsListElem = document.createElement("revisionsListElem");
+            revisionsListElem.id = "revisions_list_" + this.date;
+            revisionsListElem.classList.add("toDoListTypeBorder");
+
+            revisionsListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Revisions:"}</b></div>`;
+
+            for (var i = 0; i < this.revisionsList.length; i++) {
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "revisions_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.revisionsList[i].workRequestNumber}</div>`;
+
+                for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.revisionsList[i].notes[j]}</div>`);
+                }
+                revisionsListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the revisions list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", revisionsListElem); // add the revisions list to the page elem   
+        }
+
+        /* General List */
+        if (this.generalList.length > 0) {
+            const generalListElem = document.createElement("generalListElem");
+            generalListElem.id = "general_list_" + this.date;
+            generalListElem.classList.add("toDoListTypeBorder");
+
+            generalListElem.innerHTML = `<div class="toDoListNoBump"><b>${"General:"}</b></div>`;
+
+            for (var i = 0; i < this.generalList.length; i++) {
+                const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+                toDoObjectWrInfo.id = "general_list_" + this.date + "_item_" + i;
+
+                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.generalList[i].workRequestNumber}</div>`;
+
+                for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.generalList[i].notes[j]}</div>`);
+                }
+                generalListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the general list
+            }
+
+            pageElement.insertAdjacentElement("beforeend", generalListElem); // add the general list to the page elem  
+        }
+
+
         return pageElement;
     }
 
     add(toDo) {
         console.log("Entered - ToDoDayObject - add(toDo)");
+        console.log("hiya **");
+        console.log(toDo);
 
         if (toDo.type == "Contact Customer") {
             this.contactCustomerList.push(toDo);
+            console.log("cont cust list =");
+            console.log(this.contactCustomerList);
         } else if (toDo.type == "Site Visit") {
             this.siteVisitList.push(toDo);
         } else if (toDo.type == "Service Calc + Coding") {
             this.svcCalcList.push(toDo);
-        } else if (toDo.type == "Check/Apply - NJUNS") {
+        } else if (toDo.type == "Check/ Apply - NJUNS") {
             this.checkNJUNSList.push(toDo);
-        } else if (toDo.type == "Check/Apply - Permit") {
+        } else if (toDo.type == "Check/ Apply - Permit") {
             this.checkPermitList.push(toDo);
-        } else if (toDo.type == "Check/Apply - Easement") {
+        } else if (toDo.type == "Check/ Apply - Easement") {
             this.checkEasementList.push(toDo);
         } else if (toDo.type == "Design") {
             this.designList.push(toDo);
@@ -2081,6 +2409,21 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
         //prev.classList.add("hidden");
         prev.disabled = true;
     }
+}
+function injectHTMLToDoTabDisplay(toDoDayObject) {
+    console.log("Entered - injectHTMLToDoTabDisplay()");
+    console.log(toDoDayObject);
+
+    const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+
+    toDoRowElementContainer.innerHTML = "";
+
+    const temp = toDoDayObject.makePageElement();
+    console.log(temp);
+    
+
+    toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
+
 }
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
     console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
@@ -6153,10 +6496,6 @@ async function mainEvent() {
         const permitsTabPermitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML;
 
 
-        if (filterCheckboxAddToDo.checked == false) {
-            
-
-        }
         
         if (filterCheckboxAddWr.checked == true) {
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
@@ -6373,17 +6712,49 @@ async function mainEvent() {
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
 
                 //toDoMasterList.list[temp[2]].list[temp[3]] = toDo;
-                const old = toDoMasterList.list[temp[2]].list[temp[3]];
+                let old = [];
+                if (temp[4] == "Contact Customer") {
+                    old = toDoMasterList.list[temp[2]].contactCustomerList[temp[3]];
+                } else if (temp[4] == "Site Visit") {
+                    old = toDoMasterList.list[temp[2]].siteVisitList[temp[3]];
+                } else if (temp[4] == "Svc Calc") {
+                    old = toDoMasterList.list[temp[2]].svcCalcList[temp[3]];
+                } else if (temp[4] == "Check NJUNS") {
+                    old = toDoMasterList.list[temp[2]].checkNJUNSList[temp[3]];
+                } else if (temp[4] == "Check Permit") {
+                    old = toDoMasterList.list[temp[2]].checkPermitList[temp[3]];
+                } else if (temp[4] == "Check Easement") {
+                    old = toDoMasterList.list[temp[2]].checkEasementList[temp[3]];
+                } else if (temp[4] == "Design") {
+                    old = toDoMasterList.list[temp[2]].designList[temp[3]];
+                } else if (temp[4] == "Revisions") {
+                    old = toDoMasterList.list[temp[2]].revisionsList[temp[3]];
+                } else if (temp[4] == "General") {
+                    old = toDoMasterList.list[temp[2]].generalList[temp[3]];
+                } 
 
-                console.log("old = ");
-                console.log(old);
 
-                console.log(toDo);
-
-                console.log("*** h");
-                console.log(old.compare(toDo));
+                
                 if (old.compare(toDo) == 0) { // they are not equal
-                    toDoMasterList.list[temp[2]].list[temp[3]] = toDo;
+                    if (temp[4] == "Contact Customer") {
+                        toDoMasterList.list[temp[2]].contactCustomerList[temp[3]] = toDo;
+                    } else if (temp[4] == "Site Visit") {
+                        toDoMasterList.list[temp[2]].siteVisitList[temp[3]] = toDo;
+                    } else if (temp[4] == "Svc Calc") {
+                        toDoMasterList.list[temp[2]].svcCalcList[temp[3]] = toDo;
+                    } else if (temp[4] == "Check NJUNS") {
+                        toDoMasterList.list[temp[2]].checkNJUNSList[temp[3]] = toDo;
+                    } else if (temp[4] == "Check Permit") {
+                        toDoMasterList.list[temp[2]].checkPermitList[temp[3]] = toDo;
+                    } else if (temp[4] == "Check Easement") {
+                        toDoMasterList.list[temp[2]].checkEasementList[temp[3]] = toDo;
+                    } else if (temp[4] == "Design") {
+                        toDoMasterList.list[temp[2]].designList[temp[3]] = toDo;
+                    } else if (temp[4] == "Revisions") {
+                        toDoMasterList.list[temp[2]].revisionsList[temp[3]] = toDo;
+                    } else if (temp[4] == "General") {
+                        toDoMasterList.list[temp[2]].generalList[temp[3]] = toDo;
+                    } 
                     h.displayToDoUpdated(toDo.toDoId);
                     resetDisplayToDoAddUpdate();
                 } else {
@@ -6543,11 +6914,17 @@ async function mainEvent() {
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
-                resetDisplayToDoAddUpdate();
+                console.log("***ddd");
+                console.log(document.getElementById("to_do_type_dd_0_current").innerHTML);
 
-                console.log(toDo);
-                let x = toDoMasterList.list[0].makePageElement();
-                document.getElementById("to_do_display_row_element_container").insertAdjacentElement("beforeend", x);
+                resetDisplayToDoAddUpdate();
+                const temp = toDoMasterList.getToDo(toDo.toDoId);
+
+                console.log("** temp");
+                console.log(toDoMasterList);
+                console.log(temp);
+
+                injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
             }
             
         }
