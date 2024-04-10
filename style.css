@@ -2889,6 +2889,7 @@ h5 {
 .toDoListBumpTwice {
     display: flex;
     margin-left: 80px;
+    width: fit-content;
 }
 
 .toDoListTypeBorder {
@@ -2915,14 +2916,17 @@ h5 {
 .toDoListButton {
     display: flex;
     font-size: small;
+    width: fit-content;
+    height: 19px;
     border: 1px solid black;
     padding: 2px;
     align-items: center;
     justify-content: center;
-    padding-left: 10px;
-    padding-right: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 6px;
+    margin-right: 6px;
+    
 }
 
 .toDoListLabel {
