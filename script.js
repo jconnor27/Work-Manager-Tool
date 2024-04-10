@@ -1630,7 +1630,6 @@ class ToDoDayObject {
 
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
-        console.log(this);
 
         let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
@@ -1643,43 +1642,39 @@ class ToDoDayObject {
 
             contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customer:"}</b></div>`;
 
+            // Making Type Label Plural if list is > 1
+            if (this.contactCustomerList.length > 1) {
+                contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customers:"}</b></div>`;
+            }
+
             for (var i = 0; i < this.contactCustomerList.length; i++) { // for each contact customer to-do ...
-
-                // Making Type Label Plural if list is > 1
-                if (this.contactCustomerList.length > 1) {
-                    contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customers:"}</b></div>`;
-                }
-
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
-
+                
                 toDoObjectWrInfo.innerHTML = 
                 `<div class="toDoObjectContainer">
-                ${`<div class="toDoListBumpOnce">${this.contactCustomerList[i].workRequestNumber}</div>`}
-                ${`<div class="toDoListLabelButtonContainer">
-                    ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
-                    ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
-                </div`}
-                
+                    ${`<div class="toDoListBumpOnce">${this.contactCustomerList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
                 </div>`;
     
                 for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
-                    const temp = `<div class="toDoNoteContainer">
-                    ${`<div class="toDoListBumpTwice">${this.contactCustomerList[i].notes[j]}</div>`}
-                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.contactCustomerList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
                     </div>`;
 
                     toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
                 }
                 contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
-                console.log("*** toDoObjectWrInfo_" + i + " was added to list elem");
-                pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
-                console.log("new page elem =");
-                console.log(pageElement);
             }
 
+            pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
         }
         /* Site Visit List */
         if (this.siteVisitList.length > 0) {
@@ -1689,35 +1684,35 @@ class ToDoDayObject {
 
             siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visit:"}</b></div>`;
 
-            for (var i = 0; i < this.siteVisitList.length; i++) { // for each site visit to-do ...
-                
-                // Making Type Label Plural if list is > 1
-                if (this.siteVisitList.length > 1) {
-                    siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visits:"}</b></div>`;
-                }
+            // Making Type Label Plural if list is > 1
+            if (this.siteVisitList.length > 1) {
+                siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visits:"}</b></div>`;
+            }
 
+            for (var i = 0; i < this.siteVisitList.length; i++) { // for each site visit to-do ...
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "site_visit_list_" + this.date + "_item_" + i;
 
                 toDoObjectWrInfo.innerHTML = 
                 `<div class="toDoObjectContainer">
-                ${`<div class="toDoListBumpOnce">${this.siteVisitList[i].workRequestNumber}</div>`}
-                ${`<div class="toDoListLabelButtonContainer">
-                    ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
-                    ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
-                </div`}
-                
+                    ${`<div class="toDoListBumpOnce">${this.siteVisitList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
                 </div>`;
 
                 for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
-                    const temp = `<div class="toDoNoteContainer">
-                    ${`<div class="toDoListBumpTwice">${this.siteVisitList[i].notes[j]}</div>`}
-                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.siteVisitList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                }
                 siteVisitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the site visit list
             }
 
@@ -1732,34 +1727,35 @@ class ToDoDayObject {
 
             svcCalcListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Svc Calc + Coding:"}</b></div>`;
 
-            for (var i = 0; i < this.svcCalcList.length; i++) { // for each svc calc to-do ...
-                
-                // Making Type Label Plural if list is > 1
-                if (this.svcCalcList.length > 1) {
-                    svcCalcListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Svc Calcs + Coding:"}</b></div>`;
-                }
+            // Making Type Label Plural if list is > 1
+            if (this.svcCalcList.length > 1) {
+                svcCalcListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Svc Calcs + Coding:"}</b></div>`;
+            }
 
+            for (var i = 0; i < this.svcCalcList.length; i++) { // for each svc calc to-do ...
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "svc_calc_list_" + this.date + "_item_" + i;
 
                 toDoObjectWrInfo.innerHTML = 
                 `<div class="toDoObjectContainer">
-                ${`<div class="toDoListBumpOnce">${this.svcCalcList[i].workRequestNumber}</div>`}
-                ${`<div class="toDoListLabelButtonContainer">
-                    ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
-                    ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
-                </div`}
-                
+                    ${`<div class="toDoListBumpOnce">${this.svcCalcList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
                 </div>`;
+
                 for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
-                    const temp = `<div class="toDoNoteContainer">
-                    ${`<div class="toDoListBumpTwice">${this.svcCalcList[i].notes[j]}</div>`}
-                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.svcCalcList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                }
                 svcCalcListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the svc calc list
             }
 
@@ -1780,22 +1776,24 @@ class ToDoDayObject {
 
                 toDoObjectWrInfo.innerHTML = 
                 `<div class="toDoObjectContainer">
-                ${`<div class="toDoListBumpOnce">${this.checkNJUNSList[i].workRequestNumber}</div>`}
-                ${`<div class="toDoListLabelButtonContainer">
-                    ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
-                    ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
-                </div`}
-                
+                    ${`<div class="toDoListBumpOnce">${this.checkNJUNSList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
                 </div>`;
+
                 for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
-                    const temp = `<div class="toDoNoteContainer">
-                    ${`<div class="toDoListBumpTwice">${this.checkNJUNSList[i].notes[j]}</div>`}
-                    ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.checkNJUNSList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                }
                 checkNJUNSListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check njuns list
             }
 
@@ -1810,33 +1808,34 @@ class ToDoDayObject {
 
             checkPermitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Permit:"}</b></div>`;
 
+            // Making Type Label Plural if list is > 1
+            if (this.checkPermitList.length > 1) {
+                checkPermitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Permits:"}</b></div>`;
+            }
+
             for (var i = 0; i < this.checkPermitList.length; i++) { // for each permit to-do ...
-
-                // Making Type Label Plural if list is > 1
-                if (this.checkPermitList.length > 1) {
-                    checkPermitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Permits:"}</b></div>`;
-                }
-
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_permit_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoObjectContainer">
-                ${`<div class="toDoListBumpOnce">${this.checkPermitList[i].workRequestNumber}</div>`}
-                ${`<div class="toDoListLabelButtonContainer">
-                    ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
-                    ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
-                    ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
-                </div`}
-                
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                    ${`<div class="toDoListBumpOnce">${this.checkPermitList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
                 </div>`;
                 for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
-                    const temp = `<div class="toDoNoteContainer">
+                    const temp = 
+                    `<div class="toDoNoteContainer">
                         ${`<div class="toDoListBumpTwice">${this.checkPermitList[i].notes[j]}</div>`}
                         ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                }
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                }
                 checkPermitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
@@ -1851,22 +1850,36 @@ class ToDoDayObject {
 
             checkEasementListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Easement:"}</b></div>`;
 
+            // Making Type Label Plural if list is > 1
+            if (this.checkEasementList.length > 1) {
+                checkEasementListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Easements:"}</b></div>`;
+            }
+
             for (var i = 0; i < this.checkEasementList.length; i++) {
-
-                // Making Type Label Plural if list is > 1
-                if (this.checkEasementList.length > 1) {
-                    checkEasementListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Check/ Apply for Easements:"}</b></div>`;
-                }
-
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_easement_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.checkEasementList[i].workRequestNumber}</div>`;
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                    ${`<div class="toDoListBumpOnce">${this.checkEasementList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div>`}
+                </div>`;
 
                 for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.checkEasementList[i].notes[j]}</div>`);
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.checkEasementList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
                 }
-                checkEasementListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check easement list
+                checkEasementListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
             pageElement.insertAdjacentElement("beforeend", checkEasementListElem); // add the check easement list to the page elem
@@ -1884,10 +1897,25 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "design_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.designList[i].workRequestNumber}</div>`;
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                    ${`<div class="toDoListBumpOnce">${this.designList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
+                </div>`;
 
                 for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.designList[i].notes[j]}</div>`);
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.designList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
                 }
                 designListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the design list
             }
@@ -1907,11 +1935,25 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "revisions_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.revisionsList[i].workRequestNumber}</div>`;
+                toDoObjectWrInfo.innerHTML = 
+                `<div class="toDoObjectContainer">
+                    ${`<div class="toDoListBumpOnce">${this.revisionsList[i].workRequestNumber}</div>`}
+                    ${`<div class="toDoListLabelButtonContainer">
+                        ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
+                        ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                        ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                    </div`}
+                </div>`;
 
                 for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.revisionsList[i].notes[j]}</div>`);
-                }
+                    const temp = 
+                    `<div class="toDoNoteContainer">
+                        ${`<div class="toDoListBumpTwice">${this.revisionsList[i].notes[j]}</div>`}
+                        ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                    </div>`;
+
+                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                   }
                 revisionsListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the revisions list
             }
 
@@ -1930,11 +1972,50 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "general_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = `<div class="toDoListBumpOnce">${this.generalList[i].workRequestNumber}</div>`;
+                if (this.generalList[i].workRequestNumber != undefined && this.generalList[i].workRequestNumber != "") { // User provided optional work request number
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce">${this.generalList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+    
+                    for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<div class="toDoListBumpTwice">${this.generalList[i].notes[j]}</div>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="to_do_list_complete_note_checkbox"></div>`}
+                        </div>`;
+    
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
+                    }
+                } else { // no work request number was entered
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        
+                    </div>`;
 
-                for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", `<div class="toDoListBumpTwice">${this.generalList[i].notes[j]}</div>`);
+                    for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<div class="toDoListBumpOnce">${this.generalList[i].notes[j]}</div>`}
+                            ${`<div class="toDoListLabelButtonContainer">
+                                ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
+                                ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
+                                ${`<div class="toDoListButton" id="to_do_list_move_${i}">${`<b>${"Move"}</b>`}</div>`}
+                                ${`<div class="toDoListButton" id="to_do_list_complete_${i}">${`<b>${"Complete"}</b>`}</div>`}
+                            </div`}
+                        </div>`;
+
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
+                    }
+                    
                 }
+                
                 generalListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the general list
             }
 
@@ -1952,8 +2033,7 @@ class ToDoDayObject {
 
         if (toDo.type == "Contact Customer") {
             this.contactCustomerList.push(toDo);
-            console.log("cont cust list =");
-            console.log(this.contactCustomerList);
+            
         } else if (toDo.type == "Site Visit") {
             this.siteVisitList.push(toDo);
         } else if (toDo.type == "Service Calc + Coding") {
@@ -1970,6 +2050,8 @@ class ToDoDayObject {
             this.revisionsList.push(toDo);
         } else if (toDo.type == "General") {
             this.generalList.push(toDo);
+            console.log("general list =");
+            console.log(this.generalList);
         } 
         //this.list.push(toDo);
     }
