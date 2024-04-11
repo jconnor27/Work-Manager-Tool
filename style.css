@@ -1613,6 +1613,17 @@ h5 {
     margin-right: -190px;
 }
 
+.errorMessageInvalidToDoType {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    color: red;
+    margin-left: -20px;
+    margin-right: -150px;
+}
+
 .errorMessageInvalidToDoId {
     display: flex;
     font-size: medium;
@@ -2844,7 +2855,7 @@ h5 {
 .toDoMoveIncompleteButton {
     display: flex;
     border: 2px solid black;
-    font-size: large;
+    font-size: medium;
     width: 130px;
     padding: 5px;
     border-radius: 5px;
@@ -2955,6 +2966,8 @@ h5 {
     width: 15px;
     height: 15px;
     margin-right: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .hidden {

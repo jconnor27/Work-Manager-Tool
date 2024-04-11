@@ -758,16 +758,21 @@ class Error {
     displayInvalidToDoId() {
         console.log("Entered - displayInvalidToDoId()");
 
-        
+        const temp = document.getElementById("add_tab_display_to_do_row_zero_numfield");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidToDoId" id="error_invalid_to_do_id">Invalid To-Do ID</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_invalid_to_do_id");
+            temp.remove();
+        }, 3000)
     }
 
     displaySelectToDoType() {
         console.log("Entered - displaySelectToDoType()");
 
         const temp = document.getElementById("add_tab_display_to_do_dd_menu_type_container");
-        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidToDoId" id="error_invalid_to_do_id"> Select To-Do Type</div>`);
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidToDoType" id="error_invalid_to_do_type"> Select To-Do Type</div>`);
         setTimeout(() => {
-            const temp = document.getElementById("error_invalid_to_do_id");
+            const temp = document.getElementById("error_invalid_to_do_type");
             temp.remove();
         }, 3000)
     } 
@@ -1511,12 +1516,146 @@ class ToDoMasterList {
         this.list = []; // list of all ToDoDay objects
     }
 
-    complete(type, index) {
-        console.log("Entered - ToDoMasterList - complete(" + index + ")");
+    /* Completes and uncompletes toDoObject and associated notes */
+    complete(date, type, index) {
+        console.log("Entered - ToDoMasterList - complete(date = " + date + " type= " + type + " index= " + index + ")");
+        
+        /* Finding index of ToDoDayObject via date */
+        let tempIndex = -1; // should throw error if not set below
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].date == date) {
+                tempIndex = i;
+            }
+        }
 
         if (type == "contact_customer") {
-            
+            if (this.list[tempIndex].contactCustomerList[index].completed == false) {
+                this.list[tempIndex].contactCustomerList[index].completed = true;
+            } else {
+                this.list[tempIndex].contactCustomerList[index].completed = false;
+            }
+        } else if (type == "site_visit") {
+            if (this.list[tempIndex].siteVisitList[index].completed == false) {
+                this.list[tempIndex].siteVisitList[index].completed = true;
+            } else {
+                this.list[tempIndex].siteVisitList[index].completed = false;
+            }
+        } else if (type == "svc_calc") {
+            if (this.list[tempIndex].svcCalcList[index].completed == false) {
+                this.list[tempIndex].svcCalcList[index].completed = true;
+            } else {
+                this.list[tempIndex].svcCalcList[index].completed = false;
+            }
+        } else if (type == "check_njuns") {
+            if (this.list[tempIndex].checkNJUNSList[index].completed == false) {
+                this.list[tempIndex].checkNJUNSList[index].completed = true;
+            } else {
+                this.list[tempIndex].checkNJUNSList[index].completed = false;
+            }
+        } else if (type == "check_permit") {
+            if (this.list[tempIndex].checkPermitList[index].completed == false) {
+                this.list[tempIndex].checkPermitList[index].completed = true;
+            } else {
+                this.list[tempIndex].checkPermitList[index].completed = false;
+            }
+        } else if (type == "check_easement") {
+            if (this.list[tempIndex].checkEasementList[index].completed == false) {
+                this.list[tempIndex].checkEasementList[index].completed = true;
+            } else {
+                this.list[tempIndex].checkEasementList[index].completed = false;
+            }
+        } else if (type == "design") {
+            if (this.list[tempIndex].designList[index].completed == false) {
+                this.list[tempIndex].designList[index].completed = true;
+            } else {
+                this.list[tempIndex].designList[index].completed = false;
+            }
+        } else if (type == "revisions") {
+            if (this.list[tempIndex].revisionsList[index].completed == false) {
+                this.list[tempIndex].revisionsList[index].completed = true;
+            } else {
+                this.list[tempIndex].revisionsList[index].completed = false;
+            }
+        } else if (type == "general") {
+            if (this.list[tempIndex].generalList[index].completed == false) {
+                this.list[tempIndex].generalList[index].completed = true;
+            } else {
+                this.list[tempIndex].generalList[index].completed = false;
+            }
+        } 
+        injectHTMLToDoTabDisplay(this.list[tempIndex]);
+    }
+    /* Completes and uncompletes note */
+    completeNote(date, type, toDoIndex, noteIndex) {
+        console.log("Entered - ToDoMasterList - completeNote(date= " + date + " type= " + type + " toDoIndex= " + toDoIndex + " noteIndex= " + noteIndex + ")");
+
+        /* Finding index of ToDoDayObject via date */
+        let tempIndex = -1; // should throw error if not set below
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].date == date) {
+                tempIndex = i;
+            }
         }
+
+        if (type == "contact_customer") {
+            if (this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "site_visit") {
+            if (this.list[tempIndex].siteVisitList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].siteVisitList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].siteVisitList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "svc_calc") {
+            if (this.list[tempIndex].svcCalcList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].svcCalcList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].svcCalcList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "check_njuns") {
+            if (this.list[tempIndex].checkNJUNSList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].checkNJUNSList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].checkNJUNSList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "check_permit") {
+            if (this.list[tempIndex].checkPermitList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].checkPermitList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].checkPermitList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "check_easement") {
+            if (this.list[tempIndex].checkEasementList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].checkEasementList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].checkEasementList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "design") {
+            if (this.list[tempIndex].designList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].designList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].designList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "revisions") {
+            if (this.list[tempIndex].revisionsList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].revisionsList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].revisionsList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        } else if (type == "general") {
+            if (this.list[tempIndex].generalList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
+                this.list[tempIndex].generalList[toDoIndex].notes[noteIndex][1] = true;
+            } else {
+                this.list[tempIndex].generalList[toDoIndex].notes[noteIndex][1] = false;
+            }
+        }
+        injectHTMLToDoTabDisplay(this.list[tempIndex]);
+ 
     }
 
     add(toDo) {
@@ -1586,6 +1725,42 @@ class ToDoMasterList {
             }
         }
         return 0; // returns 0 if toDoId not found
+    }
+
+    /* Used in toDoDisplayRowElementContainer - returns the toDoObject associated with the date, curList, and index parameters */
+    getToDoDisplay(date, curList, index) {
+        console.log("Entered - ToDoMasterList - getToDoDisplay(date= " + date + " curList= " + curList + " index= " + index + ")");
+
+        console.log("I got in here 3");
+
+        /* Finding index of ToDoDayObject via date */
+        let tempIndex = -1; // should throw error if not set below
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].date == date) {
+                tempIndex = i;
+            }
+        }
+
+        if (curList == "contact_customer") {
+            return this.list[tempIndex].contactCustomerList[index];
+        } else if (curList == "site_visit") {
+            return this.list[tempIndex].siteVisitList[index];
+        } else if (curList == "svc_calc") {
+            return this.list[tempIndex].svcCalcList[index];
+        } else if (curList == "check_njuns") {
+            return this.list[tempIndex].checkNJUNSList[index];
+        } else if (curList == "check_permit") {
+            return this.list[tempIndex].checkPermitList[index];
+        } else if (curList == "check_easement") {
+            return this.list[tempIndex].checkEasementList[index];
+        } else if (curList == "design") {
+            return this.list[tempIndex].designList[index];
+        } else if (curList == "revisions") {
+            return this.list[tempIndex].revisionsList[index];
+        } else if (curList == "general") {
+            return this.list[tempIndex].generalList[index];
+        } 
     }
 
     // Used to get unique IDs
@@ -1659,26 +1834,61 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
                 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-    
-                for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="contact_customer_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                /* Checking to see if To-Do has been completed */
+                if (this.contactCustomerList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                    for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
+                        if (this.contactCustomerList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="contact_customer_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        } else { // Need to add strike through to note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="contact_customer_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+    
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        }
+                    }                    
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="contact_customer_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+    
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                    }
                 }
+
                 contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
             }
 
@@ -1701,26 +1911,62 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "site_visit_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-
-                for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                /* Checking to see if To-Do has been completed */
+                if (this.siteVisitList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                    for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
+
+                        if (this.siteVisitList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                        } else { // Need to add strike through to note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+    
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                        }      
+                    }
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+    
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);            
+                    }
                 }
+                
                 siteVisitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the site visit list
             }
 
@@ -1744,26 +1990,61 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "svc_calc_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-
-                for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="svc_calc_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.svcCalcList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                    for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
+                        if (this.svcCalcList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="svc_calc_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);    
+                        } else { // Need to add strike through note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="svc_calc_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);    
+                        }             
+                    }
+
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="svc_calc_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="svc_calc_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+        
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);    
+                    }
                 }
+                
                 svcCalcListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the svc calc list
             }
 
@@ -1782,26 +2063,62 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_njuns_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-
-                for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="check_njuns_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.checkNJUNSList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                    for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
+                        if (this.checkNJUNSList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="check_njuns_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                        } else { // Need to add strike through note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="check_njuns_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                        }
+                    }
+
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_njuns_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="check_njuns_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                        
+                    }
                 }
+                
                 checkNJUNSListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check njuns list
             }
 
@@ -1825,25 +2142,62 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_permit_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-                for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="check_permit_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.checkPermitList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                    for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
+                        if (this.checkPermitList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="check_permit_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                        } else {
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="check_permit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);           
+                        }
+                    }
+
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_permit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="check_permit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                        
+                    }
                 }
+                
                 checkPermitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
@@ -1867,26 +2221,60 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_easement_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div>`}
-                </div>`;
-
-                for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="check_easement_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.checkEasementList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div>`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                
+                    for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
+                        if (this.checkEasementList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="check_easement_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        } else { // Need to add strike through note
+                            const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="check_easement_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+    
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        }         
+                    }
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="check_easement_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div>`}
+                    </div>`;
+
+                    for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="check_easement_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+        
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp); 
+                    }
                 }
+                
                 checkEasementListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
@@ -1905,26 +2293,61 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "design_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="design_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="design_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-
-                for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="design_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.designList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="design_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="design_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
+                    for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
+                        if (this.designList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="design_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        } else { // Need to add strike through note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="design_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+        
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        }
+                                          
+                    }
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="design_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="design_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="design_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+        
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                    }
                 }
+
                 designListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the design list
             }
 
@@ -1943,25 +2366,61 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "revisions_list_" + this.date + "_item_" + i;
 
-                toDoObjectWrInfo.innerHTML = 
-                `<div class="toDoObjectContainer">
-                    ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}
-                    ${`<div class="toDoListLabelButtonContainer">
-                        ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
-                        ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                        ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                    </div`}
-                </div>`;
-
-                for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
-                    const temp = 
-                    `<div class="toDoNoteContainer">
-                        ${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j]}</div>`}
-                        ${`<div class="toDoCompleteNoteCheckbox" id="revisions_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                if (this.revisionsList[i].completed == false) { // Normal display for To-Do
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
                     </div>`;
 
-                    toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                   }
+                    for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
+                        if (this.revisionsList[i].notes[j][1] == false) { // Normal display for Note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="revisions_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                   
+                        } else { // Need to add strike through note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="revisions_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);      
+                        }
+                    }
+
+                } else { // Need to add strike through all
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="revisions_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div`}
+                    </div>`;
+
+                    for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
+                        const temp = 
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="revisions_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                        </div>`;
+
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                      
+                    }
+                }
+                
                 revisionsListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the revisions list
             }
 
@@ -1981,36 +2440,10 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "general_list_" + this.date + "_item_" + i;
 
                 if (this.generalList[i].workRequestNumber != undefined && this.generalList[i].workRequestNumber != "") { // User provided optional work request number
-                    toDoObjectWrInfo.innerHTML = 
-                    `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}
-                        ${`<div class="toDoListLabelButtonContainer">
-                            ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
-                            ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
-                            ${`<div class="toDoListButton">${`<b id="general_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
-                            ${`<div class="toDoListButton">${`<b id="general_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
-                        </div`}
-                    </div>`;
-    
-                    for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                        const temp = 
-                        `<div class="toDoNoteContainer">
-                            ${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j]}</div>`}
-                            ${`<div class="toDoCompleteNoteCheckbox" id="general_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
-                        </div>`;
-    
-                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
-                    }
-                } else { // no work request number was entered
-                    toDoObjectWrInfo.innerHTML = 
-                    `<div class="toDoObjectContainer">
-                        
-                    </div>`;
-
-                    for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                        const temp = 
-                        `<div class="toDoNoteContainer">
-                            ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].notes[j]}</div>`}
+                    if (this.generalList[i].completed == false) { // Normal display for To-Do
+                        toDoObjectWrInfo.innerHTML = 
+                        `<div class="toDoObjectContainer">
+                            ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}
                             ${`<div class="toDoListLabelButtonContainer">
                                 ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
                                 ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
@@ -2019,7 +2452,84 @@ class ToDoDayObject {
                             </div`}
                         </div>`;
 
-                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                  
+                        for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                            if (this.generalList[i].notes[j][1] == false) { // Normal display for Note
+                                const temp = 
+                                `<div class="toDoNoteContainer">
+                                    ${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}
+                                    ${`<div class="toDoCompleteNoteCheckbox" id="general_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                                </div>`;
+            
+                                toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                            } else { // Need to add strike through note
+                                const temp = 
+                                `<div class="toDoNoteContainer">
+                                    ${`<strike>${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}</strike>`}
+                                    ${`<div class="toDoCompleteNoteCheckbox" id="general_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                                </div>`;
+            
+                                toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                            }
+                                            
+                        }
+                    } else { // Need to add strike through all
+                        toDoObjectWrInfo.innerHTML = 
+                        `<div class="toDoObjectContainer">
+                            ${`<strike>${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}</strike>`}
+                            ${`<div class="toDoListLabelButtonContainer">
+                                ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
+                                ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="general_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="general_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                            </div`}
+                        </div>`;
+
+                        for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="general_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
+                            </div>`;
+            
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);                 
+                        }
+                    }
+
+                } else { // no work request number was entered
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                        
+                    </div>`;
+
+                    for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
+                        if (this.generalList[i].notes[j][1] == false) { // Normal display for note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoListLabelButtonContainer">
+                                    ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
+                                    ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="general_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="general_to_do_list_item_${i}_complete_note_${j}_cb">${"Complete"}</b>`}</div>`}
+                                </div`}
+                            </div>`;
+    
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);   
+                        } else { // Need to add strike through note
+                            const temp = 
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoListLabelButtonContainer">
+                                    ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
+                                    ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="general_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="general_to_do_list_item_${i}_complete_note_${j}_cb">${"Complete"}</b>`}</div>`}
+                                </div`}
+                            </div>`;
+    
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);   
+                        }
+                                       
                     }
                     
                 }
@@ -3886,6 +4396,7 @@ async function mainEvent() {
     /* To-Do's Tab */
     const toDoDisplayContainer = document.querySelector("#to_do_display_container");
     const toDoDisplayRowElementContainer = document.querySelector("#to_do_display_row_element_container");
+    const toDoDisplayDayOfWeekDate = document.querySelector("#to_do_display_day_of_week_date");
 
 
 
@@ -4177,7 +4688,6 @@ async function mainEvent() {
 
         /* Setting Default Creation Date */
         let today = new Date();
-        console.log("Today =");
         let year = today.getFullYear();
         let month = today.getMonth() + 1;
         if (month < 10) {
@@ -4245,13 +4755,27 @@ async function mainEvent() {
         addTabDisplayToDoDDMenuTypeContainer.insertAdjacentHTML("beforeend", `<label for="add_tab_display_to_do_dd_menu_type_container" class="addTabDisplayToDoTypeDDLabel">Type: </label>`);
         addTabDisplayToDoDDMenuTypeContainer.insertAdjacentElement("beforeend", ddRow);
 
-            /* To Do DayOfWeekPageObject */
+            /* Add Tab To-Do DayOfWeekPageObject */
         let pageObject = new DayOfWeekPageObject();
         let pageObjectRow = pageObject.makeRowElement();
         addTabDisplayDayOfWeekContainer.insertAdjacentHTML = "";
         addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
         resetDisplayToDoAddUpdate(); // Initializing display values for today
 
+            /* To-Do Display Current Date  */
+        /* Setting Default Creation Date */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
 
         // Running test function
         testFunction();
@@ -4790,6 +5314,8 @@ async function mainEvent() {
     function displayToDoAddUpdate(toDo) {
         console.log("Entered - displayToDoAddUpdate(toDo)");
 
+        addTabAddButton.disabled = true;
+
         const d = new Date();
 
         if (toDo.workRequestNumber != undefined) {
@@ -4805,7 +5331,8 @@ async function mainEvent() {
         document.getElementById("add_tab_display_to_do_completed").checked = toDo.completed;
 
         for (var i = 0; i < toDo.notes.length; i++) {
-            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${toDo.notes[i]}</li>`);
+            const temp = toDo.notes[i][0].substring(2);
+            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${temp}</li>`);
         }
 
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "Current \"To-Do\" ID#: ";
@@ -4813,9 +5340,10 @@ async function mainEvent() {
 
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
 
-        for (var i = 0; i < toDo.notes.length; i++) {
-            tempNotes.add(toDo.notes[i]);
+        for (var i = toDo.notes.length - 1; i >= 0; i--) {
+            tempNotes.add(toDo.notes[i][0].substring(2));
         }
+   
         if (toDo.notes.length == 0) {
             addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "No Notes";
         }
@@ -5828,40 +6356,102 @@ async function mainEvent() {
             index = tempCur.indexOf("\""); // find second (right) paren
             const tempID = tempCur.substring(0, index); // get just id
 
+            /* Setting current list value for complete and completeNote function */
+            let curList = "";
+
             if (tempID.includes("contact_customer")) {
-                console.log("got in here");
-                console.log(tempID);
-                let tempIndex = tempID.lastIndexOf("_");
-
-                console.log("tempIndex =");
-                console.log(tempIndex);
-
-                const lastNum = tempID.substring(tempIndex + 1); // gets last number on id
-
-                if (tempID.includes("checkbox")) {
-                    console.log("gg note checkbox")
-                } else if (tempID.substring(tempIndex - 4, tempIndex) == "data") {
-                    console.log("gg data");
-                } else if (tempID.substring(tempIndex - 4, tempIndex) == "move") {
-                    console.log("gg move");
-                } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete") {
-                    console.log("gg complete");
-
-                    toDoMasterList.complete(0);
-                } else if (tempID.substring(tempIndex - 4, tempIndex) == "note") {
-                    console.log("gg note");
-                }
+                curList = "contact_customer";
             } else if (tempID.includes("site_visit")) {
-                // fill in remaining
+                curList = "site_visit";
+            } else if (tempID.includes("svc_calc")) {
+                curList = "svc_calc";
+            } else if (tempID.includes("check_njuns")) {
+                curList = "check_njuns";
+            } else if (tempID.includes("check_permit")) {
+                curList = "check_permit";
+            } else if (tempID.includes("check_easement")) {
+                curList = "check_easement";
+            } else if (tempID.includes("design")) {
+                curList = "design";
+            } else if (tempID.includes("revisions")) {
+                curList = "revisions";
+            } else if (tempID.includes("general")) {
+                curList = "general";
+            } 
+
+            let tempIndex = tempID.lastIndexOf("_");
+            const lastNum = tempID.substring(tempIndex + 1); // gets last number on id (except for checkbox)
+
+            if (tempID.includes("checkbox")) {
+                console.log("clicked note checkbox")
+
+                /* Pulls listItemIndex (index of toDoObject within contact customer list) */
+                let tempListItemIndex = tempID.indexOf("item_");
+                let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
+                let endListItemIndex = listItemIndexStr.indexOf("_");
+                const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
+
+                /* Pulls noteIndex (index of note within toDoObject notes) */
+                let tempNoteIndexStr = tempID.substring(0, tempIndex);
+                let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
+                const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
+
+                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex);
+            } else if (tempID.substring(tempIndex - 4, tempIndex) == "data") {
+                console.log("clicked data");
+
+                const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+
+                /* Changing display to addTab add To-Do */
+                addTab.click();
+                filterCheckboxAddToDo.click();
+                addTabUpdateButton.disabled = false;
+
+                displayToDoAddUpdate(curToDo);
+
+            } else if (tempID.substring(tempIndex - 4, tempIndex) == "move") {
+                console.log("clicked move");
+            } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete" && curList != "general") { // complete for all except general to-do's
+                console.log("clicked complete - not general");
+
+                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+            } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete") { // complete for general to-do's with work request numbers
+                console.log("clicked complete - general - with work request number");
+
+                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+            } else if (tempID.substring(tempIndex + 1) == "cb") { // complete for general to-do's without work request numbers
+                console.log("clicked complete (note checkbox) - general - without work request number");
+
+                /* Pulls listItemIndex (index of toDoObject within contact customer list) */
+                let tempListItemIndex = tempID.indexOf("item_");
+                let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
+                let endListItemIndex = listItemIndexStr.indexOf("_");
+                const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
+
+                /* Pulls noteIndex (index of note within toDoObject notes) */
+                let tempNoteIndexStr = tempID.substring(0, tempIndex);
+                let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
+                const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
+
+                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex);
+
+            } else if (tempID.substring(tempIndex - 4, tempIndex) == "note") {
+                console.log("clicked note checkbox - general");
+
+                const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+
+                /* Changing display to addTab add To-Do */
+                addTab.click();
+                filterCheckboxAddToDo.click();
+                addTabUpdateButton.disabled = false;
+
+                displayToDoAddUpdate(curToDo);
             }
-
-
-            console.log("Clicked something");
+           
         } else { // Didn't click on anything actionable 
             console.log("Didn't click anything/ clicked container");
         }
 
-        const temp = event.target.outerHTML.substring()
     })
     
     /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
@@ -6832,10 +7422,10 @@ async function mainEvent() {
             var i = 0;
 
             while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                notes.push(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML);
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
                 i++;
             }
-            if (addTabDisplayToDoRowZeroNumfield.value == undefined) {
+            if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value > toDoMasterList.getCount()) {
                 e.displayInvalidToDoId(); // can't get here - buttons hides
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "Not Set") {
                 e.displaySelectToDoType();
@@ -6894,6 +7484,8 @@ async function mainEvent() {
                     } 
                     h.displayToDoUpdated(toDo.toDoId);
                     resetDisplayToDoAddUpdate();
+
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
                 } else {
                     h.displayNoChangesToDo(toDo.toDoId);
                 }
@@ -6948,15 +7540,25 @@ async function mainEvent() {
             }
             
         } else if (filterCheckboxAddToDo.checked == true) {
-            const curToDoId = addTabDisplayToDoRowZeroNumfield.value;
-            const curToDoData = toDoMasterList.getToDo(curToDoId);
 
-            if (curToDoData[0] != 0) {
-                resetDisplayToDoAddUpdate();
-                displayToDoAddUpdate(curToDoData[1]);
-                addTabUpdateButton.disabled = false;
-                addTabAddButton.disabled = true;
+            if (toDoMasterList.getToDo(addTabDisplayToDoRowZeroNumfield.value).length == undefined) {
+                e.displayInvalidToDoId();
+            } else if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount() - 1) {
+                e.displayInvalidToDoId();
+            } else {
+                const curToDoId = addTabDisplayToDoRowZeroNumfield.value;
+                const curToDoData = toDoMasterList.getToDo(curToDoId);
+    
+                if (curToDoData[0] != 0) { // to-do was found
+                    resetDisplayToDoAddUpdate();
+                    displayToDoAddUpdate(curToDoData[1]);
+                    addTabUpdateButton.disabled = false;
+                    addTabAddButton.disabled = true;
+                } else {
+                    e.displayInvalidToDoId(); // lockdown of button logic should prevent me from getting here
+                }
             }
+            
         }
         
     })
@@ -7035,7 +7637,9 @@ async function mainEvent() {
             var i = 0;
 
             while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                notes.push(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML);
+                console.log("^&^&^ in while loop");
+                console.log(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML)
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
                 i++;
             }
             if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount()) {
@@ -7051,15 +7655,9 @@ async function mainEvent() {
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
-                console.log("***ddd");
-                console.log(document.getElementById("to_do_type_dd_0_current").innerHTML);
 
                 resetDisplayToDoAddUpdate();
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
-
-                console.log("** temp");
-                console.log(toDoMasterList);
-                console.log(temp);
 
                 injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
             }
@@ -7431,15 +8029,17 @@ async function mainEvent() {
                 addTabUpdateButton.disabled = true;
             } else {
                 addTabUpdateButton.disabled = true;
-            }
-        } else {
-            if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false || event.target.value.length == 0) { // The entered Wr exists
+            } 
+        } else { // to-do tab
+            if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
                 addTabGetButton.disabled = false;
-                addTabUpdateButton.disabled = false;
+                //addTabUpdateButton.disabled = false;
                 //ddButton.disabled = true;
+            } else if (event.target.value.length == 0 && addTabDisplayToDoRowZeroNumfield.value == toDoMasterList.getCount()) {
+                addTabAddButton.disabled = false;
             } else {
                 addTabAddButton.disabled = true;
-                addTabUpdateButton.disabled = true;
+                //addTabUpdateButton.disabled = true;
             } 
             
         }
