@@ -6330,6 +6330,11 @@ async function mainEvent() {
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
 
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+
         if (event.target.innerHTML == "Su") {
             clearDays("to_do_display");
 
@@ -6372,7 +6377,40 @@ async function mainEvent() {
             document.getElementById("to_do_display_tab_day_of_week_box_saturday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_saturday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = toDoDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = toDoDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            toDoDisplayDayOfWeekDate.value = addDays(year, month, day, 7);
+            setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
         }
+    })
+    toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - Clicked toDoDisplayDayOfWeekDate");
+
+        const temp = toDoDisplayDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date(temp);
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("to_do_display", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("to_do_display", tempStr);        
     })
 
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
@@ -8372,16 +8410,30 @@ async function mainEvent() {
     function addDays(curYear, curMonth, curDay, daysToAdd) {
         console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");
 
+        
+
         if (curMonth == 12) { // Decemeber - may have to change year
-            const tempDay = curDay + daysToAdd;
+            const curDayNum = new Number(curDay);
+            let tempDay = curDayNum + daysToAdd;
+            if (tempDay < 10) {
+                tempDay = "0" + tempDay;
+            }
+            const tempYear = new Number(curYear);
+            //const tempDay = curDay + daysToAdd;
             if (tempDay > 31) {
-                const newDay = tempDay - 31
-                return ((curYear + 1) + "-01-" + newDay);
+                let newDay = new Number(tempDay) - 31
+                if (newDay < 10) {
+                    newDay = "0" + newDay;
+                }
+                return ((tempYear + 1) + "-01-" + newDay);
             } else {
-                return (curYear + "-12-" + tempDay);
+                return (tempYear + "-12-" + tempDay);
             }
         } else if (curMonth == 2) { // February
-            const tempDay = curDay + daysToAdd;
+            const curDayNum = new Number(curDay);
+            const tempDay = curDayNum + daysToAdd;
+            //const tempDay = curDay + daysToAdd;
+           
             if (tempDay > 28) {
                 const newDay = tempDay - 28;
                 return (curYear + "-03-" + newDay);
@@ -8389,10 +8441,11 @@ async function mainEvent() {
                 return (curYear + "-02-" + tempDay);
             }
         } else if (curMonth == 4 || curMonth == 6 || curMonth == 9 || curMonth == 11) { // Months with 30 Days
+            
+            console.log("In months with 30 days");
+
             const curDayNum = new Number(curDay);
             const tempDay = curDayNum + daysToAdd;
-            console.log("tempDay =");
-            console.log(tempDay);
             if (tempDay > 30) {
                 const newDay = tempDay - 30;
                 const newMonth = new Number(curMonth) + 1;
@@ -8413,7 +8466,10 @@ async function mainEvent() {
                 }
             }
         } else { // Months with 31 Days
-            const tempDay = curDay + daysToAdd;
+
+            console.log("%%% in months with 31 days");
+ 
+            const tempDay = new Number(curDay) + daysToAdd;
             if (tempDay > 31) {
                 const newDay = tempDay - 31;
                 const newMonth = new Number(curMonth) + 1;
@@ -8427,16 +8483,18 @@ async function mainEvent() {
                     return (curYear + "-" + newMonth + "-" + newDay);
                 }
             } else {
-                if (typeof curMonth != "number") {
+                /*if (typeof curMonth != "number") {
                     curMonth = new Number(curMonth);
-                }
+                }*/
                 //const temp = new Number(curMonth);
-                if (curMonth < 10) {
+                const tempMonth = new Number(curMonth);
+
+                if (tempMonth < 10) {
                     console.log("less than 10");
-                    console.log(curMonth);
-                    return (curYear + "-0" + curMonth + "-" + tempDay);
+                    console.log(tempMonth);
+                    return (curYear + "-0" + tempMonth + "-" + tempDay);
                 } else {
-                    return (curYear + "-" + curMonth + "-" + tempDay);
+                    return (curYear + "-" + tempMonth + "-" + tempDay);
                 }
             }
         }
@@ -8454,7 +8512,15 @@ async function mainEvent() {
                 }
                 return ((curYear - 1) + "-12-" + temp);
             } else if (curMonth == 3) { // Going back to February
+
                 let temp = 28 - tempDay;
+
+                if (curYear % 4 == 0) {
+                    console.log("It's a leap year - Feb has 29 days");
+                    temp = 29 - tempDay;
+                } else {
+
+                }
                 if (temp < 10) {
                     temp = "0" + temp;
                 }
