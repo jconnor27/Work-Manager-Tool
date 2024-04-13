@@ -1646,6 +1646,17 @@ h5 {
     
 }
 
+.errorMessageNoNoteEntered {
+    display: flex;
+    font-size: large;
+    width: 500px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-right: -800px;
+    margin-left: 300px;
+}
+
 .noWrFound {
     display: flex;
     font-size: large;
@@ -2616,7 +2627,7 @@ h5 {
     flex-direction: row;
     width: 1115px;
     margin-top: 50px;
-    align-items: center;
+    align-items: baseline;
 
 }
 
@@ -2648,16 +2659,16 @@ h5 {
     display: flex;
     flex-direction: row;
     margin-left: 150px;
-    align-items: baseline;
+    align-items: flex-end;
     
 }
 
 .addTabDisplayDueDateInputContainer {
     display: flex;
     flex-direction: row;
-    width: 450px;
+    width: 560px;
     justify-content: space-between;
-    margin-left: 30px;
+    align-items: flex-end;
 }
 
 .dayOfWeekBox {
@@ -2670,6 +2681,17 @@ h5 {
     
 }
 
+.dayOfWeekDateButton {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 30px;
+    padding: 0px;
+}
+
 .addTabDisplayDayOfWeekContainer {
     display: flex;
     flex-direction: row;
@@ -2678,12 +2700,35 @@ h5 {
 
 .addTabDisplayDayOfWeekDate {
     border: 2px solid black;
-    padding: .5rem;
+    padding: 10px;
+    height: 32px;
+    margin-left: 20px;
 }
 
 .dayOfWeekPageObject {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+
+.dayOfWeekBoxContainer {
     display: flex;
     flex-direction: row;
+}
+
+.dayOfWeekDateContainer {
+    display: flex;
+    flex-direction: row;
+    width: 315px;
+    justify-content: space-between;
+}
+
+.dayOfWeekDate {
+    display: flex;
+    font-size: medium;
+    width: fit-content;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .addTabDisplayToDoCreationDateContainer {
@@ -2846,7 +2891,7 @@ h5 {
     display: flex;
     flex-direction: row;
     width: 1100px;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-end;
     margin-top: 10px;
 
@@ -2854,12 +2899,14 @@ h5 {
 
 .toDoMoveIncompleteButton {
     display: flex;
+    flex-direction: row;
     border: 2px solid black;
     font-size: medium;
-    width: 130px;
+    width: 120px;
+    height: 42px;
     padding: 5px;
+    
     border-radius: 5px;
-    margin-left: 100px;
 }
 
 .toDoDisplayRowOneLabel {

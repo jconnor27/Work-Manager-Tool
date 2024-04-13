@@ -626,24 +626,37 @@
 
                 <!-- Tabs -->
                 <div class="toDoDisplayTabsContainer">
-                    <div class="toDoHeader" id="to_do_general_tab">General</div>
+                    <div class="toDoHeader hidden" id="to_do_general_tab">General</div>
+                    <div class="toDoHeader activeTab" id="to_do_general_tab_active">General</div>
+
                     <div class="toDoHeader" id="to_do_mentor_tab">Mentor</div>
+                    <div class="toDoHeader activeTab hidden" id="to_do_mentor_tab_active">Mentor</div>
+
                     <div class="toDoHeader" id="to_do_coordinator_tab">Coordinator</div>
+                    <div class="toDoHeader activeTab hidden" id="to_do_coordinator_tab_active">Coordinator</div>
+ 
                     <div class="toDoHeader" id="to_do_waiting_tab">Waiting</div>
+                    <div class="toDoHeader activeTab hidden" id="to_do_waiting_tab_active">Waiting</div>
+
                     <div class="toDoHeader" id="to_do_return_to_office_tab" style="padding-left: 15px;">On Return<br/>To Office</div>
+                    <div class="toDoHeader activeTab hidden" id="to_do_return_to_office_tab_active" style="padding-left: 15px;">On Return<br/>To Office</div>
+
+
                 </div>
 
                 <!-- Row One -->
                 <div class="toDoDisplayRowOne">
-                    <label class="toDoDisplayRowOneLabel" id="to_do_display_row_one_label">General:</label>
+                    <label class="toDoDisplayRowOneLabel" id="to_do_display_row_one_label">General To-Do's:</label>
                     <div class="addTabDisplayDueDateInputContainer">
                         <input type="date" class="addTabDisplayDayOfWeekDate" id="to_do_display_day_of_week_date">
+                        Or
                         <div class="addTabDisplayDayOfWeekContainerLong" id="to_do_display_day_of_week_container">
                             <!-- Inserting Object in JS -->
                         </div>
-                        Or
+
                     </div>
                     <button type="button" class="toDoMoveIncompleteButton" id="to_do_move_incomplete_button">Move Incomplete To</button>
+
                 </div>
 
                 <!-- Row Two - rowElement Labels -->

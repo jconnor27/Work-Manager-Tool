@@ -787,6 +787,17 @@ class Error {
             temp.remove();
         }, 3000)
     }
+
+    displayToDoNoNoteEntered() {
+        console.log("Entered - displayToDoNoNoteEntered()");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageNoNoteEntered" id="error_message">No Note Entered</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_message");
+            temp.remove();
+        }, 3000)
+    }
 }
 
 class workRequest {
@@ -1390,8 +1401,10 @@ class SystemPreferences {
 }
 
 class DayOfWeekPageObject {
-    constructor(tab) {
+    constructor(tab, fromDate, toDate) {
         this.tab = tab;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
 
         // Setting default current as today
         const d = new Date();
@@ -1402,113 +1415,49 @@ class DayOfWeekPageObject {
         console.log("Entered - DayOfWeekPageObject - makeRowElement()");
 
         let rowElement = document.createElement("dayOfWeekPageObject");
-        rowElement.id  = "day_of_week_page_object_" + this.tab + "_to_do";
+        rowElement.id  = "day_of_week_page_object_" + this.tab + "_to_do"; // need to fix or change add to add_to_do
         rowElement.classList.add("dayOfWeekPageObject");        
 
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_sunday">Su</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_sunday_active">Su</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_monday">M</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_monday_active">M</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_tuesday">Tu</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_tuesday_active">Tu</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_wednesday">W</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_wednesday_active">W</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_thursday">Th</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_thursday_active">Th</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_friday">F</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_friday_active">F</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_saturday">Sa</div>`);
-        rowElement.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_saturday_active">Sa</div>`);
+        /* Upper Section - Dates */
+        let dayOfWeekDateContainer = document.createElement("dayOfWeekDateContainer");
+        dayOfWeekDateContainer.id = "day_of_week_date_container_" + this.tab;
+        dayOfWeekDateContainer.classList.add("dayOfWeekDateContainer");
 
-        /*rowElement.addEventListener("click", (event) => {
-            console.log("Fired - Clicked - DayOfWeekPageObject - rowElement");
+        dayOfWeekDateContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekDate" id="${this.tab}_tab_day_of_week_from_date">From: ${formatDateNormal(this.fromDate)}</div>`);
+        dayOfWeekDateContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekDate" id="${this.tab}_tab_day_of_week_to_date">To: ${formatDateNormal(this.toDate)}</div>`);
 
-            if (event.target.innerHTML == "Su" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_sunday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_sunday_active").classList.add("hidden");
+        rowElement.insertAdjacentElement("beforeend", dayOfWeekDateContainer);
 
-            } else if (event.target.innerHTML == "Su") {
-                document.getElementById("day_of_week_box_sunday").classList.add("hidden");
-                document.getElementById("day_of_week_box_sunday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "M" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_monday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_monday_active").classList.add("hidden");
 
-            } else if (event.target.innerHTML == "M") {
-                document.getElementById("day_of_week_box_monday").classList.add("hidden");
-                document.getElementById("day_of_week_box_monday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "Tu" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_tuesday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_tuesday_active").classList.add("hidden");
+        /* Lower Section - Boxes */
+        let dayOfWeekBoxContainer = document.createElement("dayOfWeekBoxContainer");
+        dayOfWeekBoxContainer.id = "day_of_week_box_container_" + this.tab;
+        dayOfWeekBoxContainer.classList.add("dayOfWeekBoxContainer");
 
-            } else if (event.target.innerHTML == "Tu") {
-                document.getElementById("day_of_week_box_tuesday").classList.add("hidden");
-                document.getElementById("day_of_week_box_tuesday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "W" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_wednesday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_wednesday_active").classList.add("hidden");
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<button type="button" class="dayOfWeekDateButton">&#8592</button>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_sunday">Su</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_sunday_active">Su</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_monday">M</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_monday_active">M</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_tuesday">Tu</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_tuesday_active">Tu</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_wednesday">W</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_wednesday_active">W</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_thursday">Th</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_thursday_active">Th</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_friday">F</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_friday_active">F</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox" id="${this.tab}_tab_day_of_week_box_saturday">Sa</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekBox hidden activeTab" id="${this.tab}_tab_day_of_week_box_saturday_active">Sa</div>`);
+        dayOfWeekBoxContainer.insertAdjacentHTML("beforeend", `<button type="button" class="dayOfWeekDateButton">&#8594</button>`);
 
-            } else if (event.target.innerHTML == "W") {
-                document.getElementById("day_of_week_box_wednesday").classList.add("hidden");
-                document.getElementById("day_of_week_box_wednesday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "Th" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_thursday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_thursday_active").classList.add("hidden");
+        rowElement.insertAdjacentElement("beforeend", dayOfWeekBoxContainer);
 
-            } else if (event.target.innerHTML == "Th") {
-                document.getElementById("day_of_week_box_thursday").classList.add("hidden");
-                document.getElementById("day_of_week_box_thursday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "F" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_friday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_friday_active").classList.add("hidden");
-
-            } else if (event.target.innerHTML == "F") {
-                document.getElementById("day_of_week_box_friday").classList.add("hidden");
-                document.getElementById("day_of_week_box_friday_active").classList.remove("hidden");
-            } else if (event.target.innerHTML == "Sa" && event.target.classList.contains("activeTab")) {
-                document.getElementById("day_of_week_box_saturday").classList.remove("hidden");
-                document.getElementById("day_of_week_box_saturday_active").classList.add("hidden");
-
-            } else if (event.target.innerHTML == "Sa") {
-                document.getElementById("day_of_week_box_saturday").classList.add("hidden");
-                document.getElementById("day_of_week_box_saturday_active").classList.remove("hidden");
-            }
-        })*/
         return rowElement;
     }
 
-    /*clearDays() {
-        console.log("Entered - DayOfWeekPageObject - clearDays()");
-        document.getElementById("day_of_week_box_sunday_active").click();
-        document.getElementById("day_of_week_box_monday_active").click();
-        document.getElementById("day_of_week_box_tuesday_active").click();
-        document.getElementById("day_of_week_box_wednesday_active").click();
-        document.getElementById("day_of_week_box_thursday_active").click();
-        document.getElementById("day_of_week_box_friday_active").click();
-        document.getElementById("day_of_week_box_saturday_active").click();
-    }*/
 
-    /*setDay(day) {
-        console.log("Entered - DayOfWeekPageObject - setDay(" + day + ")");
 
-        this.clearDays();
-
-        if (day == 0) {
-            document.getElementById("day_of_week_box_sunday").click();
-        } else if (day == 1) {
-            document.getElementById("day_of_week_box_monday").click();
-        } else if (day == 2) {
-            document.getElementById("day_of_week_box_tuesday").click();
-        } else if (day == 3) {
-            document.getElementById("day_of_week_box_wednesday").click();
-        } else if (day == 4) {
-            document.getElementById("day_of_week_box_thursday").click();
-        } else if (day == 5) {
-            document.getElementById("day_of_week_box_friday").click();
-        } else if (day == 6) {
-            document.getElementById("day_of_week_box_saturday").click();
-        } 
-    }*/
 }
 
 // Master list of all ToDoDayObjects
@@ -2573,6 +2522,21 @@ class ToDoDayObject {
             console.log(this.generalList);
         } 
         //this.list.push(toDo);
+    }
+
+    /* Takes in a list and returns a list without the index param - used in addTabUpdateButton */
+    remove(list, index) {
+        console.log("Entered - ToDoDayObject - remove(list= " + list + " index= " + index + ")");
+
+        let temp = [];
+
+        for (var i = 0; i < list.length; i++) {
+            if (i != index) {
+                temp.push(list[i]);
+            }
+        }
+
+        return temp;
     }
 
     toString() {
@@ -4755,21 +4719,6 @@ async function mainEvent() {
         addTabDisplayToDoDDMenuTypeContainer.insertAdjacentElement("beforeend", ddRow);
 
             /* Add Tab To-Do DayOfWeekPageObject */
-        let pageObject = new DayOfWeekPageObject("add");
-        let pageObjectRow = pageObject.makeRowElement();
-        addTabDisplayDayOfWeekContainer.innerHTML = "";    // was insertAdjacentHTML but I think it was a type
-        addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
-        resetDisplayToDoAddUpdate(); // Initializing display values for today
-
-        toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
-
-            /* To-Do Display DayOfWeekPageObject */
-        pageObject = new DayOfWeekPageObject("to_do_display");
-        pageObjectRow = pageObject.makeRowElement();
-        toDoDisplayDayOfWeekDateContainer.innerHTML = "";
-        toDoDisplayDayOfWeekDateContainer.insertAdjacentElement("beforeend", pageObjectRow);
-        
-        /* Setting Default Creation Date */
         today = new Date();
         year = today.getFullYear();
         month = today.getMonth() + 1;
@@ -4780,7 +4729,37 @@ async function mainEvent() {
         if (day < 10) {
             day = "0" + day;
         }
+        let tempFromDate = subtractDays(year, month, day, today.getDay());
+        let tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        let pageObject = new DayOfWeekPageObject("add", tempFromDate, tempToDate);
+        let pageObjectRow = pageObject.makeRowElement();
+        addTabDisplayDayOfWeekContainer.innerHTML = "";    // was insertAdjacentHTML but I think it was a type
+        addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
+        
+        
+        resetDisplayToDoAddUpdate(); // Initializing display values for today
 
+
+            /* To-Do Display DayOfWeekPageObject */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("to_do_display", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+        toDoDisplayDayOfWeekDateContainer.innerHTML = "";
+        toDoDisplayDayOfWeekDateContainer.insertAdjacentElement("beforeend", pageObjectRow);
+        
+        /* Setting Default Creation Date */
+        toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
         setDay("to_do_display", today.getDay());
 
         // Running test function
@@ -5377,7 +5356,9 @@ async function mainEvent() {
         addTabDisplayToDoCreationDate.value = (year + "-" + month + "-" + day);
         document.getElementById("add_tab_display_to_do_completed").checked = false;
         addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
+        document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes";
         addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "";
+        addTabDisplayToDoRowThreeTextfield.value = "";
         
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "New \"To-Do\" ID#: ";
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
@@ -7471,14 +7452,7 @@ async function mainEvent() {
             }
             
         } else if (filterCheckboxAddToDo.checked == true) {
-            let notes = [];
-
-            var i = 0;
-
-            while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
-                i++;
-            }
+            
             if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value > toDoMasterList.getCount()) {
                 e.displayInvalidToDoId(); // can't get here - buttons hides
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "Not Set") {
@@ -7486,6 +7460,14 @@ async function mainEvent() {
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
                 e.displayMustAddNoteForGeneralTypeToDo();
             } else {
+                let notes = [];
+
+                var i = 0;
+
+                while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
+                i++;
+            }
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
                 document.getElementById("add_tab_display_to_do_completed").checked, notes, addTabNewWorkRequestNumber.value);
@@ -7517,25 +7499,27 @@ async function mainEvent() {
 
                 
                 if (old.compare(toDo) == 0) { // they are not equal
+                    const curToDo = toDoMasterList.list[temp[2]];
                     if (temp[4] == "Contact Customer") {
-                        toDoMasterList.list[temp[2]].contactCustomerList[temp[3]] = toDo;
+                        curToDo.contactCustomerList = curToDo.remove(curToDo.contactCustomerList, temp[3]);
                     } else if (temp[4] == "Site Visit") {
-                        toDoMasterList.list[temp[2]].siteVisitList[temp[3]] = toDo;
+                        curToDo.siteVisitList = curToDo.remove(curToDo.siteVisitList, temp[3]);
                     } else if (temp[4] == "Svc Calc") {
-                        toDoMasterList.list[temp[2]].svcCalcList[temp[3]] = toDo;
+                        curToDo.svcCalcList = curToDo.remove(curToDo.svcCalcList, temp[3]);
                     } else if (temp[4] == "Check NJUNS") {
-                        toDoMasterList.list[temp[2]].checkNJUNSList[temp[3]] = toDo;
+                        curToDo.checkNJUNSList = curToDo.remove(curToDo.checkNJUNSList, temp[3]);
                     } else if (temp[4] == "Check Permit") {
-                        toDoMasterList.list[temp[2]].checkPermitList[temp[3]] = toDo;
+                        curToDo.checkPermitList = curToDo.remove(curToDo.checkPermitList, temp[3]);
                     } else if (temp[4] == "Check Easement") {
-                        toDoMasterList.list[temp[2]].checkEasementList[temp[3]] = toDo;
+                        curToDo.checkEasementList = curToDo.remove(curToDo.checkEasementList, temp[3]);
                     } else if (temp[4] == "Design") {
-                        toDoMasterList.list[temp[2]].designList[temp[3]] = toDo;
+                        curToDo.designList = curToDo.remove(curToDo.designList, temp[3]);
                     } else if (temp[4] == "Revisions") {
-                        toDoMasterList.list[temp[2]].revisionsList[temp[3]] = toDo;
+                        curToDo.revisionsList = curToDo.remove(curToDo.revisionsList, temp[3]);
                     } else if (temp[4] == "General") {
-                        toDoMasterList.list[temp[2]].generalList[temp[3]] = toDo;
-                    } 
+                        curToDo.generalList = curToDo.remove(curToDo.generalList, temp[3]);
+                    }
+                    toDoMasterList.add(toDo); 
                     h.displayToDoUpdated(toDo.toDoId);
                     resetDisplayToDoAddUpdate();
 
@@ -8355,6 +8339,36 @@ async function mainEvent() {
             //document.getElementById("day_of_week_box_saturday").click();
         } 
     }
+    /* Takes in a dateStr param (YYYY-MM-DD) and adjusts 
+    fromDate and toDate accordingly based on tab param */
+    function setFromToDates(tab, dateStr) {
+        console.log("Entered - setFromToDates(tab= " + tab + " dateStr= " + dateStr + ")");
+
+        const date = new Date(dateStr);
+        date.setDate(date.getDate() + 1);
+        console.log("date -- ");
+        console.log(date);
+        const year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = date.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        let tempFromDate = formatDateNormal(subtractDays(year, month, day, date.getDay()));
+        let tempToDate = formatDateNormal(addDays(year, month, day, (7 - date.getDay() - 1)));
+       
+        if (tab == "add") {
+            document.getElementById("add_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("add_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        } else if (tab == "to_do_display") {
+            document.getElementById("to_do_display_tab_day_of_week_from_date").innerHTML = tempFromDate;
+            document.getElementById("to_do_display_tab_day_of_week_to_date").innerHTML = tempToDate;
+        }
+    }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
         console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");
 
@@ -8375,7 +8389,10 @@ async function mainEvent() {
                 return (curYear + "-02-" + tempDay);
             }
         } else if (curMonth == 4 || curMonth == 6 || curMonth == 9 || curMonth == 11) { // Months with 30 Days
-            const tempDay = curDay + daysToAdd;
+            const curDayNum = new Number(curDay);
+            const tempDay = curDayNum + daysToAdd;
+            console.log("tempDay =");
+            console.log(tempDay);
             if (tempDay > 30) {
                 const newDay = tempDay - 30;
                 const newMonth = new Number(curMonth) + 1;
@@ -8410,7 +8427,13 @@ async function mainEvent() {
                     return (curYear + "-" + newMonth + "-" + newDay);
                 }
             } else {
+                if (typeof curMonth != "number") {
+                    curMonth = new Number(curMonth);
+                }
+                //const temp = new Number(curMonth);
                 if (curMonth < 10) {
+                    console.log("less than 10");
+                    console.log(curMonth);
                     return (curYear + "-0" + curMonth + "-" + tempDay);
                 } else {
                     return (curYear + "-" + curMonth + "-" + tempDay);
@@ -8472,7 +8495,16 @@ async function mainEvent() {
     function assessDayOfWeekChange(tab, newDay) {
         console.log("Entered - assessDayOfWeekChange(tab= " + tab + " newDay= " + newDay + ")");
 
-        const d = new Date();
+        let d = [];
+        
+        if (tab == "add") {
+            d = new Date(addTabDisplayDayOfWeekDate.value);
+            console.log(d);
+        } else if (tab == "to_do_display") {
+            d = new Date(toDoDisplayDayOfWeekDate.value);
+            console.log(d);
+        }
+        //d = new Date();
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
         if (month < 10) {
@@ -8491,8 +8523,10 @@ async function mainEvent() {
 
             if (tab == "to_do_display") {
                 toDoDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("to_do_display", temp);
             } else if (tab == "add") {
                 addTabDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("add", temp);
             }
 
         } else if (newDay > curDay) { // Going forwards
@@ -8502,8 +8536,10 @@ async function mainEvent() {
 
             if (tab == "to_do_display") {
                 toDoDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("to_do_display", temp);
             } else if (tab == "add") {
                 addTabDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("add", temp);
             }
 
         } else { // Going to today
@@ -8518,8 +8554,11 @@ async function mainEvent() {
 
             if (tab == "to_do_display") {
                 toDoDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("to_do_display", temp);
             } else if (tab == "add") {
                 addTabDisplayDayOfWeekDate.value = (temp);
+                setFromToDates("add", temp);
+
             }
         }
     }
@@ -8573,6 +8612,8 @@ async function mainEvent() {
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
 
+        const e = new Error();
+
         if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
             const d = new Date();
             let month = d.getMonth() + 1;
@@ -8597,6 +8638,8 @@ async function mainEvent() {
 
             addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${temp}">${addTabDisplayToDoRowThreeTextfield.value}</li>`);
             addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";*/
+        } else {
+            e.displayToDoNoNoteEntered();
         }
     })
     addTabDisplayToDoRowThreeRemoveButton.addEventListener("click", (event) => {
@@ -8710,6 +8753,11 @@ async function mainEvent() {
     addTabDisplayDayOfWeekContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayDayOfWeekContainer");
 
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        
         if (event.target.innerHTML == "Su") {
             clearDays("add");
 
@@ -8752,6 +8800,20 @@ async function mainEvent() {
             document.getElementById("add_tab_day_of_week_box_saturday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_saturday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = addTabDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addTabDisplayDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            setFromToDates("add", addTabDisplayDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = addTabDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addTabDisplayDayOfWeekDate.value = addDays(year, month, day, 7);
+            setFromToDates("add", addTabDisplayDayOfWeekDate.value);
         }
     })
     addTabDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
@@ -8768,7 +8830,10 @@ async function mainEvent() {
         d.setDate(day);
 
         const curDay = d.getDay();
-        setDay("add", curDay);        
+        setDay("add", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("add", tempStr);
     })
 
 
@@ -11189,9 +11254,9 @@ async function mainEvent() {
 
         /* Removing Filter By Priority Number */
         document.getElementById("filter_container_priority_number").classList.add("hidden");
-        document.getElementById("filter_container_age_new_old").classList.add("hidden");
+        //document.getElementById("filter_container_age_new_old").classList.add("hidden");
         document.getElementById("filter_container_crd").classList.add("hidden");
-        document.getElementById("filter_container_age_old_new").classList.add("hidden");
+        //document.getElementById("filter_container_age_old_new").classList.add("hidden");
         document.getElementById("filter_container_rcd").classList.add("hidden");
 
 
