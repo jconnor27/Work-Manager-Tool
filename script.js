@@ -4528,6 +4528,11 @@ async function mainEvent() {
     const toDoDisplayDayOfWeekDate = document.querySelector("#to_do_display_day_of_week_date");
     const toDoDisplayDayOfWeekDateContainer = document.querySelector("#to_do_display_day_of_week_container");
 
+    /* Move To Dispaly */
+    const moveToDayOfWeekContainer = document.querySelector("#move_to_day_of_week_container");
+    const moveToDayOfWeekDate = document.querySelector("#move_to_display_day_of_week_date");
+    const toDoDisplayMoveToContainer = document.querySelector("#to_do_display_move_to_container");
+
 
 
         /* Variable */
@@ -4925,6 +4930,26 @@ async function mainEvent() {
         /* Setting Default Creation Date */
         toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
         setDay("to_do_display", today.getDay());
+
+            /* Move to DayOfWeekPageObject */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("move_to", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+        moveToDayOfWeekContainer.innerHTML = "";
+        moveToDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
+
+        moveToDayOfWeekDate.value = toDoDisplayDayOfWeekDate.value;
 
         // Running test function
         testFunction();
@@ -6698,6 +6723,15 @@ async function mainEvent() {
            
         } else { // Didn't click on anything actionable 
             console.log("Didn't click anything/ clicked container");
+        }
+
+    })
+
+    toDoDisplayMoveToContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayMoveToContainer");
+
+        if (event.target.innerHTML == "X") {
+            toDoDisplayMoveToContainer.classList.add("hidden");
         }
 
     })

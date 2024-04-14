@@ -3024,6 +3024,94 @@ h5 {
     padding-top: 200px;
 }
 
+.toDoDisplayMoveToContainer {
+    display: flex;
+    flex-direction: row;
+    z-index: 2;
+    height: 700px;
+    width: 1420px;
+    background-color: rgba(141, 130, 130, 0.668);
+    border: 2px solid black;
+    position: absolute;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: -300px;
+}
+
+.toDoDisplayMoveToBox {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 600px;
+    height: 300px;
+    margin-right: 100px;
+    align-items: center;
+
+}
+
+.moveToTabContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 420px;
+    justify-content: center;
+
+}
+
+.moveToTab {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 4px;
+    width: 85px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    margin-bottom: 0px;
+}
+
+.toDoDisplayMoveToRowOne {
+    display: flex;
+    width: 580px;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+
+}
+
+.toDoDisplayMoveToXButton {
+    display: flex;
+    font-size: large;
+    height: 30px;
+    width: 30px;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.toDoDisplayMoveToSaveButton {
+    display: flex;
+    font-size: large;
+    margin-top: 10px;
+
+}
+
+.toDoDisplayMoveToLabel {
+    display: flex;
+    font-size: x-large;
+}
+
+
+
+.moveToTabRow {
+    display: flex;
+    flex-direction: row;
+}
+
 .hidden {
     display: none;
     
