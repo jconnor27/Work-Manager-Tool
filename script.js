@@ -1456,8 +1456,6 @@ class DayOfWeekPageObject {
         return rowElement;
     }
 
-
-
 }
 
 // Master list of all ToDoDayObjects
@@ -1480,55 +1478,55 @@ class ToDoMasterList {
         }
 
         if (type == "contact_customer") {
-            if (this.list[tempIndex].contactCustomerList[index].completed == false) {
+            if (this.list[tempIndex].contactCustomerList[index].completed != true) {
                 this.list[tempIndex].contactCustomerList[index].completed = true;
             } else {
                 this.list[tempIndex].contactCustomerList[index].completed = false;
             }
         } else if (type == "site_visit") {
-            if (this.list[tempIndex].siteVisitList[index].completed == false) {
+            if (this.list[tempIndex].siteVisitList[index].completed != true) {
                 this.list[tempIndex].siteVisitList[index].completed = true;
             } else {
                 this.list[tempIndex].siteVisitList[index].completed = false;
             }
         } else if (type == "svc_calc") {
-            if (this.list[tempIndex].svcCalcList[index].completed == false) {
+            if (this.list[tempIndex].svcCalcList[index].completed != true) {
                 this.list[tempIndex].svcCalcList[index].completed = true;
             } else {
                 this.list[tempIndex].svcCalcList[index].completed = false;
             }
         } else if (type == "check_njuns") {
-            if (this.list[tempIndex].checkNJUNSList[index].completed == false) {
+            if (this.list[tempIndex].checkNJUNSList[index].completed != true) {
                 this.list[tempIndex].checkNJUNSList[index].completed = true;
             } else {
                 this.list[tempIndex].checkNJUNSList[index].completed = false;
             }
         } else if (type == "check_permit") {
-            if (this.list[tempIndex].checkPermitList[index].completed == false) {
+            if (this.list[tempIndex].checkPermitList[index].completed != true) {
                 this.list[tempIndex].checkPermitList[index].completed = true;
             } else {
                 this.list[tempIndex].checkPermitList[index].completed = false;
             }
         } else if (type == "check_easement") {
-            if (this.list[tempIndex].checkEasementList[index].completed == false) {
+            if (this.list[tempIndex].checkEasementList[index].completed != true) {
                 this.list[tempIndex].checkEasementList[index].completed = true;
             } else {
                 this.list[tempIndex].checkEasementList[index].completed = false;
             }
         } else if (type == "design") {
-            if (this.list[tempIndex].designList[index].completed == false) {
+            if (this.list[tempIndex].designList[index].completed != true) {
                 this.list[tempIndex].designList[index].completed = true;
             } else {
                 this.list[tempIndex].designList[index].completed = false;
             }
         } else if (type == "revisions") {
-            if (this.list[tempIndex].revisionsList[index].completed == false) {
+            if (this.list[tempIndex].revisionsList[index].completed != true) {
                 this.list[tempIndex].revisionsList[index].completed = true;
             } else {
                 this.list[tempIndex].revisionsList[index].completed = false;
             }
         } else if (type == "general") {
-            if (this.list[tempIndex].generalList[index].completed == false) {
+            if (this.list[tempIndex].generalList[index].completed != true) {
                 this.list[tempIndex].generalList[index].completed = true;
             } else {
                 this.list[tempIndex].generalList[index].completed = false;
@@ -1548,6 +1546,9 @@ class ToDoMasterList {
                 tempIndex = i;
             }
         }
+
+        console.log("*** here");
+        console.log(this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex]);
 
         if (type == "contact_customer") {
             if (this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
@@ -1731,14 +1732,135 @@ class ToDoMasterList {
         return count;
     }
 
+    load(str) {
+        console.log("Entered - ToDoMasterList - load(str)");
+
+        while (str.length > 1) {
+            let dayIndex = str.indexOf("$!#");
+
+            let dayStr = str.substring(0, dayIndex); // cuts to str representing one ToDoDayObject
+
+            this.parseToDoDayObject(dayStr);
+            
+            str = str.substring(dayIndex + 3);
+
+            console.log("str trimmed to");
+            console.log(str);
+        }
+    }
+
+    parseToDoDayObject(dayStr) {
+        console.log("Entered - ToDoMasterList - parseToDoDayObject");
+        console.log("dayStr =");
+        console.log(dayStr);
+
+        while (dayStr.length > 1) {
+            let listIndex = dayStr.indexOf("%#"); 
+
+            let listStr = dayStr.substring(0, listIndex); // cuts to str representing one list of ToDoObjects (siteVisitList, svcCalcList, ...)
+
+            this.parseToDoDayObjectList(listStr);
+
+            dayStr = dayStr.substring(listIndex + 2);
+
+            console.log("dayStr trimmed to");
+            console.log(dayStr);
+        }
+    }
+
+    parseToDoDayObjectList(listStr) {
+        console.log("Entered - ToDoMasterList - parseToDoDayObjectList");
+        console.log("listStr =");
+        console.log(listStr);
+
+        while (listStr.length > 1) {
+            let toDoIndex = listStr.indexOf("@ET@");
+
+            let toDoStr = listStr.substring(0, toDoIndex); // cuts to str representing one ToDoObject
+
+            let  data = []; // empty array to push trimming data to
+
+            let tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex));
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            tempIndex = toDoStr.indexOf("^EN^");
+            let tempNotesStr = toDoStr.substring(0, tempIndex); // trim notes
+
+            let tempNotes = this.parseToDoDayObjectListNotes(tempNotesStr);
+
+            data.push(tempNotes);
+            toDoStr = toDoStr.substring(tempIndex + 4);
+
+            data.push(toDoStr); // should just be wr num from trimming
+
+            /* Adding parsed ToDoObject to masterList */
+            const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+            console.log("toDo before add =");
+            console.log(toDo);
+            this.add(toDo);
+
+            listStr = listStr.substring(toDoIndex + 4);
+
+            console.log("listStr trimmed to");
+            console.log(listStr);
+        }
+    }
+
+    parseToDoDayObjectListNotes(notesStr) {
+        console.log("Entered - ToDoMasterList - parseToDoDayObjectListNotes");
+        console.log("notesStr =");
+        console.log(notesStr);
+
+        let notes = [];
+
+        while (notesStr.length > 1) {
+            let noteIndex = notesStr.indexOf("*");
+
+            let curNote = notesStr.substring(0, noteIndex); // trim to just one note
+
+            let commaIndex = curNote.lastIndexOf(","); // gets last comma in case note has commas
+
+            notes.push([curNote.substring(0, commaIndex), curNote.substring(commaIndex + 1)]);
+
+            notesStr = notesStr.substring(noteIndex + 1);
+            
+        }
+
+        return notes;
+    }
+
     toString() {
         console.log("Entered - ToDoMasterList - toString()");
 
         let str = "";
 
         for (var i = 0; i < this.list.length; i++) {
-            str.push(this.list[i]);
+            str += (this.list[i].toString());
+            str += "$!#";
         }
+
+        str += "^^EL^^"; // Used to cut from initial raw data
 
         return str;
     }
@@ -1785,7 +1907,8 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
                 
                 /* Checking to see if To-Do has been completed */
-                if (this.contactCustomerList[i].completed == false) { // Normal display for To-Do
+                if (this.contactCustomerList[i].completed != true) { // Normal display for To-Do
+                    console.log("this.contactCustomerList[i].completed != true");
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
@@ -1798,7 +1921,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
-                        if (this.contactCustomerList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.contactCustomerList[i].notes[j][1] != true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j][0]}</div>`}
@@ -1817,6 +1940,11 @@ class ToDoDayObject {
                         }
                     }                    
                 } else { // Need to add strike through all
+                    console.log("this.contactCustomerList[i].completed == true");
+
+                    console.log("this.contactCustomerList[i].completed == true");
+                    console.log(this.contactCustomerList[i].completed);
+
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<strike>${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}</strike>`}
@@ -1861,8 +1989,12 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "site_visit_list_" + this.date + "_item_" + i;
 
+                console.log("this.siteVisitList[i].completed =");
+                console.log(this.siteVisitList[i].completed);
+                console.log(this.siteVisitList[i].completed);
+
                 /* Checking to see if To-Do has been completed */
-                if (this.siteVisitList[i].completed == false) { // Normal display for To-Do
+                if (this.siteVisitList[i].completed != true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}
@@ -1876,7 +2008,7 @@ class ToDoDayObject {
 
                     for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
 
-                        if (this.siteVisitList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.siteVisitList[i].notes[j][1] != true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j][0]}</div>`}
@@ -1940,7 +2072,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "svc_calc_list_" + this.date + "_item_" + i;
 
-                if (this.svcCalcList[i].completed == false) { // Normal display for To-Do
+                if (this.svcCalcList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}
@@ -1953,7 +2085,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
-                        if (this.svcCalcList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.svcCalcList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j][0]}</div>`}
@@ -2013,7 +2145,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_njuns_list_" + this.date + "_item_" + i;
 
-                if (this.checkNJUNSList[i].completed == false) { // Normal display for To-Do
+                if (this.checkNJUNSList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}
@@ -2026,7 +2158,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkNJUNSList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.checkNJUNSList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j][0]}</div>`}
@@ -2092,7 +2224,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_permit_list_" + this.date + "_item_" + i;
 
-                if (this.checkPermitList[i].completed == false) { // Normal display for To-Do
+                if (this.checkPermitList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}
@@ -2105,7 +2237,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkPermitList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.checkPermitList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j][0]}</div>`}
@@ -2171,7 +2303,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_easement_list_" + this.date + "_item_" + i;
 
-                if (this.checkEasementList[i].completed == false) { // Normal display for To-Do
+                if (this.checkEasementList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}
@@ -2184,7 +2316,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkEasementList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.checkEasementList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j][0]}</div>`}
@@ -2243,7 +2375,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "design_list_" + this.date + "_item_" + i;
 
-                if (this.designList[i].completed == false) { // Normal display for To-Do
+                if (this.designList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}
@@ -2256,7 +2388,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
-                        if (this.designList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.designList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j][0]}</div>`}
@@ -2316,7 +2448,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "revisions_list_" + this.date + "_item_" + i;
 
-                if (this.revisionsList[i].completed == false) { // Normal display for To-Do
+                if (this.revisionsList[i].completed == true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}
@@ -2329,7 +2461,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
-                        if (this.revisionsList[i].notes[j][1] == false) { // Normal display for Note
+                        if (this.revisionsList[i].notes[j][1] == true) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j][0]}</div>`}
@@ -2390,7 +2522,7 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "general_list_" + this.date + "_item_" + i;
 
                 if (this.generalList[i].workRequestNumber != undefined && this.generalList[i].workRequestNumber != "") { // User provided optional work request number
-                    if (this.generalList[i].completed == false) { // Normal display for To-Do
+                    if (this.generalList[i].completed == true) { // Normal display for To-Do
                         toDoObjectWrInfo.innerHTML = 
                         `<div class="toDoObjectContainer">
                             ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}
@@ -2403,7 +2535,7 @@ class ToDoDayObject {
                         </div>`;
 
                         for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                            if (this.generalList[i].notes[j][1] == false) { // Normal display for Note
+                            if (this.generalList[i].notes[j][1] == true) { // Normal display for Note
                                 const temp = 
                                 `<div class="toDoNoteContainer">
                                     ${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}
@@ -2452,7 +2584,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                        if (this.generalList[i].notes[j][1] == false) { // Normal display for note
+                        if (this.generalList[i].notes[j][1] == true) { // Normal display for note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].notes[j][0]}</div>`}
@@ -2490,18 +2622,15 @@ class ToDoDayObject {
             pageElement.insertAdjacentElement("beforeend", generalListElem); // add the general list to the page elem  
         }
 
-
         return pageElement;
     }
 
     add(toDo) {
         console.log("Entered - ToDoDayObject - add(toDo)");
-        console.log("hiya **");
         console.log(toDo);
 
         if (toDo.type == "Contact Customer") {
             this.contactCustomerList.push(toDo);
-            
         } else if (toDo.type == "Site Visit") {
             this.siteVisitList.push(toDo);
         } else if (toDo.type == "Service Calc + Coding") {
@@ -2518,10 +2647,7 @@ class ToDoDayObject {
             this.revisionsList.push(toDo);
         } else if (toDo.type == "General") {
             this.generalList.push(toDo);
-            console.log("general list =");
-            console.log(this.generalList);
         } 
-        //this.list.push(toDo);
     }
 
     /* Takes in a list and returns a list without the index param - used in addTabUpdateButton */
@@ -2544,8 +2670,54 @@ class ToDoDayObject {
 
         let str = "";
 
-        str += this.contactCustomerList.concat(this.siteVisitList.concat(this.svcCalcList.concat(this.checkNJUNSList.concat(
-            this.checkPermitList.concat(this.checkEasementList.concat(this.designList.concat(this.revisionsList.concat(this.generalList))))))));
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            str += this.contactCustomerList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            str += this.siteVisitList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            str += this.contactCustomerList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            str += this.checkNJUNSList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            str += this.checkPermitList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            str += this.checkEasementList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.designList.length; i++) {
+            str += this.designList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            str += this.revisionsList[i].toString();
+        }
+        str += "%#";
+        for (var i = 0; i < this.generalList.length; i++) {
+            str += this.generalList[i].toString();
+        }
+        str += "%#";
+
+        /*
+        str += this.contactCustomerList.forEach((toDo) => toDo.toString()) + "%#" + this.siteVisitList.forEach((toDo) => toDo.toString()) + 
+        "%#" + this.svcCalcList.forEach((toDo) => toDo.toString()) + "%#" + this.checkNJUNSList.forEach((toDo) => toDo.toString()) + 
+        "%#" + this.checkPermitList.forEach((toDo) => toDo.toString()) + "%#" + this.checkEasementList.forEach((toDo) => toDo.toString()) + 
+        "%#" + this.designList.forEach((toDo) => toDo.toString()) + "%#" + this.revisionsList.forEach((toDo) => toDo.toString()) + 
+        "%#" + this.generalList.forEach((toDo) => toDo.toString()) + "%#"; // 9 "%#"
+        */
+        /*str += this.contactCustomerList.concat("#*EL*#".concat(this.siteVisitList.concat("#*EL*#".concat(this.svcCalcList.concat(
+            "#*EL*#".concat(this.checkNJUNSList.concat("#*EL*#".concat(this.checkPermitList.concat("#*EL*#".concat(
+                this.checkEasementList.concat("#*EL*#".concat(this.designList.concat("#*EL*#".concat(this.revisionsList.concat("#*EL*#".concat(
+                    this.generalList.concat("#*EL*#")))))))))))))))));*/
         
         return str;
 
@@ -2611,10 +2783,10 @@ class ToDoObject {
         str += this.toDoId + "*" + this.tab + "*" + this.dueDate + "*" + this.type + "*" + this.creationDate + "*" + this.completed + "*";
 
         for (var i = 0; i < this.notes.length; i++) {
-            str += this.notes[i] + "*@%";
+            str += this.notes[i] + "*";
         }
 
-        str += temp + "*";
+        str += "^EN^" + temp + "@ET@";
 
 
         return str;
@@ -2868,12 +3040,13 @@ async function writeFile(contents) {
     await writable.write(contents);
     await writable.close();
 }
-async function saveFile(allWrList, userColors, systemPreferences) {
+async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList) {
     console.log("Entered - saveFile()");
 
     const d = new Date();
     const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
-    const data = [systemPreferences, userColors, now, allWrList];
+
+    const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
     const dataBlob = new Blob(data);
 
     const newHandle = await window.showSaveFilePicker();
@@ -2891,14 +3064,17 @@ function readFile() {
 
     var reader = new FileReader();
     reader.addEventListener("loadend", function() {
-        let data = splitSystemPreferences(reader.result);
-        let data2 = splitColorPreferences(data[1]);
-        let systemPreferencesStr = data[0];
-        let colorPreferencesStr = data2[0];
-        let allWrList = parseWrString(data[1]);
+        let toDoMasterListData = splitToDoMasterList(reader.result);
+        let systemPreferencesData = splitSystemPreferences(toDoMasterListData[1]);
+        let colorPreferencesData = splitColorPreferences(systemPreferencesData[1]);
+        let toDoMasterListStr = toDoMasterListData[0];
+        let systemPreferencesStr = systemPreferencesData[0];
+        let colorPreferencesStr = colorPreferencesData[0];
+        let allWrList = parseWrString(systemPreferencesData[1]);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterend", `<div class="hidden" id="temp_system_storage">${systemPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
+        document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_to_do_storage">${toDoMasterListStr}</div>`);
         document.getElementById("footer_button_sync").classList.remove("hidden");
     });
     reader.readAsText(selected);
@@ -3326,6 +3502,17 @@ function splitSystemPreferences(str) {
     const allWrListRaw = str.substring(index);
 
     return [systemPreferencesStr, allWrListRaw];
+}
+
+function splitToDoMasterList(str) {
+    console.log("Entered - splitToDoMasterList(str)");
+
+    let index = str.indexOf("^^EL^^");
+
+    const toDoMasterListStr = str.substring(0, index);
+    const rest = str.substring(index + 6);
+
+    return [toDoMasterListStr, rest];
 }
 
 function parseWrString(str) {
@@ -11158,6 +11345,12 @@ async function mainEvent() {
         const tempSystemPreferences = document.getElementById("temp_system_storage").innerHTML;
         systemPreferences.load(tempSystemPreferences);
 
+        const tempToDoMasterList = document.getElementById("temp_to_do_storage").innerHTML;
+        toDoMasterList.load(tempToDoMasterList);
+
+        console.log("toDoMasterList =");
+        console.log(toDoMasterList);
+
         for (let i = 0; i < tempList.length; i++) {
             allWrList[allWrList.length] = tempList[i];
         }
@@ -11177,6 +11370,10 @@ async function mainEvent() {
             document.getElementById('all_wr_tab').insertAdjacentElement("beforeend", tempAllWrList);
         }
 
+        /*if (toDoMasterList.length != undefined && toDoMasterList.length > 0) {
+            injectHTMLToDoTabDisplay()
+        }*/
+
     })
     footerButtonLoad.addEventListener("click", (event) => {
         console.log("Fired - Clicked footerButtonLoad");
@@ -11186,7 +11383,7 @@ async function mainEvent() {
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
 
-        saveFile(allWrList, userColors, systemPreferences);
+        saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
     })
 
             /* Tab Event Listeners */
@@ -11332,6 +11529,20 @@ async function mainEvent() {
         } else {
             filterCheckboxGeneral.checked = true;
             trimByAllToDo.checked = true;
+        }
+
+        if (toDoMasterList.list.length != undefined && toDoMasterList.list.length > 0) {
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                }
+            }
+            /*const temp = toDoMasterList.getToDoByDate(toDoDisplayDayOfWeekDate.value);
+            if (temp != 0) {
+                injectHTMLToDoTabDisplay(temp);
+            } else {
+                console.log("no ToDoDayObject for date found");
+            }*/
         }
     })
     toDoTabActive.addEventListener("click", (event) => {
