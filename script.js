@@ -11511,32 +11511,6 @@ async function mainEvent() {
 
         }
     }
-    function checkCompleted() {
-        console.log("Entered - checkCompleted()");
-
-        const date = toDoDisplayDayOfWeekDate.value;
-
-        if (toDoMasterList.list != undefined) {
-            console.log("toDoMasterList.list != undefined");
-            for (var i = 0; i < toDoMasterList.list.length; i++) { // for all toDoDayObjects
-                if (toDoMasterList.list[i].date == date) {  // if current toDoDayObject.date = date
-                    console.log("found toDoDayObject");
-                    /* Contact Customer List */
-                    if (toDoMasterList.list[i].contactCustomerList != undefined) { // if contactCustomerList exists
-                        console.log("toDoMasterList.list[i].contactCustomerList != undefined");
-                        for (var j = 0; j < toDoMasterList.list[i].contactCustomerList.length; j++) {   // for all toDoObjects in list
-                            console.log(toDoMasterList.list[i].contactCustomerList[j].completed);
-                            if (toDoMasterList.list[i].contactCustomerList[j].completed == 1) {  // if toDoObject is complete
-                                console.log("clicking complete for item " + j);
-                                //document.getElementById("contact_customer_to_do_list_complete_" + j).click();   
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-    }
     toDoTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTab");
 
@@ -11581,16 +11555,9 @@ async function mainEvent() {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                     injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
-
-                    //checkCompleted();
                 }
             }
-            /*const temp = toDoMasterList.getToDoByDate(toDoDisplayDayOfWeekDate.value);
-            if (temp != 0) {
-                injectHTMLToDoTabDisplay(temp);
-            } else {
-                console.log("no ToDoDayObject for date found");
-            }*/
+            
         }
     })
     toDoTabActive.addEventListener("click", (event) => {
