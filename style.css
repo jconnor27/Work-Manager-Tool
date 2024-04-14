@@ -3017,6 +3017,13 @@ h5 {
     justify-content: center;
 }
 
+.noToDosForToday {
+    display: flex;
+    font-size: large;
+    padding-left: 500px;
+    padding-top: 200px;
+}
+
 .hidden {
     display: none;
     

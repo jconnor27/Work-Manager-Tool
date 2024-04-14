@@ -1744,24 +1744,13 @@ class ToDoMasterList {
             
             str = str.substring(dayIndex + 3);
 
-            console.log("str trimmed to");
-            console.log(str);
         }
         const temp = document.getElementById("to_do_display_day_of_week_date").value;
 
-        /*
-        for (var i = 0; i < this.list.length; i++) {
-            if (this.list[i].date == temp) {
-                injectHTMLToDoTabDisplay(this.list[i]);
-
-            }
-        }*/
     }
 
     parseToDoDayObject(dayStr) {
         console.log("Entered - ToDoMasterList - parseToDoDayObject");
-        console.log("dayStr =");
-        console.log(dayStr);
 
         while (dayStr.length > 1) {
             let listIndex = dayStr.indexOf("%#"); 
@@ -1771,16 +1760,11 @@ class ToDoMasterList {
             this.parseToDoDayObjectList(listStr);
 
             dayStr = dayStr.substring(listIndex + 2);
-
-            console.log("dayStr trimmed to");
-            console.log(dayStr);
         }
     }
 
     parseToDoDayObjectList(listStr) {
         console.log("Entered - ToDoMasterList - parseToDoDayObjectList");
-        console.log("listStr =");
-        console.log(listStr);
 
         while (listStr.length > 1) {
             let toDoIndex = listStr.indexOf("@ET@");
@@ -1825,21 +1809,15 @@ class ToDoMasterList {
 
             /* Adding parsed ToDoObject to masterList */
             const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
-            console.log("toDo before add =");
-            console.log(toDo);
+           
             this.add(toDo);
 
             listStr = listStr.substring(toDoIndex + 4);
-
-            console.log("listStr trimmed to");
-            console.log(listStr);
         }
     }
 
     parseToDoDayObjectListNotes(notesStr) {
         console.log("Entered - ToDoMasterList - parseToDoDayObjectListNotes");
-        console.log("notesStr =");
-        console.log(notesStr);
 
         let notes = [];
 
@@ -1918,7 +1896,6 @@ class ToDoDayObject {
                 
                 /* Checking to see if To-Do has been completed */
                 if (this.contactCustomerList[i].completed != 1) { // Normal display for To-Do
-                    console.log("this.contactCustomerList[i].completed != 1");
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
@@ -1950,11 +1927,6 @@ class ToDoDayObject {
                         }
                     }                    
                 } else { // Need to add strike through all
-                    console.log("this.contactCustomerList[i].completed == 1");
-
-                    console.log("this.contactCustomerList[i].completed == 1");
-                    console.log(this.contactCustomerList[i].completed);
-
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<strike>${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}</strike>`}
@@ -1998,10 +1970,6 @@ class ToDoDayObject {
             for (var i = 0; i < this.siteVisitList.length; i++) { // for each site visit to-do ...
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "site_visit_list_" + this.date + "_item_" + i;
-
-                console.log("this.siteVisitList[i].completed =");
-                console.log(this.siteVisitList[i].completed);
-                console.log(this.siteVisitList[i].completed);
 
                 /* Checking to see if To-Do has been completed */
                 if (this.siteVisitList[i].completed != 1) { // Normal display for To-Do
@@ -2689,7 +2657,7 @@ class ToDoDayObject {
         }
         str += "%#";
         for (var i = 0; i < this.svcCalcList.length; i++) {
-            str += this.contactCustomerList[i].toString();
+            str += this.svcCalcList[i].toString();
         }
         str += "%#";
         for (var i = 0; i < this.checkNJUNSList.length; i++) {
@@ -3164,7 +3132,6 @@ function injectHTMLToDoTabDisplay(toDoDayObject) {
     const temp = toDoDayObject.makePageElement();
     console.log(temp);
     
-
     toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
 
 }
@@ -6591,7 +6558,7 @@ async function mainEvent() {
         }
     })
     toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
-        console.log("Fired - Clicked toDoDisplayDayOfWeekDate");
+        console.log("Fired - Mousedout toDoDisplayDayOfWeekDate");
 
         const temp = toDoDisplayDayOfWeekDate.value;
         const year = temp.substring(0, 4);
@@ -6607,14 +6574,25 @@ async function mainEvent() {
         setDay("to_do_display", curDay);
         
         const tempStr = year + "-" + month + "-" + day;
-        setFromToDates("to_do_display", tempStr);        
+        setFromToDates("to_do_display", tempStr);
+        
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                console.log("injecting display");
+                if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
+                    console.log("removing prompt");
+                    document.getElementById("no_to_dos_for_today_prompt").remove();
+                }
+                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                
+            } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            }
+        }
     })
 
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayRowElementContainer");
-
-        console.log("***^*");
-        console.log(event.target.outerHTML.substring(0, 31));
 
         if (event.target.outerHTML.substring(0,33) != "<div class=\"toDoObjectContainer\">" && event.target.outerHTML.substring(0, 31) != "<div class=\"toDoNoteContainer\">") { // Clicked something actionable
             let index = event.target.outerHTML.indexOf("id"); // find id part 
@@ -7917,7 +7895,7 @@ async function mainEvent() {
             while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
                 console.log("^&^&^ in while loop");
                 console.log(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML)
-                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 1]);
                 i++;
             }
             if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount()) {
@@ -7928,9 +7906,12 @@ async function mainEvent() {
                 e.displayMustAddNoteForGeneralTypeToDo();
             } else {
 
-                let tempChecked = 0;
+                let tempChecked = 1;
+                console.log("****");
+                console.log(document.getElementById("add_tab_display_to_do_completed"));
                 if (document.getElementById("add_tab_display_to_do_completed").checked) {
-                    tempChecked = 1;
+                    console.log("tempChecked being set to 0");
+                    tempChecked = 0;
                 }
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
@@ -8771,13 +8752,26 @@ async function mainEvent() {
         let d = [];
         
         if (tab == "add") {
-            d = new Date(addTabDisplayDayOfWeekDate.value);
-            console.log(d);
+            let temp = addTabDisplayDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         } else if (tab == "to_do_display") {
-            d = new Date(toDoDisplayDayOfWeekDate.value);
-            console.log(d);
+            let temp = toDoDisplayDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         }
-        //d = new Date();
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
         if (month < 10) {
@@ -8803,6 +8797,7 @@ async function mainEvent() {
             }
 
         } else if (newDay > curDay) { // Going forwards
+            console.log("at this spot");
             const difference = newDay - curDay;
 
             const temp = addDays(year, month, day, difference);
@@ -8832,6 +8827,20 @@ async function mainEvent() {
                 addTabDisplayDayOfWeekDate.value = (temp);
                 setFromToDates("add", temp);
 
+            }
+        }
+
+        /* Updating display */
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                console.log("injecting display");
+                if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
+                    console.log("removing prompt");
+                    document.getElementById("no_to_dos_for_today_prompt").remove();
+                }
+                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+            } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
         }
     }
