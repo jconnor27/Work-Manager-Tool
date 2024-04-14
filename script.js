@@ -7678,7 +7678,7 @@ async function mainEvent() {
                 var i = 0;
 
                 while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, false]);
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 1]);
                 i++;
             }
 
@@ -8832,6 +8832,10 @@ async function mainEvent() {
 
         /* Updating display */
         for (var i = 0; i < toDoMasterList.list.length; i++) {
+            console.log("toDoMasterList.list[i].date =");
+            console.log(toDoMasterList.list[i].date);
+            console.log("toDoDisplayDayOfWeekDate.value =");
+            console.log(toDoDisplayDayOfWeekDate.value);
             if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                 console.log("injecting display");
                 if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
@@ -8839,6 +8843,7 @@ async function mainEvent() {
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
                 injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                return;
             } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
