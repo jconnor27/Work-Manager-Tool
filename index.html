@@ -673,7 +673,7 @@
                 </div>
 
                 <!-- Move To Container -->
-                <div class="toDoDisplayMoveToContainer" id="to_do_display_move_to_container">
+                <div class="toDoDisplayMoveToContainer hidden" id="to_do_display_move_to_container">
                     <div class="toDoDisplayMoveToBox">
                         <div class="toDoDisplayMoveToRowOne">
                             <button type="button" class="toDoDisplayMoveToXButton" id="to_do_display_move_to_x_button">X</button>
@@ -685,11 +685,21 @@
 
                         </div>
                         <div class="moveToTabContainer">
-                            <div class="moveToTab" id="move_to_tab_coordinator"><div>Coordinator</div></div>
+                            <div class="moveToTab" id="move_to_tab_coordinator">Coordinator</div>
+                            <div class="moveToTab activeTab hidden" id="move_to_tab_coordinator_active">Coordinator</div>
+
                             <div class="moveToTab" id="move_to_tab_waiting">Waiting</div>
+                            <div class="moveToTab activeTab hidden" id="move_to_tab_waiting_active">Waiting</div>
+
                             <div class="moveToTab" id="move_to_tab_on_return_to_office"><div class="moveToTabRow">On Return</div><div class="moveToTabRow">To Office</div></div>
+                            <div class="moveToTab activeTab hidden" id="move_to_tab_on_return_to_office_active"><div class="moveToTabRow">On Return</div><div class="moveToTabRow">To Office</div></div>
+
                             <div class="moveToTab" id="move_to_tab_general">General</div>
+                            <div class="moveToTab activeTab hidden" id="move_to_tab_general_active">General</div>
+
                             <div class="moveToTab" id="move_to_tab_mentor"><div>Mentor</div></div>
+                            <div class="moveToTab activeTab hidden" id="move_to_tab_mentor_active"><div>Mentor</div></div>
+
                         </div>
                     </div>
                 </div>

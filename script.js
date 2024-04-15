@@ -4546,6 +4546,7 @@ async function mainEvent() {
     let currentPagePermits = 0;
     let permitDateChangeValues = [];
     let tempCurWrNumber = "";
+    let tempCurToDo = [];
 
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList();
@@ -6515,6 +6516,63 @@ async function mainEvent() {
     })
 
     /* To-Do Tab */         /* To-Do Tab */         /* To-Do Tab */         /* To-Do Tab */         /* To-Do Tab */         /* To-Do Tab */ 
+    function clearMoveToTabs() {
+        console.log("Entered - clearMoveToTabs()");
+
+        document.getElementById("move_to_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("move_to_tab_waiting_active").classList.add("hidden");
+        document.getElementById("move_to_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("move_to_tab_general_active").classList.add("hidden");
+        document.getElementById("move_to_tab_mentor_active").classList.add("hidden");
+
+        document.getElementById("move_to_tab_coordinator").classList.remove("hidden");
+        document.getElementById("move_to_tab_waiting").classList.remove("hidden");
+        document.getElementById("move_to_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("move_to_tab_general").classList.remove("hidden");
+        document.getElementById("move_to_tab_mentor").classList.remove("hidden");
+
+    }
+    function displayToDoMoveToDisplay(toDo) {
+        console.log("Entered - displayToDoMoveToDisplay(toDo)");
+        console.log("toDo =");
+        console.log(toDo);
+
+        toDoDisplayMoveToContainer.classList.remove("hidden");
+
+        toDoDisplayDayOfWeekDate.value = toDo.dueDate;
+
+        const d = new Date(toDo.dueDate);
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const temp = new Date(addDays(year, month, day, 2));
+        console.log("new date =");
+        console.log(temp);
+        setDay("move_to", temp.getDay());
+
+        if (toDo.tab == "Coordinator") {
+            document.getElementById("move_to_tab_coordinator").classList.add("hidden");
+            document.getElementById("move_to_tab_coordinator_active").classList.remove("hidden");
+        } else if (toDo.tab == "Waiting") {
+            document.getElementById("move_to_tab_waiting").classList.add("hidden");
+            document.getElementById("move_to_tab_waiting_active").classList.remove("hidden");
+        } else if (toDo.tab == "On Return To Office") {
+            document.getElementById("move_to_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("move_to_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (toDo.tab == "General") {
+            document.getElementById("move_to_tab_general").classList.add("hidden");
+            document.getElementById("move_to_tab_general_active").classList.remove("hidden");
+        } else if (toDo.tab == "Mentor") {
+            document.getElementById("move_to_tab_mentor").classList.add("hidden");
+            document.getElementById("move_to_tab_mentor_active").classList.remove("hidden");
+        } 
+    }
 
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
@@ -6684,6 +6742,13 @@ async function mainEvent() {
 
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "move") {
                 console.log("clicked move");
+
+                const curToDo = toDoMasterList.getToDoDisplay(moveToDayOfWeekDate.value, curList, lastNum);
+
+
+                displayToDoMoveToDisplay(curToDo);
+                tempCurToDo = [curToDo, moveToDayOfWeekDate.value, curList, lastNum];
+                
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete" && curList != "general") { // complete for all except general to-do's
                 console.log("clicked complete - not general");
 
@@ -6730,10 +6795,221 @@ async function mainEvent() {
     toDoDisplayMoveToContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveToContainer");
 
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+
         if (event.target.innerHTML == "X") {
             toDoDisplayMoveToContainer.classList.add("hidden");
-        }
+        } else if (event.target.innerHTML == "Save") { 
+            console.log("tempCurToDo =");
+            console.log(tempCurToDo);
 
+            tempCurToDo.dueDate = moveToDayOfWeekDate.value;
+            
+            if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
+                tempCurToDo[0].tab = "Coordinator";
+            } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
+                tempCurToDo[0].tab = "Waiting";
+            } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
+                tempCurToDo[0].tab = "On Return To Office";
+            } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
+                tempCurToDo[0].tab = "General";
+            } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
+                tempCurToDo[0].tab = "Mentor";
+            } 
+
+            console.log("new tempCurToDo");
+            console.log(tempCurToDo);
+
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+
+                console.log("tempCurToDo[1]");
+                console.log(tempCurToDo[1]);
+
+                if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
+                    console.log("$#$# hi");
+                    console.log(tempCurToDo[2]);
+                    if (tempCurToDo[2] == "contact_customer") {
+                        toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
+
+                        console.log(toDoMasterList);
+                        return
+                    }
+                } 
+            }
+            let temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
+            let tempDate = temp[1].dueDate;
+            
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+
+                    if (temp[4] == "Contact Customer") {
+
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].contactCustomerList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].contactCustomerList = tempData; // haveing problems with this - creating loop?
+
+                        console.log(toDoMasterList);
+                    }
+                }
+            }
+            toDoMasterList.add(tempCurToDo[0]);
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
+                    toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
+
+                    let d = new Date(toDoDisplayDayOfWeekDate.value);
+                    let year = d.getFullYear();
+                    let month = d.getMonth() + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    let day = d.getDate();
+                    if (day < 10) {
+                        day = "0" + day;
+                    }
+
+                    let temp = new Date(addDays(year, month, day, 2));
+
+                    setDay("to_do_display", temp.getDay());
+
+                }
+            }
+            console.log(toDoMasterList);
+            toDoDisplayMoveToContainer.classList.add("hidden");
+
+            //toDoMasterList.list
+
+        } else if (event.target.innerHTML == "Su") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 0);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "M") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 1);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "Tu") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 2);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "W") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 3);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "Th") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 4);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "F") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("to_do_dimove_tosplay", 5);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "Sa") {
+            clearDays("move_to");
+
+            document.getElementById("move_to_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("move_to_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_to", 6);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = moveToDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            moveToDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            setFromToDates("move_to", moveToDayOfWeekDate.value);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = moveToDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            moveToDayOfWeekDate.value = addDays(year, month, day, 7);
+            setFromToDates("move_to", moveToDayOfWeekDate.value);
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        } else if (event.target.innerHTML == "Coordinator") {
+            clearMoveToTabs();
+
+            document.getElementById("move_to_tab_coordinator").classList.add("hidden");
+            document.getElementById("move_to_tab_coordinator_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Waiting") {
+            clearMoveToTabs();
+
+            document.getElementById("move_to_tab_waiting").classList.add("hidden");
+            document.getElementById("move_to_tab_waiting_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "On Return" || event.target.innerHTML == "To Office") {
+            clearMoveToTabs();
+
+            document.getElementById("move_to_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("move_to_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "General") {
+            clearMoveToTabs();
+
+            document.getElementById("move_to_tab_general").classList.add("hidden");
+            document.getElementById("move_to_tab_general_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Mentor") {
+            clearMoveToTabs();
+
+            document.getElementById("move_to_tab_mentor").classList.add("hidden");
+            document.getElementById("move_to_tab_mentor_active").classList.remove("hidden");
+        } 
     })
     
     /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
@@ -8627,6 +8903,10 @@ async function mainEvent() {
         } else if (tab == "to_do_display") {
             document.getElementById("to_do_display_tab_day_of_week_from_date").innerHTML = tempFromDate;
             document.getElementById("to_do_display_tab_day_of_week_to_date").innerHTML = tempToDate;
+        } else if (tab == "move_to") {
+            document.getElementById("move_to_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("move_to_tab_day_of_week_to_date").innerHTML = "From: " + tempToDate;
+
         }
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
@@ -8805,6 +9085,16 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
+        } else if  (tab == "move_to") {
+            let temp = moveToDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         }
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
@@ -8828,6 +9118,9 @@ async function mainEvent() {
             } else if (tab == "add") {
                 addTabDisplayDayOfWeekDate.value = (temp);
                 setFromToDates("add", temp);
+            } else if (tab == "move_to") {
+                moveToDayOfWeekDate.value = (temp);
+                setFromToDates("move_to", temp);
             }
 
         } else if (newDay > curDay) { // Going forwards
@@ -8842,6 +9135,9 @@ async function mainEvent() {
             } else if (tab == "add") {
                 addTabDisplayDayOfWeekDate.value = (temp);
                 setFromToDates("add", temp);
+            } else if (tab == "move_to") {
+                moveToDayOfWeekDate.value = (temp);
+                setFromToDates("move_to", temp);
             }
 
         } else { // Going to today
@@ -8861,6 +9157,9 @@ async function mainEvent() {
                 addTabDisplayDayOfWeekDate.value = (temp);
                 setFromToDates("add", temp);
 
+            } else if (tab == "move_to") {
+                moveToDayOfWeekDate.value = (temp);
+                setFromToDates("move_to", temp);
             }
         }
 
