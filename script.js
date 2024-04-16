@@ -1895,7 +1895,11 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
                 
                 /* Checking to see if To-Do has been completed */
-                if (this.contactCustomerList[i].completed != 1) { // Normal display for To-Do
+                console.log("** Hiya");
+                console.log(this.contactCustomerList[i].completed);
+                console.log(this.contactCustomerList[i].completed == true)
+
+                if (this.contactCustomerList[i].completed != true) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
@@ -6648,17 +6652,17 @@ async function mainEvent() {
         const month = temp.substring(5, 7);
         const day = temp.substring(8, 10);
         const d = new Date(temp);
-
+    
         d.setFullYear(year);
         d.setMonth(month - 1);
         d.setDate(day);
-
+    
         const curDay = d.getDay();
         setDay("to_do_display", curDay);
-        
+            
         const tempStr = year + "-" + month + "-" + day;
         setFromToDates("to_do_display", tempStr);
-        
+            
         for (var i = 0; i < toDoMasterList.list.length; i++) {
             if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                 console.log("injecting display");
@@ -6667,11 +6671,13 @@ async function mainEvent() {
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
                 injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
-                
+                break;
+                    
             } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
-        }
+        }        
+        
     })
 
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
