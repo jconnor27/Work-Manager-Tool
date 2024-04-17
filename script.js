@@ -798,6 +798,18 @@ class Error {
             temp.remove();
         }, 3000)
     }
+
+    displayMustAddWorkRequestNumberUnlessGeneral() {
+        console.log("Entered - displayMustAddWorkRequestNumberUnlessGeneral()");
+
+        const temp = document.getElementById("new_work_request_number_textfield");
+
+        temp.insertAdjacentHTML("afterend", `<div class="errorMustAddWorkRequestNumber" id="error_wr_already_exists">Must Enter Work Request Number Unless To-Do is of Type "General"</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_wr_already_exists");
+            temp.remove();
+        }, 3000);  
+    }
 }
 
 class workRequest {
@@ -8504,6 +8516,10 @@ async function mainEvent() {
                 e.displaySelectToDoType();
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
                 e.displayMustAddNoteForGeneralTypeToDo();
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML != "General" && addTabNewWorkRequestNumber.value != undefined ||
+                document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabNewWorkRequestNumber.value.length == 0) {
+                
+                    e.displayMustAddWorkRequestNumberUnlessGeneral();
             } else {
 
                 let tempChecked = 0;

@@ -1657,6 +1657,18 @@ h5 {
     margin-left: 300px;
 }
 
+.errorMustAddWorkRequestNumber {
+    display: flex;
+    font-size: medium;
+    width: 200px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-right: -220px;
+    margin-left: 20px;
+    margin-bottom: -50px;
+}
+
 .noWrFound {
     display: flex;
     font-size: large;
