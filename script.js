@@ -1424,6 +1424,7 @@ class DayOfWeekPageObject {
         dayOfWeekDateContainer.classList.add("dayOfWeekDateContainer");
 
         dayOfWeekDateContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekDate" id="${this.tab}_tab_day_of_week_from_date">From: ${formatDateNormal(this.fromDate)}</div>`);
+        dayOfWeekDateContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekDateResetButton">&#8634</div>`);
         dayOfWeekDateContainer.insertAdjacentHTML("beforeend", `<div class="dayOfWeekDate" id="${this.tab}_tab_day_of_week_to_date">To: ${formatDateNormal(this.toDate)}</div>`);
 
         rowElement.insertAdjacentElement("beforeend", dayOfWeekDateContainer);
@@ -1682,12 +1683,16 @@ class ToDoMasterList {
     getToDoDisplay(date, curList, index) {
         console.log("Entered - ToDoMasterList - getToDoDisplay(date= " + date + " curList= " + curList + " index= " + index + ")");
 
-        console.log("I got in here 3");
 
         /* Finding index of ToDoDayObject via date */
         let tempIndex = -1; // should throw error if not set below
 
         for (var i = 0; i < this.list.length; i++) {
+            console.log("I =");
+            console.log(i);
+            console.log("this.list[i].date =");
+            console.log(this.list[i].date);
+            
             if (this.list[i].date == date) {
                 tempIndex = i;
             }
@@ -2688,29 +2693,9 @@ class ToDoDayObject {
             str += this.generalList[i].toString();
         }
         str += "%#";
-
-        /*
-        str += this.contactCustomerList.forEach((toDo) => toDo.toString()) + "%#" + this.siteVisitList.forEach((toDo) => toDo.toString()) + 
-        "%#" + this.svcCalcList.forEach((toDo) => toDo.toString()) + "%#" + this.checkNJUNSList.forEach((toDo) => toDo.toString()) + 
-        "%#" + this.checkPermitList.forEach((toDo) => toDo.toString()) + "%#" + this.checkEasementList.forEach((toDo) => toDo.toString()) + 
-        "%#" + this.designList.forEach((toDo) => toDo.toString()) + "%#" + this.revisionsList.forEach((toDo) => toDo.toString()) + 
-        "%#" + this.generalList.forEach((toDo) => toDo.toString()) + "%#"; // 9 "%#"
-        */
-        /*str += this.contactCustomerList.concat("#*EL*#".concat(this.siteVisitList.concat("#*EL*#".concat(this.svcCalcList.concat(
-            "#*EL*#".concat(this.checkNJUNSList.concat("#*EL*#".concat(this.checkPermitList.concat("#*EL*#".concat(
-                this.checkEasementList.concat("#*EL*#".concat(this.designList.concat("#*EL*#".concat(this.revisionsList.concat("#*EL*#".concat(
-                    this.generalList.concat("#*EL*#")))))))))))))))));*/
         
         return str;
 
-        /*let str = "";
-        str += this.date + "*";
-
-        for (var i = 0; i < this.list.length; i++) {
-            str += this.list[i];
-        }
-
-        return str;*/
     }
 }
 
@@ -2829,7 +2814,7 @@ function formatDateNormal(date) {
     const month = date.substring(5,7);
     const day = date.substring(8);
 
-    return month + "-" + day + "-" + "-" + year;
+    return month + "-" + day + "-" + year;
 }
 
 function formatDatePermitApplied(date) {
@@ -4531,6 +4516,10 @@ async function mainEvent() {
     const toDoDisplayRowElementContainer = document.querySelector("#to_do_display_row_element_container");
     const toDoDisplayDayOfWeekDate = document.querySelector("#to_do_display_day_of_week_date");
     const toDoDisplayDayOfWeekDateContainer = document.querySelector("#to_do_display_day_of_week_container");
+    const toDoDisplayDatePrevButton = document.querySelector("#to_do_display_date_prev_button");
+    const toDoDisplayDateNextButton = document.querySelector("#to_do_display_date_next_button");
+    const toDoDisplayMoveIncompleteButton = document.querySelector("#to_do_move_incomplete_button");
+
 
     /* Move To Dispaly */
     const moveToDayOfWeekContainer = document.querySelector("#move_to_day_of_week_container");
@@ -5559,6 +5548,21 @@ async function mainEvent() {
 
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
     }
+    function resetToDoMoveToDisplay() {
+        console.log("Entered - resetToDoMoveToDisplay()");
+
+        document.getElementById("move_to_tab_coordinator").classList.remove("hidden");
+        document.getElementById("move_to_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("move_to_tab_waiting").classList.remove("hidden");
+        document.getElementById("move_to_tab_waiting_active").classList.add("hidden");
+        document.getElementById("move_to_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("move_to_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("move_to_tab_general").classList.remove("hidden");
+        document.getElementById("move_to_tab_general_active").classList.add("hidden");
+        document.getElementById("move_to_tab_mentor").classList.remove("hidden");
+        document.getElementById("move_to_tab_mentor_active").classList.add("hidden");
+
+    }
             /* Permit */
     function displayPermitAddUpdate(wr) {
         console.log("Entered - displayPermitAddUpdate");
@@ -6538,11 +6542,13 @@ async function mainEvent() {
     }
     function displayToDoMoveToDisplay(toDo) {
         console.log("Entered - displayToDoMoveToDisplay(toDo)");
-        console.log("toDo =");
+
+        console.log("@#@#@#@#");
         console.log(toDo);
 
+        resetToDoMoveToDisplay();
+        
         toDoDisplayMoveToContainer.classList.remove("hidden");
-
         toDoDisplayDayOfWeekDate.value = toDo.dueDate;
 
         const d = new Date(toDo.dueDate);
@@ -6556,8 +6562,6 @@ async function mainEvent() {
             day = "0" + day;
         }
         const temp = new Date(addDays(year, month, day, 2));
-        console.log("new date =");
-        console.log(temp);
         setDay("move_to", temp.getDay());
 
         if (toDo.tab == "Coordinator") {
@@ -6577,7 +6581,50 @@ async function mainEvent() {
             document.getElementById("move_to_tab_mentor_active").classList.remove("hidden");
         } 
     }
+    function toDoDisplayDayOfWeekDateMouseoutFunction() {
+        console.log("Entered - toDoDisplayDayOfWeekDateMouseoutFunction()");
 
+        const temp = toDoDisplayDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date(temp);
+    
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+    
+        const curDay = d.getDay();
+        setDay("to_do_display", curDay);
+            
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("to_do_display", tempStr);
+            
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                console.log("injecting display");
+                if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
+                    console.log("removing prompt");
+                    document.getElementById("no_to_dos_for_today_prompt").remove();
+                }
+                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                break;
+                    
+            } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            }
+        }        
+    }
+
+    toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList[i].date == toDoDisplayDayOfWeekDate.value) {
+                
+            }
+        }
+    })
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
 
@@ -6585,6 +6632,8 @@ async function mainEvent() {
         tempLeftArrow.innerHTML = "&#8592";
         const tempRightArrow = document.createElement("tempRightArrow");
         tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
 
         if (event.target.innerHTML == "Su") {
             clearDays("to_do_display");
@@ -6634,50 +6683,33 @@ async function mainEvent() {
             const month = curDate.substring(5, 7);
             const day = curDate.substring(8, 10);
             toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 7);
-            setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
+            toDoDisplayDayOfWeekDateMouseoutFunction();
         } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
             let curDate = toDoDisplayDayOfWeekDate.value;
             const year = curDate.substring(0, 4);
             const month = curDate.substring(5, 7);
             const day = curDate.substring(8, 10);
             toDoDisplayDayOfWeekDate.value = addDays(year, month, day, 7);
-            setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
+            toDoDisplayDayOfWeekDateMouseoutFunction();
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
+            toDoDisplayDayOfWeekDateMouseoutFunction();
         }
     })
     toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
         console.log("Fired - Mousedout toDoDisplayDayOfWeekDate");
 
-        const temp = toDoDisplayDayOfWeekDate.value;
-        const year = temp.substring(0, 4);
-        const month = temp.substring(5, 7);
-        const day = temp.substring(8, 10);
-        const d = new Date(temp);
-    
-        d.setFullYear(year);
-        d.setMonth(month - 1);
-        d.setDate(day);
-    
-        const curDay = d.getDay();
-        setDay("to_do_display", curDay);
-            
-        const tempStr = year + "-" + month + "-" + day;
-        setFromToDates("to_do_display", tempStr);
-            
-        for (var i = 0; i < toDoMasterList.list.length; i++) {
-            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                console.log("injecting display");
-                if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
-                    console.log("removing prompt");
-                    document.getElementById("no_to_dos_for_today_prompt").remove();
-                }
-                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
-                break;
-                    
-            } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
-                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
-            }
-        }        
-        
+        toDoDisplayDayOfWeekDateMouseoutFunction();
     })
 
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
@@ -6749,10 +6781,11 @@ async function mainEvent() {
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "move") {
                 console.log("clicked move");
 
-                const curToDo = toDoMasterList.getToDoDisplay(moveToDayOfWeekDate.value, curList, lastNum);
-
+                const curDate = toDoDisplayDayOfWeekDate.value;
+                const curToDo = toDoMasterList.getToDoDisplay(curDate, curList, lastNum);
 
                 displayToDoMoveToDisplay(curToDo);
+
                 tempCurToDo = [curToDo, moveToDayOfWeekDate.value, curList, lastNum];
                 
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete" && curList != "general") { // complete for all except general to-do's
@@ -6797,9 +6830,10 @@ async function mainEvent() {
         }
 
     })
-
     toDoDisplayMoveToContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveToContainer");
+
+        console.log(toDoMasterList);
 
         const tempLeftArrow = document.createElement("tempLeftArrow");
         tempLeftArrow.innerHTML = "&#8592";
@@ -6808,6 +6842,8 @@ async function mainEvent() {
 
         if (event.target.innerHTML == "X") {
             toDoDisplayMoveToContainer.classList.add("hidden");
+            tempCurToDo[0].dueDate = toDoDisplayDayOfWeekDate.value;
+            tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
         } else if (event.target.innerHTML == "Save") { 
             console.log("tempCurToDo =");
             console.log(tempCurToDo);
@@ -6826,21 +6862,11 @@ async function mainEvent() {
                 tempCurToDo[0].tab = "Mentor";
             } 
 
-            console.log("new tempCurToDo");
-            console.log(tempCurToDo);
-
             for (var i = 0; i < toDoMasterList.list.length; i++) {
-
-                console.log("tempCurToDo[1]");
-                console.log(tempCurToDo[1]);
-
                 if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
-                    console.log("$#$# hi");
-                    console.log(tempCurToDo[2]);
+                    
                     if (tempCurToDo[2] == "contact_customer") {
                         toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
-
-                        console.log(toDoMasterList);
                         return
                     }
                 } 
@@ -6850,22 +6876,97 @@ async function mainEvent() {
             
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-
                     if (temp[4] == "Contact Customer") {
-
                         let tempData = [];
                         let tempList = toDoMasterList.list[i].contactCustomerList;
                         
                         for (var j = 0; j < tempList.length; j++) {
                             if (j != tempCurToDo[3]) {
-                                
                                 tempData.push(tempList[j]);
                             }
                         }
-                        toDoMasterList.list[i].contactCustomerList = tempData; // haveing problems with this - creating loop?
-
-                        console.log(toDoMasterList);
-                    }
+                        toDoMasterList.list[i].contactCustomerList = tempData; 
+                    } else if (temp[4] == "Site Visit") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].siteVisitList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].siteVisitList = tempData; 
+                    } else if (temp[4] == "Svc Calc") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].svcCalcList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].svcCalcList = tempData; 
+                    } else if (temp[4] == "Check NJUNS") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].checkNJUNSList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].checkNJUNSList = tempData; 
+                    } else if (temp[4] == "Check Permit") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].checkPermitList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].checkPermitList = tempData; 
+                    } else if (temp[4] == "Check Easement") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].checkEasementList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].checkEasementList = tempData; 
+                    } else if (temp[4] == "Design") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].designList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].designList = tempData; 
+                    } else if (temp[4] == "Revisions") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].revisionsList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].revisionsList = tempData; 
+                    } else if (temp[4] == "General") {
+                        let tempData = [];
+                        let tempList = toDoMasterList.list[i].generalList;
+                        
+                        for (var j = 0; j < tempList.length; j++) {
+                            if (j != tempCurToDo[3]) {
+                                tempData.push(tempList[j]);
+                            }
+                        }
+                        toDoMasterList.list[i].generalList = tempData; 
+                    } 
                 }
             }
             toDoMasterList.add(tempCurToDo[0]);
@@ -6942,7 +7043,11 @@ async function mainEvent() {
 
             document.getElementById("move_to_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("move_to_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            console.log("!!!!!");
+            console.log(toDoMasterList);
             assessDayOfWeekChange("move_to", 4);
+            console.log("34343434");
+            console.log(toDoMasterList);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
             console.log("changed tempCurToDo[1] to");
@@ -6952,7 +7057,7 @@ async function mainEvent() {
 
             document.getElementById("move_to_tab_day_of_week_box_friday").classList.add("hidden");
             document.getElementById("move_to_tab_day_of_week_box_friday_active").classList.remove("hidden");
-            assessDayOfWeekChange("to_do_dimove_tosplay", 5);
+            assessDayOfWeekChange("move_to", 5);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
             console.log("changed tempCurToDo[1] to");
@@ -7016,6 +7121,26 @@ async function mainEvent() {
             document.getElementById("move_to_tab_mentor").classList.add("hidden");
             document.getElementById("move_to_tab_mentor_active").classList.remove("hidden");
         } 
+    })
+    toDoDisplayDatePrevButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayDatePrevButton");
+
+        let curDate = toDoDisplayDayOfWeekDate.value;
+        const year = curDate.substring(0, 4);
+        const month = curDate.substring(5, 7);
+        const day = curDate.substring(8, 10);
+        toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 1);
+        toDoDisplayDayOfWeekDateMouseoutFunction();
+    })
+    toDoDisplayDateNextButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayDateNextButton");
+
+        let curDate = toDoDisplayDayOfWeekDate.value;
+        const year = curDate.substring(0, 4);
+        const month = curDate.substring(5, 7);
+        const day = curDate.substring(8, 10);
+        toDoDisplayDayOfWeekDate.value = addDays(year, month, day, 1);
+        toDoDisplayDayOfWeekDateMouseoutFunction();
     })
     
     /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
@@ -8888,7 +9013,7 @@ async function mainEvent() {
 
         const date = new Date(dateStr);
         date.setDate(date.getDate() + 1);
-        console.log("date -- ");
+        console.log("date - ");
         console.log(date);
         const year = date.getFullYear();
         let month = date.getMonth() + 1;
@@ -8907,8 +9032,8 @@ async function mainEvent() {
             document.getElementById("add_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("add_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
         } else if (tab == "to_do_display") {
-            document.getElementById("to_do_display_tab_day_of_week_from_date").innerHTML = tempFromDate;
-            document.getElementById("to_do_display_tab_day_of_week_to_date").innerHTML = tempToDate;
+            document.getElementById("to_do_display_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("to_do_display_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
         } else if (tab == "move_to") {
             document.getElementById("move_to_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("move_to_tab_day_of_week_to_date").innerHTML = "From: " + tempToDate;
@@ -9108,6 +9233,9 @@ async function mainEvent() {
             month = "0" + month;
         }
         const day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
         const cur = (year + "-" + month + "-" + day);
 
         const curDay = d.getDay();
