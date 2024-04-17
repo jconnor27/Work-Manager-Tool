@@ -7185,48 +7185,32 @@ async function mainEvent() {
             toDoDisplayMoveToContainer.classList.add("hidden");
             tempCurToDo[0].dueDate = toDoDisplayDayOfWeekDate.value;
             tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
+            clickedMoveIncompleteButton = 0;
         } else if (event.target.innerHTML == "Save") { 
             if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
+                console.log("Fired - Clicked Save button - clickedMoveIncompleteButton == 1");
                 
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
-                    tempToRemove.every((list) => {
-                        list.every((item) => {
-                            moveIncompleteFunction("Coordinator", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                            //item.tab = "Coordinator";
-                        })
-                    })
-                    //tempCurToDo[0].tab = "Coordinator";
+                    moveIncompleteFunction("Coordinator", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                            
                 } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
-                    tempToRemove.every((list) => {
-                        list.every((item) => {
-                            moveIncompleteFunction("Waiting", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        })
-                    })
-                    //tempCurToDo[0].tab = "Waiting";
+                    moveIncompleteFunction("Waiting", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        
                 } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
-                    tempToRemove.every((list) => {
-                        list.every((item) => {
-                            moveIncompleteFunction("On Return To Office", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        })
-                    })
-                    //tempCurToDo[0].tab = "On Return To Office";
-                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
-                    tempToRemove.every((list) => {
-                        list.every((item) => {
-                            moveIncompleteFunction("General", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        })
-                    })
-                    //tempCurToDo[0].tab = "General";
+                    moveIncompleteFunction("On Return To Office", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                      
+                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {                   
+                    moveIncompleteFunction("General", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                    
+                    
                 } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
-                    tempToRemove.every((list) => {
-                        list.every((item) => {
-                            moveIncompleteFunction("Mentor", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        })
-                    })
-                    //tempCurToDo[0].tab = "Mentor";
+                    moveIncompleteFunction("Mentor", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        
                 } 
                 clickedMoveIncompleteButton = 0;
+
             } else { // Moving single to-do
+                console.log("Fired - Clicked Save button - clickedMoveIncompleteButton == 0");
                 tempCurToDo.dueDate = moveToDayOfWeekDate.value;
             
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
