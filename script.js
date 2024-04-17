@@ -7225,6 +7225,7 @@ async function mainEvent() {
                     })
                     //tempCurToDo[0].tab = "Mentor";
                 } 
+                clickedMoveIncompleteButton = 0;
             } else { // Moving single to-do
                 tempCurToDo.dueDate = moveToDayOfWeekDate.value;
             
