@@ -1814,6 +1814,8 @@ class ToDoMasterList {
 
             /* Adding parsed ToDoObject to masterList */
             const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+            console.log("toDoAdded");
+            console.log(toDo);
            
             this.add(toDo);
 
@@ -1900,11 +1902,8 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "contact_customer_list_" + this.date + "_item_" + i;
                 
                 /* Checking to see if To-Do has been completed */
-                console.log("** Hiya");
-                console.log(this.contactCustomerList[i].completed);
-                console.log(this.contactCustomerList[i].completed == true)
 
-                if (this.contactCustomerList[i].completed != true) { // Normal display for To-Do
+                if (this.contactCustomerList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
@@ -1917,7 +1916,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
-                        if (this.contactCustomerList[i].notes[j][1] != true) { // Normal display for Note
+                        if (this.contactCustomerList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="contact_customer_to_do_list_item_${i}_note_${j}">${this.contactCustomerList[i].notes[j][0]}</div>`}
@@ -1995,7 +1994,7 @@ class ToDoDayObject {
 
                     for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
 
-                        if (this.siteVisitList[i].notes[j][1] != true) { // Normal display for Note
+                        if (this.siteVisitList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="site_visit_to_do_list_item_${i}_note_${j}">${this.siteVisitList[i].notes[j][0]}</div>`}
@@ -2059,7 +2058,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "svc_calc_list_" + this.date + "_item_" + i;
 
-                if (this.svcCalcList[i].completed == 1) { // Normal display for To-Do
+                if (this.svcCalcList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}
@@ -2072,7 +2071,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.svcCalcList[i].notes.length; j++) { // add the associated notes
-                        if (this.svcCalcList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.svcCalcList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="svc_calc_to_do_list_item_${i}_note_${j}">${this.svcCalcList[i].notes[j][0]}</div>`}
@@ -2132,7 +2131,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_njuns_list_" + this.date + "_item_" + i;
 
-                if (this.checkNJUNSList[i].completed == 1) { // Normal display for To-Do
+                if (this.checkNJUNSList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}
@@ -2145,7 +2144,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkNJUNSList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.checkNJUNSList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_njuns_to_do_list_item_${i}_note_${j}">${this.checkNJUNSList[i].notes[j][0]}</div>`}
@@ -2211,7 +2210,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_permit_list_" + this.date + "_item_" + i;
 
-                if (this.checkPermitList[i].completed == 1) { // Normal display for To-Do
+                if (this.checkPermitList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}
@@ -2224,7 +2223,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkPermitList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkPermitList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.checkPermitList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_permit_to_do_list_item_${i}_note_${j}">${this.checkPermitList[i].notes[j][0]}</div>`}
@@ -2290,7 +2289,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "check_easement_list_" + this.date + "_item_" + i;
 
-                if (this.checkEasementList[i].completed == 1) { // Normal display for To-Do
+                if (this.checkEasementList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}
@@ -2303,7 +2302,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.checkEasementList[i].notes.length; j++) { // add the associated notes
-                        if (this.checkEasementList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.checkEasementList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="check_easement_to_do_list_item_${i}_note_${j}">${this.checkEasementList[i].notes[j][0]}</div>`}
@@ -2362,7 +2361,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "design_list_" + this.date + "_item_" + i;
 
-                if (this.designList[i].completed == 1) { // Normal display for To-Do
+                if (this.designList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}
@@ -2375,7 +2374,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.designList[i].notes.length; j++) { // add the associated notes
-                        if (this.designList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.designList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="design_to_do_list_item_${i}_note_${j}">${this.designList[i].notes[j][0]}</div>`}
@@ -2435,7 +2434,7 @@ class ToDoDayObject {
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
                 toDoObjectWrInfo.id = "revisions_list_" + this.date + "_item_" + i;
 
-                if (this.revisionsList[i].completed == 1) { // Normal display for To-Do
+                if (this.revisionsList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
                         ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}
@@ -2448,7 +2447,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.revisionsList[i].notes.length; j++) { // add the associated notes
-                        if (this.revisionsList[i].notes[j][1] == true) { // Normal display for Note
+                        if (this.revisionsList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpTwice" id="revisions_to_do_list_item_${i}_note_${j}">${this.revisionsList[i].notes[j][0]}</div>`}
@@ -2509,7 +2508,7 @@ class ToDoDayObject {
                 toDoObjectWrInfo.id = "general_list_" + this.date + "_item_" + i;
 
                 if (this.generalList[i].workRequestNumber != undefined && this.generalList[i].workRequestNumber != "") { // User provided optional work request number
-                    if (this.generalList[i].completed == 1) { // Normal display for To-Do
+                    if (this.generalList[i].completed != 1) { // Normal display for To-Do
                         toDoObjectWrInfo.innerHTML = 
                         `<div class="toDoObjectContainer">
                             ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}
@@ -2522,7 +2521,7 @@ class ToDoDayObject {
                         </div>`;
 
                         for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                            if (this.generalList[i].notes[j][1] == true) { // Normal display for Note
+                            if (this.generalList[i].notes[j][1] != 1) { // Normal display for Note
                                 const temp = 
                                 `<div class="toDoNoteContainer">
                                     ${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}
@@ -2571,7 +2570,7 @@ class ToDoDayObject {
                     </div>`;
 
                     for (var j = 0; j < this.generalList[i].notes.length; j++) { // add the associated notes
-                        if (this.generalList[i].notes[j][1] == true) { // Normal display for note
+                        if (this.generalList[i].notes[j][1] != 1) { // Normal display for note
                             const temp = 
                             `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].notes[j][0]}</div>`}
@@ -2650,6 +2649,18 @@ class ToDoDayObject {
         }
 
         return temp;
+    }
+
+    isEmpty() {
+        console.log("Entered - ToDoDayObject - isEmpty()");
+
+        if (this.contactCustomerList.length == 0 && this.siteVisitList.length == 0 && this.svcCalcList.length == 0 && 
+            this.checkNJUNSList.length == 0 && this.checkPermitList.length == 0 && this.checkEasementList.length == 0 &&
+            this.designList.length == 0 && this.revisionsList.length == 0 && this.generalList.length == 0) {
+                return true;
+        } else {
+            return false;
+        }
     }
 
     toString() {
@@ -4540,6 +4551,8 @@ async function mainEvent() {
     let permitDateChangeValues = [];
     let tempCurWrNumber = "";
     let tempCurToDo = [];
+    let tempToRemove = []; // used to store array of indexs of to-do's to move (for move incomplete button)
+    let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
 
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList();
@@ -6549,7 +6562,7 @@ async function mainEvent() {
         resetToDoMoveToDisplay();
         
         toDoDisplayMoveToContainer.classList.remove("hidden");
-        toDoDisplayDayOfWeekDate.value = toDo.dueDate;
+        moveToDayOfWeekDate.value = toDo.dueDate;
 
         const d = new Date(toDo.dueDate);
         const year = d.getFullYear();
@@ -6619,11 +6632,153 @@ async function mainEvent() {
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
 
+        let toRemove = [];
+        let index = undefined;
+
         for (var i = 0; i < toDoMasterList.list.length; i++) {
-            if (toDoMasterList[i].date == toDoDisplayDayOfWeekDate.value) {
-                
+
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
             }
         }
+
+        /* Compiles a 2D array corresponding to incomplete todos and their respective lists (toRemove)*/
+        if (index != undefined) {
+            let curList = [];
+                
+            for (var i = 0; i < toDoMasterList.list[index].contactCustomerList.length; i++) {
+                if (toDoMasterList.list[index].contactCustomerList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+
+            for (var i = 0; i < toDoMasterList.list[index].siteVisitList.length; i++) {
+                if (toDoMasterList.list[index].siteVisitList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].svcCalcList.length; i++) {
+                console.log("in svc calc loop");
+                if (toDoMasterList.list[index].svcCalcList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].checkNJUNSList.length; i++) {
+                if (toDoMasterList.list[index].checkNJUNSList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+
+            for (var i = 0; i < toDoMasterList.list[index].checkPermitList.length; i++) {
+                if (toDoMasterList.list[index].checkPermitList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].checkEasementList.length; i++) {
+                if (toDoMasterList.list[index].checkEasementList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].designList.length; i++) {
+                if (toDoMasterList.list[index].designList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].revisionsList.length; i++) {
+                if (toDoMasterList.list[index].revisionsList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];
+            
+            for (var i = 0; i < toDoMasterList.list[index].generalList.length; i++) {
+                if (toDoMasterList.list[index].generalList[i].completed == 0) { // has not been completed - needs to move
+                    curList.push(i);
+                }
+            }
+            toRemove.push(curList);
+            curList = [];        
+            
+        }
+
+        if (toRemove[0].length == 0 && toRemove[1].length == 0 && toRemove[2].length == 0 && toRemove[3].length == 0 && 
+            toRemove[4].length == 0 && toRemove[5].length == 0 && toRemove[6].length == 0 && toRemove[7].length == 0 && 
+            toRemove[8].length == 0) {
+
+                console.log("No incomplete to-do's to move");
+
+                /* This means that there are no incomplete todos to move
+                    Need to make a popup/error */
+
+            return;
+        } else {
+
+            tempToRemove = toRemove;
+            clickedMoveIncompleteButton = 1;
+
+            let tempToDo = [];
+
+            /* Finding any toDo that exists to pass into display function */
+            for (var j = 0; j < 9; j++) {
+                if (toRemove[j][0] != undefined) {
+
+                    if (j == 0) {
+                        tempToDo = toDoMasterList.list[index].contactCustomerList[0];
+                    } else if (j == 1) {
+                        tempToDo = toDoMasterList.list[index].siteVisitList[0];
+                    } else if (j == 2) {
+                        tempToDo = toDoMasterList.list[index].svcCalcList[0];
+                    } else if (j == 3) {
+                        tempToDo = toDoMasterList.list[index].checkNJUNSList[0];
+                    } else if (j == 4) {
+                        tempToDo = toDoMasterList.list[index].checkPermitList[0];
+                    } else if (j == 5) {
+                        tempToDo = toDoMasterList.list[index].checkEasementList[0];
+                    } else if (j == 6) {
+                        tempToDo = toDoMasterList.list[index].designList[0];
+                    } else if (j == 7) {
+                        tempToDo = toDoMasterList.list[index].revisionsList[0];
+                    } else if (j == 8) {
+                        tempToDo = toDoMasterList.list[index].generalList[0];
+                    } 
+
+                    break;
+                }
+            }
+
+            displayToDoMoveToDisplay(tempToDo);
+        }
+
+
+        /* Adds incomplete items to  */
+        if (toRemove.length != 0) { // this is true if the above conditional was entered (index != undefined)
+
+        }
+
+
+
+        console.log("toRemove =");
+        console.log(toRemove);
     })
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
@@ -6845,158 +7000,162 @@ async function mainEvent() {
             tempCurToDo[0].dueDate = toDoDisplayDayOfWeekDate.value;
             tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
         } else if (event.target.innerHTML == "Save") { 
-            console.log("tempCurToDo =");
-            console.log(tempCurToDo);
+            if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
+                
 
-            tempCurToDo.dueDate = moveToDayOfWeekDate.value;
+            } else { // Moving single to-do
+                tempCurToDo.dueDate = moveToDayOfWeekDate.value;
             
-            if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
-                tempCurToDo[0].tab = "Coordinator";
-            } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
-                tempCurToDo[0].tab = "Waiting";
-            } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
-                tempCurToDo[0].tab = "On Return To Office";
-            } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
-                tempCurToDo[0].tab = "General";
-            } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
-                tempCurToDo[0].tab = "Mentor";
-            } 
-
-            for (var i = 0; i < toDoMasterList.list.length; i++) {
-                if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
-                    
-                    if (tempCurToDo[2] == "contact_customer") {
-                        toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
-                        return
-                    }
+                if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
+                    tempCurToDo[0].tab = "Coordinator";
+                } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
+                    tempCurToDo[0].tab = "Waiting";
+                } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
+                    tempCurToDo[0].tab = "On Return To Office";
+                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
+                    tempCurToDo[0].tab = "General";
+                } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
+                    tempCurToDo[0].tab = "Mentor";
                 } 
-            }
-            let temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
-            let tempDate = temp[1].dueDate;
-            
-            for (var i = 0; i < toDoMasterList.list.length; i++) {
-                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    if (temp[4] == "Contact Customer") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].contactCustomerList;
+    
+                for (var i = 0; i < toDoMasterList.list.length; i++) {
+                    if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
                         
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
+                        if (tempCurToDo[2] == "contact_customer") {
+                            toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
+                            return
                         }
-                        toDoMasterList.list[i].contactCustomerList = tempData; 
-                    } else if (temp[4] == "Site Visit") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].siteVisitList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].siteVisitList = tempData; 
-                    } else if (temp[4] == "Svc Calc") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].svcCalcList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].svcCalcList = tempData; 
-                    } else if (temp[4] == "Check NJUNS") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].checkNJUNSList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].checkNJUNSList = tempData; 
-                    } else if (temp[4] == "Check Permit") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].checkPermitList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].checkPermitList = tempData; 
-                    } else if (temp[4] == "Check Easement") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].checkEasementList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].checkEasementList = tempData; 
-                    } else if (temp[4] == "Design") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].designList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].designList = tempData; 
-                    } else if (temp[4] == "Revisions") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].revisionsList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].revisionsList = tempData; 
-                    } else if (temp[4] == "General") {
-                        let tempData = [];
-                        let tempList = toDoMasterList.list[i].generalList;
-                        
-                        for (var j = 0; j < tempList.length; j++) {
-                            if (j != tempCurToDo[3]) {
-                                tempData.push(tempList[j]);
-                            }
-                        }
-                        toDoMasterList.list[i].generalList = tempData; 
                     } 
                 }
-            }
-            toDoMasterList.add(tempCurToDo[0]);
-            for (var i = 0; i < toDoMasterList.list.length; i++) {
-                if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
-                    toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
-                    setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
-
-                    let d = new Date(toDoDisplayDayOfWeekDate.value);
-                    let year = d.getFullYear();
-                    let month = d.getMonth() + 1;
-                    if (month < 10) {
-                        month = "0" + month;
+                let temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
+                let tempDate = temp[1].dueDate;
+                
+                /* Checks all lists for incomplete to-do's and adds them to tempData */
+                for (var i = 0; i < toDoMasterList.list.length; i++) {
+                    if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                        if (temp[4] == "Contact Customer") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].contactCustomerList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].contactCustomerList = tempData; 
+                        } else if (temp[4] == "Site Visit") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].siteVisitList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].siteVisitList = tempData; 
+                        } else if (temp[4] == "Svc Calc") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].svcCalcList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].svcCalcList = tempData; 
+                        } else if (temp[4] == "Check NJUNS") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].checkNJUNSList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].checkNJUNSList = tempData; 
+                        } else if (temp[4] == "Check Permit") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].checkPermitList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].checkPermitList = tempData; 
+                        } else if (temp[4] == "Check Easement") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].checkEasementList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].checkEasementList = tempData; 
+                        } else if (temp[4] == "Design") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].designList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].designList = tempData; 
+                        } else if (temp[4] == "Revisions") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].revisionsList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].revisionsList = tempData; 
+                        } else if (temp[4] == "General") {
+                            let tempData = [];
+                            let tempList = toDoMasterList.list[i].generalList;
+                            
+                            for (var j = 0; j < tempList.length; j++) {
+                                if (j != tempCurToDo[3]) {
+                                    tempData.push(tempList[j]);
+                                }
+                            }
+                            toDoMasterList.list[i].generalList = tempData; 
+                        } 
                     }
-                    let day = d.getDate();
-                    if (day < 10) {
-                        day = "0" + day;
-                    }
-
-                    let temp = new Date(addDays(year, month, day, 2));
-
-                    setDay("to_do_display", temp.getDay());
-
                 }
+                toDoMasterList.add(tempCurToDo[0]);
+                for (var i = 0; i < toDoMasterList.list.length; i++) {
+                    if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
+                        toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
+                        injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                        setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
+    
+                        let d = new Date(toDoDisplayDayOfWeekDate.value);
+                        let year = d.getFullYear();
+                        let month = d.getMonth() + 1;
+                        if (month < 10) {
+                            month = "0" + month;
+                        }
+                        let day = d.getDate();
+                        if (day < 10) {
+                            day = "0" + day;
+                        }
+    
+                        let temp = new Date(addDays(year, month, day, 2));
+    
+                        setDay("to_do_display", temp.getDay());
+    
+                    }
+                }
+                toDoDisplayMoveToContainer.classList.add("hidden");
+    
+                //toDoMasterList.list
             }
-            console.log(toDoMasterList);
-            toDoDisplayMoveToContainer.classList.add("hidden");
 
-            //toDoMasterList.list
+            
 
         } else if (event.target.innerHTML == "Su") {
             clearDays("move_to");
@@ -8336,7 +8495,7 @@ async function mainEvent() {
             while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
                 console.log("^&^&^ in while loop");
                 console.log(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML)
-                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 1]);
+                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 0]);
                 i++;
             }
             if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount()) {
@@ -8347,12 +8506,12 @@ async function mainEvent() {
                 e.displayMustAddNoteForGeneralTypeToDo();
             } else {
 
-                let tempChecked = 1;
+                let tempChecked = 0;
                 console.log("****");
-                console.log(document.getElementById("add_tab_display_to_do_completed"));
+                console.log(document.getElementById("add_tab_display_to_do_completed").checked);
                 if (document.getElementById("add_tab_display_to_do_completed").checked) {
-                    console.log("tempChecked being set to 0");
-                    tempChecked = 0;
+                    console.log("tempChecked being set to 1");
+                    tempChecked = 1;
                 }
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
@@ -9299,17 +9458,20 @@ async function mainEvent() {
 
         /* Updating display */
         for (var i = 0; i < toDoMasterList.list.length; i++) {
-            console.log("toDoMasterList.list[i].date =");
-            console.log(toDoMasterList.list[i].date);
-            console.log("toDoDisplayDayOfWeekDate.value =");
-            console.log(toDoDisplayDayOfWeekDate.value);
             if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                 console.log("injecting display");
                 if (document.getElementById("no_to_dos_for_today_prompt") != undefined) {
                     console.log("removing prompt");
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
-                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                let temp = new ToDoDayObject(toDoDisplayDayOfWeekDate.value);
+
+                if (toDoMasterList.list[i].isEmpty()) {
+                    console.log("adding error");
+                    toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+                } else {
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                }
                 return;
             } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
