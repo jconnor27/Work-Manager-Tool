@@ -6640,12 +6640,186 @@ async function mainEvent() {
             }
         }        
     }
+    function moveIncompleteFunction(tab, tempToRemove, oldDate, newDate) {
+        console.log("Entered - moveIncompleteFunction(tab, tempToRemove, oldDate, newDate)");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == oldDate) {
+                index = i;
+            }
+        }
+
+        /* Adds Updated To-Do's to Master List */
+        if (index != undefined) {
+
+            /* Contact Customer List */
+            for (var i = 0; i < tempToRemove[0].length; i++) {
+                let temp = toDoMasterList.list[index].contactCustomerList[tempToRemove[0][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Site Visit List */
+            for (var i = 0; i < tempToRemove[1].length; i++) {
+                let temp = toDoMasterList.list[index].siteVisitList[tempToRemove[1][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Svc Calc List */
+            for (var i = 0; i < tempToRemove[2].length; i++) {
+                let temp = toDoMasterList.list[index].svcCalcList[tempToRemove[2][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Check NJUNS List */
+            for (var i = 0; i < tempToRemove[3].length; i++) {
+                let temp = toDoMasterList.list[index].checkNJUNSList[tempToRemove[3][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Check Permit List */
+            for (var i = 0; i < tempToRemove[4].length; i++) {
+                let temp = toDoMasterList.list[index].checkPermitList[tempToRemove[4][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Check Easement List */
+            for (var i = 0; i < tempToRemove[5].length; i++) {
+                let temp = toDoMasterList.list[index].checkEasementList[tempToRemove[5][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Design List */
+            for (var i = 0; i < tempToRemove[6].length; i++) {
+                let temp = toDoMasterList.list[index].designList[tempToRemove[6][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* Revisions List */
+            for (var i = 0; i < tempToRemove[7].length; i++) {
+                let temp = toDoMasterList.list[index].revisionsList[tempToRemove[7][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+            /* General List */
+            for (var i = 0; i < tempToRemove[8].length; i++) {
+                let temp = toDoMasterList.list[index].generalList[tempToRemove[8][i]];
+                temp.dueDate = newDate;
+                temp.tab = tab;
+                toDoMasterList.add(temp);
+            }
+        }
+
+        /* Removes old To-Do's from master list */
+        if (index != undefined) {
+
+            /* Contact Customer List */
+            for (var i = tempToRemove[0].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].contactCustomerList = toDoMasterList.list[index].remove(toDoMasterList.list[index].contactCustomerList, tempToRemove[0][i]);
+            }
+            /* Site Visit List */
+            for (var i = tempToRemove[1].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].siteVisitList = toDoMasterList.list[index].remove(toDoMasterList.list[index].siteVisitList, tempToRemove[1][i]);
+            }
+            /* Svc Calc List */
+            for (var i = tempToRemove[2].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].svcCalcList = toDoMasterList.list[index].remove(toDoMasterList.list[index].svcCalcList, tempToRemove[2][i]);
+            }
+            /* Check NJUNS List */
+            for (var i = tempToRemove[3].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].checkNJUNSList = toDoMasterList.list[index].remove(toDoMasterList.list[index].checkNJUNSList, tempToRemove[3][i]);
+            }
+            /* Check Permit List */
+            for (var i = tempToRemove[4].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].checkPermitList = toDoMasterList.list[index].remove(toDoMasterList.list[index].checkPermitList, tempToRemove[4][i]);
+            }
+            /* Check Easement List */
+            for (var i = tempToRemove[5].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].checkEasementList = toDoMasterList.list[index].remove(toDoMasterList.list[index].checkEasementList, tempToRemove[5][i]);
+            }
+            /* Design List */
+            for (var i = tempToRemove[6].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].designList = toDoMasterList.list[index].remove(toDoMasterList.list[index].designList, tempToRemove[6][i]);
+            }
+            /* Revisions List */
+            for (var i = tempToRemove[7].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].revisionsList = toDoMasterList.list[index].remove(toDoMasterList.list[index].revisionsList, tempToRemove[7][i]);
+            }
+            /* General List */
+            for (var i = tempToRemove[8].length - 1; i >= 0; i--) {
+                toDoMasterList.list[index].generalList = toDoMasterList.list[index].remove(toDoMasterList.list[index].generalList, tempToRemove[8][i]);
+            }
+        }
+
+        /* Updating Display */
+        toDoDisplayMoveToContainer.classList.add("hidden");
+        toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
+        toDoDisplayDayOfWeekDateMouseoutFunction();
+        
+        console.log(toDoMasterList);
+    }
 
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
 
         let toRemove = [];
         let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                console.log("Entered if statement ^^^");
+
+                /* Contact Customer List */
+                if (toDoMasterList.list[i].contactCustomerList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].contactCustomerList[0], moveToDayOfWeekDate.value, "Contact Customer", 0];
+                    console.log("set tempCurToDo w/ first contact cust");
+                    break;
+                /* Site Visit List */
+                } else if (toDoMasterList.list[i].siteVisitList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].siteVisitList[0], moveToDayOfWeekDate.value, "Site Visit", 0];
+                    break;
+                /* Svc Calc List */
+                } else if (toDoMasterList.list[i].svcCalcList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].svcCalcList[0], moveToDayOfWeekDate.value, "Svc Calc", 0];
+                    break;
+                /* Check NJUNS List */
+                } else if (toDoMasterList.list[i].checkNJUNSList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].checkNJUNSList[0], moveToDayOfWeekDate.value, "Check NJUNS", 0];
+                    break;
+                /* Check Permit List */
+                } else if (toDoMasterList.list[i].checkPermitList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].checkPermitList[0], moveToDayOfWeekDate.value, "Check Permit", 0];
+                    break;
+                /* Check Easement List */
+                } else if (toDoMasterList.list[i].checkEasementList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].checkEasementList[0], moveToDayOfWeekDate.value, "Check Easement", 0];
+                    break;
+                /* Design List */
+                } else if (toDoMasterList.list[i].designList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].designList[0], moveToDayOfWeekDate.value, "Design", 0];
+                    break;
+                /* Revisions List */
+                } else if (toDoMasterList.list[i].revisionsList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].revisionsList[0], moveToDayOfWeekDate.value, "Revisions", 0];
+                    break;
+                /* General List */
+                } else if (toDoMasterList.list[i].generalList.length > 0) {
+                    tempCurToDo = [toDoMasterList.list[i].generalList[0], moveToDayOfWeekDate.value, "General", 0];
+                    break;
+                } 
+
+            }
+        }
+        console.log("out of loop");
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
 
@@ -7014,7 +7188,43 @@ async function mainEvent() {
         } else if (event.target.innerHTML == "Save") { 
             if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
                 
-
+                if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
+                    tempToRemove.every((list) => {
+                        list.every((item) => {
+                            moveIncompleteFunction("Coordinator", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                            //item.tab = "Coordinator";
+                        })
+                    })
+                    //tempCurToDo[0].tab = "Coordinator";
+                } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
+                    tempToRemove.every((list) => {
+                        list.every((item) => {
+                            moveIncompleteFunction("Waiting", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        })
+                    })
+                    //tempCurToDo[0].tab = "Waiting";
+                } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
+                    tempToRemove.every((list) => {
+                        list.every((item) => {
+                            moveIncompleteFunction("On Return To Office", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        })
+                    })
+                    //tempCurToDo[0].tab = "On Return To Office";
+                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
+                    tempToRemove.every((list) => {
+                        list.every((item) => {
+                            moveIncompleteFunction("General", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        })
+                    })
+                    //tempCurToDo[0].tab = "General";
+                } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
+                    tempToRemove.every((list) => {
+                        list.every((item) => {
+                            moveIncompleteFunction("Mentor", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                        })
+                    })
+                    //tempCurToDo[0].tab = "Mentor";
+                } 
             } else { // Moving single to-do
                 tempCurToDo.dueDate = moveToDayOfWeekDate.value;
             
