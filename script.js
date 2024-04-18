@@ -1889,6 +1889,48 @@ class ToDoDayObject {
         //this.list = []; // List of To-Do's for the day
     }
 
+    flatten() {
+        console.log("Entered - ToDoDayObject - flatten()");
+
+        let temp = [];
+
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            temp.push(this.contactCustomerList[i]);
+        }
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            temp.push(this.siteVisitList[i]);
+        } 
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            temp.push(this.svcCalcList[i]);
+        } 
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            temp.push(this.checkNJUNSList[i]);
+        } 
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            temp.push(this.checkPermitList[i]);
+        } 
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            temp.push(this.checkEasementList[i]);
+        } 
+        for (var i = 0; i < this.designList.length; i++) {
+            temp.push(this.designList[i]);
+        } 
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            temp.push(this.revisionsList[i]);
+        } 
+        for (var i = 0; i < this.generalList.length; i++) {
+            temp.push(this.generalList[i]);
+        } 
+        
+        /*temp += this.contactCustomerList.concat(this.siteVisitList.concat(this.svcCalcList.concat(
+            this.checkNJUNSList.concat(this.checkPermitList.concat(this.checkEasementList.concat(
+                this.designList.concat(this.revisionsList.concat(this.generalList))))))));*/
+
+        console.log("flattened array =");
+        console.log(temp);
+        return temp;
+    }
+
     filterToDosByTab(tab) {
         console.log("Entered - ToDoDayObject - filterToDosByTab(" + tab + ")");
 
@@ -5614,7 +5656,11 @@ async function mainEvent() {
         setDay("add", makeDate(toDo.dueDate).getDay());
         document.getElementById("to_do_type_dd_0_current").innerHTML = toDo.type;
         addTabDisplayToDoCreationDate.value = toDo.creationDate;
-        document.getElementById("add_tab_display_to_do_completed").checked = toDo.completed;
+        if (toDo.completed == 1) {
+            document.getElementById("add_tab_display_to_do_completed").checked = true;
+        } else {
+            document.getElementById("add_tab_display_to_do_completed").checked = false;
+        }
 
         for (var i = 0; i < toDo.notes.length; i++) {
             const temp = toDo.notes[i][0].substring(2);
@@ -11010,6 +11056,244 @@ async function mainEvent() {
         }
     }
 
+    function assessToDoFilterBy() {
+        console.log("Entered - assessToDoFilterByStatus(");
+
+        const tempToDoMasterList = new ToDoMasterList();
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        console.log("toDoMasterList.list[index].flatten =");
+        console.log(toDoMasterList.list[index].flatten());
+
+        let flatList = toDoMasterList.list[index].flatten();
+        let sortedList = [];
+        if (document.getElementById("filter_checkbox_age_new_old").checked) {
+            sortedList = quickSortAgeNew(flatList);
+            const pageElem = buildFlatPageElement(sortedList);
+            const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+
+            toDoRowElementContainer.innerHTML = "";
+        
+            toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+            sortedList = quickSortAgeOld(flatList);
+            const pageElem = buildFlatPageElement(sortedList);
+            const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+
+            toDoRowElementContainer.innerHTML = "";
+        
+            toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+        }
+
+    }
+    function buildFlatPageElement(list) {
+        console.log("Entered - buildFlatPageElement()");
+        console.log("list =");
+        console.log(list);
+
+        if (document.getElementById("to_do_display_page_element") != undefined) {
+            document.getElementById("to_do_display_page_element").remove();
+        }
+
+        let pageElement = document.createElement("pageElement");
+        pageElement.classList.add("toDoDisplayPageElement");
+        pageElement.id = "to_do_display_page_element";
+
+
+        for (var i = 0; i < list.length; i++) {  // for every To-Do in list
+            let curList = ""; // used to get id
+            console.log("in loop - i = " + i + " with ");
+            console.log(list[i]);
+
+            /* Set cur type (curList) */
+            if (list[i].type == "Contact Customer") {
+                curList = "contact_customer";
+            } else if (list[i].type == "Site Visit") {
+                curList = "site_visit";
+            } else if (list[i].type == "Svc Calc") {
+                curList = "svc_calc";
+            } else if (list[i].type == "Check NJUNS") {
+                curList = "check_njuns";
+            } else if (list[i].type == "Check Permit") {
+                curList = "check_permit";
+            } else if (list[i].type == "Check Easement") {
+                curList = "check_easement";
+            } else if (list[i].type == "Design") {
+                curList = "design";
+            } else if (list[i].type == "Revisions") {
+                curList = "revisions";
+            } else if (list[i].type == "General") {
+                curList = "general";
+            } 
+
+            const listElem = document.createElement("listElem");
+            listElem.id = curList + "_list_" + toDoDisplayDayOfWeekDate.value;
+            listElem.classList.add("toDoListTypeBorder");
+
+            listElem.innerHTML = `<div class="toDoListNoBump"><b>${list[i].type}:</b></div>`;
+            const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
+            toDoObjectWrInfo.id = curList + "_list_" + this.date + "_item_" + i;
+
+            if (list[i].type != "General") { // Will have work request number
+
+                if (list[i].completed != 1) { // normal display for to-do
+                    toDoObjectWrInfo.innerHTML =
+                    `<div class="toDoObjectContainer">
+                        ${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div>`}    
+                    </div>`;
+
+                    for (var j = 0; j < list[i].notes.length; j++) {
+                        if (list[i].notes[j][1] != 1) {  // normal display for note
+                            const temp =
+                            `<div class="toDoNoteContainer">
+                                ${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        } else { // strike through note
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        }
+                    }
+                } else { // strike through to do and note
+                    toDoObjectWrInfo.innerHTML =
+
+                    `<div class="toDoObjectContainer">
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<div class="toDoListLabelButtonContainer">
+                            ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                            ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                            ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                        </div>`}    
+                    </div>`;
+
+                    for (var j = 0; j < list[i].notes.length; j++) {
+                        const temp =
+                        `<div class="toDoNoteContainer">
+                            ${`<strike>${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}</strike>`}
+                            ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                        </div>`;
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                    }
+                }
+                listElem.insertAdjacentElement("beforeend", toDoObjectWrInfo);
+            } else { // Will not have work request number 
+                if (list[i].workRequestNumber != undefined && list[i].workRequestNumber != "" && list[i].workRequestNumber.length != 0) { // user provided option work request number
+                    if (list[i].completed != 1) { // normal display for top
+                        toDoObjectWrInfo.innerHTML =
+                        `<div class="toDoObjectContainer">
+                            ${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].workRequestNumber}</div>`}
+                            ${`<div class="toDoListLabelButtonContainer">
+                                ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                                ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                            </div>`}    
+                        </div>`;
+
+                        for (var j = 0; j < list[i].notes.length; j++) {
+                            if (list[i].notes[j][1] != 1) {  // normal display for note
+                                const temp =
+                                `<div class="toDoNoteContainer">
+                                    ${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}
+                                    ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                                </div>`;
+                                toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                            } else {
+                                `<div class="toDoNoteContainer">
+                                    ${`<strike>${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}</strike>`}
+                                    ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                                </div>`;
+                                toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                            }
+                        }
+                    } else { // strike through to-do and note
+                        toDoObjectWrInfo.innerHTML =
+
+                        `<div class="toDoObjectContainer">
+                            ${`<strike>${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].workRequestNumber}</div>`}</strike>`}
+                            ${`<div class="toDoListLabelButtonContainer">
+                                ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                                ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                            </div>`}    
+                        </div>`;
+
+                        for (var j = 0; j < list[i].notes.length; j++) {
+                            const temp =
+                            `<div class="toDoNoteContainer">
+                                ${`<strike>${`<div class="toDoListBumpTwice" id="${curList}_to_do_list_item_${i}_note_${j}">${list[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoCompleteNoteCheckbox" id="${curList}_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
+                            </div>`;
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        }
+                    }
+                    listElem.insertAdjacentElement("beforeend", toDoObjectWrInfo);
+
+                } else { // no work request number provided
+
+                    toDoObjectWrInfo.innerHTML = 
+                    `<div class="toDoObjectContainer">
+                    </div>`;
+
+                    for (var j = 0; j < list[i].notes.length; j++) {
+                        if (list[i].notes[j][1] != 1) { // normal display for note
+                            const temp =
+                            `<div class="toDoNotesContainer">
+                                ${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].notes[j][0]}</div>`}
+                                ${`<div class="toDoListLabelButtonContainer">
+                                    ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                                    ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id"${curList}+to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                                </div>`}
+                            </div>`
+
+                            toDoObjectWrInfo.insertAdjacentElement("beforeend", temp);
+                        } else { // need to add strike through note
+                            const temp =
+                            `<div class="toDoNotesContainer">
+                                ${`<strike>${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].notes[j][0]}</div>`}</strike>`}
+                                ${`<div class="toDoListLabelButtonContainer">
+                                    ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
+                                    ${`<div class="toDoListLabel">${formatDateNormal(list[i].creationDate)}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id="${curList}_to_do_list_move_${i}">${"Move"}</b>`}</div>`}
+                                    ${`<div class="toDoListButton">${`<b id"${curList}+to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
+                                </div>`}
+                            </div>`
+
+                            toDoObjectWrInfo.insertAdjacentElement("beforeend", temp);
+                        }
+                    }
+                }
+                listElem.insertAdjacentElement("beforeend", toDoObjectWrInfo);
+            }
+
+            pageElement.insertAdjacentElement("beforeend", listElem);
+
+        }
+        return pageElement;
+
+    }
+
         /* searchBy Textfield */
     searchBySelectionTextfield.addEventListener("click", (event) => {
         console.log("Fired - clicked searchBySelectionTextfield");
@@ -11100,7 +11384,7 @@ async function mainEvent() {
                 document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
             }
         } else if (toDoTab.classList.contains("hidden")) {
-            
+            assessToDoFilterBy();
         }
 
          
