@@ -5162,6 +5162,8 @@ async function mainEvent() {
     document.getElementById("filter_container_crd").classList.remove("hidden");
     document.getElementById("filter_container_age_old_new").classList.remove("hidden");
     document.getElementById("filter_container_rcd").classList.remove("hidden");
+    document.getElementById("filter_container_waiting_other").classList.remove("hidden");
+
     }
     function deselectAllAddTab() {
         console.log("Entered - deselectAllAddTab");
@@ -5295,6 +5297,9 @@ async function mainEvent() {
         document.getElementById("footer_filter_checkbox_not_7010").checked = false;
         document.getElementById("footer_filter_checkbox_all").checked = false;
         document.getElementById("footer_filter_checkbox_7010").checked = false;
+        document.getElementById("footer_filter_checkbox_complete").checked = false;
+        document.getElementById("footer_filter_checkbox_not_complete").checked = false;
+        document.getElementById("footer_filter_checkbox_all_to_do").checked = false;
     }
     function uncheckAllWrFilterCheckboxes() {
         console.log("Entered - uncheckAllWrFilterCheckboxes");
@@ -5344,7 +5349,6 @@ async function mainEvent() {
         document.getElementById("filter_checkbox_check_easement").checked = false;
         document.getElementById("filter_checkbox_design").checked = false;
         document.getElementById("filter_checkbox_revisions").checked = false;
-        document.getElementById("filter_checkbox_waiting_other").checked = false;
     }
     function clearAddTabCheckboxes() {
         console.log("Entered - clearAddTabCheckboxes");
@@ -7744,8 +7748,13 @@ async function mainEvent() {
             }
         }
 
-        let filteredList = toDoMasterList.list[index].filterToDosByTab("General");
-        injectHTMLToDoTabDisplay(filteredList);
+        if (index != undefined) {
+            let filteredList = toDoMasterList.list[index].filterToDosByTab("General");
+            injectHTMLToDoTabDisplay(filteredList);
+        } else {
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+        }
+        
 
     })
     toDoGeneralTabActive.addEventListener("click", (event) => {
@@ -11055,7 +11064,63 @@ async function mainEvent() {
             return list;
         }
     }
+    function filterToDosByType(type) {
+        console.log("Entered - filterToDosByType(" + type + ")");
 
+        let temp = [];
+
+        /* Going through all to-do's */
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            
+            for (var j = 0; j < toDoMasterList.list[i].contactCustomerList.length; j++) {
+                if (toDoMasterList.list[i].contactCustomerList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].contactCustomerList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].siteVisitList.length; j++) {
+                if (toDoMasterList.list[i].siteVisitList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].siteVisitList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].svcCalcList.length; j++) {
+                if (toDoMasterList.list[i].svcCalcList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].svcCalcList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].checkNJUNSList.length; j++) {
+                if (toDoMasterList.list[i].checkNJUNSList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].checkNJUNSList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].checkPermitList.length; j++) {
+                if (toDoMasterList.list[i].checkPermitList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].checkPermitList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].checkEasementList.length; j++) {
+                if (toDoMasterList.list[i].checkEasementList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].checkEasementList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].designList.length; j++) {
+                if (toDoMasterList.list[i].designList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].designList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].revisionsList.length; j++) {
+                if (toDoMasterList.list[i].revisionsList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].revisionsList[j]);
+                }
+            }
+            for (var j = 0; j < toDoMasterList.list[i].generalList.length; j++) {
+                if (toDoMasterList.list[i].generalList[j].type == type) {
+                    temp.push(toDoMasterList.list[i].generalList[j]);
+                }
+            }
+        }
+    
+        return temp;
+    }
     function assessToDoFilterBy() {
         console.log("Entered - assessToDoFilterByStatus(");
 
@@ -11069,30 +11134,100 @@ async function mainEvent() {
             }
         }
 
-        console.log("toDoMasterList.list[index].flatten =");
-        console.log(toDoMasterList.list[index].flatten());
-
         let flatList = toDoMasterList.list[index].flatten();
         let sortedList = [];
-        if (document.getElementById("filter_checkbox_age_new_old").checked) {
-            sortedList = quickSortAgeNew(flatList);
-            const pageElem = buildFlatPageElement(sortedList);
-            const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+        let filteredList = [];
+        let trimmedList = [];
 
-            toDoRowElementContainer.innerHTML = "";
-        
-            toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
-        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
-            sortedList = quickSortAgeOld(flatList);
-            const pageElem = buildFlatPageElement(sortedList);
-            const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
-
-            toDoRowElementContainer.innerHTML = "";
-        
-            toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+        /* Assessing Type */
+        if (document.getElementById("filter_checkbox_general").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("General");
+            
+        } else if (document.getElementById("filter_checkbox_contact_customer").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Contact Customer");
+            
+        } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Site Visit");
+            
+        } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Service Calc + Coding");
+            
+        } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Check/ Apply - NJUNS");
+            
+        } else if (document.getElementById("filter_checkbox_check_permit").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Check/ Apply - Permit");
+            
+        } else if (document.getElementById("filter_checkbox_check_easement").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Check/ Apply - Easement");
+            
+        } else if (document.getElementById("filter_checkbox_design").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Design");
+            
+        } else if (document.getElementById("filter_checkbox_revisions").checked) {
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            
+            sortedList = filterToDosByType("Revisions");
+            
+        } else {
+            document.getElementById("hide_date_page_object").classList.add("hidden");
+            
+            sortedList = toDoMasterList.list[i].flatten();
+            //return;
         }
 
+        /* Assessing Trim - Completed */
+        if (document.getElementById("footer_filter_checkbox_not_complete").checked) {
+            for (var i = 0; i < sortedList.length; i++) {
+                if (sortedList[i].completed != 1) {
+                    trimmedList.push(sortedList[i]);
+                }
+            }            
+        } else if (document.getElementById("footer_filter_checkbox_complete").checked) {
+            for (var i = 0; i < sortedList.length; i++) {
+                if (sortedList[i].completed == 1) {
+                    trimmedList.push(sortedList[i]);
+                }
+            }         
+        } else {
+            trimmedList = sortedList;
+        }
+
+        /* Assessing Top Filter */
+        if (document.getElementById("filter_checkbox_age_new_old").checked) {
+            filteredList = quickSortAgeNew(trimmedList);
+            
+        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+            filteredList = quickSortAgeOld(trimmedList);
+            
+        } else {
+            filteredList = trimmedList;
+        }
+        const pageElem = buildFlatPageElement(filteredList);
+        const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+
+        toDoRowElementContainer.innerHTML = "";
+        
+        toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+
     }
+    /* Takes in a flat list of to-do objects and returns flat page element */
     function buildFlatPageElement(list) {
         console.log("Entered - buildFlatPageElement()");
         console.log("list =");
@@ -11257,7 +11392,7 @@ async function mainEvent() {
                     for (var j = 0; j < list[i].notes.length; j++) {
                         if (list[i].notes[j][1] != 1) { // normal display for note
                             const temp =
-                            `<div class="toDoNotesContainer">
+                            `<div class="toDoNoteContainer">
                                 ${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].notes[j][0]}</div>`}
                                 ${`<div class="toDoListLabelButtonContainer">
                                     ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
@@ -11267,10 +11402,10 @@ async function mainEvent() {
                                 </div>`}
                             </div>`
 
-                            toDoObjectWrInfo.insertAdjacentElement("beforeend", temp);
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
                         } else { // need to add strike through note
                             const temp =
-                            `<div class="toDoNotesContainer">
+                            `<div class="toDoNoteContainer">
                                 ${`<strike>${`<div class="toDoListBumpOnce" id="${curList}_to_do_list_data_${i}">${list[i].notes[j][0]}</div>`}</strike>`}
                                 ${`<div class="toDoListLabelButtonContainer">
                                     ${`<div class="toDoListLabelID">${list[i].toDoId}</div>`}
@@ -11280,7 +11415,7 @@ async function mainEvent() {
                                 </div>`}
                             </div>`
 
-                            toDoObjectWrInfo.insertAdjacentElement("beforeend", temp);
+                            toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
                         }
                     }
                 }
@@ -11452,11 +11587,26 @@ async function mainEvent() {
         console.log("Changed- trimByComplete");
 
         if (trimByComplete.checked == false) {
+            uncheckTrimByCheckboxes();
+
             trimByComplete.checked = false;
             trimByAllToDo.checked = true;
         } else {
             uncheckTrimByCheckboxes();
             trimByComplete.checked = true;
+        }
+    })
+    trimByAllToDo.addEventListener("change", (event) => {
+        console.log("Changed - trimByAllToDo");
+
+        if (trimByAllToDo.checked == false) {
+            uncheckTrimByCheckboxes();
+
+            trimByAllToDo.checked = false;
+            trimByNotComplete.checked = true;
+        } else {
+            uncheckTrimByCheckboxes();
+            trimByAllToDo.checked = true;
         }
     })
 
@@ -11520,14 +11670,24 @@ async function mainEvent() {
     filterCheckboxAgeNew.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxAgeNew");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxAgeNew.checked = true;
+        if (filterCheckboxAgeNew.checked) {
+            uncheckGenericFilterCheckboxes();
+            filterCheckboxAgeNew.checked = true;
+        } else {
+            uncheckGenericFilterCheckboxes();
+        }
+        
     })
     filterCheckboxAgeOld.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxAgeOld");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxAgeOld.checked = true;
+        if (filterCheckboxAgeOld.checked) {
+            uncheckGenericFilterCheckboxes();
+            filterCheckboxAgeOld.checked = true;
+        } else {
+            uncheckGenericFilterCheckboxes();
+        }
+        
     })
         /* Add Tab */
     
@@ -12980,6 +13140,8 @@ async function mainEvent() {
         document.getElementById("filter_container_crd").classList.add("hidden");
         //document.getElementById("filter_container_age_old_new").classList.add("hidden");
         document.getElementById("filter_container_rcd").classList.add("hidden");
+        document.getElementById("filter_container_waiting_other").classList.add("hidden");
+
 
 
         /* Setting Page Defaults */

@@ -3154,6 +3154,17 @@ h5 {
     flex-direction: row;
 }
 
+.hideDatePageObject {
+    display: flex;
+    position: absolute;
+    margin-left: 290px;
+    z-index: 2;
+    width: 620px;
+    height: 55px;
+    background-color: #9796968c;
+
+}
+
 .hidden {
     display: none;
     
