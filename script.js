@@ -1889,6 +1889,88 @@ class ToDoDayObject {
         //this.list = []; // List of To-Do's for the day
     }
 
+    filterToDosByTab(tab) {
+        console.log("Entered - ToDoDayObject - filterToDosByTab(" + tab + ")");
+
+        const filteredList = new ToDoDayObject(this.date);
+
+        let curList = [];
+        /* Contact Customer List */
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            if (this.contactCustomerList[i].tab == tab) {
+                curList.push(this.contactCustomerList[i]);
+            }
+        }
+        filteredList.contactCustomerList = curList;
+        curList = [];
+        /* Site Visit List */
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            if (this.siteVisitList[i].tab == tab) {
+                curList.push(this.siteVisitList[i]);
+            }
+        }
+        filteredList.siteVisitList = curList;
+        curList = [];
+        /* Svc Calc List */
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            if (this.svcCalcList[i].tab == tab) {
+                curList.push(this.svcCalcList[i]);
+            }
+        }
+        filteredList.svcCalcList = curList;
+        curList = [];
+        /* Check NJUNS List */
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            if (this.checkNJUNSList[i].tab == tab) {
+                curList.push(this.checkNJUNSList[i]);
+            }
+        }
+        filteredList.checkNJUNSList = curList;
+        curList = [];
+        /* Check Permit List */
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            if (this.checkPermitList[i].tab == tab) {
+                curList.push(this.checkPermitList[i]);
+            }
+        }
+        filteredList.checkPermitList = curList;
+        curList = [];
+        /* Check Easement List */
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            if (this.checkEasementList[i].tab == tab) {
+                curList.push(this.checkEasementList[i]);
+            }
+        }
+        filteredList.checkEasementList = curList;
+        curList = [];
+        /* Design List */
+        for (var i = 0; i < this.designList.length; i++) {
+            if (this.designList[i].tab == tab) {
+                curList.push(this.designList[i]);
+            }
+        }
+        filteredList.designList = curList;
+        curList = [];
+        /* Revisions List */
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            if (this.revisionsList[i].tab == tab) {
+                curList.push(this.revisionsList[i]);
+            }
+        }
+        filteredList.revisionsList = curList;
+        curList = [];
+        /* General List */
+        for (var i = 0; i < this.generalList.length; i++) {
+            if (this.generalList[i].tab == tab) {
+                curList.push(this.generalList[i]);
+            }
+        }
+        filteredList.generalList = curList;
+        curList = [];
+
+        return filteredList;
+    }
+
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
 
@@ -4543,6 +4625,17 @@ async function mainEvent() {
     const toDoDisplayDateNextButton = document.querySelector("#to_do_display_date_next_button");
     const toDoDisplayMoveIncompleteButton = document.querySelector("#to_do_move_incomplete_button");
 
+        /* To-Do's Tab - Tabs */
+    const toDoGeneralTab = document.querySelector("#to_do_general_tab");
+    const toDoGeneralTabActive = document.querySelector("#to_do_general_tab_active");
+    const toDoWaitingTab = document.querySelector("#to_do_waiting_tab");
+    const toDoWaitingTabActive = document.querySelector("#to_do_waiting_tab_active");
+    const toDoOnReturnToOfficeTab = document.querySelector("#to_do_return_to_office_tab");
+    const toDoOnReturnToOfficeTabActive = document.querySelector("#to_do_return_to_office_tab_active");
+    const toDoMentorTab = document.querySelector("#to_do_mentor_tab");
+    const toDoMentorTabActive = document.querySelector("#to_do_mentor_tab_active");
+    const toDoCoordinatorTab = document.querySelector("#to_do_coordinator_tab");
+    const toDoCoordinatorTabActive = document.querySelector("#to_do_coordinator_tab_active");
 
     /* Move To Dispaly */
     const moveToDayOfWeekContainer = document.querySelector("#move_to_day_of_week_container");
@@ -6767,6 +6860,25 @@ async function mainEvent() {
         
         console.log(toDoMasterList);
     }
+    function toDoDisplayDeselectTabs() {
+        console.log("Entered - toDoDisplayDeselectTabs()");
+
+        /* Revealing Normal Tabs */
+        toDoGeneralTab.classList.remove("hidden");
+        toDoMentorTab.classList.remove("hidden");
+        toDoOnReturnToOfficeTab.classList.remove("hidden");
+        toDoWaitingTab.classList.remove("hidden");
+        toDoCoordinatorTab.classList.remove("hidden");
+
+        /* Hiding Active Tabs */
+        toDoGeneralTabActive.classList.add("hidden");
+        toDoMentorTabActive.classList.add("hidden");
+        toDoOnReturnToOfficeTabActive.classList.add("hidden");
+        toDoWaitingTabActive.classList.add("hidden");
+        toDoCoordinatorTabActive.classList.add("hidden");
+
+    }
+
 
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
@@ -7182,13 +7294,14 @@ async function mainEvent() {
         tempRightArrow.innerHTML = "&#8594";
 
         if (event.target.innerHTML == "X") {
+            console.log("Fired - Clicked toDoDisplayMoveToContainer X Button");
             toDoDisplayMoveToContainer.classList.add("hidden");
             tempCurToDo[0].dueDate = toDoDisplayDayOfWeekDate.value;
             tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
             clickedMoveIncompleteButton = 0;
         } else if (event.target.innerHTML == "Save") { 
             if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
-                console.log("Fired - Clicked Save button - clickedMoveIncompleteButton == 1");
+                console.log("Fired - Clicked toDoDisplayMoveToContainer Save button - clickedMoveIncompleteButton == 1");
                 
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
                     moveIncompleteFunction("Coordinator", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
@@ -7227,11 +7340,36 @@ async function mainEvent() {
     
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
                     if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
-                        
+                        console.log("tempCurToDo[2] = ");
+                        console.log(tempCurToDo[2]);
                         if (tempCurToDo[2] == "contact_customer") {
                             toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
-                            return
-                        }
+                            break;
+                        } else if (tempCurToDo[2] == "site_visit") {
+                            toDoMasterList.list[i].siteVisitList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "svc_calc") {
+                            toDoMasterList.list[i].svcCalcList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "check_njuns") {
+                            toDoMasterList.list[i].checkNJUNSList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "check_permit") {
+                            toDoMasterList.list[i].checkPermitList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "check_easement") {
+                            toDoMasterList.list[i].checkEasementList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "design") {
+                            toDoMasterList.list[i].designList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "revisions") {
+                            toDoMasterList.list[i].revisionsList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } else if (tempCurToDo[2] == "general") {
+                            toDoMasterList.list[i].generalList[tempCurToDo[3]] = tempCurToDo[0];
+                            break;
+                        } 
                     } 
                 }
                 let temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
@@ -7333,11 +7471,45 @@ async function mainEvent() {
                         } 
                     }
                 }
+                /* Adding tempCurToDo to main list */
                 toDoMasterList.add(tempCurToDo[0]);
+
+                /* Updating Display and Page Data */
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
                     if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
                         toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
                         injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+
+                        /* Checking Tab */
+                        if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
+                            console.log("move to general entered");
+                            toDoGeneralTab.click();
+                        } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
+                            console.log("move to mentor entered");
+                            toDoMentorTab.click();
+                        } else if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
+                            console.log("move to coordinator entered");
+                            toDoCoordinatorTab.click();
+                        } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
+                            console.log("move to waiting entered");
+                            toDoWaitingTab.click();
+                        } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
+                            console.log("move to on return to office entered");
+                            toDoOnReturnToOfficeTab.click();
+                        } 
+                        /*
+                        if (toDoGeneralTab.classList.contains("hidden")) {
+                            toDoGeneralTab.click();
+                        } else if (toDoMentorTab.classList.contains("hidden")) {
+                            toDoMentorTab.click();
+                        } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+                            toDoCoordinatorTab.click();
+                        } else if (toDoWaitingTab.classList.contains("hidden")) {
+                            toDoWaitingTab.click();
+                        } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
+                            toDoOnReturnToOfficeTab.click();
+                        } */
+
                         setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
     
                         let d = new Date(toDoDisplayDayOfWeekDate.value);
@@ -7357,6 +7529,7 @@ async function mainEvent() {
     
                     }
                 }
+                console.log("above add hidden");
                 toDoDisplayMoveToContainer.classList.add("hidden");
     
                 //toDoMasterList.list
@@ -7507,6 +7680,128 @@ async function mainEvent() {
         const day = curDate.substring(8, 10);
         toDoDisplayDayOfWeekDate.value = addDays(year, month, day, 1);
         toDoDisplayDayOfWeekDateMouseoutFunction();
+    })
+
+    toDoGeneralTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoGeneralTab");
+
+        toDoDisplayDeselectTabs();
+        toDoGeneralTab.classList.add("hidden");
+        toDoGeneralTabActive.classList.remove("hidden");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        let filteredList = toDoMasterList.list[index].filterToDosByTab("General");
+        injectHTMLToDoTabDisplay(filteredList);
+
+    })
+    toDoGeneralTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoGeneralTabActive");
+
+        // May leave this blank as default
+    })
+    toDoMentorTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoMentorTab");
+
+        toDoDisplayDeselectTabs();
+        toDoMentorTab.classList.add("hidden");
+        toDoMentorTabActive.classList.remove("hidden");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        let filteredList = toDoMasterList.list[index].filterToDosByTab("Mentor");
+        injectHTMLToDoTabDisplay(filteredList);
+    })
+    toDoMentorTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoMentorTabActive");
+
+        toDoGeneralTab.click(); // settings general as default
+    })
+    toDoCoordinatorTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoCoordinatorTab");
+
+        toDoDisplayDeselectTabs();
+        toDoCoordinatorTab.classList.add("hidden");
+        toDoCoordinatorTabActive.classList.remove("hidden");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        let filteredList = toDoMasterList.list[index].filterToDosByTab("Coordinator");
+        injectHTMLToDoTabDisplay(filteredList);
+    })
+    toDoCoordinatorTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoCoordinatorTabActive");
+
+        toDoGeneralTab.click(); // settings general as default
+    })
+    toDoWaitingTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoWaitingTab");
+
+        toDoDisplayDeselectTabs();
+        toDoWaitingTab.classList.add("hidden");
+        toDoWaitingTabActive.classList.remove("hidden");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        let filteredList = toDoMasterList.list[index].filterToDosByTab("Waiting");
+        injectHTMLToDoTabDisplay(filteredList);
+    })
+    toDoWaitingTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoWaitingTabActive");
+
+        toDoGeneralTab.click(); // settings general as default
+    })
+    toDoOnReturnToOfficeTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoOnReturnToOfficeTab");
+
+        toDoDisplayDeselectTabs();
+        toDoOnReturnToOfficeTab.classList.add("hidden");
+        toDoOnReturnToOfficeTabActive.classList.remove("hidden");
+
+        let index = undefined;
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                index = i;
+                break;
+            }
+        }
+
+        let filteredList = toDoMasterList.list[index].filterToDosByTab("On Return To Office");
+        injectHTMLToDoTabDisplay(filteredList);
+    })
+    toDoOnReturnToOfficeTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoOnReturnToOfficeTabActive");
+
+        toDoGeneralTab.click(); // settings general as default
     })
     
     /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
@@ -8711,8 +9006,8 @@ async function mainEvent() {
                 e.displaySelectToDoType();
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
                 e.displayMustAddNoteForGeneralTypeToDo();
-            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML != "General" && addTabNewWorkRequestNumber.value != undefined ||
-                document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabNewWorkRequestNumber.value.length == 0) {
+            } else if (document.getElementById("to_do_type_dd_0_current").innerHTML != "General" && addTabNewWorkRequestNumber.value != undefined &&
+            addTabNewWorkRequestNumber.value.length == 0) {
                 
                     e.displayMustAddWorkRequestNumberUnlessGeneral();
             } else {
@@ -10768,41 +11063,47 @@ async function mainEvent() {
     filterGoButton.addEventListener("click", (event) => {
         console.log("Clicked - filterGoButton");
 
-         const allWrListStatus = assessSpecificStatus(allWrList);
-         const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
-         const allWrListFiltered = assessFilterBy(allWrListTrimmed);
+        if (allWrTab.classList.contains("hidden")) {
+            const allWrListStatus = assessSpecificStatus(allWrList);
+            const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
+            const allWrListFiltered = assessFilterBy(allWrListTrimmed);
 
-         filteredList = allWrListFiltered;
+            filteredList = allWrListFiltered;
 
-        // Display no wr prompt if no wr match input
-        if (allWrListFiltered.length == 0) {
-            if (allWrTab.classList.contains("hidden")) { // allWrTab is active
-                document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
-                ${"No Work Requests Match User Input"}</div>`);
-            } else if (permitsTab.classList.contains("hidden")) {
-                document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
-                ${"No Work Requests Match User Input"}</div>`);
-            }
+            // Display no wr prompt if no wr match input
+            if (allWrListFiltered.length == 0) {
+                if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                    document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
+                    ${"No Work Requests Match User Input"}</div>`);
+                } else if (permitsTab.classList.contains("hidden")) {
+                    document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
+                    ${"No Work Requests Match User Input"}</div>`);
+                }
             
-        } else {
-            if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
-                document.getElementById("no_wr_found_all_wr_tab").remove();
+            } else {
+                if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
+                    document.getElementById("no_wr_found_all_wr_tab").remove();
+                }
+                if (document.getElementById("no_wr_found_permit_tab") != undefined) {
+                    document.getElementById("no_wr_found_permit_tab").remove();
+                }
             }
-            if (document.getElementById("no_wr_found_permit_tab") != undefined) {
-                document.getElementById("no_wr_found_permit_tab").remove();
+
+            // Still inject empty list to hide rows
+            injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors);
+            injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors);
+
+            // Below hides whichever prev/next container shouldn't be visible
+            if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
+            } else if (permitsTab.classList.contains("hidden")) {
+                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
             }
+        } else if (toDoTab.classList.contains("hidden")) {
+            
         }
 
-        // Still inject empty list to hide rows
-        injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors);
-        injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors);
-
-        // Below hides whichever prev/next container shouldn't be visible
-        if (allWrTab.classList.contains("hidden")) { // allWrTab is active
-            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-        } else if (permitsTab.classList.contains("hidden")) {
-            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-        }
+         
 
     })
 
@@ -12413,6 +12714,7 @@ async function mainEvent() {
             }
             
         }
+        toDoGeneralTab.click();
     })
     toDoTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTabActive");
