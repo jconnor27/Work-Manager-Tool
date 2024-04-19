@@ -312,8 +312,9 @@ class EasementStatusDDMenu {
 
         str.style.display = 'none';
         str.style.position = 'absolute';
-        str.style.marginTop = '45px'
+        str.style.marginTop = '75px'
         str.style.backgroundColor = "white";
+       
         str.style.zIndex = 1;
         str.id = "easement_status_dd_" + this.rowNumber + "_content";
 
@@ -384,7 +385,7 @@ class GeneralStatusDDMenu {
         str.style.position = 'absolute';
         str.style.marginTop = '45px';
         str.style.backgroundColor = "white";
-        str.style.height = '270px';
+        str.style.height = '290px';
         str.style.width = '350px';
         str.style.flexWrap = 'wrap';
         str.style.zIndex = 1;
@@ -4806,140 +4807,137 @@ async function mainEvent() {
         addTabAddButton.disabled = false;*/
     }
 
-
-    /* Adds all dropdowns */
-    window.onload = function() {
-        console.log("Entered - Window.onload function");
-
-        /* All Wr Tab DDs */
+    function initializeAllWrTab() {
+        console.log("Entered - initializeAllWrTab()");
 
             /* General Status DDs */
-        let dd = new GeneralStatusDDMenu("1");
+            let dd = new GeneralStatusDDMenu("1");
+            let ddRow = dd.makeRowElement();
+            allWrTabRowOneGeneralStatusContainer.innerHTML = "";
+            allWrTabRowOneGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("2");
+            ddRow = dd.makeRowElement();
+            allWrTabRowTwoGeneralStatusContainer.innerHTML = "";
+            allWrTabRowTwoGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("3");
+            ddRow = dd.makeRowElement();
+            allWrTabRowThreeGeneralStatusContainer.innerHTML = "";
+            allWrTabRowThreeGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("4");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFourGeneralStatusContainer.innerHTML = "";
+            allWrTabRowFourGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("5");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFiveGeneralStatusContainer.innerHTML = "";
+            allWrTabRowFiveGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("6");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSixGeneralStatusContainer.innerHTML = "";
+            allWrTabRowSixGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("7");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSevenGeneralStatusContainer.innerHTML = "";
+            allWrTabRowSevenGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new GeneralStatusDDMenu("8");
+            ddRow = dd.makeRowElement();
+            allWrTabRowEightGeneralStatusContainer.innerHTML = "";
+            allWrTabRowEightGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+                /* Permit Status DDs */
+            dd = new PermitStatusDDMenu("allWr", "1");
+            ddRow = dd.makeRowElement();
+            allWrTabRowOnePermitStatusContainer.innerHTML = "";
+            allWrTabRowOnePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "2");
+            ddRow = dd.makeRowElement();
+            allWrTabRowTwoPermitStatusContainer.innerHTML = "";
+            allWrTabRowTwoPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "3");
+            ddRow = dd.makeRowElement();
+            allWrTabRowThreePermitStatusContainer.innerHTML = "";
+            allWrTabRowThreePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "4");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFourPermitStatusContainer.innerHTML = "";
+            allWrTabRowFourPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "5");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFivePermitStatusContainer.innerHTML = "";
+            allWrTabRowFivePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "6");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSixPermitStatusContainer.innerHTML = "";
+            allWrTabRowSixPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "7");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSevenPermitStatusContainer.innerHTML = "";
+            allWrTabRowSevenPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new PermitStatusDDMenu("allWr", "8");
+            ddRow = dd.makeRowElement();
+            allWrTabRowEightPermitStatusContainer.innerHTML = "";
+            allWrTabRowEightPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+                /* Easement Status DDs */
+            dd = new EasementStatusDDMenu("1");
+            ddRow = dd.makeRowElement();
+            allWrTabRowOneEasementStatusContainer.innerHTML = "";
+            allWrTabRowOneEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("2");
+            ddRow = dd.makeRowElement();
+            allWrTabRowTwoEasementStatusContainer.innerHTML = "";
+            allWrTabRowTwoEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("3");
+            ddRow = dd.makeRowElement();
+            allWrTabRowThreeEasementStatusContainer.innerHTML = "";
+            allWrTabRowThreeEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("4");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFourEasementStatusContainer.innerHTML = "";
+            allWrTabRowFourEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+            
+            dd = new EasementStatusDDMenu("5");
+            ddRow = dd.makeRowElement();
+            allWrTabRowFiveEasementStatusContainer.innerHTML = "";
+            allWrTabRowFiveEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("6");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSixEasementStatusContainer.innerHTML = "";
+            allWrTabRowSixEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("7");
+            ddRow = dd.makeRowElement();
+            allWrTabRowSevenEasementStatusContainer.innerHTML = "";
+            allWrTabRowSevenEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    
+            dd = new EasementStatusDDMenu("8");
+            ddRow = dd.makeRowElement();
+            allWrTabRowEightEasementStatusContainer.innerHTML = "";
+            allWrTabRowEightEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    }
+    function initializePermitsTab() {
+        console.log("Entered - initializePermitsTab()");
+
+        let dd = new PermitStatusDDMenu("permits", "1");
         let ddRow = dd.makeRowElement();
-        allWrTabRowOneGeneralStatusContainer.innerHTML = "";
-        allWrTabRowOneGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("2");
-        ddRow = dd.makeRowElement();
-        allWrTabRowTwoGeneralStatusContainer.innerHTML = "";
-        allWrTabRowTwoGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("3");
-        ddRow = dd.makeRowElement();
-        allWrTabRowThreeGeneralStatusContainer.innerHTML = "";
-        allWrTabRowThreeGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("4");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFourGeneralStatusContainer.innerHTML = "";
-        allWrTabRowFourGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("5");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFiveGeneralStatusContainer.innerHTML = "";
-        allWrTabRowFiveGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("6");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSixGeneralStatusContainer.innerHTML = "";
-        allWrTabRowSixGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("7");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSevenGeneralStatusContainer.innerHTML = "";
-        allWrTabRowSevenGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new GeneralStatusDDMenu("8");
-        ddRow = dd.makeRowElement();
-        allWrTabRowEightGeneralStatusContainer.innerHTML = "";
-        allWrTabRowEightGeneralStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-            /* Permit Status DDs */
-        dd = new PermitStatusDDMenu("allWr", "1");
-        ddRow = dd.makeRowElement();
-        allWrTabRowOnePermitStatusContainer.innerHTML = "";
-        allWrTabRowOnePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "2");
-        ddRow = dd.makeRowElement();
-        allWrTabRowTwoPermitStatusContainer.innerHTML = "";
-        allWrTabRowTwoPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "3");
-        ddRow = dd.makeRowElement();
-        allWrTabRowThreePermitStatusContainer.innerHTML = "";
-        allWrTabRowThreePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "4");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFourPermitStatusContainer.innerHTML = "";
-        allWrTabRowFourPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "5");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFivePermitStatusContainer.innerHTML = "";
-        allWrTabRowFivePermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "6");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSixPermitStatusContainer.innerHTML = "";
-        allWrTabRowSixPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "7");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSevenPermitStatusContainer.innerHTML = "";
-        allWrTabRowSevenPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new PermitStatusDDMenu("allWr", "8");
-        ddRow = dd.makeRowElement();
-        allWrTabRowEightPermitStatusContainer.innerHTML = "";
-        allWrTabRowEightPermitStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-            /* Easement Status DDs */
-        dd = new EasementStatusDDMenu("1");
-        ddRow = dd.makeRowElement();
-        allWrTabRowOneEasementStatusContainer.innerHTML = "";
-        allWrTabRowOneEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("2");
-        ddRow = dd.makeRowElement();
-        allWrTabRowTwoEasementStatusContainer.innerHTML = "";
-        allWrTabRowTwoEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("3");
-        ddRow = dd.makeRowElement();
-        allWrTabRowThreeEasementStatusContainer.innerHTML = "";
-        allWrTabRowThreeEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("4");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFourEasementStatusContainer.innerHTML = "";
-        allWrTabRowFourEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-        
-        dd = new EasementStatusDDMenu("5");
-        ddRow = dd.makeRowElement();
-        allWrTabRowFiveEasementStatusContainer.innerHTML = "";
-        allWrTabRowFiveEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("6");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSixEasementStatusContainer.innerHTML = "";
-        allWrTabRowSixEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("7");
-        ddRow = dd.makeRowElement();
-        allWrTabRowSevenEasementStatusContainer.innerHTML = "";
-        allWrTabRowSevenEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        dd = new EasementStatusDDMenu("8");
-        ddRow = dd.makeRowElement();
-        allWrTabRowEightEasementStatusContainer.innerHTML = "";
-        allWrTabRowEightEasementStatusContainer.insertAdjacentElement("beforeend", ddRow);
-
-        /* Permit Tab DDs */
-
-        dd = new PermitStatusDDMenu("permits", "1");
-        ddRow = dd.makeRowElement();
         permitsTabRowOneStatusContainer.innerHTML = "";
         permitsTabRowOneStatusContainer.insertAdjacentElement("beforeend", ddRow);
 
@@ -4977,14 +4975,15 @@ async function mainEvent() {
         ddRow = dd.makeRowElement();
         permitsTabRowEightStatusContainer.innerHTML = "";
         permitsTabRowEightStatusContainer.insertAdjacentElement("beforeend", ddRow);
+    }
+    function initializeAddTab() {
+        console.log("Entered - initializeAddTab()");
 
-        /* Add Tab DDs */
-
-            /* Add WR */
-        dd = new WrTypeDDMenu();
+        /* Add WR */
+        let dd = new WrTypeDDMenu();
         dd.setHeight("50px");
         dd.setWidth("200px");
-        ddRow = dd.makeRowElement();
+        let ddRow = dd.makeRowElement();
         addTabWrTypeContainer.innerHTML = "";
         addTabWrTypeContainer.insertAdjacentHTML("beforeend", `<label for="dropdown_menu_add_tab_wr_type" class="addTabTextfieldLabel" 
         id="dropdown_menu_add_tab_wr_type_label">Work Request Type:</label>`);
@@ -5092,7 +5091,7 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
         settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
-
+              
             /* To Do Tab DD Menus */
         /* Tab */
         dd = new ToDoTabDDMenu("0");
@@ -5133,12 +5132,14 @@ async function mainEvent() {
         
         
         resetDisplayToDoAddUpdate(); // Initializing display values for today
+    }
+    function initializeToDoTab() {
+        console.log("Entered - initializeToDoTab()");
 
-
-            /* To-Do Display DayOfWeekPageObject */
-        today = new Date();
-        year = today.getFullYear();
-        month = today.getMonth() + 1;
+        /* To-Do Display DayOfWeekPageObject */
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
         if (month < 10) {
             month = "0" + month;
         }
@@ -5146,13 +5147,13 @@ async function mainEvent() {
         if (day < 10) {
             day = "0" + day;
         }
-        tempFromDate = subtractDays(year, month, day, today.getDay());
-        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
-        pageObject = new DayOfWeekPageObject("to_do_display", tempFromDate, tempToDate);
-        pageObjectRow = pageObject.makeRowElement();
+        let tempFromDate = subtractDays(year, month, day, today.getDay());
+        let tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        let pageObject = new DayOfWeekPageObject("to_do_display", tempFromDate, tempToDate);
+        let pageObjectRow = pageObject.makeRowElement();
         toDoDisplayDayOfWeekDateContainer.innerHTML = "";
         toDoDisplayDayOfWeekDateContainer.insertAdjacentElement("beforeend", pageObjectRow);
-        
+
         /* Setting Default Creation Date */
         toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
         setDay("to_do_display", today.getDay());
@@ -5176,7 +5177,24 @@ async function mainEvent() {
         moveToDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
 
         moveToDayOfWeekDate.value = toDoDisplayDayOfWeekDate.value;
+    }
 
+    /* Adds all dropdowns */
+    window.onload = function() {
+        console.log("Entered - Window.onload function");
+
+        /* All Wr Tab DDs */
+        initializeAllWrTab();
+
+        /* Permit Tab DDs */
+        initializePermitsTab();
+
+        /* Add Tab DDs */
+        initializeAddTab();
+            
+        /* To-Do Tab Page Objects */
+        initializeToDoTab();
+      
         // Running test function
         testFunction();
     };
@@ -6632,7 +6650,7 @@ async function mainEvent() {
 
         /* Below statement adjusts position of content box to above or below dd menu */
         if (rowNum <= 4) {
-            tempContent.style.marginTop = '400px';
+            tempContent.style.marginTop = '435px';
             tempContent.style.width = '90px';
         } else {
             tempContent.style.marginBottom = '440px';
