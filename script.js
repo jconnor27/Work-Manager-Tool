@@ -1393,6 +1393,7 @@ class SystemPreferences {
         this.permitCommentCount = 6;
         this.tempCommentsCount = 7;
         this.tempAllCommentCount = 14;
+        this.tempNotesCount = 3;
     }
 
     load(str) {
@@ -1411,6 +1412,7 @@ class SystemPreferences {
         this.permitCommentCount = data[1];
         this.tempCommentsCount = data[2];
         this.tempAllCommentCount = data[3];
+        this.tempNotesCount = data[4];
     }
 
     toString() {
@@ -1418,7 +1420,8 @@ class SystemPreferences {
 
         let str = "";
 
-        str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@";
+        str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
+        this.tempNotesCount + "@";
 
         return str;
     }
@@ -1632,6 +1635,14 @@ class ToDoMasterList {
         }
         injectHTMLToDoTabDisplay(this.list[tempIndex]);
  
+    }
+
+    clearCompleted() {
+        console.log("Entered - ToDoMasterList - clearCompleted()");
+
+        for (var i = 0; i < this.list.length; i++) {
+            this.list[i].clearCompleted();
+        }
     }
 
     add(toDo) {
@@ -1904,6 +1915,76 @@ class ToDoDayObject {
         //this.list = []; // List of To-Do's for the day
     }
 
+    clearCompleted() {
+        console.log("Entered - ToDoDayObject - clearCompleted()");
+
+        let temp = [];
+
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            if (this.contactCustomerList[i].completed != 1) {
+                temp.push(this.contactCustomerList[i]);
+            }
+        }
+        this.contactCustomerList = temp;
+        temp = [];
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            if (this.siteVisitList[i].completed != 1) {
+                temp.push(this.siteVisitList[i]);
+            }
+        }
+        this.siteVisitList = temp;
+        temp = [];
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            if (this.svcCalcList[i].completed != 1) {
+                temp.push(this.svcCalcList[i]);
+            }
+        }
+        this.svcCalcList = temp;
+        temp = [];
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            if (this.checkNJUNSList[i].completed != 1) {
+                temp.push(this.checkNJUNSList[i]);
+            }
+        }
+        this.checkNJUNSList = temp;
+        temp = [];
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            if (this.checkPermitList[i].completed != 1) {
+                temp.push(this.checkPermitList[i]);
+            }
+        }
+        this.checkPermitList = temp;
+        temp = [];
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            if (this.checkEasementList[i].completed != 1) {
+                temp.push(this.checkEasementList[i]);
+            }
+        }
+        this.checkEasementList = temp;
+        temp = [];
+        for (var i = 0; i < this.designList.length; i++) {
+            if (this.designList[i].completed != 1) {
+                temp.push(this.designList[i]);
+            }
+        }
+        this.designList = temp;
+        temp = [];
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            if (this.revisionsList[i].completed != 1) {
+                temp.push(this.revisionsList[i]);
+            }
+        }
+        this.revisionsList = temp;
+        temp = [];
+        for (var i = 0; i < this.generalList.length; i++) {
+            if (this.generalList[i].completed != 1) {
+                temp.push(this.generalList[i]);
+            }
+        }
+        this.generalList = temp;
+        temp = [];
+    }
+
     flatten() {
         console.log("Entered - ToDoDayObject - flatten()");
 
@@ -1936,13 +2017,7 @@ class ToDoDayObject {
         for (var i = 0; i < this.generalList.length; i++) {
             temp.push(this.generalList[i]);
         } 
-        
-        /*temp += this.contactCustomerList.concat(this.siteVisitList.concat(this.svcCalcList.concat(
-            this.checkNJUNSList.concat(this.checkPermitList.concat(this.checkEasementList.concat(
-                this.designList.concat(this.revisionsList.concat(this.generalList))))))));*/
-
-        console.log("flattened array =");
-        console.log(temp);
+       
         return temp;
     }
 
@@ -4787,7 +4862,7 @@ async function mainEvent() {
     const permitCommentCount = systemPreferences.permitCommentCount;
     const tempCommentsCount = systemPreferences.tempCommentsCount;
     const tempAllCommentCount = systemPreferences.tempAllCommentCount;
-    const tempNotesCount = 3;
+    const tempNotesCount = systemPreferences.tempNotesCount;
 
     let userColors = new ColorPreferences(); 
 
@@ -5090,12 +5165,6 @@ async function mainEvent() {
         addTabCommentTypeContainer.insertAdjacentHTML("beforeend", `<label class="addTabCommentTextfieldLabel" 
             id="add_tab_comment_type_dd_label">Comment Type:</label>`);
         addTabCommentTypeContainer.insertAdjacentElement("beforeend", ddRow);
-
-        /* Settings System Preference Values */
-        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
-        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
-        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
-        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
               
             /* To Do Tab DD Menus */
         /* Tab */
@@ -5188,6 +5257,13 @@ async function mainEvent() {
     window.onload = function() {
         console.log("Entered - Window.onload function");
 
+        /* Settings System Preference Values */
+        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
+        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
+        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
+        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
+        settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
+        
         /* All Wr Tab DDs */
         initializeAllWrTab();
 
@@ -12412,12 +12488,18 @@ async function mainEvent() {
     const settingsPreferencesTextfieldCommentsWr = document.querySelector("#settings_preferences_textfield_comments_wr");
     const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
     const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
+    const settingsPreferencesTextfieldNotesToDo = document.querySelector("#settings_preferences_textfield_notes_to_do");
     const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
+    const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
     const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
     const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
     const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
     const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
     const clear7010PopUpContainer = document.querySelector("#clear_7010_pop_up_container");
+    const clearCompleteToDosPopUpButtonNo = document.querySelector("#clear_complete_to_dos_pop_up_button_no");
+    const clearCompleteToDosPopUpButtonYes = document.querySelector("#clear_complete_to_dos_pop_up_button_yes");
+    const clearCompleteToDosPopUpXButton = document.querySelector("#clear_complete_to_dos_pop_up_x_button");
+
 
 
     
@@ -12761,7 +12843,8 @@ async function mainEvent() {
         }
     }
 
-        /* Popup Buttons */
+            /* Popup Buttons */
+        /* Clear 7010 */
     clear7010PopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked clear7010PopUpButtonYes");
 
@@ -12779,11 +12862,46 @@ async function mainEvent() {
 
         clear7010PopUpContainer.classList.add("hidden");        
     })
+        /* Clear Complete To-Do's */
+    clearCompleteToDosPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearCompleteToDosPopUpButtonYes");
+
+        toDoMasterList.clearCompleted();
+
+        if (toDoTab.classList.contains("hidden")) {
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    return;
+                }
+            }
+        } else if (addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) {
+            resetDisplayToDoAddUpdate();
+        }
+        
+        document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+
+    })
+    clearCompleteToDosPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearCompleteToDosPopUpButtonNo");
+
+        document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+    })
+    clearCompleteToDosPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearCompleteToDosPopUpXButton");
+
+        document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+    })
 
     settingsPreferencesClear7010Button.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsPreferencesClear7010Button");
 
         clear7010PopUpContainer.classList.remove("hidden");
+    })
+    settingsPreferencesClearCompleteToDosButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesClearCompleteToDosButton");
+
+        document.getElementById("clear_complete_to_dos_container").classList.remove("hidden");
     })
 
         /* System Preferences */
