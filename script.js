@@ -1700,12 +1700,7 @@ class ToDoMasterList {
         /* Finding index of ToDoDayObject via date */
         let tempIndex = -1; // should throw error if not set below
 
-        for (var i = 0; i < this.list.length; i++) {
-            console.log("I =");
-            console.log(i);
-            console.log("this.list[i].date =");
-            console.log(this.list[i].date);
-            
+        for (var i = 0; i < this.list.length; i++) {            
             if (this.list[i].date == date) {
                 tempIndex = i;
             }
@@ -1827,8 +1822,6 @@ class ToDoMasterList {
 
             /* Adding parsed ToDoObject to masterList */
             const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
-            console.log("toDoAdded");
-            console.log(toDo);
            
             this.add(toDo);
 
@@ -2760,7 +2753,6 @@ class ToDoDayObject {
 
     add(toDo) {
         console.log("Entered - ToDoDayObject - add(toDo)");
-        console.log(toDo);
 
         if (toDo.type == "Contact Customer") {
             this.contactCustomerList.push(toDo);
@@ -3331,14 +3323,12 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
 }
 function injectHTMLToDoTabDisplay(toDoDayObject) {
     console.log("Entered - injectHTMLToDoTabDisplay()");
-    console.log(toDoDayObject);
 
     const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
 
     toDoRowElementContainer.innerHTML = "";
 
     const temp = toDoDayObject.makePageElement();
-    console.log(temp);
     
     toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
 
@@ -3923,7 +3913,6 @@ function parseSingleWrIndex(str) {
 /* Takes string of  */
 function parseComments(comments) {
     console.log("Entered - parseComments()");
-    console.log(comments);
 
     let data = []
     let str = "";
@@ -3950,9 +3939,6 @@ function parseComments(comments) {
         str = comments.substring(commentRaw.length + 12);
         comments = str;
     }
-
-    console.log("**** returning");
-    console.log(data);
 
     return data;
 }
@@ -6804,9 +6790,6 @@ async function mainEvent() {
     function displayToDoMoveToDisplay(toDo) {
         console.log("Entered - displayToDoMoveToDisplay(toDo)");
 
-        console.log("@#@#@#@#");
-        console.log(toDo);
-
         resetToDoMoveToDisplay();
         
         toDoDisplayMoveToContainer.classList.remove("hidden");
@@ -7428,8 +7411,6 @@ async function mainEvent() {
     })
     toDoDisplayMoveToContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveToContainer");
-
-        console.log(toDoMasterList);
 
         const tempLeftArrow = document.createElement("tempLeftArrow");
         tempLeftArrow.innerHTML = "&#8592";
@@ -9872,7 +9853,6 @@ async function mainEvent() {
                 tempDay = "0" + tempDay;
             }
             const tempYear = new Number(curYear);
-            //const tempDay = curDay + daysToAdd;
             if (tempDay > 31) {
                 let newDay = new Number(tempDay) - 31
                 if (newDay < 10) {
@@ -9885,7 +9865,6 @@ async function mainEvent() {
         } else if (curMonth == 2) { // February
             const curDayNum = new Number(curDay);
             const tempDay = curDayNum + daysToAdd;
-            //const tempDay = curDay + daysToAdd;
            
             if (tempDay > 28) {
                 const newDay = tempDay - 28;
@@ -9894,9 +9873,6 @@ async function mainEvent() {
                 return (curYear + "-02-" + tempDay);
             }
         } else if (curMonth == 4 || curMonth == 6 || curMonth == 9 || curMonth == 11) { // Months with 30 Days
-            
-            console.log("In months with 30 days");
-
             const curDayNum = new Number(curDay);
             const tempDay = curDayNum + daysToAdd;
             if (tempDay > 30) {
@@ -9918,10 +9894,7 @@ async function mainEvent() {
                     return (curYear + "-" + curMonth + "-" + tempDay);
                 }
             }
-        } else { // Months with 31 Days
-
-            console.log("%%% in months with 31 days");
- 
+        } else { // Months with 31 Days 
             const tempDay = new Number(curDay) + daysToAdd;
             if (tempDay > 31) {
                 const newDay = tempDay - 31;
@@ -9936,15 +9909,9 @@ async function mainEvent() {
                     return (curYear + "-" + newMonth + "-" + newDay);
                 }
             } else {
-                /*if (typeof curMonth != "number") {
-                    curMonth = new Number(curMonth);
-                }*/
-                //const temp = new Number(curMonth);
                 const tempMonth = new Number(curMonth);
 
                 if (tempMonth < 10) {
-                    console.log("less than 10");
-                    console.log(tempMonth);
                     return (curYear + "-0" + tempMonth + "-" + tempDay);
                 } else {
                     return (curYear + "-" + tempMonth + "-" + tempDay);
