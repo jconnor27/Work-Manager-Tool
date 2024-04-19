@@ -5147,6 +5147,7 @@ async function mainEvent() {
     searchByBoxContainer.classList.add("hidden"); // May remove this
     trimContainer.classList.add("hidden");
     trimContainerLabel.classList.add("hidden");
+    switchGenericBoxes(""); // Anything but "toDo" as input switches to wr/permit boxes
     switchTrimBoxes(""); // Anything but "toDo" as input switches to wr/permit boxes
     switchTypeCheckboxes(""); // Anything but "toDo" as input switches to wr/permit boxes
     toDoDisplayContainer.classList.add("hidden");
@@ -5260,7 +5261,6 @@ async function mainEvent() {
         document.getElementById("filter_container_check_easement").style.backgroundColor = "white";
         document.getElementById("filter_container_design").style.backgroundColor = "white";
         document.getElementById("filter_container_revisions").style.backgroundColor = "white";
-        document.getElementById("filter_container_waiting_other").style.backgroundColor = "white";
     }
     function uncolorGenericFilterCheckboxes() {
         console.log("Entered - uncolorGenericFlterCheckboxes");
@@ -11134,7 +11134,6 @@ async function mainEvent() {
             }
         }
 
-        let flatList = toDoMasterList.list[index].flatten();
         let sortedList = [];
         let filteredList = [];
         let trimmedList = [];
@@ -11142,90 +11141,194 @@ async function mainEvent() {
         /* Assessing Type */
         if (document.getElementById("filter_checkbox_general").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_general").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("General");
             
         } else if (document.getElementById("filter_checkbox_contact_customer").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_contact_customer").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Contact Customer");
             
         } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Site Visit");
             
         } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Service Calc + Coding");
             
         } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Check/ Apply - NJUNS");
             
         } else if (document.getElementById("filter_checkbox_check_permit").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Check/ Apply - Permit");
             
         } else if (document.getElementById("filter_checkbox_check_easement").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Check/ Apply - Easement");
             
         } else if (document.getElementById("filter_checkbox_design").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Design");
             
         } else if (document.getElementById("filter_checkbox_revisions").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
             
+            uncolorToDoFilterCheckboxes();
+            document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             sortedList = filterToDosByType("Revisions");
             
         } else {
             document.getElementById("hide_date_page_object").classList.add("hidden");
             
+            uncolorToDoFilterCheckboxes();
+
             sortedList = toDoMasterList.list[i].flatten();
             //return;
         }
 
         /* Assessing Trim - Completed */
         if (document.getElementById("footer_filter_checkbox_not_complete").checked) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_not_complete").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             for (var i = 0; i < sortedList.length; i++) {
                 if (sortedList[i].completed != 1) {
                     trimmedList.push(sortedList[i]);
                 }
             }            
         } else if (document.getElementById("footer_filter_checkbox_complete").checked) {
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_complete").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             for (var i = 0; i < sortedList.length; i++) {
                 if (sortedList[i].completed == 1) {
                     trimmedList.push(sortedList[i]);
                 }
             }         
-        } else {
+        } else { // footer_filter_checkbox_all_to_do.checked == true
+            console.log("trim all to do checked");
+            uncolorTrimByCheckboxes();
+            document.getElementById("footer_filter_container_all_to_do").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             trimmedList = sortedList;
+
         }
 
         /* Assessing Top Filter */
         if (document.getElementById("filter_checkbox_age_new_old").checked) {
+            
+            uncolorGenericFilterCheckboxes();
+            document.getElementById("filter_container_age_new_old").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             filteredList = quickSortAgeNew(trimmedList);
             
         } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+
+            uncolorGenericFilterCheckboxes();
+            document.getElementById("filter_container_age_old_new").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
             filteredList = quickSortAgeOld(trimmedList);
             
         } else {
+            uncolorGenericFilterCheckboxes();
+
             filteredList = trimmedList;
         }
-        const pageElem = buildFlatPageElement(filteredList);
-        const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
 
-        toDoRowElementContainer.innerHTML = "";
+        /* Updating Display */
+        if (filteredList.length == 0) {
+            
+            toDoDisplayRowElementContainer.innerHTML = "";
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+
+        } else {
+            const pageElem = buildFlatPageElement(filteredList);
+            const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+    
+            toDoRowElementContainer.innerHTML = "";
+            
+            toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+        }
         
-        toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
 
+    }
+    function assessToDoSearchBy() {
+        console.log("Entered - assessToDoSearchBy()");
+
+        const userValue = document.getElementById("search_by_selection_textfield").value;
+
+        let data = [];
+
+        if (searchByWrCheckbox.checked) {
+            uncolorSearchByCheckboxes();
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
+            for (var i = 0; i < toDoMasterList.list.length; i++) { // for all days
+                curDayFlat = toDoMasterList.list[i].flatten(); // make flat list of to-do's
+    
+                for (var j = 0; j < curDayFlat.length; j++) { // for all to-do's
+                    if (curDayFlat[j].workRequestNumber != undefined && curDayFlat[j].workRequestNumber.includes(userValue)) {
+                        data.push(curDayFlat[j]);
+                    }
+                }
+            }
+    
+            if (data.length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                const pageElem = buildFlatPageElement(data);
+                const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+        
+                toDoRowElementContainer.innerHTML = "";
+                
+                toDoRowElementContainer.insertAdjacentElement("beforeend", pageElem);
+            }
+        } else {
+            uncolorSearchByCheckboxes();
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    break;
+                }
+            }
+        }
+
+        
+        
     }
     /* Takes in a flat list of to-do objects and returns flat page element */
     function buildFlatPageElement(list) {
@@ -11443,40 +11546,48 @@ async function mainEvent() {
     searchGoButton.addEventListener("click", (event) => {
         console.log("Clicked - searchGoButton");
 
-        const allWrListTrimmed = assessTrimByStatus(allWrList);
-        const allWrListAssessed = assessSearchBy(allWrListTrimmed);
-
-        filteredList = allWrListAssessed;
-
-        // Display no wr prompt if no wr match input
-        if (allWrListAssessed.length == 0) {
+        if (allWrTab.classList.contains("hidden")) {
+            const allWrListTrimmed = assessTrimByStatus(allWrList);
+            const allWrListAssessed = assessSearchBy(allWrListTrimmed);
+    
+            filteredList = allWrListAssessed;
+    
+            // Display no wr prompt if no wr match input
+            if (allWrListAssessed.length == 0) {
+                if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                    document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
+                    ${"No Work Requests Match User Input"}</div>`);
+                } else if (permitsTab.classList.contains("hidden")) {
+                    document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
+                    ${"No Work Requests Match User Input"}</div>`);
+                }
+                
+            } else {
+                if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
+                    document.getElementById("no_wr_found_all_wr_tab").remove();
+                }
+                if (document.getElementById("no_wr_found_permit_tab") != undefined) {
+                    document.getElementById("no_wr_found_permit_tab").remove();
+                }
+            }
+    
+            // Still inject empty list to hide rows
+            injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors);
+            injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors);
+                
+            // Below hides whichever prev/next container shouldn't be visible
             if (allWrTab.classList.contains("hidden")) { // allWrTab is active
-                document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
-                ${"No Work Requests Match User Input"}</div>`);
+                document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
             } else if (permitsTab.classList.contains("hidden")) {
-                document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
-                ${"No Work Requests Match User Input"}</div>`);
+                document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
             }
-            
-        } else {
-            if (document.getElementById("no_wr_found_all_wr_tab") != undefined) {
-                document.getElementById("no_wr_found_all_wr_tab").remove();
-            }
-            if (document.getElementById("no_wr_found_permit_tab") != undefined) {
-                document.getElementById("no_wr_found_permit_tab").remove();
-            }
+        } else if (toDoTab.classList.contains("hidden")) {
+            console.log("Clicked SearchBy GoButton - To-Do's");
+
+            assessToDoSearchBy();
         }
 
-        // Still inject empty list to hide rows
-        injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors);
-        injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors);
-            
-        // Below hides whichever prev/next container shouldn't be visible
-        if (allWrTab.classList.contains("hidden")) { // allWrTab is active
-            document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
-        } else if (permitsTab.classList.contains("hidden")) {
-            document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
-        }
+        
     
     })
     filterGoButton.addEventListener("click", (event) => {
@@ -11652,20 +11763,33 @@ async function mainEvent() {
     filterCheckboxPriorityNumber.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxPriorityNumber");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxPriorityNumber.checked = true;
+        if (filterCheckboxPriorityNumber.checked) {
+            uncheckGenericFilterCheckboxes();
+            filterCheckboxPriorityNumber.checked = true;
+        } else {
+            uncheckGenericFilterCheckboxes();
+        }
+        
     })
     filterCheckboxCrd.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxCrd");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxCrd.checked = true;
+        if (filterCheckboxCrd.checked) {
+            uncheckGenericFilterCheckboxes();
+            filterCheckboxCrd.checked = true;
+        } else {
+            uncheckGenericFilterCheckboxes();
+        }
     })
     filterCheckboxRcd.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxRcd");
 
-        uncheckGenericFilterCheckboxes();
-        filterCheckboxRcd.checked = true;
+        if (filterCheckboxRcd.checked) {
+            uncheckGenericFilterCheckboxes();
+            filterCheckboxRcd.checked = true;
+        } else {
+            uncheckGenericFilterCheckboxes();
+        }
     })
     filterCheckboxAgeNew.addEventListener("change", (event) => {
         console.log("Fired - changed - filterCheckboxAgeNew");
@@ -13052,6 +13176,18 @@ async function mainEvent() {
         deselectAllWrTab();
     })
 
+    function switchGenericBoxes(tab) {
+        console.log("Entered - switchGenericBoxes(" + tab + ")");
+
+        if (tab == "toDo") {
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_address").classList.add("hidden");
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.marginLeft = '122px';
+
+        } else {
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_address").classList.remove("hidden");
+            document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.marginLeft = '0px';
+        }
+    }
     function switchTrimBoxes(tab) {
         console.log("Entered - switchTrimBoxes(" + tab + ")");
 
@@ -13063,6 +13199,9 @@ async function mainEvent() {
             document.getElementById("footer_filter_container_not_7010").classList.add("hidden");
             document.getElementById("footer_filter_container_all").classList.add("hidden");
             document.getElementById("footer_filter_container_7010").classList.add("hidden");
+
+            document.getElementById("footer_filter_checkbox_all_to_do").checked = true;
+
         } else {
             document.getElementById("footer_filter_container_not_complete").classList.add("hidden");
             document.getElementById("footer_filter_container_all_to_do").classList.add("hidden");
@@ -13071,6 +13210,9 @@ async function mainEvent() {
             document.getElementById("footer_filter_container_not_7010").classList.remove("hidden");
             document.getElementById("footer_filter_container_all").classList.remove("hidden");
             document.getElementById("footer_filter_container_7010").classList.remove("hidden");
+
+            document.getElementById("footer_filter_checkbox_all").checked = true;
+
         }
     }
     function switchTypeCheckboxes(tab) {
@@ -13125,6 +13267,7 @@ async function mainEvent() {
         searchByBoxContainer.classList.remove("hidden"); // May remove this
         trimContainer.classList.remove("hidden");
         trimContainerLabel.classList.remove("hidden");
+        switchGenericBoxes("toDo");
         switchTrimBoxes("toDo");
         switchTypeCheckboxes("toDo");
         toDoDisplayContainer.classList.remove("hidden");
@@ -13148,7 +13291,7 @@ async function mainEvent() {
         if (searchBySelectionCheckbox.checked == true) {
             searchByWrCheckbox.checked = true;
         } else {
-            filterCheckboxGeneral.checked = true;
+            //filterCheckboxGeneral.checked = true;
             trimByAllToDo.checked = true;
         }
         
