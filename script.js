@@ -11223,6 +11223,7 @@ async function mainEvent() {
         /* Assessing Type */
         if (document.getElementById("filter_checkbox_general").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
 
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_general").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
@@ -11231,7 +11232,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_contact_customer").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_contact_customer").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11239,7 +11241,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11247,7 +11250,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11255,7 +11259,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11263,7 +11268,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_check_permit").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11271,7 +11277,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_check_easement").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11279,6 +11286,7 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_design").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
             
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
@@ -11287,7 +11295,8 @@ async function mainEvent() {
             
         } else if (document.getElementById("filter_checkbox_revisions").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
-            
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
+
             uncolorToDoFilterCheckboxes();
             document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -11295,6 +11304,7 @@ async function mainEvent() {
             
         } else {
             document.getElementById("hide_date_page_object").classList.add("hidden");
+            document.getElementById("hide_to_do_tabs").classList.add("hidden");
             
             uncolorToDoFilterCheckboxes();
 
@@ -11378,6 +11388,8 @@ async function mainEvent() {
         if (searchByWrCheckbox.checked) {
             uncolorSearchByCheckboxes();
             document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+            document.getElementById("hide_date_page_object").classList.remove("hidden");
+            document.getElementById("hide_to_do_tabs").classList.remove("hidden");
 
             for (var i = 0; i < toDoMasterList.list.length; i++) { // for all days
                 curDayFlat = toDoMasterList.list[i].flatten(); // make flat list of to-do's
@@ -11401,6 +11413,9 @@ async function mainEvent() {
             }
         } else {
             uncolorSearchByCheckboxes();
+            document.getElementById("hide_date_page_object").classList.add("hidden");
+            document.getElementById("hide_to_do_tabs").classList.add("hidden");
+
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                     injectHTMLToDoTabDisplay(toDoMasterList.list[i]);

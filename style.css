@@ -3175,7 +3175,15 @@ h5 {
     width: 620px;
     height: 55px;
     background-color: #9796968c;
+}
 
+.hideToDoTabs {
+    display: flex;
+    position: absolute;
+    z-index: 2;
+    width: 690px;
+    height: 70px;
+    background-color: #9796968c;
 }
 
 .addTabDisplayToDoRemoveContainer {
