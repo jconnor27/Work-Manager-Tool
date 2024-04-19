@@ -2649,6 +2649,7 @@ h5 {
     width: 1115px;
     margin-top: 50px;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .addTabDisplayToDoTabDDLabelContainer {
@@ -2660,11 +2661,23 @@ h5 {
 .addTabDisplayToDoTypeDDContainer {
     display: flex;
     flex-direction: row;
-    margin-left: 100px;
+    /*margin-left: 100px;*/
 }
 
-.addTabDisplayToDoTabDDLabel, .addTabDisplayToDoTypeDDLabel, .addTabDisplayDueDateLabel {
+.addTabDisplayToDoTabDDLabel { 
     font-size: large;
+}
+
+.addTabDisplayDueDateLabel {
+    font-size: large;
+    margin-right: 20px;
+    margin-left: -20px;
+}
+
+.addTabDisplayToDoTypeDDLabel {
+    font-size: large;
+    margin-right: 10px;
+    margin-left: -10px;
 }
 
 .addTabDisplayToDoDueDateContainer {
@@ -2781,7 +2794,7 @@ h5 {
 .addTabDisplayToDoCreationDateLabel {
     font-size: large;
     margin-right: 30px;
-    margin-left: 140px;
+    /*margin-left: 140px;*/
 }
 
 .addTabDisplayToDoCreationDateBox {
@@ -2797,7 +2810,7 @@ h5 {
 .addTabDisplayToDoCompletedBoxLabel {
     font-size: large;
     margin-right: 20px;
-    margin-left: 170px;
+    /*margin-left: 170px;*/
 }
 
 .addTabDisplayToDoRowThree {
@@ -3163,6 +3176,17 @@ h5 {
     height: 55px;
     background-color: #9796968c;
 
+}
+
+.addTabDisplayToDoRemoveContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.addTabDisplayToDoRemoveButton {
+    display: flex;
+    padding: 5px;
+    background-color: rgba(244, 73, 73, 0.532);
 }
 
 .hidden {

@@ -1856,6 +1856,16 @@ class ToDoMasterList {
         return notes;
     }
 
+    removeById(toDoId) {
+        console.log("Entered - ToDoMasterList - removeByID(" + toDoId + ")");
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].removeById(toDoId)) {
+                return;
+            }
+        }
+    }
+
     toString() {
         console.log("Entered - ToDoMasterList - toString()");
 
@@ -2785,6 +2795,67 @@ class ToDoDayObject {
         }
 
         return temp;
+    }
+    /* Iterates through lists and removes toDo with toDoId passed in */
+    removeById(toDoId) {
+        console.log("Entered - ToDoDayObject - removeById(" + toDoId + ")");
+
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            if (this.contactCustomerList[i].toDoId == toDoId) {
+                this.contactCustomerList = this.remove(this.contactCustomerList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            if (this.siteVisitList[i].toDoId == toDoId) {
+                this.siteVisitList = this.remove(this.siteVisitList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            if (this.svcCalcList[i].toDoId == toDoId) {
+                this.svcCalcList = this.remove(this.svcCalcList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            if (this.checkNJUNSList[i].toDoId == toDoId) {
+                this.checkNJUNSList = this.remove(this.checkNJUNSList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            if (this.checkPermitList[i].toDoId == toDoId) {
+                this.checkPermitList = this.remove(this.checkPermitList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            if (this.checkEasementList[i].toDoId == toDoId) {
+                this.checkEasementList = this.remove(this.checkEasementList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.designList.length; i++) {
+            if (this.designList[i].toDoId == toDoId) {
+                this.designList = this.remove(this.designList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            if (this.revisionsList[i].toDoId == toDoId) {
+                this.revisionsList = this.remove(this.revisionsList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+        for (var i = 0; i < this.generalList.length; i++) {
+            if (this.generalList[i].toDoId == toDoId) {
+                this.generalList = this.remove(this.generalList, i);
+                return true; // returning true breaks parents loop - called in ToDoMasterList
+            }
+        }
+
+        return false;
     }
 
     isEmpty() {
@@ -4657,6 +4728,7 @@ async function mainEvent() {
     const addTabDisplayToDoRowZeroNumfield = document.querySelector("#add_tab_display_to_do_row_zero_numfield");
     const addTabDisplayToDoPrevButton = document.querySelector("#add_tab_display_to_do_prev_button");
     const addTabDisplayToDoNextButton = document.querySelector("#add_tab_display_to_do_next_button");
+    const addTabDisplayToDoRemoveButton = document.querySelector("#add_tab_display_to_do_remove_button");
 
     /* To-Do's Tab */
     const toDoDisplayContainer = document.querySelector("#to_do_display_container");
@@ -5647,6 +5719,7 @@ async function mainEvent() {
         console.log("Entered - displayToDoAddUpdate(toDo)");
 
         addTabAddButton.disabled = true;
+        addTabDisplayToDoRemoveButton.disabled = false;
 
         const d = new Date();
 
@@ -5686,6 +5759,8 @@ async function mainEvent() {
     }
     function resetDisplayToDoAddUpdate() {
         console.log("Entered - resetDisplayToDoAddUpdate()");
+
+        addTabDisplayToDoRemoveButton.disabled = true;
 
         const d = new Date();
         const year = d.getFullYear();
@@ -9101,6 +9176,13 @@ async function mainEvent() {
         } else if (filterCheckboxAddToDo.checked == true) {
             resetDisplayToDoAddUpdate();
         }
+    })
+
+        /* List - Remove Buttons */
+    addTabDisplayToDoRemoveButton.addEventListener("click", (event) => {
+        console.log("Clicked - addTabDisplayToDoRemoveButton");
+
+        toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
     })
 
         /* Permit - Last Updated Checks */
