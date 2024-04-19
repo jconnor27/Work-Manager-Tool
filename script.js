@@ -646,6 +646,17 @@ class Haptix {
             temp.remove();
         }, 3000);
     }
+
+    displayToDoRemoved(toDoId) {
+        console.log("Entered - displayToDoRemoved(" + toDoId + ")");
+
+        const temp = document.getElementById("add_tab_display_to_do_row_zero_numfield");
+        temp.insertAdjacentHTML("afterend", `<div class="toDoRemovedPrompt" id="to_do_removed_prompt">To-Do: Id#:${toDoId} Removed</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_removed_prompt");
+            temp.remove();
+        }, 3000);
+    }
 }
 /* Error Class used to insert error prompts */
 class Error {
@@ -4742,6 +4753,14 @@ async function mainEvent() {
     const moveToDayOfWeekContainer = document.querySelector("#move_to_day_of_week_container");
     const moveToDayOfWeekDate = document.querySelector("#move_to_display_day_of_week_date");
     const toDoDisplayMoveToContainer = document.querySelector("#to_do_display_move_to_container");
+    const toDoDisplayMoveToRemoveButton = document.querySelector("#to_do_display_move_to_remove_button");
+
+        /* Confirm Remove Buttons */
+    const confirmRemovePopupYes = document.querySelector("#confirm_remove_popup_yes");
+    const confirmRemovePopupNo = document.querySelector("#confirm_remove_popup_no");
+    const confirmRemovePopupXButton = document.querySelector("#confirm_remove_popup_x_button");
+
+
 
 
 
@@ -7012,6 +7031,8 @@ async function mainEvent() {
         let toRemove = [];
         let index = undefined;
 
+        document.getElementById("to_do_display_move_to_remove_button").classList.add("hidden");        
+
         for (var i = 0; i < toDoMasterList.list.length; i++) {
             if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                 console.log("Entered if statement ^^^");
@@ -7057,7 +7078,6 @@ async function mainEvent() {
 
             }
         }
-        console.log("out of loop");
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
 
@@ -7199,10 +7219,6 @@ async function mainEvent() {
 
         }
 
-
-
-        console.log("toRemove =");
-        console.log(toRemove);
     })
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
@@ -7358,7 +7374,9 @@ async function mainEvent() {
                 displayToDoAddUpdate(curToDo);
 
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "move") {
-                console.log("clicked move");
+                console.log("Fired - Clicked move");
+
+                document.getElementById("to_do_display_move_to_remove_button").classList.remove("hidden");
 
                 const curDate = toDoDisplayDayOfWeekDate.value;
                 const curToDo = toDoMasterList.getToDoDisplay(curDate, curList, lastNum);
@@ -9177,11 +9195,53 @@ async function mainEvent() {
         }
     })
 
-        /* List - Remove Buttons */
+        /* List - Remove Buttons + Yes and No*/
+    function displayConfirmRemove(toDoId) {
+        console.log("Entered - displayConfirmRemove(" + toDoId + ")");
+
+        document.getElementById("confirm_remove_popup_container").classList.remove("hidden");
+        document.getElementById("confirm_remove_popup_text_container").insertAdjacentHTML("beforeend", toDoId);
+    }
     addTabDisplayToDoRemoveButton.addEventListener("click", (event) => {
         console.log("Clicked - addTabDisplayToDoRemoveButton");
+        
+        displayConfirmRemove(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
 
-        toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
+        //toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
+    })
+    toDoDisplayMoveToRemoveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayMoveToRemoveButton");
+
+        displayConfirmRemove(tempCurToDo[0].toDoId);
+        //toDoMasterList.removeById(tempCurToDo[0].toDoId);
+    })
+    confirmRemovePopupXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked confirmRemovePopupXButton");
+
+        document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+    })
+    confirmRemovePopupYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked confirmRemovePopupYes");
+        const h = new Haptix();
+
+        if (toDoTab.classList.contains("hidden")) {
+            toDoMasterList.removeById(tempCurToDo[0].toDoId);
+            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            toDoDisplayMoveToContainer.classList.add("hidden");
+
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    return;
+                }
+            }
+
+        } else if (addTab.classList.contains("hidden")) {
+            toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
+            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            resetDisplayToDoAddUpdate();
+            h.displayToDoRemoved(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
+    }
     })
 
         /* Permit - Last Updated Checks */

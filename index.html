@@ -682,7 +682,10 @@
                         <div class="toDoDisplayMoveToRowOne">
                             <button type="button" class="toDoDisplayMoveToXButton" id="to_do_display_move_to_x_button">X</button>
                             <label for="to_do_display_move_to_container" class="toDoDisplayMoveToLabel">Move To:</label>
-                            <button type="button" class="toDoDisplayMoveToSaveButton" id="to_do_display_move_to_save_button">Save</button>
+                            <div class="toDoDisplayMoveToButtonContainer">
+                                <button type="button" class="toDoDisplayMoveToRemoveButton" id="to_do_display_move_to_remove_button">Remove</button>
+                                <button type="button" class="toDoDisplayMoveToSaveButton" id="to_do_display_move_to_save_button">Save</button>
+                            </div>
                         </div>
                         <input type="date" class="moveToDisplayDayOfWeekDate" id="move_to_display_day_of_week_date"/>
                         <div class="moveToDayOfWeekContainer" id="move_to_day_of_week_container">
@@ -707,6 +710,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- Permits Tab Display Container -->
@@ -1334,6 +1338,22 @@
                         
                     </div>
                 </div>
+            </div>
+
+            <!-- Confirm Remove Popup Container -->
+            <div class="confirmRemovePopupContainer hidden" id="confirm_remove_popup_container">
+                <div class="confirmRemovePopupBox">
+                    <button type="button" class="confirmRemovePopupXButton" id="confirm_remove_popup_x_button">X</button>
+                    <div class="confirmRemovePopupTextContainer" id="confirm_remove_popup_text_container">
+                        <p style="margin-top: 5px; margin-bottom: 0px; min-width: 180px;"><b>Are You Sure You Want</b></p>
+                        <p style="margin-top: 5px; margin-bottom: 0px; width: 130px;"><b>To Remove To-Do:</b></p>
+                    </div>
+                    <div class="confirmRemovePopupButtonContainer">
+                        <button type="button" class="confirmRemovePopupButton" style="background-color: rgba(244, 73, 73, 0.532);" id="confirm_remove_popup_yes">Yes</button>
+                        <button type="button" class="confirmRemovePopupButton" id="confirm_remove_popup_no">No</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
