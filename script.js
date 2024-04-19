@@ -3753,7 +3753,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 4) {
+    while (count < 5) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -12878,7 +12878,7 @@ async function mainEvent() {
         } else if (addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) {
             resetDisplayToDoAddUpdate();
         }
-        
+
         document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
 
     })
