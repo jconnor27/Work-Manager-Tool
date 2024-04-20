@@ -1756,6 +1756,15 @@ h5 {
     margin-left: 30px;
 }
 
+.noIncompleteToDosToMovePrompt {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: center;
+    color: orange;
+    margin-left: 30px;
+}
+
 .pageNextButton{
     display: flex;
     font-size: large;

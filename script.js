@@ -657,6 +657,17 @@ class Haptix {
             temp.remove();
         }, 3000);
     }
+
+    displayNoIncompleteToDosToMove() {
+        console.log("Entered - displayNoIncompleteToDosToMove()");
+
+        const temp = document.getElementById("hide_to_do_tabs");
+        temp.insertAdjacentHTML("afterend", `<div class="noIncompleteToDosToMovePrompt" id="no_incomplete_to_dos_to_move_prompt">No Incomplete To-Do's To Move</div>`);
+        /*setTimeout(() => {
+            const temp = document.getElementById("no_incomplete_to_dos_to_move_prompt");
+            temp.remove();
+        }, 3000);*/
+    }
 }
 /* Error Class used to insert error prompts */
 class Error {
@@ -1037,9 +1048,9 @@ class PaginatedComments {
         this.list = [];
     }
 
-    add(comment) {
-        console.log("Entered - PaginatedComments - add()");
-        this.list.push(comment);
+    addToDoNote(note, completed) {
+        console.log("Entered - PaginatedComments - addToDoNote(note =" + note + " completed = " + completed + ")");
+        this.list.push([note, completed]);
 
         let temp = [];
         let count = 0;
@@ -1050,6 +1061,32 @@ class PaginatedComments {
                 count++;
             }
         }
+
+        updateComments(temp, "addToDo");
+
+        document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.remove("hidden");
+        document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '410px';
+        document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '35px';
+        document.getElementById("add_tab_display_to_do_next_button").disabled = false;
+
+    }
+
+    add(comment) {
+        console.log("Entered - PaginatedComments - add()");
+        this.list.push(comment);
+
+        let temp = [];
+        let count = 0;
+
+        for (var i = this.list.length - 1; i >= 0; i--) {
+           
+            if (count < this.pageSize) {
+                temp.push(this.list[i]);
+                count++;
+            }
+            
+        }
+
         if (this.tab == "addWr") {
             updateComments(temp, "addWr");
         } else if (this.tab == "addPermit") {
@@ -1575,9 +1612,6 @@ class ToDoMasterList {
             }
         }
 
-        console.log("*** here");
-        console.log(this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex]);
-
         if (type == "contact_customer") {
             if (this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] == false) { // notes[index][1] = value of completed
                 this.list[tempIndex].contactCustomerList[toDoIndex].notes[noteIndex][1] = true;
@@ -2101,6 +2135,33 @@ class ToDoDayObject {
         curList = [];
 
         return filteredList;
+    }
+
+    clearStrikesAfterNoteUpdate() {
+        console.log("Entered - ToDoDayObject - clearStrikesAfterNoteUpdate()");
+
+
+        for (var i = 0; i < this.checkNJUNSList.length; i++) {
+            for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) {
+                const rightIndex = this.checkNJUNSList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.checkNJUNSList[i].notes[j][0] = this.checkNJUNSList[i].notes[j][0].substring(8, rightIndex);
+                    console.log("took strike off");
+                }
+            }
+        }
+    }
+    clearStrikesAfterNoteUpdateHelper(list) {
+        console.log("Entered - clearStrikesAfterNoteUpdateHelper(" + list + ")");
+
+        for (var i = 0; i < list.length; i++) {
+            for (var j = 0; j < list[i].notes.length; j++) {
+                const rightIndex = list[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    list[i].notes[j][0] = list[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
     }
 
     makePageElement() {
@@ -3524,13 +3585,24 @@ function injectHTMLAddCommentTabComment(comment, index) {
 }
 function injectHTMLAddToDoNote(note, index) {
     console.log("Entered - injectHTMLAddToDoNote(" + note + ", " + index + ")");
+    console.log("note =");
+    console.log(note);
 
     const notesToAdd = document.getElementById("add_tab_display_to_do_row_three_notes_to_add");
     const elem = document.createElement("noteItem");
     elem.id = "add_tab_display_to_do_note_item_" + index;
 
-    elem.innerHTML = `<li class="addTabDisplayToDoNoteItem">${note}</li>`;
-    elem.innerText = '\u2022' + " " + note;
+    if (note[1] == 1) {
+        console.log("note[1] == 1");
+        elem.innerHTML = `<strike>${`<li class="addTabDisplayToDoNoteItem">${note[0]}</li>`}</strike>`;
+        elem.innerText = '\u2022' + " " + note[0];
+        elem.style.textDecoration = 'line-through';
+
+
+    } else {
+        elem.innerHTML = `<li class="addTabDisplayToDoNoteItem">${note[0]}</li>`;
+        elem.innerText = '\u2022' + " " + note[0];
+    }
 
     notesToAdd.insertAdjacentElement("beforeend", elem);
 }
@@ -3746,6 +3818,7 @@ function splitColorPreferences(str) {
     return [colorPreferencesStr, allWrListRaw];
 }
 
+/* Second split function - cuts users saved system preferences off of str and passes rest on */
 function splitSystemPreferences(str) {
     console.log("Entered - splitSystemPreferences(str)");
 
@@ -3764,7 +3837,7 @@ function splitSystemPreferences(str) {
 
     return [systemPreferencesStr, allWrListRaw];
 }
-
+/* First split function - cuts toDoMasterList off of str and passes rest on */
 function splitToDoMasterList(str) {
     console.log("Entered - splitToDoMasterList(str)");
 
@@ -5826,7 +5899,7 @@ async function mainEvent() {
             addTabNewWorkRequestNumber.value = toDo.workRequestNumber;
         }
 
-        addTabDisplayToDoRowZeroNumfield.value = toDo.toDoId;
+        addTabDisplayToDoRowZeroNumfield.value = toDo.toDoId; // must set id before settings comments or logic breaks
         document.getElementById("to_do_tab_dd_0_current").innerHTML = toDo.tab;
         addTabDisplayDayOfWeekDate.value = toDo.dueDate;
         setDay("add", makeDate(toDo.dueDate).getDay());
@@ -5840,7 +5913,13 @@ async function mainEvent() {
 
         for (var i = 0; i < toDo.notes.length; i++) {
             const temp = toDo.notes[i][0].substring(2);
-            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${temp}</li>`);
+            if (toDo.notes[i][1] == 0) {
+                addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${temp}</li>`);
+            } else {
+                console.log("should see this %^%^$");
+                addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<strike>${`<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${i}">${temp}</li>`}</strike>`);
+
+            }
         }
 
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "Current \"To-Do\" ID#: ";
@@ -5849,7 +5928,8 @@ async function mainEvent() {
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
 
         for (var i = toDo.notes.length - 1; i >= 0; i--) {
-            tempNotes.add(toDo.notes[i][0].substring(2));
+
+            tempNotes.addToDoNote(toDo.notes[i][0].substring(2), toDo.notes[i][1]);
         }
    
         if (toDo.notes.length == 0) {
@@ -7246,6 +7326,7 @@ async function mainEvent() {
             toRemove[8].length == 0) {
 
                 console.log("No incomplete to-do's to move");
+
 
                 /* This means that there are no incomplete todos to move
                     Need to make a popup/error */
@@ -9003,7 +9084,14 @@ async function mainEvent() {
                 var i = 0;
 
                 while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 1]);
+                    console.log("In while loop **");
+                    console.log(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML);
+                    if (document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML.includes("<strike>") || 
+                    document.getElementById("add_tab_display_to_do_note_item_" + i).style.textDecoration == 'line-through') {
+                        notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 1]);
+                    } else {
+                        notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 0]);
+                    }
                 i++;
             }
 
@@ -9066,6 +9154,7 @@ async function mainEvent() {
                     h.displayToDoUpdated(toDo.toDoId);
                     resetDisplayToDoAddUpdate();
 
+                    toDoMasterList.list[temp[2]].clearStrikesAfterNoteUpdate();
                     injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
                 } else {
                     h.displayNoChangesToDo(toDo.toDoId);
@@ -10307,7 +10396,7 @@ async function mainEvent() {
             let today = d.getFullYear() + "-" + month + day;
             const note = new NoteItem(addTabDisplayToDoRowThreeTextfieldInput);
             addTabDisplayToDoRowThreeRemoveButton.disabled = false;
-            tempNotes.add(note);
+            tempNotes.addToDoNote(note, 0);
 
             addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
             /*let temp = 0;
