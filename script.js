@@ -1523,6 +1523,48 @@ class DayOfWeekPageObject {
 
 }
 
+class PaginatedToDoPageElement {
+    constructor(linesPerPage) {
+        this.pages = []
+        this.curPage = document.createElement("pageElement");
+        this.curPage.classList.add("toDoDisplayPageElement");
+        this.curPage.id = "to_do_display_page_element";
+        this.linesPerPage = linesPerPage;
+        this.lineCount = 0;
+    }
+
+    add(listElem, lines) {
+        console.log("Entered - PaginatedToDoPageElement - add(listElem, lines");
+        console.log(listElem);
+        console.log(lines);
+
+        if (this.lineCount + lines > this.linesPerPage) {
+            this.makeNewPage(listElem, lines);
+            return;
+        } else {
+            this.curPage.insertAdjacentHTML("beforeend", listElem.outerHTML);
+            this.lineCount = (this.lineCount + lines);
+            console.log("lineCount =");
+            console.log(this.lineCount);
+            console.log("curPage =");
+            console.log(this.curPage);
+            
+        }
+        
+    }
+
+    makeNewPage(listElem, lines) {
+        console.log("Entered - PaginatedToDoPageElement - makeNewPage(listElem, lines");
+
+        this.pages.push(this.curPage);
+        this.curPage = document.createElement("pageElement");
+        this.curPage.classList.add("toDoDisplayPageElement");
+        this.curPage.id = "to_do_display_page_element";
+        this.lineCount = 0;
+        this.add(listElem, lines);
+    }
+}
+
 // Master list of all ToDoDayObjects
 class ToDoMasterList {
     constructor() {
@@ -2218,6 +2260,8 @@ class ToDoDayObject {
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
 
+        let pageElement2 = new PaginatedToDoPageElement(5);
+
         let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
         pageElement.id = "to_do_display_page_element";
@@ -2297,6 +2341,17 @@ class ToDoDayObject {
 
                 contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
             }
+            console.log("$$$");
+            console.log("J =");
+            console.log(j);
+            console.log("i =");
+            console.log(i);
+
+            let typeLabelLineValue = 0;
+            if (i == 1) {
+                typeLabelLineValue = 1;
+            }
+            pageElement2.add(contactCustomerListElem, (typeLabelLineValue + 1 + j)); // 1 line if first of list for label + 1 for note + j for number of comments
 
             pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
         }
@@ -2946,7 +3001,9 @@ class ToDoDayObject {
             pageElement.insertAdjacentElement("beforeend", generalListElem); // add the general list to the page elem  
         }
 
-        return pageElement;
+        //return pageElement2.curPage;
+        return pageElement.curPage;
+
     }
 
     add(toDo) {
@@ -3529,7 +3586,7 @@ function injectHTMLToDoTabDisplay(toDoDayObject) {
     const temp = toDoDayObject.makePageElement();
     
     toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
-
+    
 }
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
     console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
