@@ -3334,7 +3334,7 @@ function readFile() {
         let toDoMasterListStr = toDoMasterListData[0];
         let systemPreferencesStr = systemPreferencesData[0];
         let colorPreferencesStr = colorPreferencesData[0];
-        let allWrList = parseWrString(systemPreferencesData[1]);
+        let allWrList = parseWrString(colorPreferencesData[1]);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterend", `<div class="hidden" id="temp_system_storage">${systemPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
         document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
