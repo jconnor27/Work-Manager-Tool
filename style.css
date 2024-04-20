@@ -615,18 +615,20 @@ h5 {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
-    margin: 1rem;
     width: 300px;
+    height: fit-content;
 }
 
 .addressBoxLabel {
     font-size: large;
+    margin-left: 10px;
 }
 
 .addressElementContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 5px;
 }
 
 .addressLineTextfield {
@@ -973,7 +975,7 @@ h5 {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-
+    height: 591px;
 }
 
 .addTabCommentsToAddList {
@@ -1758,11 +1760,16 @@ h5 {
 
 .noIncompleteToDosToMovePrompt {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     font-size: medium;
     align-items: center;
     justify-content: center;
     color: orange;
     margin-left: 30px;
+    margin-right: -150px;
+    margin-top: 20px;
+    width: 120px;
 }
 
 .pageNextButton{
@@ -1839,6 +1846,7 @@ h5 {
     margin-left: 80px;
     margin-right: 80px;
     margin-top: 30px;
+    height: 557px;
 }
 
 .addTabDisplayAddCommentRowOne {
@@ -2661,7 +2669,7 @@ h5 {
     display: flex;
     flex-direction: column;
     width: 1115px;
-    height: 704px;
+    height: 591px;
 }
 
 .addTabDisplayToDoRowOne {
@@ -2858,7 +2866,7 @@ h5 {
     width: 1000px;
     height: 250px;
     border: 2px solid black;
-    padding: 20px;
+    padding: 15px;
 }
 
 .addTabDisplayToDoRowThreeTextfieldLabel {
@@ -3257,9 +3265,12 @@ h5 {
     margin-top: 10px;
     padding: 5px;
     align-items: center;
-    background-color: rgba(244, 73, 73, 0.532);
     border-radius: 5px;
     margin-left: -110px;
+}
+
+.activeRemoveButton {
+    background-color: rgba(244, 73, 73, 0.532);
 }
 
 .toDoDisplayMoveToButtonContainer {
@@ -3306,7 +3317,11 @@ h5 {
 .addTabDisplayToDoRemoveButton {
     display: flex;
     padding: 5px;
-    background-color: rgba(244, 73, 73, 0.532);
+}
+
+.footerSettingsContainer {
+    display: flex;
+    flex-direction: row;
 }
 
 .hidden {

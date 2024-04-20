@@ -663,10 +663,10 @@ class Haptix {
 
         const temp = document.getElementById("hide_to_do_tabs");
         temp.insertAdjacentHTML("afterend", `<div class="noIncompleteToDosToMovePrompt" id="no_incomplete_to_dos_to_move_prompt">No Incomplete To-Do's To Move</div>`);
-        /*setTimeout(() => {
+        setTimeout(() => {
             const temp = document.getElementById("no_incomplete_to_dos_to_move_prompt");
             temp.remove();
-        }, 3000);*/
+        }, 3000);
     }
 }
 /* Error Class used to insert error prompts */
@@ -2139,30 +2139,81 @@ class ToDoDayObject {
 
     clearStrikesAfterNoteUpdate() {
         console.log("Entered - ToDoDayObject - clearStrikesAfterNoteUpdate()");
-
-
+  
+        for (var i = 0; i < this.contactCustomerList.length; i++) {
+            for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) {
+                const rightIndex = this.contactCustomerList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.contactCustomerList[i].notes[j][0] = this.contactCustomerList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.siteVisitList.length; i++) {
+            for (var j = 0; j < this.siteVisitList[i].notes.length; j++) {
+                const rightIndex = this.siteVisitList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.siteVisitList[i].notes[j][0] = this.siteVisitList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.svcCalcList.length; i++) {
+            for (var j = 0; j < this.svcCalcList[i].notes.length; j++) {
+                const rightIndex = this.svcCalcList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.svcCalcList[i].notes[j][0] = this.svcCalcList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
         for (var i = 0; i < this.checkNJUNSList.length; i++) {
             for (var j = 0; j < this.checkNJUNSList[i].notes.length; j++) {
                 const rightIndex = this.checkNJUNSList[i].notes[j][0].indexOf("</strike>");
                 if (rightIndex != -1) {
                     this.checkNJUNSList[i].notes[j][0] = this.checkNJUNSList[i].notes[j][0].substring(8, rightIndex);
-                    console.log("took strike off");
                 }
             }
         }
-    }
-    clearStrikesAfterNoteUpdateHelper(list) {
-        console.log("Entered - clearStrikesAfterNoteUpdateHelper(" + list + ")");
-
-        for (var i = 0; i < list.length; i++) {
-            for (var j = 0; j < list[i].notes.length; j++) {
-                const rightIndex = list[i].notes[j][0].indexOf("</strike>");
+        for (var i = 0; i < this.checkPermitList.length; i++) {
+            for (var j = 0; j < this.checkPermitList[i].notes.length; j++) {
+                const rightIndex = this.checkPermitList[i].notes[j][0].indexOf("</strike>");
                 if (rightIndex != -1) {
-                    list[i].notes[j][0] = list[i].notes[j][0].substring(8, rightIndex);
+                    this.checkPermitList[i].notes[j][0] = this.checkPermitList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.checkEasementList.length; i++) {
+            for (var j = 0; j < this.checkEasementList[i].notes.length; j++) {
+                const rightIndex = this.checkEasementList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.checkEasementList[i].notes[j][0] = this.checkEasementList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.designList.length; i++) {
+            for (var j = 0; j < this.designList[i].notes.length; j++) {
+                const rightIndex = this.designList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.designList[i].notes[j][0] = this.designList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.revisionsList.length; i++) {
+            for (var j = 0; j < this.revisionsList[i].notes.length; j++) {
+                const rightIndex = this.revisionsList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.revisionsList[i].notes[j][0] = this.revisionsList[i].notes[j][0].substring(8, rightIndex);
+                }
+            }
+        }
+        for (var i = 0; i < this.generalList.length; i++) {
+            for (var j = 0; j < this.generalList[i].notes.length; j++) {
+                const rightIndex = this.generalList[i].notes[j][0].indexOf("</strike>");
+                if (rightIndex != -1) {
+                    this.generalList[i].notes[j][0] = this.generalList[i].notes[j][0].substring(8, rightIndex);
                 }
             }
         }
     }
+    
 
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
@@ -3596,7 +3647,7 @@ function injectHTMLAddToDoNote(note, index) {
         console.log("note[1] == 1");
         elem.innerHTML = `<strike>${`<li class="addTabDisplayToDoNoteItem">${note[0]}</li>`}</strike>`;
         elem.innerText = '\u2022' + " " + note[0];
-        elem.style.textDecoration = 'line-through';
+        elem.style.textDecoration = 'line-through'; // used in one conditional elsewhere
 
 
     } else {
@@ -5892,6 +5943,7 @@ async function mainEvent() {
 
         addTabAddButton.disabled = true;
         addTabDisplayToDoRemoveButton.disabled = false;
+        addTabDisplayToDoRemoveButton.classList.add("activeRemoveButton");
 
         const d = new Date();
 
@@ -5940,6 +5992,7 @@ async function mainEvent() {
         console.log("Entered - resetDisplayToDoAddUpdate()");
 
         addTabDisplayToDoRemoveButton.disabled = true;
+        addTabDisplayToDoRemoveButton.classList.remove("activeRemoveButton");
 
         const d = new Date();
         const year = d.getFullYear();
@@ -7183,6 +7236,7 @@ async function mainEvent() {
 
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
+        const h = new Haptix();
 
         let toRemove = [];
         let index = undefined;
@@ -7321,12 +7375,12 @@ async function mainEvent() {
             
         }
 
-        if (toRemove[0].length == 0 && toRemove[1].length == 0 && toRemove[2].length == 0 && toRemove[3].length == 0 && 
+        if (toRemove.length == 0 || toRemove[0].length == 0 && toRemove[1].length == 0 && toRemove[2].length == 0 && toRemove[3].length == 0 && 
             toRemove[4].length == 0 && toRemove[5].length == 0 && toRemove[6].length == 0 && toRemove[7].length == 0 && 
             toRemove[8].length == 0) {
 
                 console.log("No incomplete to-do's to move");
-
+                h.displayNoIncompleteToDosToMove();
 
                 /* This means that there are no incomplete todos to move
                     Need to make a popup/error */
@@ -9371,14 +9425,11 @@ async function mainEvent() {
         console.log("Clicked - addTabDisplayToDoRemoveButton");
         
         displayConfirmRemove(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
-
-        //toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
     })
     toDoDisplayMoveToRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveToRemoveButton");
 
         displayConfirmRemove(tempCurToDo[0].toDoId);
-        //toDoMasterList.removeById(tempCurToDo[0].toDoId);
     })
     confirmRemovePopupXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupXButton");
@@ -9393,6 +9444,7 @@ async function mainEvent() {
             toDoMasterList.removeById(tempCurToDo[0].toDoId);
             document.getElementById("confirm_remove_popup_container").classList.add("hidden");
             toDoDisplayMoveToContainer.classList.add("hidden");
+            
 
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
@@ -9400,13 +9452,13 @@ async function mainEvent() {
                     return;
                 }
             }
-
         } else if (addTab.classList.contains("hidden")) {
             toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
             document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            addTabDisplayToDoRemoveButton.classList.remove("activeRemoveButton");
             resetDisplayToDoAddUpdate();
             h.displayToDoRemoved(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
-    }
+        }
     })
 
         /* Permit - Last Updated Checks */
@@ -9890,6 +9942,7 @@ async function mainEvent() {
     
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
             addTabCommentsRemoveButton.disabled = false;
+            addTabCommentsRemoveButton.classList.add("activeRemoveButton");
             tempComments.add(comment);
             addTabCommentsTextfield.value = "Type Comment Here"; // reseting entery textfield
             
@@ -9950,6 +10003,7 @@ async function mainEvent() {
         }
 
         addTabCommentsRemoveButton.disabled = true; // bug when trying to remove from past page 1
+        addTabCommentsRemoveButton.classList.remove("activeRemoveButton");
 
     })
     addTabWrCommentsPrevButton.addEventListener("click", (event) => {
@@ -9975,6 +10029,7 @@ async function mainEvent() {
 
         if (document.getElementById("add_wr_tab_current_page_box").innerHTML == "1") {
             addTabCommentsRemoveButton.disabled = false;
+            addTabCommentsRemoveButton.classList.add("activeRemoveButton");
         }
     })
 
