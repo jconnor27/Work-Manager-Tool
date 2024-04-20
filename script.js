@@ -7382,9 +7382,6 @@ async function mainEvent() {
                 console.log("No incomplete to-do's to move");
                 h.displayNoIncompleteToDosToMove();
 
-                /* This means that there are no incomplete todos to move
-                    Need to make a popup/error */
-
             return;
         } else {
 
@@ -8053,12 +8050,15 @@ async function mainEvent() {
 
         if (index != undefined) {
             let filteredList = toDoMasterList.list[index].filterToDosByTab("General");
-            injectHTMLToDoTabDisplay(filteredList);
+
+            if (filteredList.flatten().length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                injectHTMLToDoTabDisplay(filteredList);
+            }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
         }
-        
-
     })
     toDoGeneralTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoGeneralTabActive");
@@ -8081,8 +8081,18 @@ async function mainEvent() {
             }
         }
 
-        let filteredList = toDoMasterList.list[index].filterToDosByTab("Mentor");
-        injectHTMLToDoTabDisplay(filteredList);
+        if (index != undefined) {
+            let filteredList = toDoMasterList.list[index].filterToDosByTab("Mentor");
+
+            if (filteredList.flatten().length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                injectHTMLToDoTabDisplay(filteredList);
+            }
+        } else {
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+        }
+        
     })
     toDoMentorTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoMentorTabActive");
@@ -8105,8 +8115,17 @@ async function mainEvent() {
             }
         }
 
-        let filteredList = toDoMasterList.list[index].filterToDosByTab("Coordinator");
-        injectHTMLToDoTabDisplay(filteredList);
+        if (index != undefined) {
+            let filteredList = toDoMasterList.list[index].filterToDosByTab("Coordinator");
+
+            if (filteredList.flatten().length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                injectHTMLToDoTabDisplay(filteredList);
+            }
+        } else {
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+        }
     })
     toDoCoordinatorTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoCoordinatorTabActive");
@@ -8129,8 +8148,17 @@ async function mainEvent() {
             }
         }
 
-        let filteredList = toDoMasterList.list[index].filterToDosByTab("Waiting");
-        injectHTMLToDoTabDisplay(filteredList);
+        if (index != undefined) {
+            let filteredList = toDoMasterList.list[index].filterToDosByTab("Waiting");
+
+            if (filteredList.flatten().length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                injectHTMLToDoTabDisplay(filteredList);
+            }
+        } else {
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+        }
     })
     toDoWaitingTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoWaitingTabActive");
@@ -8153,8 +8181,17 @@ async function mainEvent() {
             }
         }
 
-        let filteredList = toDoMasterList.list[index].filterToDosByTab("On Return To Office");
-        injectHTMLToDoTabDisplay(filteredList);
+        if (index != undefined) {
+            let filteredList = toDoMasterList.list[index].filterToDosByTab("On Return To Office");
+
+            if (filteredList.flatten().length == 0) {
+                toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+            } else {
+                injectHTMLToDoTabDisplay(filteredList);
+            }
+        } else {
+            toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+        }
     })
     toDoOnReturnToOfficeTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoOnReturnToOfficeTabActive");
