@@ -1768,7 +1768,7 @@ class ToDoMasterList {
                 this.list[tempIndex].generalList[index].completed = 0;
             }
         } 
-        injectHTMLToDoTabDisplay(this.list[tempIndex], tempToDoPageElement);
+        tempToDoPageElement = injectHTMLToDoTabDisplay(this.list[tempIndex]);
         const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
         tempToDoPageElement.display(curPage);
         
@@ -1841,7 +1841,7 @@ class ToDoMasterList {
                 this.list[tempIndex].generalList[toDoIndex].notes[noteIndex][1] = false;
             }
         }
-        injectHTMLToDoTabDisplay(this.list[tempIndex], tempToDoPageElement);
+        tempToDoPageElement = injectHTMLToDoTabDisplay(this.list[tempIndex]);
         const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
         tempToDoPageElement.display(curPage);
         
@@ -2392,10 +2392,10 @@ class ToDoDayObject {
     }
     
 
-    makePageElement(pageElement2) {
+    makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
 
-        pageElement2 = new PaginatedToDoPageElement(5);
+        let pageElement2 = new PaginatedToDoPageElement(5);
 
         /*let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
@@ -3738,7 +3738,7 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
         prev.disabled = true;
     }
 }
-function injectHTMLToDoTabDisplay(toDoDayObject, tempToDoPageElement) {
+function injectHTMLToDoTabDisplay(toDoDayObject) {
     console.log("Entered - injectHTMLToDoTabDisplay()");
     console.log(toDoDayObject);
 
@@ -3748,9 +3748,9 @@ function injectHTMLToDoTabDisplay(toDoDayObject, tempToDoPageElement) {
 
     toDoRowElementContainer.innerHTML = "";
 
-    const temp = toDoDayObject.makePageElement(tempToDoPageElement);
+    const temp = toDoDayObject.makePageElement();
 
-    
+    return temp;
     
     //toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
     
@@ -7310,7 +7310,7 @@ async function mainEvent() {
                     console.log("removing prompt");
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
-                injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                 break;
                     
             } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
@@ -8063,7 +8063,7 @@ async function mainEvent() {
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
                     if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
                         toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
-                        injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                        tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
 
                         /* Checking Tab */
                         if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
@@ -8330,7 +8330,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(filteredList);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8397,7 +8397,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(filteredList);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8430,7 +8430,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(filteredList);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8463,7 +8463,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(filteredList);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -9522,7 +9522,7 @@ async function mainEvent() {
                     resetDisplayToDoAddUpdate();
 
                     toDoMasterList.list[temp[2]].clearStrikesAfterNoteUpdate();
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
                 } else {
                     h.displayNoChangesToDo(toDo.toDoId);
                 }
@@ -9709,7 +9709,7 @@ async function mainEvent() {
 
                 //tempToDoPageElement = new PaginatedToDoPageElement(5);
 
-                injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]], tempToDoPageElement);
+                tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
             }
             
         }
@@ -9767,7 +9767,7 @@ async function mainEvent() {
 
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                     return;
                 }
             }
@@ -10697,7 +10697,7 @@ async function mainEvent() {
                     console.log("adding error");
                     toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
                 } else {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                 }
                 return;
             } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
@@ -12002,7 +12002,7 @@ async function mainEvent() {
 
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                     break;
                 }
             }
@@ -13334,7 +13334,7 @@ async function mainEvent() {
         if (toDoTab.classList.contains("hidden")) {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                     return;
                 }
             }
@@ -14021,7 +14021,7 @@ async function mainEvent() {
         if (toDoMasterList.list.length != undefined && toDoMasterList.list.length > 0) {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
+                    tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
                 }
             }
             
