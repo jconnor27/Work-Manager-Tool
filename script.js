@@ -1525,43 +1525,172 @@ class DayOfWeekPageObject {
 
 class PaginatedToDoPageElement {
     constructor(linesPerPage) {
-        this.pages = []
-        this.curPage = document.createElement("pageElement");
-        this.curPage.classList.add("toDoDisplayPageElement");
-        this.curPage.id = "to_do_display_page_element";
+        this.pages = [];
+        this.curPage = [];
         this.linesPerPage = linesPerPage;
-        this.lineCount = 0;
     }
 
-    add(listElem, lines) {
-        console.log("Entered - PaginatedToDoPageElement - add(listElem, lines");
-        console.log(listElem);
-        console.log(lines);
+    /* Takes in an array of html lines and either adds them to current 
+    page or makes a new page and splits up the input - keeping header 
+    of type for next page */
+    add(listElem) {
+        console.log("Entered - PaginatedToDoPageElement - add(listElem");
 
-        if (this.lineCount + lines > this.linesPerPage) {
-            this.makeNewPage(listElem, lines);
-            return;
-        } else {
-            this.curPage.insertAdjacentHTML("beforeend", listElem.outerHTML);
-            this.lineCount = (this.lineCount + lines);
-            console.log("lineCount =");
-            console.log(this.lineCount);
-            console.log("curPage =");
-            console.log(this.curPage);
+        console.log(this);
+
+        /* If last page added wasn't full, populates curPage to add to it */
+        if (this.pages.length != 0 && this.curPage.length < this.linesPerPage - 1 && this.curPage.length != 0) {
+            console.log("curPage.length < this.linesPerPage - 1 - poping last elem of pages");
             
+            console.log("poping last elem");
+            this.pages.pop();
+            console.log(this.curPage);
+        }
+       
+        if (listElem.length + this.curPage.length <= this.linesPerPage) { // can add to same page
+            console.log("adding to same page (curPage)");
+            for (var i = 0; i < listElem.length; i++) {
+                this.curPage.push(listElem[i]);
+            }
+
+            // Adding updated page back into list
+            if (this.curPage.length == this.linesPerPage) { // page is full 
+                console.log("page is full - formatting last elem, pushing to pages, reseting curPage");
+                this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+                this.pages.push(this.curPage);
+                this.curPage = [];
+            } else if (this.curPage.length == (this.linesPerPage - 1)) { // page is almost full - wouldn't add header
+                console.log("page is almost full - formatting last elem, pushing to pages, reseting curPage")
+                this.curPage[this.curPage.length - 2] = this.formatLastElem(this.curPage[this.curPage.length - 2]);
+                this.pages.push(this.curPage);
+                this.curPage = [];
+            } else { // page is not full
+                console.log("page is not full - formatting last elem and pushing to pages");
+                this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+                this.pages.push(this.curPage);
+                // might have issues here - was this.pages.length - 1
+            }
+        } else { // Have to split and make new page
+            let lastIndex = this.linesPerPage - this.curPage.length; // Maximum number of lines I can add to the current page
+
+            while (lastIndex > 0) { // when last index = 0, we are at type header
+                    // listElem[lastIndex] = the latest I can cut
+                if (listElem[lastIndex].includes("toDoObjectContainer")) {  // found To-Do Object and can cut
+                    const toAdd = listElem.slice(0, lastIndex);
+                    const rest = listElem.slice(lastIndex);
+                    let restFormatted = [];
+                    restFormatted.push(listElem[0]);
+
+                    // keeps type header on to-do for next page
+                    for (var i = 0; i < rest.length; i++) {
+                        restFormatted.push(rest[i]);
+                    }
+
+                    // adding cut list to current page
+                    for (var i = 0; i < toAdd.length; i++) {
+                        this.curPage.push(toAdd[i]);
+                    }
+
+                    // adding (now full) current page to pages
+                    this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+                    this.pages.push(this.curPage);
+                    // clearing current page
+                    this.curPage = [];
+
+                    console.log("restFormatted =");
+                    console.log(restFormatted);
+                    
+                    // adding rest of list with type header at front
+                    this.add(restFormatted);
+                    return; // have to return to avoid entering code block below
+
+                } else if (listElem[lastIndex].includes("toDoNoteContainer")) { // found note object and need to move backwards and check again
+                    lastIndex--;
+                } else {
+                    console.log("SHOULD NOT SEE THIS!!!");
+                }
+            }
+
+            // If I get down here, I can't cut the toDo so I'm pushing the current page and adding the input to a new page by itself
+                /* In theory, one to-do with a list of notes longer than the line limit could break this but when I go to i'm guessing 15+ 
+                lines per page, one to-do with 15 notes should be unrealistic - would have to patch later */
+            this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+            this.pages.push(this.curPage);
+            this.curPage = [];
+            if (listElem.length > this.linesPerPage) {
+                console.log("Why are you trying to break shit? Probably to many notes per one to-do - can't trim to-do's notes and can't add");
+            } else {
+                this.add(listElem);
+            }
+        }
+    }
+
+    /* Adds bottom border to last elem of page */
+    formatLastElem(elem) {
+        console.log("Entered - PaginatedToDoPageElement - formatLastElem(" + elem + ")");
+
+        const firstIndex = elem.indexOf("<div class=\"");
+
+        const tempElem = elem.slice((firstIndex + 12));
+        let newElem = "<div class=\"lastToDoElem " + tempElem;
+
+        return newElem;
+    }
+
+    display(page) {
+        console.log("Entered - PaginatedToDoPageElement - display(" + page + ")");
+
+        console.log(this.pages);
+
+        const index = page - 1;
+        const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
+
+        document.getElementById("to_do_tab_prev_next_container").classList.remove("hidden");
+            
+        toDoRowElementContainer.innerHTML = "";
+
+        /* Adding lines to page */
+        for (var i = 0; i < this.pages[index].length; i++) {
+            toDoRowElementContainer.insertAdjacentHTML("beforeend", this.pages[index][i]);
+        }
+
+        if (this.pages.length <= 1 || this.pages.length == page) { // only one page - no buttons needed || last page
+            document.getElementById("to_do_tab_page_next_button").disabled = true;
+        } 
+        if (page == 1) {
+            console.log("disabling prev button");
+            document.getElementById("to_do_tab_page_prev_button").disabled = true;
+        }
+        if (page > 1) {
+            document.getElementById("to_do_tab_page_prev_button").disabled = false;
+        }
+
+        // Checking to see if prev/next buttons are needed 
+        if (this.pages.length > page) {
+            document.getElementById("to_do_tab_page_next_button").disabled = false;
+
         }
         
+
     }
+    
+    toString() {
+        console.log("Entered - PaginatedToDoPageElement - toString()");
 
-    makeNewPage(listElem, lines) {
-        console.log("Entered - PaginatedToDoPageElement - makeNewPage(listElem, lines");
+        let str = "";
+        if (this.curPage.length > 0) {
+            for (var i = 0; i < this.curPage.length; i++) {
+                str += this.curPage[i];
+            }
+        }
 
-        this.pages.push(this.curPage);
-        this.curPage = document.createElement("pageElement");
-        this.curPage.classList.add("toDoDisplayPageElement");
-        this.curPage.id = "to_do_display_page_element";
-        this.lineCount = 0;
-        this.add(listElem, lines);
+        for (var i = 0; i < this.pages.length; i++) {
+            for (var j = 0; j < this.pages[i].length; j++) {
+                str += this.pages[i][j];
+            }
+        }
+
+        return str;
     }
 }
 
@@ -1572,7 +1701,7 @@ class ToDoMasterList {
     }
 
     /* Completes and uncompletes toDoObject and associated notes */
-    complete(date, type, index) {
+    complete(date, type, index, tempToDoPageElement) {
         console.log("Entered - ToDoMasterList - complete(date = " + date + " type= " + type + " index= " + index + ")");
         
         /* Finding index of ToDoDayObject via date */
@@ -1639,10 +1768,13 @@ class ToDoMasterList {
                 this.list[tempIndex].generalList[index].completed = 0;
             }
         } 
-        injectHTMLToDoTabDisplay(this.list[tempIndex]);
+        injectHTMLToDoTabDisplay(this.list[tempIndex], tempToDoPageElement);
+        const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+        tempToDoPageElement.display(curPage);
+        
     }
     /* Completes and uncompletes note */
-    completeNote(date, type, toDoIndex, noteIndex) {
+    completeNote(date, type, toDoIndex, noteIndex, tempToDoPageElement) {
         console.log("Entered - ToDoMasterList - completeNote(date= " + date + " type= " + type + " toDoIndex= " + toDoIndex + " noteIndex= " + noteIndex + ")");
 
         /* Finding index of ToDoDayObject via date */
@@ -1709,7 +1841,10 @@ class ToDoMasterList {
                 this.list[tempIndex].generalList[toDoIndex].notes[noteIndex][1] = false;
             }
         }
-        injectHTMLToDoTabDisplay(this.list[tempIndex]);
+        injectHTMLToDoTabDisplay(this.list[tempIndex], tempToDoPageElement);
+        const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+        tempToDoPageElement.display(curPage);
+        
  
     }
 
@@ -2257,14 +2392,17 @@ class ToDoDayObject {
     }
     
 
-    makePageElement() {
+    makePageElement(pageElement2) {
         console.log("Entered - ToDoDayObject - makePageElement()");
 
-        let pageElement2 = new PaginatedToDoPageElement(5);
+        pageElement2 = new PaginatedToDoPageElement(5);
 
-        let pageElement = document.createElement("pageElement");
+        /*let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
-        pageElement.id = "to_do_display_page_element";
+        pageElement.id = "to_do_display_page_element";*/
+
+        let tempPageElem = [];
+        let curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
 
         /* Contact Customer List */
         if (this.contactCustomerList.length > 0) {
@@ -2273,11 +2411,12 @@ class ToDoDayObject {
             contactCustomerListElem.classList.add("toDoListTypeBorder");
 
             contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customer:"}</b></div>`;
-
             // Making Type Label Plural if list is > 1
             if (this.contactCustomerList.length > 1) {
                 contactCustomerListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Contact Customers:"}</b></div>`;
             }
+
+            tempPageElem.push(contactCustomerListElem.outerHTML);
 
             for (var i = 0; i < this.contactCustomerList.length; i++) { // for each contact customer to-do ...
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
@@ -2296,7 +2435,7 @@ class ToDoDayObject {
                             ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
                         </div`}
                     </div>`;
-
+                    tempPageElem.push(toDoObjectWrInfo.innerHTML);
                     for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
                         if (this.contactCustomerList[i].notes[j][1] != 1) { // Normal display for Note
                             const temp = 
@@ -2306,6 +2445,7 @@ class ToDoDayObject {
                             </div>`;
         
                             toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                            tempPageElem.push(temp);
                         } else { // Need to add strike through to note
                             const temp = 
                             `<div class="toDoNoteContainer">
@@ -2314,6 +2454,8 @@ class ToDoDayObject {
                             </div>`;
     
                             toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                            tempPageElem.push(temp);
+
                         }
                     }                    
                 } else { // Need to add strike through all
@@ -2327,6 +2469,7 @@ class ToDoDayObject {
                             ${`<div class="toDoListButton">${`<b id="contact_customer_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
                         </div`}
                     </div>`;
+                    tempPageElem.push(toDoObjectWrInfo.innerHTML);
 
                     for (var j = 0; j < this.contactCustomerList[i].notes.length; j++) { // add the associated notes
                         const temp = 
@@ -2336,25 +2479,27 @@ class ToDoDayObject {
                         </div>`;
     
                         toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        tempPageElem.push(temp);
                     }
                 }
 
                 contactCustomerListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the contact customer list
             }
-            console.log("$$$");
-            console.log("J =");
-            console.log(j);
-            console.log("i =");
-            console.log(i);
+            
 
-            let typeLabelLineValue = 0;
-            if (i == 1) {
-                typeLabelLineValue = 1;
-            }
-            pageElement2.add(contactCustomerListElem, (typeLabelLineValue + 1 + j)); // 1 line if first of list for label + 1 for note + j for number of comments
+            pageElement2.add(tempPageElem);
 
-            pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
+            //console.log("pageElement2 after siteVisit");
+            //console.log(pageElement2);
+
+            
+
+            pageElement2.display(curPage);
+            return pageElement2;
+            
+            //pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
         }
+        //tempPageElem = [];
         /* Site Visit List */
         if (this.siteVisitList.length > 0) {
             const siteVisitListElem = document.createElement("siteVisitList");
@@ -2367,6 +2512,7 @@ class ToDoDayObject {
             if (this.siteVisitList.length > 1) {
                 siteVisitListElem.innerHTML = `<div class="toDoListNoBump"><b>${"Site Visits:"}</b></div>`;
             }
+            tempPageElem.push(siteVisitListElem.outerHTML);
 
             for (var i = 0; i < this.siteVisitList.length; i++) { // for each site visit to-do ...
                 const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
@@ -2384,6 +2530,7 @@ class ToDoDayObject {
                             ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
                         </div`}
                     </div>`;
+                    tempPageElem.push(toDoObjectWrInfo.innerHTML);
 
                     for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
 
@@ -2395,6 +2542,7 @@ class ToDoDayObject {
                             </div>`;
         
                             toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                            tempPageElem.push(temp);
                         } else { // Need to add strike through to note
                             const temp = 
                             `<div class="toDoNoteContainer">
@@ -2402,7 +2550,8 @@ class ToDoDayObject {
                                 ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
                             </div>`;
     
-                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);
+                        tempPageElem.push(temp);  
                         }      
                     }
                 } else { // Need to add strike through all
@@ -2416,6 +2565,7 @@ class ToDoDayObject {
                             ${`<div class="toDoListButton">${`<b id="site_visit_to_do_list_complete_${i}">${"Complete"}</b>`}</div>`}
                         </div`}
                     </div>`;
+                    tempPageElem.push(toDoObjectWrInfo.innerHTML);
 
                     for (var j = 0; j < this.siteVisitList[i].notes.length; j++) { // add the associated notes
                         const temp = 
@@ -2424,14 +2574,24 @@ class ToDoDayObject {
                             ${`<div class="toDoCompleteNoteCheckbox" id="site_visit_to_do_list_item_${i}_complete_note_${j}_checkbox">X</div>`}
                         </div>`;
     
-                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);            
+                        toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
+                        tempPageElem.push(temp);          
                     }
                 }
                 
                 siteVisitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the site visit list
             }
+            
+            //pageElement2.add(tempPageElem);
 
-            pageElement.insertAdjacentElement("beforeend", siteVisitListElem); // add the site visit list to the page elem
+            //console.log("pageElement2 after siteVisit");
+            //console.log(pageElement2);
+
+            //pageElement2.display(curPage);
+
+            //return pageElement2;
+
+            //pageElement.insertAdjacentElement("beforeend", siteVisitListElem); // add the site visit list to the page elem
         }
 
         /* Svc Calc List */
@@ -2509,7 +2669,7 @@ class ToDoDayObject {
                 svcCalcListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the svc calc list
             }
 
-            pageElement.insertAdjacentElement("beforeend", svcCalcListElem); // add the svc list to the page elem
+            //pageElement.insertAdjacentElement("beforeend", svcCalcListElem); // add the svc list to the page elem
         }
 
         /* Check NJUNS List */
@@ -2583,7 +2743,7 @@ class ToDoDayObject {
                 checkNJUNSListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check njuns list
             }
 
-            pageElement.insertAdjacentElement("beforeend", checkNJUNSListElem); // add the check njuns list to the page elem
+            //pageElement.insertAdjacentElement("beforeend", checkNJUNSListElem); // add the check njuns list to the page elem
         }
 
         /* Check Permit List */
@@ -2662,7 +2822,7 @@ class ToDoDayObject {
                 checkPermitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
-            pageElement.insertAdjacentElement("beforeend", checkPermitListElem); // add the check permit list to the page elem
+            //pageElement.insertAdjacentElement("beforeend", checkPermitListElem); // add the check permit list to the page elem
         }
 
         /* Check Easement List */
@@ -2739,7 +2899,7 @@ class ToDoDayObject {
                 checkEasementListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the check permit list
             }
 
-            pageElement.insertAdjacentElement("beforeend", checkEasementListElem); // add the check easement list to the page elem
+           // pageElement.insertAdjacentElement("beforeend", checkEasementListElem); // add the check easement list to the page elem
         }
 
         /* Design List */
@@ -2812,7 +2972,7 @@ class ToDoDayObject {
                 designListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the design list
             }
 
-            pageElement.insertAdjacentElement("beforeend", designListElem); // add the design list to the page elem            
+            //pageElement.insertAdjacentElement("beforeend", designListElem); // add the design list to the page elem            
         }
 
         /* Revisions List */
@@ -2885,7 +3045,7 @@ class ToDoDayObject {
                 revisionsListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the revisions list
             }
 
-            pageElement.insertAdjacentElement("beforeend", revisionsListElem); // add the revisions list to the page elem   
+            //pageElement.insertAdjacentElement("beforeend", revisionsListElem); // add the revisions list to the page elem   
         }
 
         /* General List */
@@ -2998,11 +3158,13 @@ class ToDoDayObject {
                 generalListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the general list
             }
 
-            pageElement.insertAdjacentElement("beforeend", generalListElem); // add the general list to the page elem  
+            //pageElement.insertAdjacentElement("beforeend", generalListElem); // add the general list to the page elem  
         }
 
         //return pageElement2.curPage;
-        return pageElement.curPage;
+        pageElement2.add(tempPageElem);
+        pageElement2.display(curPage);
+        return pageElement2;
 
     }
 
@@ -3576,16 +3738,21 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
         prev.disabled = true;
     }
 }
-function injectHTMLToDoTabDisplay(toDoDayObject) {
+function injectHTMLToDoTabDisplay(toDoDayObject, tempToDoPageElement) {
     console.log("Entered - injectHTMLToDoTabDisplay()");
+    console.log(toDoDayObject);
+
+    //tempToDoPageElement = new PaginatedToDoPageElement(5);
 
     const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
 
     toDoRowElementContainer.innerHTML = "";
 
-    const temp = toDoDayObject.makePageElement();
+    const temp = toDoDayObject.makePageElement(tempToDoPageElement);
+
     
-    toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
+    
+    //toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
     
 }
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
@@ -5005,6 +5172,11 @@ async function mainEvent() {
     const toDoCoordinatorTab = document.querySelector("#to_do_coordinator_tab");
     const toDoCoordinatorTabActive = document.querySelector("#to_do_coordinator_tab_active");
 
+        /* Prev Next Buttons */
+    const toDoTabPagePrevButton = document.querySelector("#to_do_tab_page_prev_button");
+    const toDoTabPageNextButton = document.querySelector("#to_do_tab_page_next_button");
+
+
     /* Move To Dispaly */
     const moveToDayOfWeekContainer = document.querySelector("#move_to_day_of_week_container");
     const moveToDayOfWeekDate = document.querySelector("#move_to_display_day_of_week_date");
@@ -5015,6 +5187,7 @@ async function mainEvent() {
     const confirmRemovePopupYes = document.querySelector("#confirm_remove_popup_yes");
     const confirmRemovePopupNo = document.querySelector("#confirm_remove_popup_no");
     const confirmRemovePopupXButton = document.querySelector("#confirm_remove_popup_x_button");
+
 
 
 
@@ -5046,6 +5219,7 @@ async function mainEvent() {
     const tempNotesCount = systemPreferences.tempNotesCount;
 
     let userColors = new ColorPreferences(); 
+    let tempToDoPageElement = new PaginatedToDoPageElement(5);
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
@@ -7136,7 +7310,7 @@ async function mainEvent() {
                     console.log("removing prompt");
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
-                injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                 break;
                     
             } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
@@ -7290,7 +7464,7 @@ async function mainEvent() {
 
     }
 
-
+        /* Move To Container */
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
         const h = new Haptix();
@@ -7484,7 +7658,7 @@ async function mainEvent() {
 
         }
 
-    })
+    }) 
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
 
@@ -7572,6 +7746,7 @@ async function mainEvent() {
         toDoDisplayDayOfWeekDateMouseoutFunction();
     })
 
+        /* Main Page Object */
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayRowElementContainer");
 
@@ -7625,7 +7800,7 @@ async function mainEvent() {
                 let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
                 const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
 
-                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex);
+                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "data") {
                 console.log("clicked data");
 
@@ -7653,11 +7828,13 @@ async function mainEvent() {
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete" && curList != "general") { // complete for all except general to-do's
                 console.log("clicked complete - not general");
 
-                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum, tempToDoPageElement);
+                
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete") { // complete for general to-do's with work request numbers
                 console.log("clicked complete - general - with work request number");
 
-                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum, tempToDoPageElement);
+                
             } else if (tempID.substring(tempIndex + 1) == "cb") { // complete for general to-do's without work request numbers
                 console.log("clicked complete (note checkbox) - general - without work request number");
 
@@ -7672,7 +7849,8 @@ async function mainEvent() {
                 let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
                 const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
 
-                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex);
+                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+                
 
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "note") {
                 console.log("clicked note checkbox - general");
@@ -7885,7 +8063,7 @@ async function mainEvent() {
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
                     if (toDoMasterList.list[i].date == moveToDayOfWeekDate.value) {
                         toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
-                        injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                        injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
 
                         /* Checking Tab */
                         if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {
@@ -8089,6 +8267,47 @@ async function mainEvent() {
         toDoDisplayDayOfWeekDateMouseoutFunction();
     })
 
+        /* Page Prev/Next Buttons */
+    toDoTabPageNextButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoTabPageNextButton");
+
+        const curPage = new Number (document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+
+        console.log("tempToDoPageElement =");
+        console.log(tempToDoPageElement);
+
+        tempToDoPageElement.display(curPage + 1);
+
+        
+
+        document.getElementById("to_do_tab_current_page_box").innerHTML = (curPage + 1);
+        toDoTabPagePrevButton.disabled = false;
+
+        if ((curPage + 1) == tempToDoPageElement.pages.length) {
+            toDoTabPageNextButton.disabled = true;
+        }
+
+    })
+    toDoTabPagePrevButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoTabPagePrevButton");
+
+        const curPage = new Number (document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+
+        tempToDoPageElement.display(curPage - 1);
+
+        
+
+        document.getElementById("to_do_tab_current_page_box").innerHTML = (curPage - 1);
+        toDoTabPageNextButton.disabled = false;
+
+        if ((curPage - 1) == 1) {
+            toDoTabPagePrevButton.disabled = true;
+        }
+
+    })
+
+
+        /* Tabs */
     toDoGeneralTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoGeneralTab");
 
@@ -8111,7 +8330,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList);
+                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8144,7 +8363,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList);
+                tempToDoPageElement = (filteredList);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8178,7 +8397,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList);
+                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8211,7 +8430,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList);
+                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -8244,7 +8463,7 @@ async function mainEvent() {
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                injectHTMLToDoTabDisplay(filteredList);
+                injectHTMLToDoTabDisplay(filteredList, tempToDoPageElement);
             }
         } else {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -9303,7 +9522,7 @@ async function mainEvent() {
                     resetDisplayToDoAddUpdate();
 
                     toDoMasterList.list[temp[2]].clearStrikesAfterNoteUpdate();
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]], tempToDoPageElement);
                 } else {
                     h.displayNoChangesToDo(toDo.toDoId);
                 }
@@ -9473,8 +9692,7 @@ async function mainEvent() {
             } else {
 
                 let tempChecked = 0;
-                console.log("****");
-                console.log(document.getElementById("add_tab_display_to_do_completed").checked);
+                
                 if (document.getElementById("add_tab_display_to_do_completed").checked) {
                     console.log("tempChecked being set to 1");
                     tempChecked = 1;
@@ -9489,7 +9707,9 @@ async function mainEvent() {
                 resetDisplayToDoAddUpdate();
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
 
-                injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
+                //tempToDoPageElement = new PaginatedToDoPageElement(5);
+
+                injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]], tempToDoPageElement);
             }
             
         }
@@ -9530,6 +9750,11 @@ async function mainEvent() {
 
         document.getElementById("confirm_remove_popup_container").classList.add("hidden");
     })
+    confirmRemovePopupNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked confirmRemovePopupNo");
+
+        document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+    })
     confirmRemovePopupYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupYes");
         const h = new Haptix();
@@ -9542,7 +9767,7 @@ async function mainEvent() {
 
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                     return;
                 }
             }
@@ -10393,7 +10618,7 @@ async function mainEvent() {
         if (month < 10) {
             month = "0" + month;
         }
-        const day = d.getDate();
+        let day = d.getDate();
         if (day < 10) {
             day = "0" + day;
         }
@@ -10472,7 +10697,7 @@ async function mainEvent() {
                     console.log("adding error");
                     toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
                 } else {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                 }
                 return;
             } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
@@ -11777,7 +12002,7 @@ async function mainEvent() {
 
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                     break;
                 }
             }
@@ -13109,7 +13334,7 @@ async function mainEvent() {
         if (toDoTab.classList.contains("hidden")) {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                     return;
                 }
             }
@@ -13796,7 +14021,7 @@ async function mainEvent() {
         if (toDoMasterList.list.length != undefined && toDoMasterList.list.length > 0) {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                    injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    injectHTMLToDoTabDisplay(toDoMasterList.list[i], tempToDoPageElement);
                 }
             }
             

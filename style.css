@@ -3046,7 +3046,10 @@ h5 {
 .toDoListTypeBorder {
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    width: 1100px;
+
 }
 
 .toDoObjectContainer {
@@ -3055,7 +3058,13 @@ h5 {
     width: 1100px;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    padding-bottom: 5px;
+    border-right: 2px solid black;
+}
+
+.lastToDoElem {
+    display: flex;
+    border-bottom: 2px solid black;
 }
 
 .toDoListLabelButtonContainer {
@@ -3098,6 +3107,7 @@ h5 {
     width: 1100px;
     justify-content: space-between;
     align-items: center;
+    border-right: 2px solid black;
 }
 
 .toDoCompleteNoteCheckbox {
