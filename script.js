@@ -1536,21 +1536,26 @@ class PaginatedToDoPageElement {
     add(listElem) {
         console.log("Entered - PaginatedToDoPageElement - add(listElem");
 
-        console.log(this);
+        if (listElem.length == 0) {
+            return;
+        }
 
         /* If last page added wasn't full, populates curPage to add to it */
-        if (this.pages.length != 0 && this.curPage.length < this.linesPerPage - 1 && this.curPage.length != 0) {
+        if (this.pages.length != 0 && this.pages[this.pages.length - 1].length < this.linesPerPage - 1 && this.curPage.length != 0) {
             console.log("curPage.length < this.linesPerPage - 1 - poping last elem of pages");
             
-            console.log("poping last elem");
-            this.pages.pop();
-            console.log(this.curPage);
+            this.curPage = this.pages.pop();
         }
-       
+        
         if (listElem.length + this.curPage.length <= this.linesPerPage) { // can add to same page
             console.log("adding to same page (curPage)");
             for (var i = 0; i < listElem.length; i++) {
                 this.curPage.push(listElem[i]);
+            }
+
+            if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
+                console.log("Removing last elem of curPage - is Type Header");
+                this.curPage.pop();
             }
 
             // Adding updated page back into list
@@ -1579,7 +1584,14 @@ class PaginatedToDoPageElement {
                     const toAdd = listElem.slice(0, lastIndex);
                     const rest = listElem.slice(lastIndex);
                     let restFormatted = [];
-                    restFormatted.push(listElem[0]);
+                    
+                    // Adding "Continued" to front of type header
+                    let rightIndex = listElem[0].lastIndexOf(":</b>");
+                    let newElem = listElem[0].substring(0, rightIndex);
+                    newElem += " Continued";
+                    newElem += listElem[0].substring(rightIndex);
+
+                    restFormatted.push(newElem);
 
                     // keeps type header on to-do for next page
                     for (var i = 0; i < rest.length; i++) {
@@ -1589,6 +1601,11 @@ class PaginatedToDoPageElement {
                     // adding cut list to current page
                     for (var i = 0; i < toAdd.length; i++) {
                         this.curPage.push(toAdd[i]);
+                    }
+
+                    if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
+                        console.log("Removing last elem of curPage - is Type Header");
+                        this.curPage.pop();
                     }
 
                     // adding (now full) current page to pages
@@ -1655,6 +1672,7 @@ class PaginatedToDoPageElement {
         }
 
         if (this.pages.length <= 1 || this.pages.length == page) { // only one page - no buttons needed || last page
+            console.log("disabling next button");
             document.getElementById("to_do_tab_page_next_button").disabled = true;
         } 
         if (page == 1) {
@@ -1662,11 +1680,13 @@ class PaginatedToDoPageElement {
             document.getElementById("to_do_tab_page_prev_button").disabled = true;
         }
         if (page > 1) {
+            console.log("enabling prev button");
             document.getElementById("to_do_tab_page_prev_button").disabled = false;
         }
 
         // Checking to see if prev/next buttons are needed 
         if (this.pages.length > page) {
+            console.log("enabling next button");
             document.getElementById("to_do_tab_page_next_button").disabled = false;
 
         }
@@ -2390,7 +2410,6 @@ class ToDoDayObject {
             }
         }
     }
-    
 
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
@@ -2494,14 +2513,15 @@ class ToDoDayObject {
 
             
 
-            pageElement2.display(curPage);
-            return pageElement2;
+            //pageElement2.display(curPage);
+            //return pageElement2;
             
             //pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
         }
-        //tempPageElem = [];
         /* Site Visit List */
         if (this.siteVisitList.length > 0) {
+            tempPageElem = [];
+
             const siteVisitListElem = document.createElement("siteVisitList");
             siteVisitListElem.id = "site_visit_list_" + this.date;
             siteVisitListElem.classList.add("toDoListTypeBorder");
@@ -2582,7 +2602,7 @@ class ToDoDayObject {
                 siteVisitListElem.insertAdjacentElement("beforeend", toDoObjectWrInfo); // add the to-do w/ notes to the site visit list
             }
             
-            //pageElement2.add(tempPageElem);
+            pageElement2.add(tempPageElem);
 
             //console.log("pageElement2 after siteVisit");
             //console.log(pageElement2);
@@ -3162,7 +3182,7 @@ class ToDoDayObject {
         }
 
         //return pageElement2.curPage;
-        pageElement2.add(tempPageElem);
+        //pageElement2.add(tempPageElem);
         pageElement2.display(curPage);
         return pageElement2;
 
@@ -8305,7 +8325,6 @@ async function mainEvent() {
         }
 
     })
-
 
         /* Tabs */
     toDoGeneralTab.addEventListener("click", (event) => {
