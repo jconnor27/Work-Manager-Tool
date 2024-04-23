@@ -1549,6 +1549,8 @@ class PaginatedToDoPageElement {
             console.log("curPage.length < this.linesPerPage - 1 - poping last elem of pages");
             
             this.curPage = this.pages.pop();
+            console.log("this.curPage now =");
+            console.log(this.curPage);
         }
         
         if (listElem.length + this.curPage.length <= this.linesPerPage) { // can add to same page
@@ -1557,10 +1559,10 @@ class PaginatedToDoPageElement {
                 this.curPage.push(listElem[i]);
             }
 
-            if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
+            /*if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
                 console.log("Removing last elem of curPage - is Type Header");
                 this.curPage.pop();
-            }
+            }*/
 
             // Adding updated page back into list
             if (this.curPage.length == this.linesPerPage) { // page is full 
@@ -1568,8 +1570,10 @@ class PaginatedToDoPageElement {
                 this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
                 this.pages.push(this.curPage);
                 this.curPage = [];
-            } else if (this.curPage.length == (this.linesPerPage - 1)) { // page is almost full - wouldn't add header
+            } else if (this.curPage.length >= (this.linesPerPage - 1)) { // page is almost full - wouldn't add header
                 console.log("page is almost full - formatting last elem, pushing to pages, reseting curPage")
+                
+                
                 this.curPage[this.curPage.length - 2] = this.formatLastElem(this.curPage[this.curPage.length - 2]);
                 this.pages.push(this.curPage);
                 this.curPage = [];
@@ -1580,24 +1584,39 @@ class PaginatedToDoPageElement {
                 // might have issues here - was this.pages.length - 1
             }
         } else { // Have to split and make new page
-            let lastIndex = this.linesPerPage - this.curPage.length; // Maximum number of lines I can add to the current page
+            console.log("have to split and make new page");
+            let lastIndex = this.linesPerPage - this.curPage.length ; // Maximum number of lines I can add to the current page
+            console.log("lastIndex =");
+            console.log(lastIndex);
 
             while (lastIndex > 0) { // when last index = 0, we are at type header
+                console.log("entered while loop - lastIndex == ");
+                console.log(lastIndex);
                     // listElem[lastIndex] = the latest I can cut
-                if (listElem[lastIndex].includes("toDoObjectContainer")) {  // found To-Do Object and can cut
+                    console.log("listElem =");
+                    console.log(listElem);
+                
+                    /*if (lastIndex != 0 && listElem[lastIndex - 1].includes("toDoListTypeBorder")) { // could cut first elem but it is type header
+                        console.log("could cut first elem but prev is type header");
+                        lastIndex--;
+                    } else*/ if (listElem[lastIndex].includes("toDoObjectContainer") && !listElem[lastIndex - 1].includes("toDoListTypeBorder")) {  // found To-Do Object and can cut
+                    console.log("Found toDoObjectContainer");
+                    console.log("listElem[lastIndex] =");
+                    console.log(listElem[lastIndex]);
+
                     const toAdd = listElem.slice(0, lastIndex);
                     const rest = listElem.slice(lastIndex);
                     let restFormatted = [];
                     restFormatted.push(listElem[0]);
                     
                     // Adding "Continued" to front of type header
-                    /*    let rightIndex = listElem[0].lastIndexOf(":</b>");
-                        let newElem = listElem[0].substring(0, rightIndex);
-                        newElem += " Continued";
-                        newElem += listElem[0].substring(rightIndex);
+                    let rightIndex = listElem[0].lastIndexOf(":</b>");
+                    let newElem = listElem[0].substring(0, rightIndex);
+                    newElem += " Continued";
+                    newElem += listElem[0].substring(rightIndex);
     
-                        restFormatted.push(newElem);
-                    */
+                    restFormatted.push(newElem);
+                    
                     
 
                     // keeps type header on to-do for next page
@@ -1610,40 +1629,57 @@ class PaginatedToDoPageElement {
                         this.curPage.push(toAdd[i]);
                     }
 
-                    if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
-                        console.log("Removing last elem of curPage - is Type Header");
-                        this.curPage.pop();
-                    }
-
                     // adding (now full) current page to pages
                     this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
                     this.pages.push(this.curPage);
                     // clearing current page
                     this.curPage = [];
 
-                    console.log("restFormatted =");
+                    console.log("restFormatted before shift=");
                     console.log(restFormatted);
+
+                    restFormatted = restFormatted.slice(1);
+
+                    console.log("restFormatted after shift=");
+                    console.log(restFormatted);
+
+
                     
                     // adding rest of list with type header at front
                     this.add(restFormatted);
                     return; // have to return to avoid entering code block below
 
                 } else if (listElem[lastIndex].includes("toDoNoteContainer")) { // found note object and need to move backwards and check again
+                    console.log("found note object - need to move backwards - minusing lastIndex");
                     lastIndex--;
+                    console.log("lastIndex =");
+                    console.log(lastIndex);
                 } else {
-                    console.log("SHOULD NOT SEE THIS!!!");
+                    lastIndex--;
+                    console.log("SHOULD NOT SEE THIS!!!");                
                 }
             }
 
             // If I get down here, I can't cut the toDo so I'm pushing the current page and adding the input to a new page by itself
                 /* In theory, one to-do with a list of notes longer than the line limit could break this but when I go to i'm guessing 15+ 
                 lines per page, one to-do with 15 notes should be unrealistic - would have to patch later */
+            console.log("Couldn't cut - formatting and pushing cur page");
+
             this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+           
             this.pages.push(this.curPage);
+
+            console.log("this.curPage =");
+            console.log(this.curPage);
+            console.log("listElem =");
+            console.log(listElem);
+           
             this.curPage = [];
             if (listElem.length > this.linesPerPage) {
                 console.log("Why are you trying to break shit? Probably to many notes per one to-do - can't trim to-do's notes and can't add");
-            } else {
+            } else if (this.curPage != listElem) {
+                console.log("in last conditional - adding listElem");
+               
                 this.add(listElem);
             }
         }
@@ -1669,7 +1705,7 @@ class PaginatedToDoPageElement {
         const index = page - 1;
         const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
 
-        document.getElementById("to_do_tab_prev_next_container").classList.remove("hidden");
+        //document.getElementById("to_do_tab_prev_next_container").classList.remove("hidden");
             
         toDoRowElementContainer.innerHTML = "";
 
@@ -1678,10 +1714,17 @@ class PaginatedToDoPageElement {
             toDoRowElementContainer.insertAdjacentHTML("beforeend", this.pages[index][i]);
         }
 
-        if (this.pages.length <= 1 || this.pages.length == page) { // only one page - no buttons needed || last page
-            console.log("disabling next button");
+        
+        if (this.pages.length <= 1) { // only one page - no buttons needed 
+            console.log("disabling next button - one page");
             document.getElementById("to_do_tab_page_next_button").disabled = true;
+
         } 
+
+        if (this.pages.length == page) { // last page
+            console.log("disabling next button - last page");
+            document.getElementById("to_do_tab_page_next_button").disabled = true;
+        }
         if (page == 1) {
             console.log("disabling prev button");
             document.getElementById("to_do_tab_page_prev_button").disabled = true;
@@ -1695,7 +1738,12 @@ class PaginatedToDoPageElement {
         if (this.pages.length > page) {
             console.log("enabling next button");
             document.getElementById("to_do_tab_page_next_button").disabled = false;
+        }
 
+        if (document.getElementById("to_do_tab").classList.contains("hidden")) {
+            document.getElementById("to_do_tab_prev_next_container").classList.remove("hidden");
+        } else {
+            document.getElementById("to_do_tab_prev_next_container").classList.add("hidden");
         }
         
 
@@ -2255,6 +2303,9 @@ class ToDoDayObject {
         for (var i = 0; i < this.generalList.length; i++) {
             temp.push(this.generalList[i]);
         } 
+
+        console.log("flattened =");
+        console.log(temp);
        
         return temp;
     }
@@ -5771,7 +5822,10 @@ async function mainEvent() {
     allWrStatusFiltersContainer.classList.add("hidden");
     filterSectionStatusLabel.classList.add("hidden");    
     filterSectionStatusLabel.innerHTML = "Status:";
+
     
+    document.getElementById("to_do_tab_prev_next_container").classList.add("hidden");
+
 
     /* Removing Filter By Priority Number */
     document.getElementById("filter_container_priority_number").classList.remove("hidden");
@@ -8000,6 +8054,7 @@ async function mainEvent() {
             } else { // Moving single to-do
                 console.log("Fired - Clicked Save button - clickedMoveIncompleteButton == 0");
                 tempCurToDo.dueDate = moveToDayOfWeekDate.value;
+                document.getElementById("to_do_tab_current_page_box").innerHTML = 1;
             
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
                     tempCurToDo[0].tab = "Coordinator";
@@ -8148,6 +8203,8 @@ async function mainEvent() {
                 }
                 /* Adding tempCurToDo to main list */
                 toDoMasterList.add(tempCurToDo[0]);
+                console.log("testing ***");
+                console.log(toDoMasterList)
 
                 /* Updating Display and Page Data */
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -8257,10 +8314,8 @@ async function mainEvent() {
 
             document.getElementById("move_to_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("move_to_tab_day_of_week_box_thursday_active").classList.remove("hidden");
-            console.log("!!!!!");
             console.log(toDoMasterList);
             assessDayOfWeekChange("move_to", 4);
-            console.log("34343434");
             console.log(toDoMasterList);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
@@ -9763,8 +9818,6 @@ async function mainEvent() {
             var i = 0;
 
             while (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
-                console.log("^&^&^ in while loop");
-                console.log(document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML)
                 notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 0]);
                 i++;
             }
@@ -10772,7 +10825,8 @@ async function mainEvent() {
             }
         }
 
-        /* Updating display */
+        if (tab != "move_to") {
+            /* Updating display */
         for (var i = 0; i < toDoMasterList.list.length; i++) {
             if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                 console.log("injecting display");
@@ -10793,6 +10847,8 @@ async function mainEvent() {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
         }
+        }
+        
     }
     function clearTempNotesSelections() {
         console.log("Entered - clearTempNotesSelections");
@@ -10856,20 +10912,12 @@ async function mainEvent() {
             if (day < 10) {
                 day = "0" + day;
             }
-            let today = d.getFullYear() + "-" + month + day;
             const note = new NoteItem(addTabDisplayToDoRowThreeTextfieldInput);
             addTabDisplayToDoRowThreeRemoveButton.disabled = false;
             tempNotes.addToDoNote(note, 0);
 
             addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";
-            /*let temp = 0;
-
-            while (document.getElementById("add_tab_display_to_do_note_item_" + temp) != undefined) {
-                temp++;
-            }
-
-            addTabDisplayToDoRowThreeNotesToAdd.insertAdjacentHTML("afterbegin", `<li class="addTabDisplayToDoNoteItem" id="add_tab_display_to_do_note_item_${temp}">${addTabDisplayToDoRowThreeTextfield.value}</li>`);
-            addTabDisplayToDoRowThreeTextfield.value = "Enter Note Here";*/
+            
         } else {
             e.displayToDoNoNoteEntered();
         }
