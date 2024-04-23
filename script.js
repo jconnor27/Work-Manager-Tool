@@ -1064,10 +1064,14 @@ class PaginatedComments {
 
         updateComments(temp, "addToDo");
 
-        document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.remove("hidden");
-        document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '410px';
-        document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '35px';
-        document.getElementById("add_tab_display_to_do_next_button").disabled = false;
+        if (this.list.length > this.pageSize) {
+            document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.remove("hidden");
+            document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '410px';
+            document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '35px';
+            document.getElementById("add_tab_display_to_do_next_button").disabled = false;
+        }
+
+        
 
     }
 
@@ -10455,6 +10459,8 @@ async function mainEvent() {
         document.getElementById(tab + "_tab_day_of_week_box_saturday_active").classList.add("hidden");
         document.getElementById(tab + "_tab_day_of_week_box_saturday").classList.remove("hidden");
 
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
     }
     function setDay(tab, day) {
         console.log("Entered - setDay(tab = " + tab + " day= " + day + ")");
@@ -10498,8 +10504,7 @@ async function mainEvent() {
 
         const date = new Date(dateStr);
         date.setDate(date.getDate() + 1);
-        console.log("date - ");
-        console.log(date);
+        
         const year = date.getFullYear();
         let month = date.getMonth() + 1;
         if (month < 10) {
@@ -10729,7 +10734,6 @@ async function mainEvent() {
             }
 
         } else if (newDay > curDay) { // Going forwards
-            console.log("at this spot");
             const difference = newDay - curDay;
 
             const temp = addDays(year, month, day, difference);
@@ -10880,7 +10884,7 @@ async function mainEvent() {
         }
         if (tempNotes.list.length < tempNotesCount + 1) {
             document.getElementById("add_tab_display_to_do_row_three_prev_next_container").classList.add("hidden");
-            document.getElementById("add_tab_display_to_do_row_three_prev_next_container").style.marginLeft = '620px'
+            document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '700px'
 
 
         }
