@@ -1617,8 +1617,6 @@ class PaginatedToDoPageElement {
     
                     restFormatted.push(newElem);
                     
-                    
-
                     // keeps type header on to-do for next page
                     for (var i = 0; i < rest.length; i++) {
                         restFormatted.push(rest[i]);
@@ -1934,18 +1932,22 @@ class ToDoMasterList {
     add(toDo) {
         console.log("Entered - ToDoMasterList - add(toDo)");
 
-        for (var i = 0; i < this.list.length; i++) {
-            if (this.list[i].date == toDo.dueDate) { // ToDoDayObject exists for the toDo's date
-                this.list[i].add(toDo);
-                return; // Should prevent me from getting below and adding twice
+        /* Below if statement makes it so each toDo is unique + fixes double add bug on moving toDo's backwards to an existing list */
+        if (this.getToDo(toDo.toDoId) == 0) { 
+            for (var i = 0; i < this.list.length; i++) {
+                if (this.list[i].date == toDo.dueDate) { // ToDoDayObject exists for the toDo's date
+                    this.list[i].add(toDo);
+                    return; // Should prevent me from getting below and adding twice
+                }
             }
+            // If I get here, I did not add the toDo yet
+            const temp = new ToDoDayObject(toDo.dueDate);
+            temp.add(toDo);
+            this.list.push(temp);
         }
-        // If I get here, I did not add the toDo yet
-        const temp = new ToDoDayObject(toDo.dueDate);
-        temp.add(toDo);
-        this.list.push(temp);
+        
     }
-
+    /* Returns 0 if not found else - returns toDo object */
     getToDo(toDoId) {
         console.log("Entered - ToDoMasterList - getToDo(" + toDoId + ")");
         console.log(this.list);
