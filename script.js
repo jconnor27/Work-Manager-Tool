@@ -1964,6 +1964,21 @@ class ToDoMasterList {
         }
         
     }
+    /* Unsafe add that could make list not unique - used to temporarily add toDoObjects in moveTo save */
+    tempAdd(toDo) {
+        console.log("Entered - ToDoMasterList - tempAdd(toDo)");
+
+        for (var i = 0; i < this.list.length; i++) {
+            if (this.list[i].date == toDo.dueDate) { // ToDoDayObject exists for the toDo's date
+                this.list[i].add(toDo);
+                return; // Should prevent me from getting below and adding twice
+            }
+        }
+        // If I get here, I did not add the toDo yet
+        const temp = new ToDoDayObject(toDo.dueDate, this.linesPerPage);
+        temp.add(toDo);
+        this.list.push(temp);
+    }
     /* Returns 0 if not found else - returns toDo object */
     getToDo(toDoId) {
         console.log("Entered - ToDoMasterList - getToDo(" + toDoId + ")");
@@ -6354,7 +6369,7 @@ async function mainEvent() {
         document.getElementById("general_status_dd_add_tab_current").innerHTML = "Not Set";
         document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML = "Not Set";
         document.getElementById("easement_status_dd_add_tab_current").innerHTML = "Not Set";
-        addTabCommentsTextfield.textContent = "Type Comment Here";
+        addTabCommentsTextfield.textContent = "Enter Comment Here";
         customerContactedCheckboxYes.checked = false;
         customerContactedCheckboxNo.checked = true;
         addTabWrCommentsToAdd.innerHTML = "";
@@ -7583,63 +7598,63 @@ async function mainEvent() {
                 let temp = toDoMasterList.list[index].contactCustomerList[tempToRemove[0][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Site Visit List */
             for (var i = 0; i < tempToRemove[1].length; i++) {
                 let temp = toDoMasterList.list[index].siteVisitList[tempToRemove[1][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Svc Calc List */
             for (var i = 0; i < tempToRemove[2].length; i++) {
                 let temp = toDoMasterList.list[index].svcCalcList[tempToRemove[2][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Check NJUNS List */
             for (var i = 0; i < tempToRemove[3].length; i++) {
                 let temp = toDoMasterList.list[index].checkNJUNSList[tempToRemove[3][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Check Permit List */
             for (var i = 0; i < tempToRemove[4].length; i++) {
                 let temp = toDoMasterList.list[index].checkPermitList[tempToRemove[4][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Check Easement List */
             for (var i = 0; i < tempToRemove[5].length; i++) {
                 let temp = toDoMasterList.list[index].checkEasementList[tempToRemove[5][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Design List */
             for (var i = 0; i < tempToRemove[6].length; i++) {
                 let temp = toDoMasterList.list[index].designList[tempToRemove[6][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* Revisions List */
             for (var i = 0; i < tempToRemove[7].length; i++) {
                 let temp = toDoMasterList.list[index].revisionsList[tempToRemove[7][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
             /* General List */
             for (var i = 0; i < tempToRemove[8].length; i++) {
                 let temp = toDoMasterList.list[index].generalList[tempToRemove[8][i]];
                 temp.dueDate = newDate;
                 temp.tab = tab;
-                toDoMasterList.add(temp);
+                toDoMasterList.tempAdd(temp);
             }
         }
 
@@ -9700,7 +9715,7 @@ async function mainEvent() {
                 newWr.permit = curWr.permit;
                 
                 
-                if (addCommentTabTextfield.value != undefined && addCommentTabTextfield.value != "Enter Note Here" &&
+                if (addCommentTabTextfield.value != undefined && addCommentTabTextfield.value != "Type Comment Here" &&
                 addCommentTabTextfield.value.length > 0) {
                     console.log("Comment typed but not entered");
     
