@@ -1622,8 +1622,8 @@ h5 {
     justify-content: center;
     width: 170px;
     color: red;
-    margin-left: -20px;
-    margin-right: -150px;
+    margin-left: -50px;
+    margin-right: -120px;
 }
 
 .errorMessageInvalidToDoId {
@@ -1669,6 +1669,30 @@ h5 {
     margin-right: -220px;
     margin-left: 20px;
     margin-bottom: -50px;
+}
+
+.errorMessageCommentTypedNotEntered {
+    display: flex;
+    font-size: medium;
+    width: 115px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-right: -170px;
+    margin-left: 55px;
+    margin-top: -5px;
+}
+
+.errorMessageSelectCommentType {
+    display: flex;
+    font-size: medium;
+    width: 115px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-right: -170px;
+    margin-left: 55px;
+    margin-top: -5px;
 }
 
 .noWrFound {

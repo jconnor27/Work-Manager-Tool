@@ -793,7 +793,7 @@ class Error {
         console.log("Entered - displaySelectToDoType()");
 
         const temp = document.getElementById("add_tab_display_to_do_dd_menu_type_container");
-        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidToDoType" id="error_invalid_to_do_type"> Select To-Do Type</div>`);
+        temp.insertAdjacentHTML("beforeend", `<div class="errorMessageInvalidToDoType" id="error_invalid_to_do_type"> Select To-Do<br> Type</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_to_do_type");
             temp.remove();
@@ -832,6 +832,38 @@ class Error {
             const temp = document.getElementById("error_wr_already_exists");
             temp.remove();
         }, 3000);  
+    }
+
+    displayCommentTypedNotAdded() {
+        console.log("Entered - displayCommentTypedNotAdded()");
+
+        const temp = document.getElementById("new_work_request_number_textfield");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageCommentTypedNotEntered" id="error_comment_typed_not_entered">Comment Typed But Not Added</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_comment_typed_not_entered");
+            temp.remove();
+        }, 3000);  
+    
+    }
+
+    displayNoteTypedNotAdded() {
+        console.log("Entered - displayNoteTypedNotAdded()");
+
+        const temp = document.getElementById("new_work_request_number_textfield");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageCommentTypedNotEntered" id="error_comment_typed_not_entered">Note Typed But Not Added</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_comment_typed_not_entered");
+            temp.remove();
+        }, 3000);  
+    
+    }
+
+    displaySelectCommentType() {
+        console.log("Entered - displaySelectCommentType()");
+
+        const temp = document.getElementById("add_tab_comment_type_dd_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageSelectCommentType" id="error_select_comment_type">Must Select Comment Type</li>`);
+
     }
 }
 
@@ -4641,6 +4673,9 @@ function removeRcdError(tab, row) {
 function getWr(curWrNum, allWrList) {
     console.log("Entered - getWr(" + curWrNum + ")");
 
+    console.log("*** Testing Here ***");
+    console.log(allWrList);
+
     let wr = [];
 
     if (allWrList.length == 0) {
@@ -6142,6 +6177,17 @@ async function mainEvent() {
         addCommentFilterTabAllActive.classList.remove("hidden");
 
     }
+    function clearAddCommentTabs() {
+        console.log("Entered - clearAddCommentTabs()");
+
+        addCommentFilterTabPermit.classList.remove("hidden")
+        addCommentFilterTabPermitActive.classList.add("hidden");
+        addCommentFilterTabGeneral.classList.remove("hidden");
+        addCommentFilterTabGeneralActive.classList.add("hidden");
+        addCommentFilterTabAll.classList.remove("hidden");
+        addCommentFilterTabAllActive.classList.add("hidden");
+
+    }
 
         /* Disable */
     function disableSearchBy() {
@@ -6224,9 +6270,28 @@ async function mainEvent() {
         console.log("Entered - displayWrAddUpdate(" + wr + ")");
 
         deselectAllTabs();
-        document.getElementById("add_tab").click();
-        document.getElementById("filter_checkbox_add_wr").click();
+        //document.getElementById("add_tab").click();
+        addTab.classList.add("hidden");
+        addTabActive.classList.remove("hidden");
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
 
+        //document.getElementById("filter_checkbox_add_wr").click();
+        clearAddTabCheckboxes();
+        addTabUpdateButton.disabled = false;
+
+        if (document.getElementById("add_tab_display_header_left").innerHTML == "Update") {
+            document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
+        }
+        clearAddTabDisplays();
+        addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
+        //addTabAddButton.classList.add(hidden);
+
+        console.log("Should be here");
+        console.log(addTabNewWorkRequestNumber.value);
+        console.log(wr.workRequestNumber);
         
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         addressLineTextfieldHouseNumber.value = wr.houseNumber;
@@ -6633,10 +6698,18 @@ async function mainEvent() {
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
 
+        console.log("HIYA^^");
+        console.log(curWrIndex);
+
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        //document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowTwoAddress.addEventListener("click", (event) => {
@@ -6734,9 +6807,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowTwoComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoComments");
@@ -6747,10 +6821,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
-
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowThreeComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeComments");
@@ -6761,9 +6835,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFourComments");
@@ -6774,9 +6849,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowFiveComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFiveComments");
@@ -6787,9 +6863,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowSixComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSixComments");
@@ -6800,9 +6877,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowSevenComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSevenComments");
@@ -6813,9 +6891,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
     allWrTabRowEightComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowEightComments");
@@ -6826,9 +6905,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
+        addCommentFilterTabAll.click();
     })
 
         /* CRDs */
@@ -7884,6 +7964,7 @@ async function mainEvent() {
             }
             toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
             toDoDisplayDayOfWeekDateMouseoutFunction();
+           
         }
     })
     toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
@@ -8023,6 +8104,8 @@ async function mainEvent() {
         tempLeftArrow.innerHTML = "&#8592";
         const tempRightArrow = document.createElement("tempRightArrow");
         tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
 
         if (event.target.innerHTML == "X") {
             console.log("Fired - Clicked toDoDisplayMoveToContainer X Button");
@@ -8205,8 +8288,6 @@ async function mainEvent() {
                 }
                 /* Adding tempCurToDo to main list */
                 toDoMasterList.add(tempCurToDo[0]);
-                console.log("testing ***");
-                console.log(toDoMasterList)
 
                 /* Updating Display and Page Data */
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -8231,18 +8312,6 @@ async function mainEvent() {
                             console.log("move to on return to office entered");
                             toDoOnReturnToOfficeTab.click();
                         } 
-                        /*
-                        if (toDoGeneralTab.classList.contains("hidden")) {
-                            toDoGeneralTab.click();
-                        } else if (toDoMentorTab.classList.contains("hidden")) {
-                            toDoMentorTab.click();
-                        } else if (toDoCoordinatorTab.classList.contains("hidden")) {
-                            toDoCoordinatorTab.click();
-                        } else if (toDoWaitingTab.classList.contains("hidden")) {
-                            toDoWaitingTab.click();
-                        } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
-                            toDoOnReturnToOfficeTab.click();
-                        } */
 
                         setFromToDates("to_do_display", toDoDisplayDayOfWeekDate.value);
     
@@ -8265,8 +8334,6 @@ async function mainEvent() {
                 }
                 console.log("above add hidden");
                 toDoDisplayMoveToContainer.classList.add("hidden");
-    
-                //toDoMasterList.list
             }
 
             
@@ -8391,7 +8458,26 @@ async function mainEvent() {
 
             document.getElementById("move_to_tab_mentor").classList.add("hidden");
             document.getElementById("move_to_tab_mentor_active").classList.remove("hidden");
-        } 
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            console.log("clicked reset arrow");
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            moveToDayOfWeekDate.value = year + "-" + month + "-" + day;
+            setFromToDates("move_to", moveToDayOfWeekDate.value);
+            setDay("move_to", d.getDay());
+            tempCurToDo[1] = moveToDayOfWeekDate.value;
+            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            console.log("changed tempCurToDo[1] to");
+            console.log(moveToDayOfWeekDate.value);
+        }
     })
     toDoDisplayDatePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDatePrevButton");
@@ -8733,8 +8819,20 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayPermitAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
-        document.getElementById("filter_checkbox_add_permit").click();
+        //document.getElementById("add_tab").click();
+        //document.getElementById("filter_checkbox_add_permit").click();
+        clearAddTabCheckboxes();
+        filterCheckboxAddPermit.checked = true;
+        document.getElementById("add_tab_display_header_left").innerHTML = "Update";
+        document.getElementById("add_tab_display_header_left").style.marginRight = "20px";
+        clearAddTabDisplays();
+        addTabDisplayHeaderLabel.innerHTML = "\"Permit\"";
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Permit for Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
+        addTabDisplayAddPermit.classList.remove("hidden");
+
+        addTabAddButton.classList.add("hidden");
+
         document.getElementById("add_tab_update_button").disabled = false;
     })
     permitsTabRowTwoAddress.addEventListener("click", (event) => {
@@ -9243,10 +9341,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowTwoComments.addEventListener("click", (event) => {
@@ -9258,10 +9356,9 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
-        document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowThreeComments.addEventListener("click", (event) => {
@@ -9273,12 +9370,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
-
     })
     permitsTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowFourComments");
@@ -9289,10 +9385,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowFiveComments.addEventListener("click", (event) => {
@@ -9304,10 +9400,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowSixComments.addEventListener("click", (event) => {
@@ -9319,10 +9415,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowSevenComments.addEventListener("click", (event) => {
@@ -9334,10 +9430,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
     permitsTabRowEightComments.addEventListener("click", (event) => {
@@ -9349,10 +9445,10 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayCommentsAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
         document.getElementById("filter_checkbox_add_comment").click();
         document.getElementById("add_tab_update_button").disabled = false;
         enableAddCommentTabs();
+        clearAddCommentTabs();
         addCommentFilterTabPermit.click();
     })
 
@@ -9394,6 +9490,8 @@ async function mainEvent() {
         if (filterCheckboxAddWr.checked == true) {
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
 
+            
+
             let curComments = curWrData[1].commentsGeneral.comments;
             const curWrIndex = curWrData[2];
             
@@ -9409,6 +9507,11 @@ async function mainEvent() {
                 console.log("No Wr Type Selected");
 
                 e.displayInvalidWrType();
+            } else if (addTabCommentsTextfield.value != undefined && addTabCommentsTextfield.value != "Type Comment Here" &&
+            addTabCommentsTextfield.value.length > 0) {
+                console.log("Comment typed but not entered");
+
+                e.displayCommentTypedNotAdded();
             } else {
                 for (var i = 0; i < tempComments.list.length; i++) {
                     curComments.push(tempComments.list[i]);
@@ -9486,6 +9589,10 @@ async function mainEvent() {
                 console.log("Priority Number length < 1");
 
                 e.displayInvalidPriorityNumberPermit();
+            } else if (addTabPermitCommentsTextfield.value != undefined && addTabPermitCommentsTextfield.value != "Type Comment Here" &&
+            addTabPermitCommentsTextfield.value.length > 0) { 
+                console.log("Comment typed but not entered");
+                e.displayCommentTypedNotAdded();
             } else {
                 let newComments = [];
             
@@ -9537,6 +9644,7 @@ async function mainEvent() {
             }
             
         } else if (filterCheckboxAddComment.checked == true) {
+            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
 
             let curComments = curWrData[1].commentsGeneral.comments;
             const curWrIndex = curWrData[2];
@@ -9548,7 +9656,6 @@ async function mainEvent() {
             for (var i = 0; i < tempAllComments.list.length; i++) {
                 newComments.push(tempAllComments.list[i]);
             }
-            const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList);
             let curWr = curWrData[1];
             
             if (curWrData[0] != false) {
@@ -9562,7 +9669,15 @@ async function mainEvent() {
                     curWr.customerContacted, curWr.creationDate);
                 newWr.permit = curWr.permit;
                 
-                if (allWrList[curWrIndex].commentsGeneral.compare(tempAllComments.list) == 1) {
+                
+                if (addCommentTabTextfield.value != undefined && addCommentTabTextfield.value != "Enter Note Here" &&
+                addCommentTabTextfield.value.length > 0) {
+                    console.log("Comment typed but not entered");
+    
+                    e.displayNoteTypedNotAdded();
+                } else if (document.getElementById("comment_type_dd_menu_current").innerHTML == "Not Set") {
+                    e.displaySelectCommentType();
+                } else if (allWrList[curWrIndex].commentsGeneral.compare(tempAllComments.list) == 1) {
                     h.displayNoChanges(addTabNewWorkRequestNumber.value);
                 } else {
                     allWrList[curWrIndex] = newWr;
@@ -9591,6 +9706,11 @@ async function mainEvent() {
                 e.displaySelectToDoType();
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML == "General" && addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "") {
                 e.displayMustAddNoteForGeneralTypeToDo();
+            } else if (addTabDisplayToDoRowThreeTextfield.value != undefined && addTabDisplayToDoRowThreeTextfield.value != "Enter Note Here" &&
+            addTabDisplayToDoRowThreeTextfield.value.length > 0) {
+                console.log("Comment typed but not entered");
+
+                e.displayNoteTypedNotAdded();
             } else {
                 let notes = [];
 
@@ -9771,6 +9891,11 @@ async function mainEvent() {
                 console.log("No Wr Type Selected");
 
                 e.displayInvalidWrType();
+            } else if (addTabCommentsTextfield.value != undefined && addTabCommentsTextfield.value != "Enter Comment Here" &&
+            addTabCommentsTextfield.value.length > 0) {
+                console.log("Comment typed but not entered");
+
+                e.displayCommentTypedNotAdded();
             } else if (filterCheckboxAddWr.checked && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == false) {
                 const wr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
@@ -9832,7 +9957,12 @@ async function mainEvent() {
             } else if (document.getElementById("to_do_type_dd_0_current").innerHTML != "General" && addTabNewWorkRequestNumber.value != undefined &&
             addTabNewWorkRequestNumber.value.length == 0) {
                 
-                    e.displayMustAddWorkRequestNumberUnlessGeneral();
+                e.displayMustAddWorkRequestNumberUnlessGeneral();
+            } else if (addTabDisplayToDoRowThreeTextfield.value != undefined && addTabDisplayToDoRowThreeTextfield.value != "Enter Note Here" &&
+            addTabDisplayToDoRowThreeTextfield.value.length > 0) {
+                console.log("Comment typed but not entered");
+
+                e.displayNoteTypedNotAdded();
             } else {
 
                 let tempChecked = 0;
@@ -10405,7 +10535,6 @@ async function mainEvent() {
     
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
             addTabCommentsRemoveButton.disabled = false;
-            addTabCommentsRemoveButton.classList.add("activeRemoveButton");
             tempComments.add(comment);
             addTabCommentsTextfield.value = "Type Comment Here"; // reseting entery textfield
             
@@ -10466,7 +10595,6 @@ async function mainEvent() {
         }
 
         addTabCommentsRemoveButton.disabled = true; // bug when trying to remove from past page 1
-        addTabCommentsRemoveButton.classList.remove("activeRemoveButton");
 
     })
     addTabWrCommentsPrevButton.addEventListener("click", (event) => {
@@ -10492,7 +10620,6 @@ async function mainEvent() {
 
         if (document.getElementById("add_wr_tab_current_page_box").innerHTML == "1") {
             addTabCommentsRemoveButton.disabled = false;
-            addTabCommentsRemoveButton.classList.add("activeRemoveButton");
         }
     })
 
@@ -10581,14 +10708,12 @@ async function mainEvent() {
             document.getElementById("to_do_display_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
         } else if (tab == "move_to") {
             document.getElementById("move_to_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
-            document.getElementById("move_to_tab_day_of_week_to_date").innerHTML = "From: " + tempToDate;
+            document.getElementById("move_to_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
 
         }
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
-        console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");
-
-        
+        console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");  
 
         if (curMonth == 12) { // Decemeber - may have to change year
             const curDayNum = new Number(curDay);
@@ -11039,6 +11164,8 @@ async function mainEvent() {
         tempLeftArrow.innerHTML = "&#8592";
         const tempRightArrow = document.createElement("tempRightArrow");
         tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
         
         if (event.target.innerHTML == "Su") {
             clearDays("add");
@@ -11096,6 +11223,22 @@ async function mainEvent() {
             const day = curDate.substring(8, 10);
             addTabDisplayDayOfWeekDate.value = addDays(year, month, day, 7);
             setFromToDates("add", addTabDisplayDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            console.log("clicked reset arrow");
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            addTabDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
+            setFromToDates("move_to", addTabDisplayDayOfWeekDate.value);
+            setDay("move_to", d.getDay());
+            
         }
     })
     addTabDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
@@ -12727,7 +12870,7 @@ async function mainEvent() {
             }
     })
     filterCheckboxAddComment.addEventListener("change", (event) => {
-        console.log("Fired - Clicked filterContainerAddComment");
+        console.log("Fired - Clicked filterCheckboxAddComment");
 
         if (tempCurWrNumber != "") {
             addTabNewWorkRequestNumber.value = tempCurWrNumber;
