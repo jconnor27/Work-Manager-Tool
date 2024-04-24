@@ -2581,10 +2581,10 @@ h5 {
     display: flex;
     flex-direction: row;
     margin-left: 250px;
-    margin-top: 95px;
+    margin-top: 45px;
 }
 
-.settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, .settingsDisplayRowFivePreferences {
+.settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, .settingsDisplayRowFivePreferences, .settingsDisplayRowSixPreferences {
     display: flex;
     flex-direction: row;
     margin-left: 250px;
@@ -2605,6 +2605,7 @@ h5 {
     margin-right: 30px;
     margin-left: 10px;
     margin-top: 20px;
+    margin-bottom: -50px;
     padding: 5px;
 }
 

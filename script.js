@@ -1467,10 +1467,13 @@ class SystemPreferences {
         this.tempCommentsCount = 7;
         this.tempAllCommentCount = 14;
         this.tempNotesCount = 3;
+        this.linesPerPageToDo = 19;
     }
 
     load(str) {
         console.log("Entered - SystemPreferences - load(str)");
+
+        console.log(str);
 
         let data = [];
 
@@ -1486,6 +1489,10 @@ class SystemPreferences {
         this.tempCommentsCount = data[2];
         this.tempAllCommentCount = data[3];
         this.tempNotesCount = data[4];
+        this.linesPerPageToDo = data[5];
+
+        console.log("linesPerPageToDo value = ");
+        console.log(this.linesPerPageToDo);
     }
 
     toString() {
@@ -1494,7 +1501,10 @@ class SystemPreferences {
         let str = "";
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
-        this.tempNotesCount + "@";
+        this.tempNotesCount + "@" + this.linesPerPageToDo + "@";
+
+        console.log("Returning str =");
+        console.log(str);
 
         return str;
     }
@@ -1581,8 +1591,12 @@ class PaginatedToDoPageElement {
             console.log("curPage.length < this.linesPerPage - 1 - poping last elem of pages");
             
             this.curPage = this.pages.pop();
-            console.log("this.curPage now =");
-            console.log(this.curPage);
+            const cur = this.curPage.pop();
+            const temp = cur.substring(24); // removes last elem from class
+            let str = "<div class=\"";
+            str += temp;
+
+            this.curPage.push(str);
         }
         
         if (listElem.length + this.curPage.length <= this.linesPerPage) { // can add to same page
@@ -1590,11 +1604,6 @@ class PaginatedToDoPageElement {
             for (var i = 0; i < listElem.length; i++) {
                 this.curPage.push(listElem[i]);
             }
-
-            /*if (this.curPage[this.curPage.length - 1].includes("toDoListTypeBorder")) {
-                console.log("Removing last elem of curPage - is Type Header");
-                this.curPage.pop();
-            }*/
 
             // Adding updated page back into list
             if (this.curPage.length == this.linesPerPage) { // page is full 
@@ -1606,7 +1615,7 @@ class PaginatedToDoPageElement {
                 console.log("page is almost full - formatting last elem, pushing to pages, reseting curPage")
                 
                 
-                this.curPage[this.curPage.length - 2] = this.formatLastElem(this.curPage[this.curPage.length - 2]);
+                this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
                 this.pages.push(this.curPage);
                 this.curPage = [];
             } else { // page is not full
@@ -1618,24 +1627,12 @@ class PaginatedToDoPageElement {
         } else { // Have to split and make new page
             console.log("have to split and make new page");
             let lastIndex = this.linesPerPage - this.curPage.length ; // Maximum number of lines I can add to the current page
-            console.log("lastIndex =");
-            console.log(lastIndex);
 
             while (lastIndex > 0) { // when last index = 0, we are at type header
-                console.log("entered while loop - lastIndex == ");
-                console.log(lastIndex);
+               
                     // listElem[lastIndex] = the latest I can cut
-                    console.log("listElem =");
-                    console.log(listElem);
-                
-                    /*if (lastIndex != 0 && listElem[lastIndex - 1].includes("toDoListTypeBorder")) { // could cut first elem but it is type header
-                        console.log("could cut first elem but prev is type header");
-                        lastIndex--;
-                    } else*/ if (listElem[lastIndex].includes("toDoObjectContainer") && !listElem[lastIndex - 1].includes("toDoListTypeBorder")) {  // found To-Do Object and can cut
-                    console.log("Found toDoObjectContainer");
-                    console.log("listElem[lastIndex] =");
-                    console.log(listElem[lastIndex]);
-
+                if (listElem[lastIndex].includes("toDoObjectContainer") && !listElem[lastIndex - 1].includes("toDoListTypeBorder")) {  // found To-Do Object and can cut
+                   
                     const toAdd = listElem.slice(0, lastIndex);
                     const rest = listElem.slice(lastIndex);
                     let restFormatted = [];
@@ -1664,17 +1661,9 @@ class PaginatedToDoPageElement {
                     this.pages.push(this.curPage);
                     // clearing current page
                     this.curPage = [];
-
-                    console.log("restFormatted before shift=");
-                    console.log(restFormatted);
-
+                  
                     restFormatted = restFormatted.slice(1);
 
-                    console.log("restFormatted after shift=");
-                    console.log(restFormatted);
-
-
-                    
                     // adding rest of list with type header at front
                     this.add(restFormatted);
                     return; // have to return to avoid entering code block below
@@ -1698,11 +1687,6 @@ class PaginatedToDoPageElement {
             this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
            
             this.pages.push(this.curPage);
-
-            console.log("this.curPage =");
-            console.log(this.curPage);
-            console.log("listElem =");
-            console.log(listElem);
            
             this.curPage = [];
             if (listElem.length > this.linesPerPage) {
@@ -1801,8 +1785,9 @@ class PaginatedToDoPageElement {
 
 // Master list of all ToDoDayObjects
 class ToDoMasterList {
-    constructor() {
+    constructor(linesPerPage) {
         this.list = []; // list of all ToDoDay objects
+        this.linesPerPage = linesPerPage;
     }
 
     /* Completes and uncompletes toDoObject and associated notes */
@@ -1973,7 +1958,7 @@ class ToDoMasterList {
                 }
             }
             // If I get here, I did not add the toDo yet
-            const temp = new ToDoDayObject(toDo.dueDate);
+            const temp = new ToDoDayObject(toDo.dueDate, this.linesPerPage);
             temp.add(toDo);
             this.list.push(temp);
         }
@@ -2221,7 +2206,7 @@ class ToDoMasterList {
 
 // List of all To-Do's for a specific day
 class ToDoDayObject {
-    constructor(date) {
+    constructor(date, linesPerPage) {
         this.date = date;
         this.contactCustomerList = [];
         this.siteVisitList = [];
@@ -2232,6 +2217,7 @@ class ToDoDayObject {
         this.designList = [];
         this.revisionsList = [];
         this.generalList = [];
+        this.linesPerPage = linesPerPage;
         //this.list = []; // List of To-Do's for the day
     }
 
@@ -2347,7 +2333,7 @@ class ToDoDayObject {
     filterToDosByTab(tab) {
         console.log("Entered - ToDoDayObject - filterToDosByTab(" + tab + ")");
 
-        const filteredList = new ToDoDayObject(this.date);
+        const filteredList = new ToDoDayObject(this.date, this.linesPerPage);
 
         let curList = [];
         /* Contact Customer List */
@@ -2506,7 +2492,7 @@ class ToDoDayObject {
     makePageElement() {
         console.log("Entered - ToDoDayObject - makePageElement()");
 
-        let pageElement2 = new PaginatedToDoPageElement(5);
+        let pageElement2 = new PaginatedToDoPageElement(this.linesPerPage);
 
         /*let pageElement = document.createElement("pageElement");
         pageElement.classList.add("toDoDisplayPageElement");
@@ -3496,6 +3482,8 @@ class ToDoDayObject {
             str += this.generalList[i].toString();
         }
         str += "%#";
+        str += this.linesPerPage;
+        str+= "%#";
         
         return str;
 
@@ -3812,6 +3800,7 @@ async function writeFile(contents) {
 }
 async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList) {
     console.log("Entered - saveFile()");
+    console.log(systemPreferences);
 
     const d = new Date();
     const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
@@ -4276,7 +4265,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 5) {
+    while (count < 6) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -5387,17 +5376,18 @@ async function mainEvent() {
     let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
 
     let systemPreferences = new SystemPreferences();
-    let toDoMasterList = new ToDoMasterList();
+    let toDoMasterList = new ToDoMasterList(systemPreferences.linesPerPageToDo);
     
     const rowsOnPage = systemPreferences.rowsOnPage;
-    
+    const linesPerPageToDo = systemPreferences.linesPerPageToDo;
+
     const permitCommentCount = systemPreferences.permitCommentCount;
     const tempCommentsCount = systemPreferences.tempCommentsCount;
     const tempAllCommentCount = systemPreferences.tempAllCommentCount;
     const tempNotesCount = systemPreferences.tempNotesCount;
 
     let userColors = new ColorPreferences(); 
-    let tempToDoPageElement = new PaginatedToDoPageElement(5);
+    let tempToDoPageElement = new PaginatedToDoPageElement(systemPreferences.linesPerPageToDo);
 
     let tempComments = new PaginatedComments(tempCommentsCount, "addWr");
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
@@ -5796,6 +5786,7 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
         settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
+        settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
         
         /* All Wr Tab DDs */
         initializeAllWrTab();
@@ -6721,7 +6712,12 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        //document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowThreeAddress.addEventListener("click", (event) => {
@@ -6733,7 +6729,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowFourAddress.addEventListener("click", (event) => {
@@ -6745,7 +6745,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowFiveAddress.addEventListener("click", (event) => {
@@ -6757,7 +6761,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowSixAddress.addEventListener("click", (event) => {
@@ -6769,7 +6777,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowSevenAddress.addEventListener("click", (event) => {
@@ -6781,7 +6793,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
     allWrTabRowEightAddress.addEventListener("click", (event) => {
@@ -6793,7 +6809,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
-        document.getElementById("add_tab").click();
+        addDisplayContainer.classList.remove("hidden");
+        addTabFilterLabelContainer.classList.remove("hidden");
+        addTypeContainer.classList.remove("hidden");
+        addTabDisplayAddWr.classList.remove("hidden");
+        filterCheckboxAddWr.checked = true;
         document.getElementById("add_tab_update_button").disabled = false;
     })
 
@@ -8547,6 +8567,8 @@ async function mainEvent() {
         toDoGeneralTab.classList.add("hidden");
         toDoGeneralTabActive.classList.remove("hidden");
 
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
         let index = undefined;
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -8579,6 +8601,8 @@ async function mainEvent() {
         toDoDisplayDeselectTabs();
         toDoMentorTab.classList.add("hidden");
         toDoMentorTabActive.classList.remove("hidden");
+
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
 
         let index = undefined;
 
@@ -8614,6 +8638,8 @@ async function mainEvent() {
         toDoCoordinatorTab.classList.add("hidden");
         toDoCoordinatorTabActive.classList.remove("hidden");
 
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
         let index = undefined;
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -8647,6 +8673,8 @@ async function mainEvent() {
         toDoWaitingTab.classList.add("hidden");
         toDoWaitingTabActive.classList.remove("hidden");
 
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
         let index = undefined;
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -8679,6 +8707,8 @@ async function mainEvent() {
         toDoDisplayDeselectTabs();
         toDoOnReturnToOfficeTab.classList.add("hidden");
         toDoOnReturnToOfficeTabActive.classList.remove("hidden");
+
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
 
         let index = undefined;
 
@@ -9507,7 +9537,7 @@ async function mainEvent() {
                 console.log("No Wr Type Selected");
 
                 e.displayInvalidWrType();
-            } else if (addTabCommentsTextfield.value != undefined && addTabCommentsTextfield.value != "Type Comment Here" &&
+            } else if (addTabCommentsTextfield.value != undefined && addTabCommentsTextfield.value != "Enter Comment Here" &&
             addTabCommentsTextfield.value.length > 0) {
                 console.log("Comment typed but not entered");
 
@@ -10961,7 +10991,7 @@ async function mainEvent() {
                     console.log("removing prompt");
                     document.getElementById("no_to_dos_for_today_prompt").remove();
                 }
-                let temp = new ToDoDayObject(toDoDisplayDayOfWeekDate.value);
+                //let temp = new ToDoDayObject(toDoDisplayDayOfWeekDate.value);
 
                 if (toDoMasterList.list[i].isEmpty()) {
                     console.log("adding error");
@@ -12072,7 +12102,6 @@ async function mainEvent() {
     function assessToDoFilterBy() {
         console.log("Entered - assessToDoFilterByStatus(");
 
-        const tempToDoMasterList = new ToDoMasterList();
         let index = undefined;
 
         for (var i = 0; i < toDoMasterList.list.length; i++) {
@@ -13234,6 +13263,7 @@ async function mainEvent() {
     const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
     const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
     const settingsPreferencesTextfieldNotesToDo = document.querySelector("#settings_preferences_textfield_notes_to_do");
+    const settingsPreferencesTextfieldLinesPerPageToDo = document.querySelector("#settings_preferences_textfield_line_per_page_to_do");
     const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
     const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
     const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
@@ -13555,7 +13585,9 @@ async function mainEvent() {
         if (settingsPreferencesTextfieldRowsPerPage.value == systemPreferences.rowsOnPage && 
             settingsPreferencesTextfieldCommentsWr.value == systemPreferences.tempCommentsCount &&
             settingsPreferencesTextfieldCommentsPermit.value == systemPreferences.permitCommentCount &&
-            settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount) {
+            settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount &&
+            settingsPreferencesTextfieldNotesToDo.value == systemPreferences.tempNotesCount &&
+            settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo) {
                 return false;
         } else {
             return true;
@@ -13660,7 +13692,7 @@ async function mainEvent() {
         // Hides save button if user changes back to original setting
         if (!systemPreferencesChanged()) {
             settingsPreferencesSaveButton.classList.add("hidden");
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
             settingsPreferencesSaveButton.classList.remove("hidden");
@@ -13683,7 +13715,7 @@ async function mainEvent() {
         // Hides save button if user changes back to original setting
         if (!systemPreferencesChanged()) {
             settingsPreferencesSaveButton.classList.add("hidden");
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
             settingsPreferencesSaveButton.classList.remove("hidden");
@@ -13706,7 +13738,7 @@ async function mainEvent() {
         // Hides save button if user changes back to original setting
         if (!systemPreferencesChanged()) {
             settingsPreferencesSaveButton.classList.add("hidden");
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
             settingsPreferencesSaveButton.classList.remove("hidden");
@@ -13729,7 +13761,7 @@ async function mainEvent() {
         // Hides save button if user changes back to original setting
         if (!systemPreferencesChanged()) {
             settingsPreferencesSaveButton.classList.add("hidden");
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
             settingsPreferencesSaveButton.classList.remove("hidden");
@@ -13737,6 +13769,52 @@ async function mainEvent() {
     })
     settingsPreferencesTextfieldCommentsComment.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsPreferencesTextfieldCommentsComment");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesTextfieldNotesToDo.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldNotesToDo");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldNotesToDo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldNotesToDo");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesTextfieldLinesPerPageToDo.addEventListener("change", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldLinesPerPageToDo");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesTextfieldLinesPerPageToDo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPReferencesTextfieldLiensPerPageToDo");
 
         if (event.target.value != null && event.target.value.length > 0) {
             event.target.select();
@@ -13750,13 +13828,29 @@ async function mainEvent() {
 
         let str = "";
 
-        str += settingsPreferencesTextfieldRowsPerPage + "@" + settingsPreferencesTextfieldCommentsWr + "@" + 
-               settingsPreferencesTextfieldCommentsPermit + "@" + settingsPreferencesTextfieldCommentsComment + "@";
+        str += settingsPreferencesTextfieldRowsPerPage.value + "@" + settingsPreferencesTextfieldCommentsWr.value + "@" + 
+               settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
+               settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@";
 
         systemPreferences.load(str);
+        const oldList = toDoMasterList;
+        toDoMasterList = new ToDoMasterList(systemPreferences.linesPerPageToDo);
+
+        for (var i = 0; i < oldList.list.length; i++) {
+            let flatList = oldList.list[i].flatten();
+
+            for (var j = 0; j < flatList.length; j++) {
+                toDoMasterList.add(flatList[j]);
+            }
+        }
+        console.log("toDoMasterList after refresh");
+        console.log(toDoMasterList);
+        console.log("systemPreferences after load");
+        console.log(systemPreferences);
+
 
         settingsPreferencesSaveButton.classList.add("hidden");
-        document.getElementById("settings_display_row_one_preferences").style.marginTop = '95px';
+        document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
 
     })
     colorLocalSaveButton.addEventListener("click", (event) => {
@@ -14130,6 +14224,7 @@ async function mainEvent() {
     })
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
+        console.log(systemPreferences);
 
         saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
     })
