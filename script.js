@@ -1476,12 +1476,14 @@ class SystemPreferences {
         console.log(str);
 
         let data = [];
+        let count = 0;
 
-        while (str.length > 1) {
+        while (count < 6) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
             str = str.substring(index + 1);
+            count++;
         }
 
         this.rowsOnPage = data[0];
@@ -2082,6 +2084,24 @@ class ToDoMasterList {
             count += this.list[i].contactCustomerList.length + this.list[i].siteVisitList.length + this.list[i].svcCalcList.length +
                 this.list[i].checkNJUNSList.length + this.list[i].checkPermitList.length + this.list[i].checkEasementList.length +
                 this.list[i].designList.length + this.list[i].revisionsList.length + this.list[i].generalList.length;
+        }
+
+        return count;
+    }
+
+    getCountToDosByWorkRequestNumber(wrNum) {
+        console.log("Entered - ToDoMasterList - getCountToDosByWorkRequestNumber(" + wrNum + ")");
+
+        let count = 0;
+
+        for (var i = 0; i < this.list.length; i ++) {
+            const curDayFlat = this.list[i].flatten();
+
+            for (var j = 0; j < curDayFlat.length; j++) {
+                if (curDayFlat[j].workRequestNumber != undefined && curDayFlat[j].workRequestNumber == wrNum) { // can add complete check to make it more useful
+                    count++;
+                }
+            }
         }
 
         return count;
@@ -3818,10 +3838,28 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     console.log(systemPreferences);
 
     const d = new Date();
-    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes());
+    let day = d.getDate();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    let hours = d.getHours();
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    let minutes = d.getMinutes();
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
 
     const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
     const dataBlob = new Blob(data);
+
+    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString();
+    console.log("data =");
+    console.log(dataStr);
+
+    window.localStorage.setItem("data", dataStr);
 
     const newHandle = await window.showSaveFilePicker();
     const writableStream = await newHandle.createWritable();
@@ -3855,8 +3893,8 @@ function readFile() {
 }
 
     /* InjectHTML Functions */
-function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
-    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ")");
+function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList) {
+    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ", userColors, toDoMasterList)");
     
     const pag = new Paginated(allWrList);
     const pages = pag.getPages();
@@ -3879,7 +3917,7 @@ function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors) {
 
     for (var i = 0; i < pages[currentPageAllWr].content.length; i++) {
         
-        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1, userColors);
+        setAllWrRowValues(pages[currentPageAllWr].content[i], i + 1, userColors, toDoMasterList);
         revealWrRow(i + 1);
     }
 
@@ -4146,7 +4184,7 @@ function revealPermitRow(row) {
 }
 
     /* AllWr Tab */
-function setAllWrRowValues(wr, rowNumber, userColors) {
+function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     console.log("Entered - setAllWrRowValues( + wr + ,  + rowNumber = " + rowNumber + ")");
 
     let rowNumberText = convertNumText(rowNumber);
@@ -4175,8 +4213,8 @@ function setAllWrRowValues(wr, rowNumber, userColors) {
         generalStatus.style.fontSize = 'smaller';
     }
 
-    const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_dos");
-    // Need to fill in when hooked up
+    const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_do_count_box");
+    toDos.innerHTML = toDoMasterList.getCountToDosByWorkRequestNumber(wr.workRequestNumber);
 
     const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
     permitStatus.innerText = wr.permit.permitStatus;
@@ -5146,6 +5184,16 @@ async function mainEvent() {
     const allWrTabRowSevenAddress = document.querySelector("#all_wr_tab_row_seven_address");
     const allWrTabRowEightAddress = document.querySelector("#all_wr_tab_row_eight_address");
 
+        /* To-Do Counts */
+    const allWrTabRowOneToDoCountBox = document.querySelector("#all_wr_tab_row_one_to_do_count_box");
+    const allWrTabRowTwoToDoCountBox = document.querySelector("#all_wr_tab_row_two_to_do_count_box");
+    const allWrTabRowThreeToDoCountBox = document.querySelector("#all_wr_tab_row_three_to_do_count_box");
+    const allWrTabRowFourToDoCountBox = document.querySelector("#all_wr_tab_row_four_to_do_count_box");
+    const allWrTabRowFiveToDoCountBox = document.querySelector("#all_wr_tab_row_five_to_do_count_box");
+    const allWrTabRowSixToDoCountBox = document.querySelector("#all_wr_tab_row_six_to_do_count_box");
+    const allWrTabRowSevenToDoCountBox = document.querySelector("#all_wr_tab_row_seven_to_do_count_box");
+    const allWrTabRowEightToDoCountBox = document.querySelector("#all_wr_tab_row_eight_to_do_count_box");
+
         /* Comments */
     const allWrTabRowOneComments = document.querySelector("#all_wr_tab_row_one_comments");
     const allWrTabRowTwoComments = document.querySelector("#all_wr_tab_row_two_comments");
@@ -5391,10 +5439,10 @@ async function mainEvent() {
     let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
 
     let systemPreferences = new SystemPreferences();
-    let toDoMasterList = new ToDoMasterList(systemPreferences.linesPerPageToDo);
+    let toDoMasterList = new ToDoMasterList(19);//systemPreferences.linesPerPageToDo);
     
     const rowsOnPage = systemPreferences.rowsOnPage;
-    const linesPerPageToDo = systemPreferences.linesPerPageToDo;
+    const linesPerPageToDo = 19;//systemPreferences.linesPerPageToDo;
 
     const permitCommentCount = systemPreferences.permitCommentCount;
     const tempCommentsCount = systemPreferences.tempCommentsCount;
@@ -5790,18 +5838,53 @@ async function mainEvent() {
 
         moveToDayOfWeekDate.value = toDoDisplayDayOfWeekDate.value;
     }
+    function initializeLocalStorage() {
+        console.log("Entered - initializeLocalStorage()");
+
+        const data = window.localStorage.getItem("data");
+        console.log(data);
+
+        if (data != undefined) {
+            console.log("Getting Data From Local Storage");
+
+            let toDoMasterListData = splitToDoMasterList(data);
+            let systemPreferencesData = splitSystemPreferences(toDoMasterListData[1]);
+            let colorPreferencesData = splitColorPreferences(systemPreferencesData[1]);
+            
+            let toDoMasterListStr = toDoMasterListData[0];
+            let systemPreferencesStr = systemPreferencesData[0];
+            let colorPreferencesStr = colorPreferencesData[0];
+
+            const tempList = parseWrString(colorPreferencesData[1]);
+            userColors.load(colorPreferencesStr);
+            systemPreferences.load(systemPreferencesStr);
+            toDoMasterList.load(toDoMasterListStr);
+
+            allWrList = [];
+
+            for (var i = 0; i < tempList.length; i++) {
+                allWrList[allWrList.length] = tempList[i];
+            }
+            filteredList = allWrList;
+            deselectAllTabs();
+            trimByAll.checked = true;
+            allWrTab.click();
+            allWrTabActive.click();
+            allWrTab.click();
+            document.getElementById("all_wr_tab").click();
+            document.getElementById("all_wr_tab_active").click();
+            document.getElementById("all_wr_tab").click();
+            footerButtonLoad.classList.add("hidden");
+
+
+        }
+    }
 
     /* Adds all dropdowns */
     window.onload = function() {
         console.log("Entered - Window.onload function");
 
-        /* Settings System Preference Values */
-        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
-        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
-        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
-        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
-        settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
-        settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
+        
         
         /* All Wr Tab DDs */
         initializeAllWrTab();
@@ -5814,6 +5897,17 @@ async function mainEvent() {
             
         /* To-Do Tab Page Objects */
         initializeToDoTab();
+
+        /* Commented out when Testing */
+        //initializeLocalStorage();
+
+        /* Settings System Preference Values */
+        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
+        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
+        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
+        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
+        settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
+        settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
       
         // Running test function
         testFunction();
@@ -6270,6 +6364,20 @@ async function mainEvent() {
         addCommentFilterTabPermit.classList.remove("hidden");
     }
 
+        /* Display/Reset To-Do Tab */
+    function displayToDosByWorkRequestNumber(wrNum) {
+        console.log("Entered - displayToDosByWorkRequestNumber(" + wrNum + ")");
+
+        console.log("~ Code clicking")
+        toDoTab.click();
+        console.log("~ Code clicking")
+        searchBySelectionCheckbox.click();
+        console.log("~ Settings searchBySelectionTextfield.value");
+        searchBySelectionTextfield.value = wrNum;
+        console.log("~ Code clicking")
+        searchTextfieldGoButton.click();
+    }
+
         /* Display/Reset Add Tab */
             /* Wr */
     function displayWrAddUpdate(wr) {
@@ -6385,6 +6493,7 @@ async function mainEvent() {
         }*/
         tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // Emptying tempComments
     }
+
             /* To-Do */
     function displayToDoAddUpdate(toDo) {
         console.log("Entered - displayToDoAddUpdate(toDo)");
@@ -7150,7 +7259,7 @@ async function mainEvent() {
             currentWr.generalStatus = tempCurrent.innerHTML;
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
@@ -7200,6 +7309,75 @@ async function mainEvent() {
         console.log("Fired - clicked allWrTabRowEightGeneralStatus");
 
         allWrTabGeneralStatusContainerClickFunction("8", event);
+    })
+
+    /* To-Do Counts */
+    function toDoCountBoxFunction(rowNum) {
+        console.log("Entered - toDoCountBoxFunction(" + rowNum + ")");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + rowNum - 1);
+
+        let currentWr = allWrList[curWrIndex];
+
+        displayToDosByWorkRequestNumber(currentWr.workRequestNumber);
+
+    }
+    allWrTabRowOneToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowOneToDoCountBox");
+
+        if (allWrTabRowOneToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(1);
+        }
+    })
+    allWrTabRowTwoToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowTwoToDoCountBox");
+
+        if (allWrTabRowTwoToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(2);
+        }
+    })
+    allWrTabRowThreeToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowThreeToDoCountBox");
+
+        if (allWrTabRowThreeToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(3);
+        }
+    })
+    allWrTabRowFourToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFourToDoCountBox");
+
+        if (allWrTabRowFourToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(4);
+        }
+    })
+    allWrTabRowFiveToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFiveToDoCountBox");
+
+        if (allWrTabRowFiveToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(5);
+        }
+    })
+    allWrTabRowSixToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSixToDoCountBox");
+
+        if (allWrTabRowSixToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(6);
+        }
+    })
+    allWrTabRowSevenToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSevenToDoCountBox");
+
+        if (allWrTabRowSevenToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(7);
+        }
+    })
+    allWrTabRowEightToDoCountBox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowEightToDoCountBox");
+
+        if (allWrTabRowEightToDoCountBox.innerHTML != "0") {
+            toDoCountBoxFunction(8);
+        }
     })
 
             /* Permit Status DDs */   
@@ -7291,7 +7469,7 @@ async function mainEvent() {
 
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
@@ -7415,7 +7593,7 @@ async function mainEvent() {
             currentWr.easementRequestStatus = tempCurrent.innerHTML;
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
@@ -7475,7 +7653,7 @@ async function mainEvent() {
         console.log(curPageAllWr);
 
         curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1, userColors);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1, userColors, toDoMasterList);
         currentPageAllWr += 1;
 
         return;
@@ -7484,7 +7662,7 @@ async function mainEvent() {
         console.log("Fired - Clicked all_wr_tab_prev_button");
 
         curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors, toDoMasterList);
         currentPageAllWr -= 1;
 
         return; // Can remove?
@@ -9191,7 +9369,7 @@ async function mainEvent() {
             allWrList[curWrIndex] = currentWr;
 
             /* Updating Page (Display) */
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
@@ -9586,7 +9764,7 @@ async function mainEvent() {
     
                             console.log("allWrList added to internal list");
     
-                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                             injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
@@ -9606,7 +9784,7 @@ async function mainEvent() {
                             console.log("allWrList added to internal list");
         
                             injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                             
@@ -9675,7 +9853,7 @@ async function mainEvent() {
                         console.log("allWrList added to internal list");
         
                         injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                        injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                         document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                         document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         
@@ -9731,7 +9909,7 @@ async function mainEvent() {
                     tempAllWrList.innerHTML = allWrList;
                     console.log("allWrList added to internal list");   
                     injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
@@ -9964,7 +10142,7 @@ async function mainEvent() {
 
                     console.log("allWrList added to internal list");
 
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                     injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
@@ -9976,7 +10154,7 @@ async function mainEvent() {
                     console.log("allWrList added to internal list");
 
                     injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
@@ -11305,9 +11483,6 @@ async function mainEvent() {
         const tempStr = year + "-" + month + "-" + day;
         setFromToDates("add", tempStr);
     })
-
-
-
     
         /* Add Tab Permit */
     function removeSelectedPermitComments () {
@@ -12218,7 +12393,11 @@ async function mainEvent() {
             
             uncolorToDoFilterCheckboxes();
 
-            sortedList = toDoMasterList.list[i].flatten();
+            if (toDoMasterList.list[i] != undefined) {
+                sortedList = toDoMasterList.list[i].flatten();
+            } else {
+                sortedList = [];
+            }
             //return;
         }
 
@@ -12278,7 +12457,11 @@ async function mainEvent() {
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
 
         } else {
+            console.log("filteredList =");
+            console.log(filteredList);
             const pageElem = buildFlatPageElement(filteredList);
+            console.log("pageElem =");
+            console.log(pageElem);
             const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
     
             toDoRowElementContainer.innerHTML = "";
@@ -12305,7 +12488,7 @@ async function mainEvent() {
                 curDayFlat = toDoMasterList.list[i].flatten(); // make flat list of to-do's
     
                 for (var j = 0; j < curDayFlat.length; j++) { // for all to-do's
-                    if (curDayFlat[j].workRequestNumber != undefined && curDayFlat[j].workRequestNumber.includes(userValue)) {
+                    if (curDayFlat[j].workRequestNumber != undefined && curDayFlat[j].workRequestNumber.includes(userValue) && curDayFlat[j].type != "General") {
                         data.push(curDayFlat[j]);
                     }
                 }
@@ -12314,7 +12497,36 @@ async function mainEvent() {
             if (data.length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             } else {
-                const pageElem = buildFlatPageElement(data);
+                let trimmedList = [];
+
+                /* Assessing Trim - Completed */
+                if (document.getElementById("footer_filter_checkbox_not_complete").checked) {
+                    uncolorTrimByCheckboxes();
+                    document.getElementById("footer_filter_container_not_complete").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].completed != 1) {
+                            trimmedList.push(data[i]);
+                        }
+                    }            
+                } else if (document.getElementById("footer_filter_checkbox_complete").checked) {
+                    uncolorTrimByCheckboxes();
+                    document.getElementById("footer_filter_container_complete").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].completed == 1) {
+                            trimmedList.push(data[i]);
+                        }
+                    }         
+                } else { // footer_filter_checkbox_all_to_do.checked == true
+                    console.log("trim all to do checked");
+                    uncolorTrimByCheckboxes();
+                    document.getElementById("footer_filter_container_all_to_do").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
+
+                    trimmedList = data;
+
+                }
+                const pageElem = buildFlatPageElement(trimmedList);
                 const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
         
                 toDoRowElementContainer.innerHTML = "";
@@ -12340,8 +12552,6 @@ async function mainEvent() {
     /* Takes in a flat list of to-do objects and returns flat page element */
     function buildFlatPageElement(list) {
         console.log("Entered - buildFlatPageElement()");
-        console.log("list =");
-        console.log(list);
 
         if (document.getElementById("to_do_display_page_element") != undefined) {
             document.getElementById("to_do_display_page_element").remove();
@@ -12354,8 +12564,6 @@ async function mainEvent() {
 
         for (var i = 0; i < list.length; i++) {  // for every To-Do in list
             let curList = ""; // used to get id
-            console.log("in loop - i = " + i + " with ");
-            console.log(list[i]);
 
             /* Set cur type (curList) */
             if (list[i].type == "Contact Customer") {
@@ -12383,8 +12591,14 @@ async function mainEvent() {
             listElem.classList.add("toDoListTypeBorder");
 
             listElem.innerHTML = `<div class="toDoListNoBump"><b>${list[i].type}:</b></div>`;
+            if (i == list.length - 1) {
+                listElem.classList.add("lastToDoElem");
+            }
             const toDoObjectWrInfo = document.createElement("toDoObjectWrInfo");
             toDoObjectWrInfo.id = curList + "_list_" + this.date + "_item_" + i;
+
+            console.log("#$#$#$");
+            console.log(systemPreferences.linesPerPageToDo);
 
             if (list[i].type != "General") { // Will have work request number
 
@@ -12579,7 +12793,7 @@ async function mainEvent() {
             }
     
             // Still inject empty list to hide rows
-            injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors);
+            injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors);
                 
             // Below hides whichever prev/next container shouldn't be visible
@@ -12627,7 +12841,7 @@ async function mainEvent() {
             }
 
             // Still inject empty list to hide rows
-            injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors);
+            injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors, toDoMasterList);
             injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors);
 
             // Below hides whichever prev/next container shouldn't be visible
@@ -13621,7 +13835,7 @@ async function mainEvent() {
         allWrList = temp;
         filteredList = temp;
 
-        injectHTMLAllWrTabDisplay(allWrList, 0, userColors);
+        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
         injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
             
         // Below hides whichever prev/next container shouldn't be visible
@@ -14205,9 +14419,6 @@ async function mainEvent() {
         const tempToDoMasterList = document.getElementById("temp_to_do_storage").innerHTML;
         toDoMasterList.load(tempToDoMasterList);
 
-        console.log("toDoMasterList =");
-        console.log(toDoMasterList);
-
         for (let i = 0; i < tempList.length; i++) {
             allWrList[allWrList.length] = tempList[i];
         }
@@ -14226,6 +14437,8 @@ async function mainEvent() {
         if (document.getElementById("temp_all_wr_list") == undefined) {
             document.getElementById('all_wr_tab').insertAdjacentElement("beforeend", tempAllWrList);
         }
+
+        footerButtonLoad.classList.add("hidden");
 
         /*if (toDoMasterList.length != undefined && toDoMasterList.length > 0) {
             injectHTMLToDoTabDisplay()
@@ -14278,7 +14491,7 @@ async function mainEvent() {
 
 
         if (allWrList.length > 0) {
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
             console.log("List updated");
         } else {
             console.log("List not updated.");

@@ -3359,6 +3359,16 @@ h5 {
     flex-direction: row;
 }
 
+.allWrTabToDoCountBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    font-size: medium;
+    height: 30px;
+    width: 30px;
+}
+
 .hidden {
     display: none;
     
