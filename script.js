@@ -7356,6 +7356,7 @@ async function mainEvent() {
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
         tempContent.style.display = 'none';
+        dropdownCover.classList.add("hidden");
     }
         /* clicks */
     allWrTabRowOneGeneralStatusContainer.addEventListener("click", (event) => {
@@ -7570,6 +7571,7 @@ async function mainEvent() {
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_content");
         tempContent.style.display = 'none';
+        dropdownCover.classList.add("hidden");
     }
         /* clicks */
     allWrTabRowOnePermitStatusContainer.addEventListener("click", (event) => {
@@ -7697,6 +7699,7 @@ async function mainEvent() {
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("easement_status_dd_" + rowNum + "_content");
         tempContent.style.display = 'none';
+        dropdownCover.classList.add("hidden");
     }
         /* clicks */
     allWrTabRowOneEasementStatusContainer.addEventListener("click", (event) => {
@@ -9506,6 +9509,7 @@ async function mainEvent() {
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
         tempContent.style.display = 'none';
+        dropdownCover.classList.add("hidden");
     }
         /* clicks */
     permitsTabRowOneStatusContainer.addEventListener("click", (event) => {
@@ -10505,6 +10509,7 @@ async function mainEvent() {
 
                     /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10538,6 +10543,7 @@ async function mainEvent() {
             
                         /* Hiding DDMenu Content */
                     tempContent.style.display = 'none';
+                    dropdownCover.classList.add("hidden");
                 }
         }
     })
@@ -10572,6 +10578,7 @@ async function mainEvent() {
 
                     /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10606,6 +10613,7 @@ async function mainEvent() {
 
                     /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10647,6 +10655,7 @@ async function mainEvent() {
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10678,6 +10687,7 @@ async function mainEvent() {
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10709,6 +10719,7 @@ async function mainEvent() {
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
@@ -10745,6 +10756,7 @@ async function mainEvent() {
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
             }
         }
     })
