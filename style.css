@@ -1696,6 +1696,30 @@ h5 {
     margin-top: -5px;
 }
 
+.errorMessageEnterHouseNumber, .errorMessageEnterStreetName, .errorMessageEnterZip {
+    display: flex;
+    font-size: medium;
+    width: 145px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-left: 10px;
+    margin-top: -14px;
+    margin-bottom: -10px;
+}
+
+.errorMessageEnterCountyCity {
+    display: flex;
+    font-size: medium;
+    width: 165px;
+    align-items: center;
+    justify-content: center;
+    color: red;
+    margin-top: -14px;
+    margin-left: 5px;
+    margin-bottom: -10px;
+}
+
 .noWrFound {
     display: flex;
     font-size: large;

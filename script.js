@@ -863,7 +863,54 @@ class Error {
 
         const temp = document.getElementById("add_tab_comment_type_dd_container");
         temp.insertAdjacentHTML("afterend", `<div class="errorMessageSelectCommentType" id="error_select_comment_type">Must Select Comment Type</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_select_comment_type");
+            temp.remove();
+        }, 3000);  
+    }
 
+    displayEnterHouseNumber() {
+        console.log("Entered - displayEnterHouseNumber()");
+
+        const temp = document.getElementById("address_element_container_house_number");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageEnterHouseNumber" id="error_enter_house_number">Enter House Number</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_enter_house_number");
+            temp.remove();
+        }, 3000);  
+    }
+
+    displayEnterStreetName() {
+        console.log("Entered - displayEnterStreetName()");
+
+        const temp = document.getElementById("address_element_container_street_name");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageEnterStreetName" id="error_enter_stree_name">Enter Street Name</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_enter_stree_name");
+            temp.remove();
+        }, 3000);  
+    }
+
+    displayEnterCountyCity() {
+        console.log("Entered - displayEnterCountyCity()");
+
+        const temp = document.getElementById("address_element_container_county");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageEnterCountyCity" id="error_enter_county_city">Enter County/City Name</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_enter_county_city");
+            temp.remove();
+        }, 3000);  
+    }
+    
+    displayEnterZip() {
+        console.log("Entered - displayEnterZip()");
+
+        const temp = document.getElementById("address_element_container_zip");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageEnterZip" id="error_enter_zip">Enter Zip Code</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_enter_zip");
+            temp.remove();
+        }, 3000);  
     }
 }
 
@@ -5471,7 +5518,7 @@ async function mainEvent() {
     let tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
     
     /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
-    const inTestMode = false;
+    const inTestMode = true;
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
     function testFunction() {
@@ -10238,6 +10285,14 @@ async function mainEvent() {
                 console.log("wr length != 8");
 
                 e.displayInvalidWr(addTabNewWorkRequestNumber.value);
+            } else if (inTestMode == true && !addressLineTextfieldCoverHouseNumber.classList.contains("hidden")) {
+                e.displayEnterHouseNumber();
+            } else if (inTestMode == true && addressLineTextfieldStreetName.value == "Enter Street Name") {
+                e.displayEnterStreetName();
+            } else if (inTestMode == true && addressLineTextfieldCounty.value == "Enter County/City Name") {
+                e.displayEnterCountyCity();
+            } else if (inTestMode == true && !addressLineTextfieldCoverZip.classList.contains("hidden")) {
+                e.displayEnterZip();
             } else if (addTabPriorityBox.value.length < 1) {
                 console.log("Priority Number length < 1");
 
