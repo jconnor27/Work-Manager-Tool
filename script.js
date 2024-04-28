@@ -5016,9 +5016,11 @@ async function mainEvent() {
     /* Add Tab Textfields */
         /* Adress */
     const addressLineTextfieldHouseNumber = document.querySelector("#address_line_textfield_house_number");
+    const addressLineTextfieldCoverHouseNumber = document.querySelector("#address_line_textfield_cover_house_number");
     const addressLineTextfieldStreetName = document.querySelector("#address_line_textfield_street_name");
     const addressLineTextfieldCounty = document.querySelector("#address_line_textfield_county");
     const addressLineTextfieldZip = document.querySelector("#address_line_textfield_zip");
+    const addressLineTextfieldCoverZip = document.querySelector("#address_line_textfield_cover_zip");
 
         /* Priority Number */
     const addTabPriorityBox = document.querySelector("#add_tab_priority_box");
@@ -5474,6 +5476,8 @@ async function mainEvent() {
 
     function testFunction() {
         console.log("** TEST FUNCTION **");
+
+        addTab.click();
 
         //Testing To-Do's tab
         //toDoTab.click();
@@ -6465,10 +6469,12 @@ async function mainEvent() {
         const str = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + day;
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
-        addressLineTextfieldHouseNumber.value = "Enter House Number";
+        addressLineTextfieldHouseNumber.value = "";
+        addressLineTextfieldCoverHouseNumber.classList.remove("hidden");
         addressLineTextfieldStreetName.value = "Enter Street Name";
         addressLineTextfieldCounty.value = "Enter County/City Name";
-        addressLineTextfieldZip.value = "Enter Zip Code";
+        addressLineTextfieldZip.value = "";
+        addressLineTextfieldCoverZip.classList.remove("hidden");
         addTabPriorityBox.value = 1;
         addTabWrCreationDate.value = str; // new field
         pocTextboxOwnerName.value = "N/A";
@@ -6733,6 +6739,7 @@ async function mainEvent() {
 
         let maxRows = 0;
 
+        /* Figuring out how many rows there are to hide all DDs without throwing error */
         for (var i = 1; i <= 8; i++) {
             const cur = convertNumText(i);
             if (document.getElementById("all_wr_tab_row_" + cur).classList.contains("hidden")) {
@@ -6769,6 +6776,15 @@ async function mainEvent() {
             permitsTabPermitStatusContainerMouseoutFunction(i);
         }
 
+        /* Checking Address Box Covers/Inputs */
+        if (addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value == undefined || 
+        addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value.length == 0) {
+            addressLineTextfieldCoverHouseNumber.classList.remove("hidden");
+        }
+        if (addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value == undefined || 
+        addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value.length == 0) {
+            addressLineTextfieldCoverZip.classList.remove("hidden");
+        }
         
 
         dropdownCover.classList.add("hidden");
@@ -10336,6 +10352,14 @@ async function mainEvent() {
             resetDisplayToDoAddUpdate();
         }
     })
+    addTabClearButton.addEventListener('keydown', (event) => {
+        console.log("Fired - keydown addTbaClearButton");
+
+        if (event.keyCode == 9) {
+            dropdownCover.classList.remove("hidden");
+            addressLineTextfieldCoverHouseNumber.classList.add("hidden");
+        }
+    })
 
         /* List - Remove Buttons + Yes and No*/
     function displayConfirmRemove(toDoId) {
@@ -10730,17 +10754,25 @@ async function mainEvent() {
         console.log("Fired - Clicked customer_contacted_checkbox_no");
 
         if (customerContactedCheckboxYes.checked) {
-            customerContactedCheckboxYes.checked = false /* Unchecking "No" box */
+            customerContactedCheckboxYes.checked = false; /* Unchecking "yes" box */
+            addTabPriorityBox.value = "1";
         }
-        addTabPriorityBox.value = "1";
+        if (!customerContactedCheckboxNo.checked) {
+            customerContactedCheckboxYes.checked = true; /* Checking yes if unchecking no*/
+            addTabPriorityBox.value = "5";
+        }
     })
     customerContactedCheckboxYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked customer_contacted_checkbox_yes");
 
         if (customerContactedCheckboxNo.checked) {
             customerContactedCheckboxNo.checked = false /* Unchecking "No" box */
+            addTabPriorityBox.value = "5";
         }
-        addTabPriorityBox.value = "5";
+        if (!customerContactedCheckboxYes.checked) {
+            customerContactedCheckboxNo.checked = true; /* Checking no if unchecking yes */
+            addTabPriorityBox.value = "1";
+        }
     })
     
         /* Add Tab New Work Request Number Select When Clicked */
@@ -10783,6 +10815,14 @@ async function mainEvent() {
     })
 
         /* Address Textfield  Inputs */
+    addressLineTextfieldHouseNumber.addEventListener("mouseout", (event) => {
+        console.log("Fired - mousedout address_line_textfield_house_number");
+
+        if (addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value == undefined || 
+        addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value.length == 0) {
+            addressLineTextfieldCoverHouseNumber.classList.remove("hidden");
+        }
+    })
     addressLineTextfieldHouseNumber.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_house_number");
 
@@ -10805,6 +10845,13 @@ async function mainEvent() {
 
         addressLineTextfieldStreetName.value = temp;
     })
+    addressLineTextfieldStreetName.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout addressLineTextfieldStreetName");
+
+        if (addressLineTextfieldStreetName.value == undefined || addressLineTextfieldStreetName.value.length == 0) {
+            addressLineTextfieldStreetName.value = "Enter Street Name";
+        }
+    })
     addressLineTextfieldCounty.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_county");
         
@@ -10818,7 +10865,30 @@ async function mainEvent() {
         let temp = addressLineTextfieldCounty.value.charAt(0).toUpperCase();
         temp += addressLineTextfieldCounty.value.substring(1);
 
-        addressLineTextfieldCounty.value = temp;
+        addressLineTextfieldCounty.value = temp;        
+    })
+    addressLineTextfieldCounty.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout addressLineTextfieldCounty");
+
+        if (addressLineTextfieldCounty.value == undefined || addressLineTextfieldCounty.value.length == 0) {
+            addressLineTextfieldCounty.value = "Enter County/City Name";
+        }
+    })
+    addressLineTextfieldCounty.addEventListener('keydown', (event) => {
+        console.log("Fired - keydown addressLineTextfieldCounty");
+
+        if (event.keyCode == 9) {
+            dropdownCover.classList.remove("hidden");
+            addressLineTextfieldCoverZip.classList.add("hidden");
+        }
+    })
+    addressLineTextfieldZip.addEventListener("mouseout", (event) => {
+        console.log("Fired - mousedout addressLineTextfieldZip");
+
+        if (addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value == undefined || 
+        addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value.length == 0) {
+            addressLineTextfieldCoverZip.classList.remove("hidden");
+        }
     })
     addressLineTextfieldZip.addEventListener("click", (event) => {
         console.log("Fired - Clicked address_line_textfield_zip");
@@ -10826,6 +10896,24 @@ async function mainEvent() {
         if (event.target.value != null) {
             event.target.select();
         } 
+    })
+
+        /* Address Textfield Covers */
+    addressLineTextfieldCoverHouseNumber.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addressLineTextfieldCoverHouseNumber");
+
+        addressLineTextfieldCoverHouseNumber.classList.add("hidden");
+        addressLineTextfieldHouseNumber.click();
+
+        dropdownCover.classList.remove("hidden");
+    })
+    addressLineTextfieldCoverZip.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addressLineTextfieldCoverZip");
+
+        addressLineTextfieldCoverZip.classList.add("hidden");
+        addressLineTextfieldZip.click();
+
+        dropdownCover.classList.remove("hidden");
     })
 
             /* Comment Event Listeners */

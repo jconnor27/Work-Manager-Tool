@@ -1008,7 +1008,9 @@
                             <label class="addressBoxLabel" id="address_box_label"><b>Address:</b></label>
                             <div class="addressElementContainer">
                                 <label for="address_line_textfield_house_number" class="addressLineLabel" id="address_line_textfield_house_number_label" style="font-size: small;">House Number:&ensp;</label>
-                                <input type="text" class="addressLineTextfield" id="address_line_textfield_house_number" name="address_line_textfield_house_number" value="Enter House Number">
+                                <input type="number" class="addressLineTextfield" id="address_line_textfield_house_number" name="address_line_textfield_house_number">
+                                <label for="address_line_textfield_house_number" class="addressLineTextfieldCover" id="address_line_textfield_cover_house_number">Enter House Number</label>
+
                             </div>  
                             <div class="addressElementContainer">
                                 <label for="address_line_textfield_street_name" class="addressLineLabel" id="address_line_textfield_street_name_label">Street Name:&ensp;</label>
@@ -1020,7 +1022,9 @@
                             </div>
                             <div class="addressElementContainer">
                                 <label for="address_line_textfield_zip" class="addressLineLabel" id="address_line_textfield_zip_label">Zip Code:&ensp;</label>
-                                <input type="text" class="addressLineTextfield" id="address_line_textfield_zip" name="address_line_textfield_zip" value="Enter Zip Code">
+                                <input type="number" class="addressLineTextfield" id="address_line_textfield_zip" name="address_line_textfield_zip">
+                                <label for="address_line_textfield_zip" class="addressLineTextfieldCover" id="address_line_textfield_cover_zip">Enter Zip Code</label>
+
                             </div>
                         </div>
 
@@ -1358,9 +1362,7 @@
     </div>
 
     <!-- Invisible cover to close DDs -->
-    <div class="dropDownCover hidden" id="drop_down_cover">
-                
-    </div>
+    <div class="dropDownCover hidden" id="drop_down_cover"></div>
 
     <!-- Settings Display -->
     <div class="settingsDisplayContainer hidden" id="settings_display_container">
