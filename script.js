@@ -5518,13 +5518,13 @@ async function mainEvent() {
     let tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
     
     /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
-    const inTestMode = true;
+    const inTestMode = false;
     // green background highlight "rgba(87, 245, 43, 0.627)"
 
     function testFunction() {
         console.log("** TEST FUNCTION **");
 
-        addTab.click();
+        //addTab.click();
 
         //Testing To-Do's tab
         //toDoTab.click();
@@ -7365,8 +7365,18 @@ async function mainEvent() {
         
                 if (tempCurrent.innerHTML.includes("Waiting on Cust") == true) {
                     tempCurrent.style.fontSize = 'smaller';
+                    document.getElementById("general_status_dd_" + rowNum + "_button").style.height = '60px';
+                } else if (tempCurrent.innerHTML.includes("Check/ Apply") || tempCurrent.innerHTML.includes("Cancled")) {
+                    tempCurrent.style.fontSize = 'small'
+                    document.getElementById("general_status_dd_" + rowNum + "_button").style.height = '60px';
+                } else if (tempCurrent.innerHTML.includes("Design") || tempCurrent.innerHTML.includes("Revisions") ||
+                tempCurrent.innerHTML.includes("7010'd")) {
+                    tempCurrent.style.fontSize = 'small'
+                    document.getElementById("general_status_dd_" + rowNum + "_button").style.height = '30px';
+
                 } else {
                     tempCurrent.style.fontSize = 'small'
+                    document.getElementById("general_status_dd_" + rowNum + "_button").style.height = '45px';
                 }
         
                 allWrTabGeneralStatusContainerMouseoutFunction(rowNum);
@@ -7567,6 +7577,13 @@ async function mainEvent() {
                 const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
 
+                if (tempCurrent.innerHTML.includes("Expiring") || tempCurrent.innerHTML.includes("Extension") || 
+                tempCurrent.innerHTML.includes("Don't") || tempCurrent.innerHTML.includes("Haven't")) {
+                    document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_button").style.height = '50px';
+                } else {
+                    document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_button").style.height = '30px';
+                }
+
                 allWrTabPermitStatusContainerMouseoutFunction(rowNum);
             }
         }
@@ -7712,6 +7729,14 @@ async function mainEvent() {
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("easement_status_dd_" + rowNum + "_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
+
+                if (tempCurrent.innerHTML.includes("Pending") || tempCurrent.innerHTML.includes("Not Set")) {
+                    document.getElementById("easement_status_dd_" + rowNum + "_button").style.height = '30px';
+
+                } else {
+                    document.getElementById("easement_status_dd_" + rowNum + "_button").style.height = '50px';
+
+                }
         
                 allWrTabEasementStatusContainerMouseoutFunction(rowNum);
             }
@@ -9498,6 +9523,13 @@ async function mainEvent() {
                 const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
 
+                if (tempCurrent.innerHTML.includes("Expiring") || tempCurrent.innerHTML.includes("Extension") || 
+                tempCurrent.innerHTML.includes("Don't") || tempCurrent.innerHTML.includes("Haven't")) {
+                    document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_button").style.height = '50px';
+                } else {
+                    document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_button").style.height = '30px';
+                }
+
                 permitsTabPermitStatusContainerMouseoutFunction(rowNum);
 
             }
@@ -10772,6 +10804,12 @@ async function mainEvent() {
 
                 tempCurrent.innerHTML = event.target.innerHTML;
 
+                if (tempCurrent.innerHTML.includes("Return")) {
+                    document.getElementById("to_do_tab_dd_0_button").style.height = '50px';
+                } else {
+                    document.getElementById("to_do_tab_dd_0_button").style.height = '30px';
+                }
+
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
                 dropdownCover.classList.add("hidden");
@@ -10805,8 +10843,14 @@ async function mainEvent() {
 
                 if (tempCurrent.innerHTML == "General") {
                     document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes (REQUIRED)";
+                    document.getElementById("to_do_type_dd_0_button").style.height = '30px';
+                } else if (tempCurrent.innerHTML.includes("Site") || tempCurrent.innerHTML.includes("Design") || 
+                tempCurrent.innerHTML.includes("Revisions")) {
+                    document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes";
+                    document.getElementById("to_do_type_dd_0_button").style.height = '30px';
                 } else {
                     document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes";
+                    document.getElementById("to_do_type_dd_0_button").style.height = '50px';
                 }
 
                 /* Hiding DDMenu Content */
