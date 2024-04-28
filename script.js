@@ -312,7 +312,7 @@ class EasementStatusDDMenu {
 
         str.style.display = 'none';
         str.style.position = 'absolute';
-        str.style.marginTop = '75px'
+        str.style.marginTop = '-10px'
         str.style.backgroundColor = "white";
        
         str.style.zIndex = 1;
@@ -383,7 +383,7 @@ class GeneralStatusDDMenu {
 
         str.style.display = 'none';
         str.style.position = 'absolute';
-        str.style.marginTop = '45px';
+        str.style.marginTop = '25px';
         str.style.backgroundColor = "white";
         str.style.height = '290px';
         str.style.width = '350px';
@@ -1685,10 +1685,17 @@ class PaginatedToDoPageElement {
                 /* In theory, one to-do with a list of notes longer than the line limit could break this but when I go to i'm guessing 15+ 
                 lines per page, one to-do with 15 notes should be unrealistic - would have to patch later */
             console.log("Couldn't cut - formatting and pushing cur page");
+            console.log(this.curPage);
 
-            this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
+            if (this.curPage != undefined && this.curPage.length > 0) {
+                console.log("curPage not empty - pushed")
+                this.curPage[this.curPage.length - 1] = this.formatLastElem(this.curPage[this.curPage.length - 1]);
            
-            this.pages.push(this.curPage);
+                this.pages.push(this.curPage);
+            } else {
+                console.log("curPage undefined or empty - not pushed");
+            }
+            
            
             this.curPage = [];
             if (listElem.length > this.linesPerPage) {
@@ -5418,6 +5425,9 @@ async function mainEvent() {
     const confirmRemovePopupNo = document.querySelector("#confirm_remove_popup_no");
     const confirmRemovePopupXButton = document.querySelector("#confirm_remove_popup_x_button");
 
+    const settingsBackButton = document.querySelector("#settings_back_button");
+    const dropdownCover = document.querySelector("#drop_down_cover");
+
 
 
 
@@ -5441,13 +5451,13 @@ async function mainEvent() {
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList(19);//systemPreferences.linesPerPageToDo);
     
-    const rowsOnPage = systemPreferences.rowsOnPage;
-    const linesPerPageToDo = 19;//systemPreferences.linesPerPageToDo;
+    let rowsOnPage = systemPreferences.rowsOnPage;
+    let linesPerPageToDo = 19;//systemPreferences.linesPerPageToDo;
 
-    const permitCommentCount = systemPreferences.permitCommentCount;
-    const tempCommentsCount = systemPreferences.tempCommentsCount;
-    const tempAllCommentCount = systemPreferences.tempAllCommentCount;
-    const tempNotesCount = systemPreferences.tempNotesCount;
+    let permitCommentCount = systemPreferences.permitCommentCount;
+    let tempCommentsCount = systemPreferences.tempCommentsCount;
+    let tempAllCommentCount = systemPreferences.tempAllCommentCount;
+    let tempNotesCount = systemPreferences.tempNotesCount;
 
     let userColors = new ColorPreferences(); 
     let tempToDoPageElement = new PaginatedToDoPageElement(systemPreferences.linesPerPageToDo);
@@ -6483,6 +6493,8 @@ async function mainEvent() {
         addTabWrCommentsToAdd.classList.add("hidden");
         addTabUpdateButton.disabled = true;
         addTabAddButton.disabled = true;
+        /* Resetting Comments Page Num */
+        document.getElementById("add_wr_tab_current_page_box").innerHTML = "1";
 
         /* Clearing Comments To Add */
         /*for (var i = 0; i < tempComments.length; i++) {
@@ -6573,6 +6585,8 @@ async function mainEvent() {
         document.getElementById("add_tab_display_to_do_row_three_textfield_label").innerHTML = "To-Do: Notes";
         addTabDisplayToDoRowThreeNotesToAdd.innerHTML = "";
         addTabDisplayToDoRowThreeTextfield.value = "";
+        /* Resetting Comments Page Num */
+        document.getElementById("add_tab_display_to_do_current_page_box").innerHTML = "1";
         
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "New \"To-Do\" ID#: ";
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
@@ -6637,6 +6651,8 @@ async function mainEvent() {
         addTabPermitCommentsToAdd.classList.add("hidden");
         addTabUpdateButton.disabled = true;
         addTabAddButton.disabled = true;
+        /* Resetting Permit Comments Page */
+        document.getElementById("add_permit_tab_current_page_box").innerHTML = "1";
         tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit") // Emptying tempPermitContents
         
     }
@@ -6669,6 +6685,7 @@ async function mainEvent() {
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         addCommentTabTextfield.value = "Type Comment Here";
         addCommentTabExistingComments.innerHTML = "";
+        document.getElementById("add_comment_tab_current_page_box").innerHTML = "1";
         disableAddCommentTabs();
     }
     
@@ -6703,6 +6720,59 @@ async function mainEvent() {
 
         return d;
     }
+
+    settingsBackButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsBackButton");
+
+        //window.history.back();        
+    })
+
+    /* "Invisible page cover that opens on DD open - when clicked, closes all dropdowns" */
+    dropdownCover.addEventListener("click", (event) => {
+        console.log("Fired - Clicked dropdownCover");
+
+        let maxRows = 0;
+
+        for (var i = 1; i <= 8; i++) {
+            const cur = convertNumText(i);
+            if (document.getElementById("all_wr_tab_row_" + cur).classList.contains("hidden")) {
+                break;
+            } else {
+                maxRows++;
+            }
+        }
+
+        /* Add/Update Wr */
+        document.getElementById("general_status_dd_add_tab_content").style.display = 'none';
+        document.getElementById("easement_status_dd_add_tab_content").style.display = 'none';
+        document.getElementById("permit_status_dd_add_tab_row_1_content").style.display = 'none';
+        document.getElementById("wr_type_dd_content").style.display = 'none';
+
+        /* Add/Update To-Do */
+        document.getElementById("to_do_tab_dd_0_content").style.display = 'none';
+
+        /* Update Permit */
+        document.getElementById("permit_status_dd_add_tab_row_2_content").style.display = 'none';
+
+        /* Add/Update Comment */
+        document.getElementById("comment_type_dd_content").style.display = 'none';
+        document.getElementById("to_do_type_dd_0_content").style.display = 'none';
+        
+        
+        for (var i = 1; i <= maxRows; i++) {
+            /* allWrTab DDs */
+            allWrTabGeneralStatusContainerMouseoutFunction(i);
+            allWrTabPermitStatusContainerMouseoutFunction(i);
+            allWrTabEasementStatusContainerMouseoutFunction(i);
+
+            /* Permits Tab DDs */
+            permitsTabPermitStatusContainerMouseoutFunction(i);
+        }
+
+        
+
+        dropdownCover.classList.add("hidden");
+    })
 
     
         /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
@@ -7188,6 +7258,9 @@ async function mainEvent() {
         tempContent.style.display = 'flex';
         tempContent.style.flexDirection = 'column';
         tempContent.style.border = '1px solid black';
+        tempContent.style.zIndex = '2';
+
+        dropdownCover.classList.remove("hidden");
 
         /* Below statement adjusts position of content box to above or below dd menu */
         if (rowNum <= 4) {
@@ -7389,6 +7462,10 @@ async function mainEvent() {
         tempContent.style.display = 'flex';
         tempContent.style.flexDirection = 'column';
         tempContent.style.border = '1px solid black';
+        tempContent.style.zIndex = 2;
+
+        dropdownCover.classList.remove("hidden");
+
 
         /* Below statement adjusts position of content box to above or below dd menu */
         if (rowNum <= 4) {
@@ -7530,6 +7607,9 @@ async function mainEvent() {
         tempContent.style.display = 'flex';
         tempContent.style.flexDirection = 'column';
         tempContent.style.border = '1px solid black';
+        tempContent.style.zIndex = 2;
+
+        dropdownCover.classList.remove("hidden");
 
         /* Below statement adjusts position of content box to above or below dd menu */
         if (rowNum <= 4) {
@@ -9312,6 +9392,9 @@ async function mainEvent() {
         tempContent.style.display = 'flex';
         tempContent.style.flexDirection = 'column';
         tempContent.style.border = '1px solid black';
+        tempContent.style.zIndex = 2;
+
+        dropdownCover.classList.remove("hidden");
 
         /* Below statement adjusts position of content box to above or below dd menu */
         if (rowNum <= 4) {
@@ -10386,6 +10469,9 @@ async function mainEvent() {
             tempContent.style.border = '1px solid black';
 
             tempContent.style.marginBottom = '350px';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
         } else if (tempContent.style.display = 'flex' && event.target.innerHTML == "/\\") {
             tempContent.style.display = 'none';
         } else {
@@ -10407,6 +10493,10 @@ async function mainEvent() {
             tempContent.style.display = 'flex';
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
+
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
 
             /* Below statement adjusts position of content box to above or below dd menu */
             if (1 <=3) {
@@ -10437,6 +10527,10 @@ async function mainEvent() {
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
 
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
+
             /* Below statement adjusts position of content box to above or below dd menu */
             if (1 <=3) {
                 tempContent.style.marginBottom = '440px';
@@ -10466,6 +10560,10 @@ async function mainEvent() {
             tempContent.style.display = 'flex';
             tempContent.style.flexDirection = 'column';
             tempContent.style.border = '1px solid black';
+
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
 
             /* Below statement adjusts position of content box to above or below dd menu */
             if (1 <=3) {
@@ -10501,8 +10599,9 @@ async function mainEvent() {
 
             tempContent.style.marginTop = '395px';
             tempContent.style.width = '90px';
-            
-                
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");    
 
         } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
             tempContent.style.display = 'none';
@@ -10542,6 +10641,9 @@ async function mainEvent() {
             tempContent.style.marginTop = '95px';
             tempContent.style.width = '90px';
             tempContent.style.paddingLeft = '20px';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
         } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
             tempContent.style.display = 'none';
         } else {
@@ -10570,6 +10672,9 @@ async function mainEvent() {
             tempContent.style.marginTop = '230px';
             tempContent.style.width = '90px';
             tempContent.style.paddingLeft = '20px';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
         } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
             tempContent.style.display = 'none';
         } else {
@@ -10597,6 +10702,9 @@ async function mainEvent() {
             tempContent.style.width = '230px';
             tempContent.style.height = '200px';
             tempContent.style.paddingLeft = '20px';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
         } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
             tempContent.style.display = 'none';
         } else {
@@ -13895,8 +14003,11 @@ async function mainEvent() {
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
                settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@";
 
+        /* Setting New System Preference Values */
         systemPreferences.load(str);
-        const oldList = toDoMasterList;
+
+        /* Creating New List */
+        let oldList = toDoMasterList;
         toDoMasterList = new ToDoMasterList(systemPreferences.linesPerPageToDo);
 
         for (var i = 0; i < oldList.list.length; i++) {
@@ -13906,11 +14017,31 @@ async function mainEvent() {
                 toDoMasterList.add(flatList[j]);
             }
         }
-        console.log("toDoMasterList after refresh");
-        console.log(toDoMasterList);
-        console.log("systemPreferences after load");
-        console.log(systemPreferences);
 
+        /* Setting New Sizes/Values */
+        rowsOnPage = systemPreferences.rowsOnPage;
+        linesPerPageToDo = systemPreferences.linesPerPageToDo;
+        permitCommentCount = systemPreferences.permitCommentCount;
+        tempCommentsCount = systemPreferences.tempCommentsCount;
+        tempAllCommentCount = systemPreferences.tempAllCommentCount;
+        tempNotesCount = systemPreferences.tempNotesCount;
+
+        /* Creating New Temp containers With Updated Sizes */
+        tempToDoPageElement = new PaginatedToDoPageElement(linesPerPageToDo);
+        tempComments = new PaginatedComments(tempCommentsCount, "addWr");
+        tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
+        tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
+        tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
+        tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
+
+        /* Setting All Display Pages To 0 */
+        document.getElementById("all_wr_tab_current_page_box").innerHTML = "1";
+        document.getElementById("permits_tab_current_page_box").innerHTML = "1";
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
+        /* Updating Displays - could check to see where user is and load - may do when I write logic for back button */ 
+        /* Doing this for diplay but also because I'm not updating temp lists - User will see that everything has been "Reset" */
+        allWrTab.click();
 
         settingsPreferencesSaveButton.classList.add("hidden");
         document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
@@ -13929,6 +14060,9 @@ async function mainEvent() {
         settingsDisplayInnerColorsLabel.innerHTML = "Current Color Assigned:"
         colorLocalSaveButton.classList.add("hidden");
         document.getElementById("current_color_assigned_box").style.marginRight = '380px';
+
+        /* Updating Display - could do this better/cleaner */
+        allWrTab.click();
     })
 
         /* Options */

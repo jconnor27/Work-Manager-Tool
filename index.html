@@ -1118,9 +1118,7 @@
                                 <label for="add_tab_comments_add_button" class="addTabCommentsAddButtonLabel" id="add_tab_comments_add_button_label" name="add_tab_comments_add_button_label"><b>Comments To Add:</b></label>
                                 <div class="addTabCommentsPrevNextContainer hidden" id="add_tab_wr_comments_prev_next_container">
                                     <button type="button" class="pagePrevButton" id="add_tab_wr_page_prev_button" disabled>Prev</button>
-                                    <div class="currentPageBox" id="add_wr_tab_current_page_box">
-                                        1
-                                    </div>
+                                    <div class="currentPageBox" id="add_wr_tab_current_page_box">1</div>
                                     <button type="button" class="pageNextButton" id="add_tab_wr_page_next_button" disabled>Next</button>                      
                                 </div>
                                 <button type="button" class="addTabCommentsRemoveButton" id="add_tab_comments_remove_button" disabled>-</button>
@@ -1359,6 +1357,11 @@
         </div>
     </div>
 
+    <!-- Invisible cover to close DDs -->
+    <div class="dropDownCover hidden" id="drop_down_cover">
+                
+    </div>
+
     <!-- Settings Display -->
     <div class="settingsDisplayContainer hidden" id="settings_display_container">
         <div class="settingsDisplayRowsContainer" id="settings_display_rows_container">
@@ -1565,6 +1568,11 @@
             <!-- Settings Button -->
             <div class="settingsButtonContainer" id="settings_button_container">
                 <button type="button" class="settingsButton" id="settings_button">*</button>
+            </div>
+
+            <!-- Back Button -->
+            <div class="settingsBackButtonContainer" id="settings_back_button_container">
+                <button type="button" class="settingsBackButton" id="settings_back_button">Back</button>
             </div>
 
             <!-- Name / Label -->
