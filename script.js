@@ -4174,6 +4174,13 @@ function setPermitRowValues(wr, rowNumber, userColors) {
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
     status.innerText = wr.permit.permitStatus;
     status.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus, userColors);
+    /* Setting Button Height */
+    if (wr.permit.permitStatus.includes("Expiring") || wr.permit.permitStatus.includes("Extension") || 
+    wr.permit.permitStatus.includes("Don't") || wr.permit.permitStatus.includes("Haven't")) {
+        document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_button").style.height = '50px';
+    } else {
+        document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_button").style.height = '30px';
+    }
 
     const startDate = document.getElementById("permits_tab_row_" + rowNumberText + "_start_date");
     startDate.value = formatDate(wr.permit.startDate);
@@ -4261,10 +4268,24 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
 
     const generalStatus = document.getElementById("general_status_dd_" + rowNumber + "_current");
     generalStatus.innerText = wr.generalStatus;
-    if (wr.generalStatus.includes("Waiting on Cust") == true || wr.generalStatus.includes("Cancled") == true || 
-    wr.generalStatus.includes("Coordinator") == true || wr.generalStatus.includes("Check/ Apply") == true ||
-    wr.generalStatus.includes("LL/SP") == true || wr.generalStatus.includes("SVC") == true) {
+    /* Setting Button Height */
+    if (wr.generalStatus.includes("Waiting on Cust") == true) {
         generalStatus.style.fontSize = 'smaller';
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '60px';
+    } else if (wr.generalStatus.includes("Check/ Apply") || wr.generalStatus.includes("Cancled")) {
+        generalStatus.style.fontSize = 'smaller'
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '60px';
+    } else if (wr.generalStatus.includes("Design") || wr.generalStatus.includes("Revisions") ||
+    wr.generalStatus.includes("7010'd")) {
+        generalStatus.style.fontSize = 'smaller'
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '30px';
+
+    } else if (wr.generalStatus.includes("Coordinator")) {
+        generalStatus.style.fontSize = 'smaller'
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '45px';
+    } else {
+        generalStatus.style.fontSize = 'smaller'
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '45px';
     }
 
     const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_do_count_box");
@@ -4273,11 +4294,23 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
     permitStatus.innerText = wr.permit.permitStatus;
     permitStatus.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus, userColors);
+    /* Setting Button Height */
+    if (wr.permit.permitStatus.includes("Expiring") || wr.permit.permitStatus.includes("Extension") || 
+    wr.permit.permitStatus.includes("Don't") || wr.permit.permitStatus.includes("Haven't")) {
+        document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_button").style.height = '50px';
+    } else {
+        document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_button").style.height = '30px';
+    }
 
     const easementStatus = document.getElementById("easement_status_dd_" + rowNumber + "_current");
     easementStatus.innerText = wr.easementRequestStatus;
     easementStatus.style.backgroundColor = assessEasementStatus(wr.easementRequestStatus, userColors);
-
+    /* Setting Button Height */
+    if (wr.easementRequestStatus.includes("Pending") || wr.easementRequestStatus.includes("Not Set")) {
+        document.getElementById("easement_status_dd_" + rowNumber + "_button").style.height = '30px';
+    } else {
+        document.getElementById("easement_status_dd_" + rowNumber + "_button").style.height = '50px';
+    }
 
     const comments = document.getElementById("all_wr_tab_row_" + rowNumberText + "_comments");
     const tempLength = wr.commentsGeneral.comments.length;
@@ -6574,6 +6607,12 @@ async function mainEvent() {
 
         addTabDisplayToDoRowZeroNumfield.value = toDo.toDoId; // must set id before settings comments or logic breaks
         document.getElementById("to_do_tab_dd_0_current").innerHTML = toDo.tab;
+        /* Setting Button Height */
+        if (toDo.tab.includes("Office")) {
+            document.getElementById("to_do_tab_dd_0_button").style.height = '45px'
+        } else {
+            document.getElementById("to_do_tab_dd_0_button").style.height = '30px'
+        }
         addTabDisplayDayOfWeekDate.value = toDo.dueDate;
         setDay("add", makeDate(toDo.dueDate).getDay());
         document.getElementById("to_do_type_dd_0_current").innerHTML = toDo.type;
@@ -6629,7 +6668,9 @@ async function mainEvent() {
         addTabNewWorkRequestNumber.value = "";
         addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
         document.getElementById("to_do_tab_dd_0_current").innerHTML = "General";
+        document.getElementById("to_do_tab_dd_0_button").style.height = '30px'
         document.getElementById("to_do_type_dd_0_current").innerHTML = "Not Set";
+        document.getElementById("to_do_type_dd_0_button").style.height = '30px'
         addTabDisplayDayOfWeekDate.value = (year + "-" + month + "-" + day);
         setDay("add", d.getDay());
         addTabDisplayToDoCreationDate.value = (year + "-" + month + "-" + day);
