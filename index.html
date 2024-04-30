@@ -1361,6 +1361,41 @@
         </div>
     </div>
 
+    <!-- Missing Info Pop Up Container -->
+    <div class="missingInfoContainer hidden" id="missing_info_container">
+        <div class="missingInfoBox">
+
+            <button type="button" class="missingInfoXButton" id="missing_info_x_button">X</button>
+
+            <!-- Row One -->
+            <div class="missingInfoRowOne">
+                <div class="missingInfoText" id="missing_info_header" style="align-self: center;">Not Set</div>
+            </div>
+
+            <!-- Row Three -->
+            <div class="missingInfoRowTwo">
+                <div class="missingInfoText" id="missing_info_type">Not Set</div>
+            </div>
+
+            <!-- Row Two -->
+            <div class="missingInfoRowThree" id="missing_info_row_two">
+                <input type="date" class="missingInfoDayOfWeekDate" id="missing_info_day_of_week_date">
+                <div class="missingInfoDateObjectContainer" id="missing_info_date_object_container">
+
+                </div>
+            </div>
+
+            
+
+            <!-- Button Container -->
+            <div class="missingInfoButtonContainer">
+                <button type="button" class="missingInfoButton" id="missing_info_button_skip">Skip</button>
+                <button type="button" class="missingInfoButton" id="missing_info_button_save">Save</button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Invisible cover to close DDs -->
     <div class="dropDownCover hidden" id="drop_down_cover"></div>
 
@@ -1483,54 +1518,70 @@
 
                 <!-- Preferences Container -->
                 <div class="settingsDisplayLowerDisplayContainerPreferences hidden" id="settings_display_lower_display_container_preferences">
-                    
                     <!-- Save Button Container -->
                     <div class="settingsPreferencesSaveContainer">
                         <button type="button" class="settingsPreferencesSaveButton hidden" id="settings_preferences_save_button">Save</button>
                     </div>
 
-                    <!-- Row One -->
-                    <div class="settingsDisplayRowOnePreferences" id="settings_display_row_one_preferences">
-                        <div class="settingsPreferencesText">Rows Per Page:</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_rows_per_page" disabled>
-                    </div>
+                    <div class="settingsPreferencesRowContainer">
 
-                    <!-- Row Two -->
-                    <div class="settingsDisplayRowTwoPreferences">
-                        <div class="settingsPreferencesText"># of Comments - Add/Update Wr:</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_wr">
-                    </div>
+                        <div class="settingsPreferencesRowContainerLeft">
 
-                    <!-- Row Three-->
-                    <div class="settingsDisplayRowThreePreferences">
-                        <div class="settingsPreferencesText"># of Comments - Update Permit:</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_permit">
-                    </div>
+                            <!-- Row One -->
+                            <div class="settingsDisplayRowOnePreferences" id="settings_display_row_one_preferences">
+                                <div class="settingsPreferencesText">Rows Per Page:</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_rows_per_page" disabled>
+                            </div>
 
-                    <!-- Row Four -->
-                    <div class="settingsDisplayRowFourPreferences">
-                        <div class="settingsPreferencesText"># of Comments - Add/Update Comment:</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_comment">
-                    </div>
+                            <!-- Row Two -->
+                            <div class="settingsDisplayRowTwoPreferences">
+                                <div class="settingsPreferencesText"># of Comments - Add/Update Wr:</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_wr">
+                            </div>
 
-                    <!-- Row Five -->
-                    <div class="settingsDisplayRowFivePreferences">
-                        <div class="settingsPreferencesText"># of Notes - Add/Update To-Do:</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_notes_to_do">
-                    </div>
+                            <!-- Row Three-->
+                            <div class="settingsDisplayRowThreePreferences">
+                                <div class="settingsPreferencesText"># of Comments - Update Permit:</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_permit">
+                            </div>
 
-                    <!-- Row Six -->
-                    <div class="settingsDisplayRowSixPreferences">
-                        <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
-                        <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
-                    </div>
+                            <!-- Row Four -->
+                            <div class="settingsDisplayRowFourPreferences">
+                                <div class="settingsPreferencesText"># of Comments - Add/Update Comment:</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_comment">
+                            </div>
+                        </div>
 
+                        <div class="settingsPreferencesRowContainerRight">
+
+                            <!-- Row Five -->
+                            <div class="settingsDisplayRowFivePreferences">
+                                <div class="settingsPreferencesText"># of Notes - Add/Update To-Do:</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_notes_to_do">
+                            </div>
+
+                            <!-- Row Six -->
+                            <div class="settingsDisplayRowSixPreferences">
+                                <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
+                            </div>
+
+                            <!-- Row Seven -->
+                            <div class="settingsDisplayRowSevenPreferences">
+                                <div class="settingsPreferencesText">Durration of Prompts (In Seconds)</div>
+                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_prompt_duration">
+                            </div>
+                        </div>
+                    </div>
                     <div class="settingsDisplayClearButtonsContainer">
                         <!-- Clear 7010 Jobs Button -->
                         <button type="button" class="settingsPreferencesClear7010Button" id="settings_preferences_clear_7010_button">Clear - 7010 Jobs</button>
 
                         <!-- Clear Complete To-Do's Button -->
                         <button type="button" class="settingsPreferencesClearCompleteToDosButton" id="settings_preferences_clear_complete_to_dos_button">Clear - Complete To-Do's</button>
+                        
+                        <!-- Clear Local Storage Button -->
+                        <button type="button" class="settingsPreferencesClearLocalStorageButton" id="settings_preferences_clear_local_storage_button">Clear - Local Storage</button>
                     </div>
                     
                 </div>
@@ -1559,6 +1610,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Popup for Clear - Local Storage Button -->
+                <div class="clear7010PopUpContainer hidden" id="clear_local_storage_container">
+                    <div class="clear7010PopUp" id="clear_local_storage_pop_up">
+                        <button type="button" class="clear7010PopUpXButton" id="clear_local_storage_pop_up_x_button">X</button>
+                        <div class="clear7010PopUpRowOne"> Are You Sure You Want to Clear Local Storage?</div>
+                        <div class="clear7010PopUpRowTwo">
+                            <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_no">No</button>
+                            <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_yes">Yes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1573,7 +1636,8 @@
             </div>
 
             <!-- Back Button -->
-            <div class="settingsBackButtonContainer" id="settings_back_button_container">
+            <!-- Will come back to - a lot of coding - every click should create a new back object... -->
+            <div class="settingsBackButtonContainer hidden" id="settings_back_button_container">
                 <button type="button" class="settingsBackButton" id="settings_back_button">Back</button>
             </div>
 

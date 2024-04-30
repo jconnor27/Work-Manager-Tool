@@ -551,8 +551,8 @@ class Permit {
 }
 /* Haptix Class used to insert added/updated/no change prompts */
 class Haptix {
-    constructor() {
-
+    constructor(promptDurration) {
+        this.promptDuration = 1000 * promptDurration;
     }
     displayWrAdded(wrNum) {
         console.log("Entered - displayWrAdded(" + wrNum + ")");
@@ -563,7 +563,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("wr_added_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayWrUpdated(wrNum) {
@@ -575,7 +575,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("wr_added_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayPermitUpdated(wrNum) {
@@ -587,7 +587,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("permit_updated_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayCommentsUpdated(wrNum) {
@@ -599,7 +599,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("comment_updated_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayNoChanges(wrNum) {
@@ -611,7 +611,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("no_changes_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayToDoAdded(toDoId) {
@@ -622,7 +622,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("to_do_added_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayToDoUpdated(toDoId) {
@@ -633,7 +633,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("to_do_updated_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayNoChangesToDo(toDoId) {
@@ -644,7 +644,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("no_changes_to_do_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayToDoRemoved(toDoId) {
@@ -655,7 +655,7 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("to_do_removed_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayNoIncompleteToDosToMove() {
@@ -666,13 +666,13 @@ class Haptix {
         setTimeout(() => {
             const temp = document.getElementById("no_incomplete_to_dos_to_move_prompt");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 }
 /* Error Class used to insert error prompts */
 class Error {
-    constructor() {
-
+    constructor(promptDuration) {
+        this.promptDuration = 1000 * promptDuration;
     }
     displayWrAlreadyExistsAddUpdate(wrNum) {
         console.log("Entered - disaplayWrAlreadyExistsAddUpdate(" + wrNum + ")");
@@ -683,7 +683,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_wr_already_exists");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayPermitAlreadyExistsAddUpdate(wrNum) {
@@ -695,7 +695,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_permit_already_exists");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayWrNotFoundAddUpdate(wrNum) {
@@ -706,7 +706,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_wr_not_found");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayPermitNotFoundAddUpdate(wrNum) {
@@ -717,7 +717,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_wr_not_found");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayInvalidWr(wrNum) {
@@ -728,7 +728,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_wr");
             temp.remove();
-        }, 3000);        
+        }, this.promptDuration);        
     }
 
     displayInvalidPriorityNumber() {
@@ -742,7 +742,7 @@ class Error {
             const temp = document.getElementById("error_invalid_priority_number");
             temp.remove();
             temp.style.marginBottom = '0px';
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayInvalidPriorityNumberPermit() {
@@ -753,18 +753,18 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_priority_number");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayInvalidWrType() {
         console.log("Entered - displayInvalidWrType()");
 
         const temp = document.getElementById("add_tab_wr_type_container");
-        temp.insertAdjacentHTML("beforeend", `<div class="errorMessage" id="error_invalid_wr_type">Select Wr Type</li>`);
+        temp.insertAdjacentHTML("beforeend", `<div class="errorMessageInvalidWrType" id="error_invalid_wr_type">Select Wr<br> Type</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_wr_type");
             temp.remove();
-        }, 3000);
+        }, this.promptDuration);
     }
 
     displayInvalidCommentType() {
@@ -775,7 +775,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_comment_type");
             temp.remove();
-        }, 3000)
+        }, this.promptDuration)
     }
 
     displayInvalidToDoId() {
@@ -786,7 +786,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_to_do_id");
             temp.remove();
-        }, 3000)
+        }, this.promptDuration)
     }
 
     displaySelectToDoType() {
@@ -797,7 +797,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_to_do_type");
             temp.remove();
-        }, 3000)
+        }, this.promptDuration)
     } 
 
     displayMustAddNoteForGeneralTypeToDo() {
@@ -808,7 +808,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_message");
             temp.remove();
-        }, 3000)
+        }, this.promptDuration)
     }
 
     displayToDoNoNoteEntered() {
@@ -819,7 +819,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_message");
             temp.remove();
-        }, 3000)
+        }, this.promptDuration)
     }
 
     displayMustAddWorkRequestNumberUnlessGeneral() {
@@ -831,7 +831,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_wr_already_exists");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
 
     displayCommentTypedNotAdded() {
@@ -842,7 +842,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_comment_typed_not_entered");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     
     }
 
@@ -854,7 +854,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_comment_typed_not_entered");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     
     }
 
@@ -866,7 +866,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_select_comment_type");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
 
     displayEnterHouseNumber() {
@@ -877,7 +877,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_enter_house_number");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
 
     displayEnterStreetName() {
@@ -888,7 +888,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_enter_stree_name");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
 
     displayEnterCountyCity() {
@@ -899,7 +899,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_enter_county_city");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
     
     displayEnterZip() {
@@ -910,7 +910,7 @@ class Error {
         setTimeout(() => {
             const temp = document.getElementById("error_enter_zip");
             temp.remove();
-        }, 3000);  
+        }, this.promptDuration);  
     }
 }
 
@@ -1515,6 +1515,7 @@ class SystemPreferences {
         this.tempAllCommentCount = 14;
         this.tempNotesCount = 3;
         this.linesPerPageToDo = 19;
+        this.promptDuration = 3;
     }
 
     load(str) {
@@ -1525,7 +1526,7 @@ class SystemPreferences {
         let data = [];
         let count = 0;
 
-        while (count < 6) {
+        while (count < 7) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1539,6 +1540,7 @@ class SystemPreferences {
         this.tempAllCommentCount = data[3];
         this.tempNotesCount = data[4];
         this.linesPerPageToDo = data[5];
+        this.promptDuration = data[6];
 
         console.log("linesPerPageToDo value = ");
         console.log(this.linesPerPageToDo);
@@ -1550,7 +1552,7 @@ class SystemPreferences {
         let str = "";
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
-        this.tempNotesCount + "@" + this.linesPerPageToDo + "@";
+        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@";
 
         console.log("Returning str =");
         console.log(str);
@@ -3640,6 +3642,7 @@ class ToDoObject {
     }
 }
 
+
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
 function updateComments(comments, tab) {
@@ -4405,7 +4408,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 6) {
+    while (count < 7) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -5511,6 +5514,68 @@ async function mainEvent() {
     const dropdownCover = document.querySelector("#drop_down_cover");
 
 
+        /* Settings Page Event Listeners */
+    const settingsButton = document.querySelector("#settings_button");
+    const settingsXButton = document.querySelector("#settings_x_button");
+    const settingsDisplayContainer = document.querySelector("#settings_display_container");
+    const settingsDisplayTabColors = document.querySelector("#settings_display_tab_colors");
+    const settingsDisplayTabColorsActive = document.querySelector("#settings_display_tab_colors_active");
+    const settingsDisplayTabPreferences = document.querySelector("#settings_display_tab_preferences");
+    const settingsDisplayTabPreferencesActive = document.querySelector("#settings_display_tab_preferences_active");
+    const settingsDisplayTabColorsCrd = document.querySelector("#settings_display_tab_colors_crd");
+    const settingsDisplayTabColorsCrdActive = document.querySelector("#settings_display_tab_colors_crd_active");
+    const settingsDisplayTabColorsRcd = document.querySelector("#settings_display_tab_colors_rcd");
+    const settingsDisplayTabColorsRcdActive = document.querySelector("#settings_display_tab_colors_rcd_active");
+    const settingsDisplayTabColorsPermitStatus = document.querySelector("#settings_display_tab_colors_permit_status");
+    const settingsDisplayTabColorsPermitStatusActive = document.querySelector("#settings_display_tab_colors_permit_status_active");
+    const settingsDisplayTabColorsPermitStart = document.querySelector("#settings_display_tab_colors_permit_start");
+    const settingsDisplayTabColorsPermitStartActive = document.querySelector("#settings_display_tab_colors_permit_start_active");
+    const settingsDisplayTabColorsPermitEnd = document.querySelector("#settings_display_tab_colors_permit_end");
+    const settingsDisplayTabColorsPermitEndActive = document.querySelector("#settings_display_tab_colors_permit_end_active");
+    const settingsDisplayTabColorsEasementStatus = document.querySelector("#settings_display_tab_colors_easement_status");
+    const settingsDisplayTabColorsEasementStatusActive = document.querySelector("#settings_display_tab_colors_easement_status_active");
+    const settingsDisplayLowerDisplayContainerColorsLeft = document.querySelector("#settings_display_lower_display_container_colors_left");
+    const settingsDisplayLowerDisplayContainerColorsRight = document.querySelector("#settings_display_lower_display_container_colors_right");
+    const settingsDisplayContainerLabel = document.querySelector("#settings_display_container_label");
+    const settingsDisplayInnerColorsLabel = document.querySelector("#settings_display_inner_colors_label");
+    const settingsDisplayColorOptionsContainer = document.querySelector("#settings_display_color_options_container");
+    const settingsDisplayInnerColorsBottom = document.querySelector("#settings_display_inner_colors_bottom")
+    const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
+    const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
+    const colorLocalSaveButton = document.querySelector("#color_local_save_button");
+    const settingsDisplayLowerDisplayContainerPreferences = document.querySelector("#settings_display_lower_display_container_preferences");
+    const settingsPreferencesTextfieldRowsPerPage = document.querySelector("#settings_preferences_textfield_rows_per_page");
+    const settingsPreferencesTextfieldCommentsWr = document.querySelector("#settings_preferences_textfield_comments_wr");
+    const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
+    const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
+    const settingsPreferencesTextfieldNotesToDo = document.querySelector("#settings_preferences_textfield_notes_to_do");
+    const settingsPreferencesTextfieldLinesPerPageToDo = document.querySelector("#settings_preferences_textfield_line_per_page_to_do");
+    const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
+    const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
+    const settingsPreferencesClearLocalStorageButton = document.querySelector("#settings_preferences_clear_local_storage_button");
+    const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
+    const settingsPreferencesPromptDuration = document.querySelector("#settings_preferences_textfield_prompt_duration");
+    const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
+    const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
+    const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
+    const clear7010PopUpContainer = document.querySelector("#clear_7010_pop_up_container");
+    const clearCompleteToDosPopUpButtonNo = document.querySelector("#clear_complete_to_dos_pop_up_button_no");
+    const clearCompleteToDosPopUpButtonYes = document.querySelector("#clear_complete_to_dos_pop_up_button_yes");
+    const clearCompleteToDosPopUpXButton = document.querySelector("#clear_complete_to_dos_pop_up_x_button");
+    const clearLocalStoragePopUpButtonNo = document.querySelector("#clear_local_storage_pop_up_button_no");
+    const clearLocalStoragePopUpButtonYes = document.querySelector("#clear_local_storage_pop_up_button_yes");
+    const clearLocalStoragePopUpXButton = document.querySelector("#clear_local_storage_pop_up_x_button");
+        
+    /* Missing Info Pop Up */
+    const missingInfoHeader = document.querySelector("#missing_info_header");
+    const missingInfoType = document.querySelector("#missing_info_type");
+    const missingInfoContainer = document.querySelector("#missing_info_container");
+    const missingInfoDayOfWeekDate = document.querySelector("#missing_info_day_of_week_date");
+    const missingInfoXButton = document.querySelector("#missing_info_x_button");
+    const missingInfoSkipButton = document.querySelector("#missing_info_button_skip");
+    const missingInfoSaveButton = document.querySelector("#missing_info_button_save");
+
+
 
 
 
@@ -5534,7 +5599,8 @@ async function mainEvent() {
     let toDoMasterList = new ToDoMasterList(19);//systemPreferences.linesPerPageToDo);
     
     let rowsOnPage = systemPreferences.rowsOnPage;
-    let linesPerPageToDo = 19;//systemPreferences.linesPerPageToDo;
+    let linesPerPageToDo = systemPreferences.linesPerPageToDo;
+    let promptDurration = systemPreferences.promptDuration;
 
     let permitCommentCount = systemPreferences.permitCommentCount;
     let tempCommentsCount = systemPreferences.tempCommentsCount;
@@ -5992,7 +6058,7 @@ async function mainEvent() {
         initializeToDoTab();
 
         /* Commented out when Testing */
-        //initializeLocalStorage();
+        initializeLocalStorage();
 
         /* Settings System Preference Values */
         settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
@@ -6001,10 +6067,32 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
         settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
         settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
+        settingsPreferencesPromptDuration.value = promptDurration;
+
+        /* Initializing missingInfo Popup */
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let tempFromDate = subtractDays(year, month, day, today.getDay());
+        let tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        let pageObject = new DayOfWeekPageObject("missing_info", tempFromDate, tempToDate);
+        let pageObjectRow = pageObject.makeRowElement();
+        document.getElementById("missing_info_date_object_container").innerHTML = "";
+        document.getElementById("missing_info_date_object_container").insertAdjacentElement("beforeend", pageObjectRow);
+
+        document.getElementById("missing_info_day_of_week_date").value = year + "-" + month + "-" + day;
+        setDay("missing_info", today.getDay());
       
         // Running test function
         testFunction();
-    };
+    }
 
         /* Deslect Header Tab Functions */
     function deselectAllWrTab() {
@@ -6815,6 +6903,7 @@ async function mainEvent() {
         return d;
     }
 
+    /* Not Implemented Yet */
     settingsBackButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsBackButton");
 
@@ -6877,6 +6966,157 @@ async function mainEvent() {
 
         dropdownCover.classList.add("hidden");
     })
+
+    missingInfoContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked missingInfoContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+
+        if (event.target.innerHTML == "Su") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 0);
+        } else if (event.target.innerHTML == "M") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 1);
+        } else if (event.target.innerHTML == "Tu") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 2);
+        } else if (event.target.innerHTML == "W") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 3);
+        } else if (event.target.innerHTML == "Th") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 4);
+        } else if (event.target.innerHTML == "F") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 5);
+        } else if (event.target.innerHTML == "Sa") {
+            clearDays("missing_info");
+
+            document.getElementById("missing_info_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("missing_info_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("missing_info", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = toDoDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            missingInfoDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            
+            const temp = missingInfoDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("missing_info", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("missing_info", tempStr);
+            
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = missingInfoDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            missingInfoDayOfWeekDate.value = addDays(year, month, day, 7);
+
+
+            const temp = missingInfoDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("missing_info", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("missing_info", tempStr);        
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            missingInfoDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+            setDay("missing_info", d.getDay());
+            setFromToDates("missing_info", (year + "-" + month + "-" + day));
+        }
+    })
+    missingInfoXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked missingInfoXButton");
+
+        missingInfoContainer.classList.add("hidden");
+    })
+    missingInfoSkipButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked missingInfoSkipButton");
+
+        missingInfoContainer.classList.add("hidden");
+    })
+    missingInfoSaveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked missingInfoSaveButton");
+
+        let temp = document.getElementById("missing_info_header").innerHTML;
+        let tempIndex = temp.indexOf("#");
+        let curWrNum = temp.substring(tempIndex + 1, tempIndex + 9)
+       
+        for (var i = 0; i < allWrList.length; i++) {
+            
+            if (allWrList[i].workRequestNumber == curWrNum) {
+                if (temp.includes("CRD")) {
+                    console.log("setting new crd");
+                    allWrList[i].crd = missingInfoDayOfWeekDate.value;
+                } else if (temp.includes("RCD")) {
+                    console.log("setting new rcd");
+                    allWrList[i].rcd = missingInfoDayOfWeekDate.value;
+                }
+                
+            }
+        }
+        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+        missingInfoContainer.classList.add("hidden");
+    })
+
+
 
     
         /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
@@ -6985,13 +7225,11 @@ async function mainEvent() {
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
-
-        console.log("HIYA^^");
-        console.log(curWrIndex);
-
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         //document.getElementById("add_tab").click();
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
@@ -7009,6 +7247,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         //document.getElementById("add_tab").click();
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
@@ -7026,6 +7266,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7042,6 +7284,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7058,6 +7302,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7074,6 +7320,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7090,6 +7338,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7106,6 +7356,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         displayWrAddUpdate(currentWr);
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         addDisplayContainer.classList.remove("hidden");
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
@@ -7352,6 +7604,34 @@ async function mainEvent() {
 
             /* General Status DDs */
         /* Functions */
+    function assessGeneralStatusChange(rowNum) {
+        console.log("Entered - assessGeneralStatusChange(" + rowNum + ")");
+
+        /* Current value on page - not in list */
+        const tempCurrent = document.getElementById("general_status_dd_" + rowNum + "_current");
+
+        const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
+        const curWrIndex = parseInt(((page - 1) * rowsOnPage) + parseInt(rowNum) - 1); // Will need to change when more rows
+
+        /* Current Wr */
+        let currentWr = allWrList[curWrIndex];
+
+        console.log(tempCurrent);
+        if (tempCurrent.innerHTML == "Need to Visit") {
+            console.log("^^");
+            if (currentWr.crd == "0001-01-01") {
+                document.getElementById("missing_info_container").classList.remove("hidden");
+                missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
+                missingInfoType.innerHTML = `<div class="missingInfoText">${"Set CRD?"}</div>`;
+            }
+            if (currentWr.rcd == "0001-01-01") {
+                document.getElementById("missing_info_container").classList.remove("hidden");
+                missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
+                missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
+            }
+        }
+    }
+
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
 
@@ -7450,6 +7730,8 @@ async function mainEvent() {
 
             console.log("* Internal List Updated *");
         }
+
+        assessGeneralStatusChange(rowNum);
 
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
@@ -8117,7 +8399,7 @@ async function mainEvent() {
         /* Move To Container */
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
-        const h = new Haptix();
+        const h = new Haptix(promptDurration);
 
         let toRemove = [];
         let index = undefined;
@@ -9952,8 +10234,8 @@ async function mainEvent() {
         /* Buttons */
     addTabUpdateButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_update_button");
-        const h = new Haptix();
-        const e = new Error();
+        const h = new Haptix(promptDurration);
+        const e = new Error(promptDurration);
         const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
         const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
@@ -10064,7 +10346,7 @@ async function mainEvent() {
                 console.log("Priority Number length < 1");
 
                 e.displayInvalidPriorityNumberPermit();
-            } else if (addTabPermitCommentsTextfield.value != undefined && addTabPermitCommentsTextfield.value != "Type Comment Here" &&
+            } else if (addTabPermitCommentsTextfield.value != undefined && addTabPermitCommentsTextfield.value != "Enter Comment Here" &&
             addTabPermitCommentsTextfield.value.length > 0) { 
                 console.log("Comment typed but not entered");
                 e.displayCommentTypedNotAdded();
@@ -10082,6 +10364,16 @@ async function mainEvent() {
                 let curWr = curWrData[1];
                 if (curWrData[0] != false) {
                     const d = new Date();
+                    const year = d.getFullYear();
+                    let month = d.getMonth() + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    let day = d.getDate();
+                    if (day < 10) {
+                        day = "0" + day;
+                    }
+                    const today = year + "-" + month + "-" + day;
                     const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
                     const curWrIndex = curWrData[2];
                     let newWr = new workRequest(curWr.workRequestNumber, curWr.houseNumber, curWr.streetName,
@@ -10090,7 +10382,7 @@ async function mainEvent() {
                         addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
                         curWr.customerContacted, curWr.creationDate);
                     const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
-                    addTabPermitDateUpdated.value, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
+                    today, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                     addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
                     
                     newWr.permit = permit;
@@ -10273,8 +10565,8 @@ async function mainEvent() {
     })
     addTabGetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_get_button");
-        const e = new Error();
-        const h = new Haptix();  
+        const e = new Error(promptDurration);
+        const h = new Haptix(promptDurration);  
 
         if (filterCheckboxAddWr.checked == true) {
             const curWrNum = addTabNewWorkRequestNumber.value;
@@ -10342,8 +10634,8 @@ async function mainEvent() {
     })
     addTabAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_add_button");
-        const e = new Error();
-        const h = new Haptix();
+        const e = new Error(promptDurration);
+        const h = new Haptix(promptDurration);
         const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
         const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
@@ -10522,7 +10814,7 @@ async function mainEvent() {
     })
     confirmRemovePopupYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupYes");
-        const h = new Haptix();
+        const h = new Haptix(promptDuration);
 
         if (toDoTab.classList.contains("hidden")) {
             toDoMasterList.removeById(tempCurToDo[0].toDoId);
@@ -10954,7 +11246,7 @@ async function mainEvent() {
             if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
                 addTabGetButton.disabled = false;
                 //addTabUpdateButton.disabled = false;
-                //ddButton.disabled = true;
+                //addTabAddButton.disabled = true;
             } else if (event.target.value.length == 0 && addTabDisplayToDoRowZeroNumfield.value == toDoMasterList.getCount()) {
                 addTabAddButton.disabled = false;
             } else {
@@ -11364,9 +11656,14 @@ async function mainEvent() {
                 }
             }
         } else { // Months with 31 Days 
-            const tempDay = new Number(curDay) + daysToAdd;
+            let tempDay = new Number(curDay) + daysToAdd;
             if (tempDay > 31) {
-                const newDay = tempDay - 31;
+                let newDay = tempDay - 31;
+
+                if (newDay < 10) {
+                    newDay = "0" + newDay;
+                }
+
                 const newMonth = new Number(curMonth) + 1;
                 if ((newMonth) < 10 && newDay < 10) {
                     return (curYear + "-0" + newMonth + "-0" + newDay);
@@ -11379,6 +11676,10 @@ async function mainEvent() {
                 }
             } else {
                 const tempMonth = new Number(curMonth);
+
+                if (tempDay < 10) {
+                    tempDay = "0" + tempDay;
+                }
 
                 if (tempMonth < 10) {
                     return (curYear + "-0" + tempMonth + "-" + tempDay);
@@ -11482,6 +11783,16 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
+        } else if (tab == "missing_info") {
+            let temp = missingInfoDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         }
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
@@ -11511,6 +11822,9 @@ async function mainEvent() {
             } else if (tab == "move_to") {
                 moveToDayOfWeekDate.value = (temp);
                 setFromToDates("move_to", temp);
+            } else if (tab == "missing_info") {
+                missingInfoDayOfWeekDate.value = (temp);
+                setFromToDates("missing_info", temp);
             }
 
         } else if (newDay > curDay) { // Going forwards
@@ -11527,6 +11841,9 @@ async function mainEvent() {
             } else if (tab == "move_to") {
                 moveToDayOfWeekDate.value = (temp);
                 setFromToDates("move_to", temp);
+            } else if (tab == "missing_info") {
+                missingInfoDayOfWeekDate.value = (temp);
+                setFromToDates("missing_info", temp);
             }
 
         } else { // Going to today
@@ -11549,6 +11866,9 @@ async function mainEvent() {
             } else if (tab == "move_to") {
                 moveToDayOfWeekDate.value = (temp);
                 setFromToDates("move_to", temp);
+            } else if (tab == "missing_info") {
+                missingInfoDayOfWeekDate.value = (temp);
+                setFromToDates("missing_info", temp);
             }
         }
 
@@ -11627,7 +11947,7 @@ async function mainEvent() {
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
 
-        const e = new Error();
+        const e = new Error(promptDurration);
 
         if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
             const d = new Date();
@@ -12066,7 +12386,7 @@ async function mainEvent() {
     })
     addCommentsTabCommentsAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked - add_comments_tab_comments_add_button");
-        const e = new Error();
+        const e = new Error(promptDurration);
 
         if (document.getElementById("comment_type_dd_menu_current").innerHTML == "Not Set") {
             e.displayInvalidCommentType();
@@ -13639,52 +13959,8 @@ async function mainEvent() {
 
     /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */      /* SETTINGS */
 
-    /* Settings Page Event Listeners */
-    const settingsButton = document.querySelector("#settings_button");
-    const settingsXButton = document.querySelector("#settings_x_button");
-    const settingsDisplayContainer = document.querySelector("#settings_display_container");
-    const settingsDisplayTabColors = document.querySelector("#settings_display_tab_colors");
-    const settingsDisplayTabColorsActive = document.querySelector("#settings_display_tab_colors_active");
-    const settingsDisplayTabPreferences = document.querySelector("#settings_display_tab_preferences");
-    const settingsDisplayTabPreferencesActive = document.querySelector("#settings_display_tab_preferences_active");
-    const settingsDisplayTabColorsCrd = document.querySelector("#settings_display_tab_colors_crd");
-    const settingsDisplayTabColorsCrdActive = document.querySelector("#settings_display_tab_colors_crd_active");
-    const settingsDisplayTabColorsRcd = document.querySelector("#settings_display_tab_colors_rcd");
-    const settingsDisplayTabColorsRcdActive = document.querySelector("#settings_display_tab_colors_rcd_active");
-    const settingsDisplayTabColorsPermitStatus = document.querySelector("#settings_display_tab_colors_permit_status");
-    const settingsDisplayTabColorsPermitStatusActive = document.querySelector("#settings_display_tab_colors_permit_status_active");
-    const settingsDisplayTabColorsPermitStart = document.querySelector("#settings_display_tab_colors_permit_start");
-    const settingsDisplayTabColorsPermitStartActive = document.querySelector("#settings_display_tab_colors_permit_start_active");
-    const settingsDisplayTabColorsPermitEnd = document.querySelector("#settings_display_tab_colors_permit_end");
-    const settingsDisplayTabColorsPermitEndActive = document.querySelector("#settings_display_tab_colors_permit_end_active");
-    const settingsDisplayTabColorsEasementStatus = document.querySelector("#settings_display_tab_colors_easement_status");
-    const settingsDisplayTabColorsEasementStatusActive = document.querySelector("#settings_display_tab_colors_easement_status_active");
-    const settingsDisplayLowerDisplayContainerColorsLeft = document.querySelector("#settings_display_lower_display_container_colors_left");
-    const settingsDisplayLowerDisplayContainerColorsRight = document.querySelector("#settings_display_lower_display_container_colors_right");
-    const settingsDisplayContainerLabel = document.querySelector("#settings_display_container_label");
-    const settingsDisplayInnerColorsLabel = document.querySelector("#settings_display_inner_colors_label");
-    const settingsDisplayColorOptionsContainer = document.querySelector("#settings_display_color_options_container");
-    const settingsDisplayInnerColorsBottom = document.querySelector("#settings_display_inner_colors_bottom")
-    const currentColorAssignedBox = document.querySelector("#current_color_assigned_box");
-    const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
-    const colorLocalSaveButton = document.querySelector("#color_local_save_button");
-    const settingsDisplayLowerDisplayContainerPreferences = document.querySelector("#settings_display_lower_display_container_preferences");
-    const settingsPreferencesTextfieldRowsPerPage = document.querySelector("#settings_preferences_textfield_rows_per_page");
-    const settingsPreferencesTextfieldCommentsWr = document.querySelector("#settings_preferences_textfield_comments_wr");
-    const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
-    const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
-    const settingsPreferencesTextfieldNotesToDo = document.querySelector("#settings_preferences_textfield_notes_to_do");
-    const settingsPreferencesTextfieldLinesPerPageToDo = document.querySelector("#settings_preferences_textfield_line_per_page_to_do");
-    const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
-    const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
-    const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
-    const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
-    const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
-    const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
-    const clear7010PopUpContainer = document.querySelector("#clear_7010_pop_up_container");
-    const clearCompleteToDosPopUpButtonNo = document.querySelector("#clear_complete_to_dos_pop_up_button_no");
-    const clearCompleteToDosPopUpButtonYes = document.querySelector("#clear_complete_to_dos_pop_up_button_yes");
-    const clearCompleteToDosPopUpXButton = document.querySelector("#clear_complete_to_dos_pop_up_x_button");
+
+
 
 
 
@@ -13998,7 +14274,8 @@ async function mainEvent() {
             settingsPreferencesTextfieldCommentsPermit.value == systemPreferences.permitCommentCount &&
             settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount &&
             settingsPreferencesTextfieldNotesToDo.value == systemPreferences.tempNotesCount &&
-            settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo) {
+            settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo &&
+            settingsPreferencesPromptDuration.value == systemPreferences.promptDuration) {
                 return false;
         } else {
             return true;
@@ -14080,6 +14357,23 @@ async function mainEvent() {
 
         document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
     })
+        /* Clear Local Storage */
+    clearLocalStoragePopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearLocalStoragePopUpButtonYes");
+
+        localStorage.clear();
+        location.reload();
+    })
+    clearLocalStoragePopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearLocalStoragePopUpButtonNo");
+
+        document.getElementById("clear_local_storage_container").classList.add("hidden");
+    })
+    clearLocalStoragePopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked clearLocalStoragePopUpXButton");
+
+        document.getElementById("clear_local_storage_container").classList.add("hidden");
+    })
 
     settingsPreferencesClear7010Button.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsPreferencesClear7010Button");
@@ -14090,6 +14384,12 @@ async function mainEvent() {
         console.log("Fired - Clicked settingsPreferencesClearCompleteToDosButton");
 
         document.getElementById("clear_complete_to_dos_container").classList.remove("hidden");
+    })
+    settingsPreferencesClearLocalStorageButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesClearLocalStorageButton");
+
+        document.getElementById("clear_local_storage_container").classList.remove("hidden");
+
     })
 
         /* System Preferences */
@@ -14105,7 +14405,7 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
@@ -14128,7 +14428,7 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
@@ -14151,7 +14451,7 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
@@ -14174,7 +14474,7 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
@@ -14197,7 +14497,7 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
@@ -14220,12 +14520,35 @@ async function mainEvent() {
             settingsPreferencesSaveButton.classList.add("hidden");
             document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
         } else {
-            document.getElementById("settings_display_row_one_preferences").style.marginTop = '40px';
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
             settingsPreferencesSaveButton.classList.remove("hidden");
         }
     })
     settingsPreferencesTextfieldLinesPerPageToDo.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsPReferencesTextfieldLiensPerPageToDo");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    settingsPreferencesPromptDuration.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesPromptDuration");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesPromptDuration.addEventListener("click", (event) => {
+        console.log("Clicked - settingsPreferencesPromptDuration");
 
         if (event.target.value != null && event.target.value.length > 0) {
             event.target.select();
@@ -14241,7 +14564,8 @@ async function mainEvent() {
 
         str += settingsPreferencesTextfieldRowsPerPage.value + "@" + settingsPreferencesTextfieldCommentsWr.value + "@" + 
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
-               settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@";
+               settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
+               settingsPreferencesPromptDuration.value + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
