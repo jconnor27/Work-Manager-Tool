@@ -7004,20 +7004,58 @@ async function mainEvent() {
             }
             
         }
-        
-        
-        
+
+            /* DropDowns */
         for (var i = 1; i <= maxRows; i++) {
-            if (allWrTab.classList.contains("hidden")){
-                /* allWrTab DDs */
-                allWrTabGeneralStatusContainerMouseoutFunction(i);
-                allWrTabPermitStatusContainerMouseoutFunction(i);
-                allWrTabEasementStatusContainerMouseoutFunction(i);
+                /* AllWr Tab */
+            if (allWrTab.classList.contains("hidden") && document.getElementById("general_status_dd_" + i + "_content").style.display != 'none'){
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curIndex = (curPage - 1) * rowsOnPage + i - 1
+                const curWr = allWrList[curIndex];
+ 
+                if (curWr.generalStatus != document.getElementById("general_status_dd_" + i + "_current").innerHTML) {
+                    allWrTabGeneralStatusContainerMouseoutFunction(i);
+                } else {
+                    document.getElementById("general_status_dd_" + i + "_content").style.display = 'none';
+                }
+                
             }
-            
-            if (permitsTab.classList.contains("hidden")) {
-                /* Permits Tab DDs */
-                permitsTabPermitStatusContainerMouseoutFunction(i);
+
+            if (allWrTab.classList.contains("hidden") && document.getElementById("permit_status_dd_allWr_tab_row_" + i + "_content").style.display != 'none'){
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curIndex = (curPage - 1) * rowsOnPage + i - 1
+                const curWr = allWrList[curIndex];
+
+                if (curWr.permit.permitStatus != document.getElementById("permit_status_dd_allWr_tab_row_" + i + "_current").innerHTML) {
+                    allWrTabPermitStatusContainerMouseoutFunction(i);
+                } else {
+                    document.getElementById("permit_status_dd_allWr_tab_row_" + i + "_content").style.display = 'none';
+                }
+            }
+            if (allWrTab.classList.contains("hidden") && document.getElementById("easement_status_dd_" + i + "_content").style.display != 'none'){
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curIndex = (curPage - 1) * rowsOnPage + i - 1
+                const curWr = allWrList[curIndex];
+
+                if (curWr.easementRequestStatus != document.getElementById("easement_status_dd_" + i + "_current").innerHTML) {
+                    allWrTabEasementStatusContainerMouseoutFunction(i);
+                } else {
+                    document.getElementById("easement_status_dd_" + i + "_content").style.display = 'none';
+                }
+            }
+
+            /* Permits Tab */
+            if (permitsTab.classList.contains("hidden") ) {
+                const curPage = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+                const curIndex = (curPage - 1) * rowsOnPage + i - 1
+                const curWr = allWrList[curIndex];
+
+                if (curWr.permit.permitStatus != document.getElementById("permit_status_dd_permits_tab_row_" + i + "_current").innerHTML) {
+                    permitsTabPermitStatusContainerMouseoutFunction(i);
+
+                } else {
+                    document.getElementById("permit_status_dd_permits_tab_row_" + i + "_content").style.display = 'none';
+                }
             }
             
         }
@@ -7499,8 +7537,6 @@ async function mainEvent() {
 
         addToDoPopUpContainer.classList.add("hidden");
     })
-
-
 
     
         /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
