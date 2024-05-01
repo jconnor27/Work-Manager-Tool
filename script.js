@@ -668,6 +668,17 @@ class Haptix {
             temp.remove();
         }, this.promptDuration);
     }
+
+    displayToDoAddedFromPopUp(type, wrNum) {
+        console.log("Entered - displayToDoAddedFromPopUp(type= " + type + " wrNum= " + wrNum + ")");
+        
+        const temp = document.getElementById("left_side_container");
+        temp.insertAdjacentHTML("beforeend", `<div class="toDoAddedFromPopUpPrompt" id="to_do_added_from_pop_up_prompt">"${type}" To-Do Added For Work Request # ${wrNum}</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_added_from_pop_up_prompt");
+            temp.remove();
+        }, this.promptDuration);
+    }
 }
 /* Error Class used to insert error prompts */
 class Error {
@@ -4298,6 +4309,8 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     } else if (wr.generalStatus.includes("Coordinator")) {
         generalStatus.style.fontSize = 'smaller'
         document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '45px';
+    } else if (wr.generalStatus.includes("Not Set")) {
+        document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '30px';
     } else {
         generalStatus.style.fontSize = 'smaller'
         document.getElementById("general_status_dd_" + rowNumber + "_button").style.height = '45px';
@@ -5587,9 +5600,14 @@ async function mainEvent() {
     const missingInfoSkipButton = document.querySelector("#missing_info_button_skip");
     const missingInfoSaveButton = document.querySelector("#missing_info_button_save");
 
-
-
-
+    /* Add To-Do Pop Up */
+    const addToDoPopUpHeader = document.querySelector("#add_to_do_pop_up_header");
+    const addToDoPopUpTab = document.querySelector("#add_to_do_pop_up_tab");
+    const addToDoPopUpContainer = document.querySelector("#add_to_do_pop_up_container");
+    const addToDoPopUpDayOfWeekDate = document.querySelector("#add_to_do_pop_up_day_of_week_date");
+    const addToDoPopUpXButton = document.querySelector("#add_to_do_pop_up_x_button");
+    const addToDoPopUpButtonNo = document.querySelector("#add_to_do_pop_up_button_no");
+    const addToDoPopUpButtonYes = document.querySelector("#add_to_do_pop_up_button_yes");
 
 
         /* Variable */
@@ -6101,7 +6119,27 @@ async function mainEvent() {
 
         document.getElementById("missing_info_day_of_week_date").value = year + "-" + month + "-" + day;
         setDay("missing_info", today.getDay());
-      
+
+        /* Initializing Add To-Do Popup */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("add_to_do_pop_up", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+        document.getElementById("add_to_do_pop_up_date_object_container").innerHTML = "";
+        document.getElementById("add_to_do_pop_up_date_object_container").insertAdjacentElement("beforeend", pageObjectRow);
+
+        document.getElementById("add_to_do_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
+        setDay("add_to_do_pop_up", today.getDay());
         // Running test function
         testFunction();
     }
@@ -6938,31 +6976,50 @@ async function mainEvent() {
             }
         }
 
-        /* Add/Update Wr */
-        document.getElementById("general_status_dd_add_tab_content").style.display = 'none';
-        document.getElementById("easement_status_dd_add_tab_content").style.display = 'none';
-        document.getElementById("permit_status_dd_add_tab_row_1_content").style.display = 'none';
-        document.getElementById("wr_type_dd_content").style.display = 'none';
+        if (addTab.classList.contains("hidden")) {
+            console.log("addTab has hidden");
+            if (filterCheckboxAddWr.checked) {
+                /* Add/Update Wr */
+                document.getElementById("general_status_dd_add_tab_content").style.display = 'none';
+                document.getElementById("easement_status_dd_add_tab_content").style.display = 'none';
+                document.getElementById("permit_status_dd_add_tab_row_1_content").style.display = 'none';
+                document.getElementById("wr_type_dd_content").style.display = 'none';
+            }
+            
+            if (filterCheckboxAddToDo.checked) {
+                /* Add/Update To-Do */
+                document.getElementById("to_do_tab_dd_0_content").style.display = 'none';
+                document.getElementById("to_do_type_dd_0_content").style.display = 'none';
 
-        /* Add/Update To-Do */
-        document.getElementById("to_do_tab_dd_0_content").style.display = 'none';
+            }
 
-        /* Update Permit */
-        document.getElementById("permit_status_dd_add_tab_row_2_content").style.display = 'none';
-
-        /* Add/Update Comment */
-        document.getElementById("comment_type_dd_content").style.display = 'none';
-        document.getElementById("to_do_type_dd_0_content").style.display = 'none';
+            if (filterCheckboxAddPermit.checked) {
+                /* Update Permit */
+                document.getElementById("permit_status_dd_add_tab_row_2_content").style.display = 'none';
+            }
+            
+            if (filterCheckboxAddComment.checked) {
+                /* Add/Update Comment */
+                document.getElementById("comment_type_dd_content").style.display = 'none';
+            }
+            
+        }
+        
         
         
         for (var i = 1; i <= maxRows; i++) {
-            /* allWrTab DDs */
-            allWrTabGeneralStatusContainerMouseoutFunction(i);
-            allWrTabPermitStatusContainerMouseoutFunction(i);
-            allWrTabEasementStatusContainerMouseoutFunction(i);
-
-            /* Permits Tab DDs */
-            permitsTabPermitStatusContainerMouseoutFunction(i);
+            if (allWrTab.classList.contains("hidden")){
+                /* allWrTab DDs */
+                allWrTabGeneralStatusContainerMouseoutFunction(i);
+                allWrTabPermitStatusContainerMouseoutFunction(i);
+                allWrTabEasementStatusContainerMouseoutFunction(i);
+            }
+            
+            if (permitsTab.classList.contains("hidden")) {
+                /* Permits Tab DDs */
+                permitsTabPermitStatusContainerMouseoutFunction(i);
+            }
+            
         }
 
         /* Checking Address Box Covers/Inputs */
@@ -6979,6 +7036,26 @@ async function mainEvent() {
         dropdownCover.classList.add("hidden");
     })
 
+    /* Missing Info Pop Up */
+    missingInfoDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout missingInfoDayOfWeekDate");
+
+        const temp = missingInfoDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("missing_info", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("missing_info", tempStr);
+    })
     missingInfoContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked missingInfoContainer");
 
@@ -7097,7 +7174,26 @@ async function mainEvent() {
     missingInfoXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked missingInfoXButton");
 
+        let temp = document.getElementById("missing_info_header").innerHTML;
+        let tempIndex = temp.indexOf("#");
+        let curWrNum = temp.substring(tempIndex + 1, tempIndex + 9)
+       
+        for (var i = 0; i < allWrList.length; i++) {
+            
+            if (allWrList[i].workRequestNumber == curWrNum) {
+                if (temp.includes("CRD")) {
+                    console.log("skipped - setting crd year to 0002 to avoid checking again");
+                    allWrList[i].crd = "0002-01-01";
+                } else if (temp.includes("RCD")) {
+                    console.log("skipped - setting rcd year to 0002 to avoid checking again");
+                    allWrList[i].rcd = "0002-01-01";
+                }
+                
+            }
+        }
+
         missingInfoContainer.classList.add("hidden");
+        assessGeneralStatusChange(i% rowsOnPage);    
     })
     missingInfoSkipButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked missingInfoSkipButton");
@@ -7146,6 +7242,262 @@ async function mainEvent() {
         injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
         missingInfoContainer.classList.add("hidden");
         assessGeneralStatusChange(i% rowsOnPage);
+    })
+
+    /* Add To-Do Pop Up */
+    function clearAddToDoPopUpTabs() {
+        console.log("Entered - clearAddToDoPopUpTabs()");
+
+        document.getElementById("add_to_do_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_mentor_active").classList.add("hidden");
+
+        document.getElementById("add_to_do_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_mentor").classList.remove("hidden");
+
+    }
+    addToDoPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout addToDoPopUpDayOfWeekDate");
+
+        const temp = addToDoPopUpDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("add_to_do_pop_up", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("add_to_do_pop_up", tempStr);
+    })
+    addToDoPopUpContainer.addEventListener("click" , (event) => {
+        console.log("Fired - Clicked addToDoPopUpContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+
+        if (event.target.innerHTML == "Su") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 0);
+        } else if (event.target.innerHTML == "M") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 1);
+        } else if (event.target.innerHTML == "Tu") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 2);
+        } else if (event.target.innerHTML == "W") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 3);
+        } else if (event.target.innerHTML == "Th") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 4);
+        } else if (event.target.innerHTML == "F") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 5);
+        } else if (event.target.innerHTML == "Sa") {
+            clearDays("add_to_do_pop_up");
+
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_to_do_pop_up", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = addToDoPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addToDoPopUpDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            
+            const temp = addToDoPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("add_to_do_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("add_to_do_pop_up", tempStr);
+            
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = addToDoPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addToDoPopUpDayOfWeekDate.value = addDays(year, month, day, 7);
+
+
+            const temp = addToDoPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("add_to_do_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("add_to_do_pop_up", tempStr);        
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            addToDoPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+            setDay("add_to_do_pop_up", d.getDay());
+            setFromToDates("add_to_do_pop_up", (year + "-" + month + "-" + day));
+        } if (event.target.innerHTML == "Coordinator") {
+            clearAddToDoPopUpTabs();
+
+            document.getElementById("add_to_do_pop_up_tab_coordinator").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_coordinator_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Waiting") {
+            clearAddToDoPopUpTabs();
+
+            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "On Return" || event.target.innerHTML == "To Office") {
+            clearAddToDoPopUpTabs();
+
+            document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "General") {
+            clearAddToDoPopUpTabs();
+
+            document.getElementById("add_to_do_pop_up_tab_general").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_general_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Mentor") {
+            clearAddToDoPopUpTabs();
+
+            document.getElementById("add_to_do_pop_up_tab_mentor").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_mentor_active").classList.remove("hidden");
+        } 
+    })
+    addToDoPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addtoDoPopUpXButton");
+
+        addToDoPopUpContainer.classList.add("hidden");
+    })
+    addToDoPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpButtonNo");
+
+        addToDoPopUpContainer.classList.add("hidden");
+    })
+    addToDoPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpButtonYes");
+        const h = new Haptix(promptDurration);
+
+        const d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
+        let str = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        let tab = "";
+
+        if (document.getElementById("add_to_do_pop_up_tab_coordinator").classList.contains("hidden")) {
+            tab = "Coordinator";
+        } else if (document.getElementById("add_to_do_pop_up_tab_waiting").classList.contains("hidden")) {
+            tab = "Waiting";
+        } else if (document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+            tab = "On Return To Office";
+        } else if (document.getElementById("add_to_do_pop_up_tab_general").classList.contains("hidden")) {
+            tab = "General";
+        } else if (document.getElementById("add_to_do_pop_up_tab_mentor").classList.contains("hidden")) {
+            tab = "Mentor";
+        }
+
+        if (addToDoPopUpHeader.innerHTML.includes("Site Visit")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Site Visit", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Svc Calc + Coding")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Svc Calcs + Coding", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("NJUNS")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Check/ Apply - NJUNS", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Permit")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Easement")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Design")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Design", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Revisions")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("Revisions", str);
+        } else if (addToDoPopUpTab.innerHTML.includes("Waiting")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [], str);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
+        } 
+
+        addToDoPopUpContainer.classList.add("hidden");
     })
 
 
@@ -7648,9 +8000,7 @@ async function mainEvent() {
         /* Current Wr */
         let currentWr = allWrList[curWrIndex];
 
-        console.log(tempCurrent);
         if (tempCurrent.innerHTML == "Need to Visit") {
-            console.log("^^");
             if (currentWr.crd == "0001-01-01") {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
@@ -7659,8 +8009,39 @@ async function mainEvent() {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
+            } else { // Asking User if they want to add to-do
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
-        }
+        } else if (tempCurrent.innerHTML == "Need to Flag") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "SVC Calcs + Coding") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Svc Calc + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "Check/ Apply For Permit") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "Check/ Apply For Easement") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "Design") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML == "Revisions") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML.includes("Waiting")) {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+            clearAddToDoPopUpTabs();
+            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+        } 
     }
 
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
@@ -7686,6 +8067,10 @@ async function mainEvent() {
     }
     function allWrTabGeneralStatusContainerClickFunction(rowNum, event) {
         console.log("Entered - allWrTabGeneralStatusContainerClickFunction(" + rowNum + ")");
+
+        if (allWrTabActive.classList.contains("hidden")) {
+            return;
+        }
 
         const tempContent = document.getElementById("general_status_dd_" + rowNum + "_content");
 
@@ -11632,7 +12017,12 @@ async function mainEvent() {
         } else if (tab == "move_to") {
             document.getElementById("move_to_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("move_to_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
-
+        } else if (tab == "missing_info") {
+            document.getElementById("missing_info_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("missing_info_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        } else if (tab == "add_to_do_pop_up") {
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("add_to_do_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
         }
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
@@ -11824,6 +12214,16 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
+        } else if (tab == "add_to_do_pop_up") {
+            let temp = addToDoPopUpDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         }
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
@@ -11856,6 +12256,9 @@ async function mainEvent() {
             } else if (tab == "missing_info") {
                 missingInfoDayOfWeekDate.value = (temp);
                 setFromToDates("missing_info", temp);
+            } else if (tab == "add_to_do_pop_up") {
+                addToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("add_to_do_pop_up", temp);
             }
 
         } else if (newDay > curDay) { // Going forwards
@@ -11875,6 +12278,9 @@ async function mainEvent() {
             } else if (tab == "missing_info") {
                 missingInfoDayOfWeekDate.value = (temp);
                 setFromToDates("missing_info", temp);
+            } else if (tab == "add_to_do_pop_up") {
+                addToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("add_to_do_pop_up", temp);
             }
 
         } else { // Going to today
@@ -11900,6 +12306,9 @@ async function mainEvent() {
             } else if (tab == "missing_info") {
                 missingInfoDayOfWeekDate.value = (temp);
                 setFromToDates("missing_info", temp);
+            } else if (tab == "add_to_do_pop_up") {
+                addToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("add_to_do_pop_up", temp);
             }
         }
 

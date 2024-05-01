@@ -1834,6 +1834,14 @@ h5 {
     width: 120px;
 }
 
+.toDoAddedFromPopUpPrompt {
+    display: flex;
+    font-size: small;
+    align-items: center;
+    justify-content: center;
+    color: green;
+}
+
 .pageNextButton{
     display: flex;
     font-size: large;
@@ -3450,7 +3458,7 @@ h5 {
     min-width: 147px;
 }
 
-.missingInfoContainer {
+.missingInfoContainer, .addToDoPopUpContainer {
     display: flex;
     z-index: 1;
     position: absolute;
@@ -3471,6 +3479,16 @@ h5 {
     border: 2px solid black;
 }
 
+.addToDoPopUpBox {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    width: 650px;
+    z-index: 2;
+    background-color: white;
+    border: 2px solid black;
+}
+
 .missingInfoRowOne {
     display: flex;
     flex-direction: row;
@@ -3479,12 +3497,29 @@ h5 {
     justify-content: center;
 }
 
+.addToDoPopUpRowOne {
+    display: flex;
+    flex-direction: row;
+    width: 650px;
+    margin-top: 20px;
+    justify-content: center;
+    padding-left: 5px;
+}
+
 .missingInfoRowTwo {
     display: flex;
+    flex-direction: column;
     width: 600px;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+}
+
+.addToDoPopUpRowTwo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .missingInfoRowThree {
@@ -3495,7 +3530,16 @@ h5 {
     margin-bottom: 50px;
 }
 
-.missingInfoXButton {
+.addToDoPopUpRowThree {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.missingInfoXButton, .addToDoPopUpXButton {
     display: flex;
     font-size: 20px;
     margin-left: 15px;
@@ -3505,10 +3549,18 @@ h5 {
     margin-top: 10px;
 }
 
-.missingInfoText {
+.missingInfoText, .addToDoPopUpText {
     display: flex;
     font-size: large;
     justify-self: center;
+}
+
+.addToDoPopUpTextSub {
+    display: flex;
+    font-size: large;
+    justify-self: center;
+    
+    margin-left: 220px;
 }
 
 .missingInfoButtonContainer {
@@ -3518,7 +3570,15 @@ h5 {
     justify-content: center;
 }
 
-.missingInfoButton {
+.addToDoPopUpButtonContainer {
+    display: flex;
+    flex-direction: row;
+    width: 650px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.missingInfoButton, .addToDoPopUpButton {
     display: flex;
     font-size: large;
     padding: 5px;
@@ -3526,11 +3586,38 @@ h5 {
     margin-right: 30px;
 }
 
-.missingInfoDayOfWeekDate {
+.missingInfoDayOfWeekDate, .addToDoPopUpDayOfWeekDate {
     display: flex;
     width: fit-content;
     align-self: center;
     margin-bottom: 5px;
+}
+
+.addToDoPopUpTabContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 420px;
+    justify-content: center;
+    align-self: center;
+}
+
+.addToDoPopUpTab {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 4px;
+    width: 85px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    margin-bottom: 0px;
+}
+
+.addToDoPopUpRow {
+    display: flex;
+    flex-direction: row;
 }
 
 .hidden {
