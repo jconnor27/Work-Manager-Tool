@@ -4196,11 +4196,17 @@ function setPermitRowValues(wr, rowNumber, userColors) {
     endDate.style.backgroundColor = assessDatePermitEnd(date, userColors);
 
     const crd = document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date");
+    if (wr.crd == "0002-01-01") {
+        wr.crd = "0001-01-01"; // resetting date from assessGeneralStatusChange
+    }
     crd.value = wr.crd;
     date = new Date(wr.crd);
     crd.style.backgroundColor = assessDateCRD(date, userColors);
 
     const rcd = document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date");
+    if (wr.rcd == "0002-01-01") {
+        wr.rcd = "0001-01-01"; // resetting date from assessGeneralStatusChange
+    }
     rcd.value = wr.rcd;
     date = new Date(wr.rcd);
     rcd.style.backgroundColor = assessDateRCD(date, userColors);
@@ -4212,7 +4218,7 @@ function setPermitRowValues(wr, rowNumber, userColors) {
         comments.innerText = "No Comments";
     } else {
         comments.innerText = wr.commentsGeneral.comments[tempLength - 1].comment +
-                            " (" + wr.commentsGeneral.comments[tempLength - 1].date + ")";
+        " (" + wr.commentsGeneral.comments[tempLength - 1].date + ")";
     }
 }
 function hideAllPermitRows() {
@@ -4260,11 +4266,17 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     address.innerHTML = wr.wrAddressType().outerHTML;
 
     const crd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd");
+    if (wr.crd == "0002-01-01") {
+        wr.crd = "0001-01-01"; // resetting date from assessGeneralStatusChange
+    }
     crd.value = wr.crd;
     let date = new Date(wr.crd);
     crd.style.backgroundColor = assessDateCRD(date, userColors);
 
     const rcd = document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd");
+    if (wr.rcd == "0002-01-01") {
+        wr.rcd = "0001-01-01"; // resetting date from assessGeneralStatusChange
+    }
     rcd.value = wr.rcd;
     date = new Date(wr.rcd);
     rcd.style.backgroundColor = assessDateRCD(date, userColors);
@@ -7090,7 +7102,26 @@ async function mainEvent() {
     missingInfoSkipButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked missingInfoSkipButton");
 
+        let temp = document.getElementById("missing_info_header").innerHTML;
+        let tempIndex = temp.indexOf("#");
+        let curWrNum = temp.substring(tempIndex + 1, tempIndex + 9)
+       
+        for (var i = 0; i < allWrList.length; i++) {
+            
+            if (allWrList[i].workRequestNumber == curWrNum) {
+                if (temp.includes("CRD")) {
+                    console.log("skipped - setting crd year to 0002 to avoid checking again");
+                    allWrList[i].crd = "0002-01-01";
+                } else if (temp.includes("RCD")) {
+                    console.log("skipped - setting rcd year to 0002 to avoid checking again");
+                    allWrList[i].rcd = "0002-01-01";
+                }
+                
+            }
+        }
+
         missingInfoContainer.classList.add("hidden");
+        assessGeneralStatusChange(i% rowsOnPage);
     })
     missingInfoSaveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked missingInfoSaveButton");
@@ -7114,6 +7145,7 @@ async function mainEvent() {
         }
         injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
         missingInfoContainer.classList.add("hidden");
+        assessGeneralStatusChange(i% rowsOnPage);
     })
 
 
@@ -7623,8 +7655,7 @@ async function mainEvent() {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set CRD?"}</div>`;
-            }
-            if (currentWr.rcd == "0001-01-01") {
+            } else if (currentWr.rcd == "0001-01-01") {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
