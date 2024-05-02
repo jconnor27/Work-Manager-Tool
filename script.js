@@ -7804,6 +7804,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowTwoComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoComments");
@@ -7818,6 +7819,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowThreeComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeComments");
@@ -7832,6 +7834,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFourComments");
@@ -7846,6 +7849,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowFiveComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFiveComments");
@@ -7860,6 +7864,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowSixComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSixComments");
@@ -7874,6 +7879,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowSevenComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSevenComments");
@@ -7888,6 +7894,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
     allWrTabRowEightComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowEightComments");
@@ -7902,6 +7909,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabAll.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "General";
     })
 
         /* CRDs */
@@ -7934,40 +7942,72 @@ async function mainEvent() {
 
         allWrTabCrdFunction("1", event);
     })
+    allWrTabRowOneCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowOneCrd");
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowTwoCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowTwoCrd changed to - " + event);
 
         allWrTabCrdFunction("2", event);
+    })
+    allWrTabRowTwoCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowTwoCrd");
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowThreeCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowThreeCrd changed to - " + event);
 
         allWrTabCrdFunction("3", event);
     })  
+    allWrTabRowThreeCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowThreeCrd");
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowFourCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowFourCrd changed to - " + event);
 
         allWrTabCrdFunction("4", event);
+    })
+    allWrTabRowFourCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFourCrd");
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowFiveCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowFiveCrd changed to - " + event);
 
         allWrTabCrdFunction("5", event);
     })
+    allWrTabRowFiveCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFiveCrd");
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowSixCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowSixCrd changed to - " + event);
 
         allWrTabCrdFunction("6", event);
+    })
+    allWrTabRowSixCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSixCrd");
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowSevenCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowSevenCrd changed to - " + event);
 
         allWrTabCrdFunction("7", event);
     })
+    allWrTabRowSevenCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSevenCrd");
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowEightCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowEightCrd changed to - " + event);
 
         allWrTabCrdFunction("8", event);
+    })
+    allWrTabRowEightCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowEightCrd");
+        dropdownCover.classList.remove("hidden");
     })
 
         /* RCDs */
@@ -7999,40 +8039,80 @@ async function mainEvent() {
 
         allWrTabRcdFunction("1", event);
     })
+    allWrTabRowOneRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowOneRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowTwoRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowTwoRcd changed to - " + event);
 
         allWrTabRcdFunction("2", event);
+    })
+    allWrTabRowTwoRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowTwoRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowThreeRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowThreeRcd changed to - " + event);
 
         allWrTabRcdFunction("3", event);
     })
+    allWrTabRowThreeRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowThreeRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowFourRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowFourRcd changed to - " + event);
 
         allWrTabRcdFunction("4", event);
+    })
+    allWrTabRowFourRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFourRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowFiveRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowFiveRcd changed to - " + event);
 
         allWrTabRcdFunction("5", event);
     })
+    allWrTabRowFiveRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFiveRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowSixRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowSixRcd changed to - " + event);
 
         allWrTabRcdFunction("6", event);
+    })
+    allWrTabRowSixRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSixRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     allWrTabRowSevenRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowSevenRcd changed to - " + event);
 
         allWrTabRcdFunction("7", event);
     })
+    allWrTabRowSevenRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSevenRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     allWrTabRowEightRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - allWrTabRowEightRcd changed to - " + event);
 
         allWrTabRcdFunction("8", event);
+    })
+    allWrTabRowEightRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowEightRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
 
             /* General Status DDs */
@@ -10219,40 +10299,80 @@ async function mainEvent() {
 
         permitsTabCrdFunction("1", event);
     })
+    permitsTabRowOneCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowOneCrd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowTwoCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowTwoCrd changed to - " + event);
 
         permitsTabCrdFunction("2", event);
+    })
+    permitsTabRowTwoCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowTwoCrd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowThreeCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowThreeCrd changed to - " + event);
 
         permitsTabCrdFunction("3", event);
     })
+    permitsTabRowThreeCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowThreeCrd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowFourCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowFourCrd changed to - " + event);
 
         permitsTabCrdFunction("4", event);
+    })
+    permitsTabRowFourCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFourCrd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowFiveCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowFiveCrd changed to - " + event);
 
         permitsTabCrdFunction("5", event);
     })
+    permitsTabRowFiveCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFiveCrd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowSixCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowSixCrd changed to - " + event);
 
         permitsTabCrdFunction("6", event);
+    })
+    permitsTabRowSixCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSixCrd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowSevenCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowSevenCrd changed to - " + event);
 
         permitsTabCrdFunction("7", event);
     })
+    permitsTabRowSevenCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSevenCrd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowEightCrd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowEightCrd changed to - " + event);
 
         permitsTabCrdFunction("8", event);
+    })
+    permitsTabRowEightCrd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowEightCrd");
+
+        dropdownCover.classList.remove("hidden");
     })
 
         /* RCDs */
@@ -10283,40 +10403,80 @@ async function mainEvent() {
 
         permitsTabRcdFunction("1", event);
     })
+    permitsTabRowOneRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowOneRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowTwoRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowTwoRcd changed to - " + event);
 
         permitsTabRcdFunction("2", event);
+    })
+    permitsTabRowTwoRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowTwoRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowThreeRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowThreeRcd changed to - " + event);
 
         permitsTabRcdFunction("3", event);
     })
+    permitsTabRowThreeRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowThreeRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowFourRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowFourRcd changed to - " + event);
 
         permitsTabRcdFunction("4", event);
+    })
+    permitsTabRowFourRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFourRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowFiveRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowFiveRcd changed to - " + event);
 
         permitsTabRcdFunction("5", event);
     })
+    permitsTabRowFiveRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFiveRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowSixRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowSixRcd changed to - " + event);
 
         permitsTabRcdFunction("6", event);
+    })
+    permitsTabRowSixRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSixRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     permitsTabRowSevenRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowSevenRcd changed to - " + event);
 
         permitsTabRcdFunction("7", event);
     })
+    permitsTabRowSevenRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSevenRcd");
+
+        dropdownCover.classList.remove("hidden");
+    })
     permitsTabRowEightRcd.addEventListener("mouseout", (event) => {
         console.log("mousedout - permitsTabRowEightRcd changed to - " + event);
 
         permitsTabRcdFunction("8", event);
+    })
+    permitsTabRowEightRcd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowEightRcd");
+
+        dropdownCover.classList.remove("hidden");
     })
     
             /* Permit Status DDs */    
@@ -10626,6 +10786,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowTwoComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowTwoComments");
@@ -10640,6 +10801,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowThreeComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowThreeComments");
@@ -10655,6 +10817,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowFourComments");
@@ -10670,6 +10833,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowFiveComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowFiveComments");
@@ -10685,6 +10849,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowSixComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowSixComments");
@@ -10700,6 +10865,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowSevenComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowSevenComments");
@@ -10715,6 +10881,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
     permitsTabRowEightComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowEightComments");
@@ -10730,6 +10897,7 @@ async function mainEvent() {
         enableAddCommentTabs();
         clearAddCommentTabs();
         addCommentFilterTabPermit.click();
+        document.getElementById("comment_type_dd_menu_current").innerHTML = "Permit";
     })
 
         /* Permits Next and Prev Button */
