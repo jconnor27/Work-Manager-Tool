@@ -4719,7 +4719,7 @@ function crdRcdCheck(crd, rcd, tab, row) {
     const difference = calculateCrdRcdDifference(rcdDate - crdDate);
 
     if (crd != "0001-01-01" && rcd != "0001-01-01") {
-        if (difference < 35) {
+        if (difference <= 35) {
             insertRcdError(tab, row); 
         } else {
             removeRcdError(tab, row); 
@@ -4789,6 +4789,7 @@ function insertRcdError(tab, row) {
 
     if (tab == "permits") {
         temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_date");
+        rcdError.classList.add("permitsTabRcdError");
     } else if (tab == "add" && row == "two") {
         console.log("Adding error to permits tab");
         temp = document.getElementById("add_tab_container_permit_rcd");
@@ -4816,6 +4817,7 @@ function removeRcdError(tab, row) {
 
     const temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_error");
     if (temp != null) {
+        console.log("removing RCD error");
     temp.remove();
     }
 
@@ -7914,8 +7916,13 @@ async function mainEvent() {
 
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
-            const d = new Date(currentWr.crd);
+            let d = new Date(currentWr.crd);
             document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDateCRD(d, userColors);
+            
+            d = new Date(document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").value);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDateRCD(d, userColors);
+
+            
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
             
@@ -7975,8 +7982,12 @@ async function mainEvent() {
 
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
-            const d = new Date(currentWr.rcd);
+            let d = new Date(currentWr.crd);
+            document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDateCRD(d, userColors);
+            
+            d = new Date(document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").value);
             document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDateRCD(d, userColors);
+            
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
             
@@ -10191,13 +10202,15 @@ async function mainEvent() {
 
         if (event.target.value != currentWr.crd) {
             currentWr.crd = event.target.value;
-            const d = new Date(currentWr.crd);
+            let d = new Date(currentWr.crd);
             document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDateCRD(d, userColors);
+            
+            d = new Date(document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").value);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDateRCD(d, userColors);
+
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
             
-            console.log("testing here - permitsTabCrd");
-            console.log(allWrList);
         }
 
     }
@@ -10255,8 +10268,12 @@ async function mainEvent() {
 
         if (event.target.value != currentWr.rcd) {
             currentWr.rcd = event.target.value;
-            const d = new Date(currentWr.rcd);
+            let d = new Date(currentWr.rcd);
             document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDateRCD(d, userColors);
+            
+            d = new Date(document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").value);
+            document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDateCRD(d, userColors);
+
             allWrList[curWrIndex] = currentWr;
             crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
         }

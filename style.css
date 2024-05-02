@@ -2337,7 +2337,7 @@ h5 {
     /*justify-content: flex-end;*/
 }
 
-.allWrTabRcdError {
+.allWrTabRcdError, .permitsTabRcdError {
     display: flex;
     padding-left: 118px;
     padding-right: 130px;
