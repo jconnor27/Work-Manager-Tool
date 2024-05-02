@@ -6632,19 +6632,16 @@ async function mainEvent() {
         clearAddTabDisplays();
         addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
         addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
-        //addTabAddButton.classList.add(hidden);
-
-        console.log("Should be here");
-        console.log(addTabNewWorkRequestNumber.value);
-        console.log(wr.workRequestNumber);
         
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
+        addressLineTextfieldCoverHouseNumber.classList.add("hidden");
         addressLineTextfieldHouseNumber.value = wr.houseNumber;
         addressLineTextfieldStreetName.value = wr.streetName;
         addressLineTextfieldCounty.value = wr.countyCity;
         addressLineTextfieldZip.value = wr.zipCode;
+        addressLineTextfieldCoverZip.classList.add("hidden");
         addTabPriorityBox.value = wr.priorityNumber;
-        addTabWrCreationDate.value = wr.creationDate; // new field
+        addTabWrCreationDate.value = wr.creationDate;
         pocTextboxOwnerName.value = wr.ownerName;
         pocTextboxOwnerNumber.value = wr.ownerNumber;
         pocTextboxOwnerEmail.value = wr.ownerEmail;
@@ -8700,7 +8697,19 @@ async function mainEvent() {
             } else if((i + 1) == toDoMasterList.list.length) { // last index and not found
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
-        }        
+        }    
+        /* Checking to what tab is selected so I can filter list */
+        if (toDoGeneralTab.classList.contains("hidden")) {
+            toDoGeneralTab.click();
+        } else if (toDoMentorTab.classList.contains("hidden")) {
+            toDoMentorTab.click();
+        } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+            toDoCoordinatorTab.click();
+        } else if (toDoWaitingTab.classList.contains("hidden")) {
+            toDoWaitingTab.click();
+        } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
+            toDoOnReturnToOfficeTab.click();
+        }     
     }
     function moveIncompleteFunction(tab, tempToRemove, oldDate, newDate) {
         console.log("Entered - moveIncompleteFunction(tab, tempToRemove, oldDate, newDate)");
@@ -9124,6 +9133,18 @@ async function mainEvent() {
             toDoDisplayDayOfWeekDateMouseoutFunction();
            
         }
+        /* Checking to what tab is selected so I can filter list */
+        if (toDoGeneralTab.classList.contains("hidden")) {
+            toDoGeneralTab.click();
+        } else if (toDoMentorTab.classList.contains("hidden")) {
+            toDoMentorTab.click();
+        } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+            toDoCoordinatorTab.click();
+        } else if (toDoWaitingTab.classList.contains("hidden")) {
+            toDoWaitingTab.click();
+        } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
+            toDoOnReturnToOfficeTab.click();
+        } 
     })
     toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
         console.log("Fired - Mousedout toDoDisplayDayOfWeekDate");
@@ -9731,6 +9752,12 @@ async function mainEvent() {
     toDoGeneralTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoGeneralTab");
 
+        document.getElementById("to_do_display_row_one_label").innerHTML = "General To-Do's:"
+        document.getElementById("to_do_display_row_one_label").style.marginLeft = '50px';
+        document.getElementById("to_do_display_row_one_label").style.marginRight = '0px';
+        document.getElementById("to_do_display_row_one_label").style.fontSize = 'x-large';
+
+
         toDoDisplayDeselectTabs();
         toDoGeneralTab.classList.add("hidden");
         toDoGeneralTabActive.classList.remove("hidden");
@@ -9765,6 +9792,11 @@ async function mainEvent() {
     })
     toDoMentorTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoMentorTab");
+
+        document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's For Mentor:"
+        document.getElementById("to_do_display_row_one_label").style.marginLeft = '30px';
+        document.getElementById("to_do_display_row_one_label").style.marginRight = '-17px';
+        document.getElementById("to_do_display_row_one_label").style.fontSize = 'x-large';
 
         toDoDisplayDeselectTabs();
         toDoMentorTab.classList.add("hidden");
@@ -9802,6 +9834,11 @@ async function mainEvent() {
     toDoCoordinatorTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoCoordinatorTab");
 
+        document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's For Coordinator:"
+        document.getElementById("to_do_display_row_one_label").style.marginLeft = '10px';
+        document.getElementById("to_do_display_row_one_label").style.marginRight = '-43px';
+        document.getElementById("to_do_display_row_one_label").style.fontSize = 'x-large';
+
         toDoDisplayDeselectTabs();
         toDoCoordinatorTab.classList.add("hidden");
         toDoCoordinatorTabActive.classList.remove("hidden");
@@ -9837,6 +9874,11 @@ async function mainEvent() {
     toDoWaitingTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoWaitingTab");
 
+        document.getElementById("to_do_display_row_one_label").innerHTML = "Waiting On To-Do's:"
+        document.getElementById("to_do_display_row_one_label").style.marginLeft = '30px';
+        document.getElementById("to_do_display_row_one_label").style.marginRight = '-14px';
+        document.getElementById("to_do_display_row_one_label").style.fontSize = 'x-large';
+
         toDoDisplayDeselectTabs();
         toDoWaitingTab.classList.add("hidden");
         toDoWaitingTabActive.classList.remove("hidden");
@@ -9871,6 +9913,13 @@ async function mainEvent() {
     })
     toDoOnReturnToOfficeTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoOnReturnToOfficeTab");
+
+        document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's On Return To Office:"
+        document.getElementById("to_do_display_row_one_label").style.fontSize = 'large';
+        document.getElementById("to_do_display_row_one_label").style.marginLeft = '10px';
+        document.getElementById("to_do_display_row_one_label").style.marginRight = '-10px';
+        document.getElementById("to_do_display_day_of_week_container").style.marginLeft = '-20px';
+        document.getElementById("to_do_display_day_of_week_date").style.marginRight = '-20px';
 
         toDoDisplayDeselectTabs();
         toDoOnReturnToOfficeTab.classList.add("hidden");
@@ -12364,6 +12413,19 @@ async function mainEvent() {
                     toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
                 } else {
                     tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    
+                    /* Checking to what tab is selected so I can filter list */
+                    if (toDoGeneralTab.classList.contains("hidden")) {
+                        toDoGeneralTab.click();
+                    } else if (toDoMentorTab.classList.contains("hidden")) {
+                        toDoMentorTab.click();
+                    } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+                        toDoCoordinatorTab.click();
+                    } else if (toDoWaitingTab.classList.contains("hidden")) {
+                        toDoWaitingTab.click();
+                    } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
+                        toDoOnReturnToOfficeTab.click();
+                    } 
                 }
                 return;
             } else if ((i + 1) == toDoMasterList.list.length) { // last index and not found
