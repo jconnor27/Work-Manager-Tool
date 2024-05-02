@@ -551,8 +551,8 @@ class Permit {
 }
 /* Haptix Class used to insert added/updated/no change prompts */
 class Haptix {
-    constructor(promptDurration) {
-        this.promptDuration = 1000 * promptDurration;
+    constructor(promptDuration) {
+        this.promptDuration = 1000 * promptDuration;
     }
     displayWrAdded(wrNum) {
         console.log("Entered - displayWrAdded(" + wrNum + ")");
@@ -4027,6 +4027,11 @@ function injectHTMLToDoTabDisplay(toDoDayObject) {
     console.log("Entered - injectHTMLToDoTabDisplay()");
     console.log(toDoDayObject);
 
+
+    if (toDoDayObject.flatten().length == 0) {
+       return document.getElementById("to_do_display_row_element_container").innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
+
+    } else {
     //tempToDoPageElement = new PaginatedToDoPageElement(5);
 
     const toDoRowElementContainer = document.getElementById("to_do_display_row_element_container");
@@ -4038,6 +4043,8 @@ function injectHTMLToDoTabDisplay(toDoDayObject) {
     return temp;
     
     //toDoRowElementContainer.insertAdjacentElement("beforeend", temp);
+    }
+    
     
 }
 function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
@@ -5637,7 +5644,7 @@ async function mainEvent() {
     
     let rowsOnPage = systemPreferences.rowsOnPage;
     let linesPerPageToDo = systemPreferences.linesPerPageToDo;
-    let promptDurration = systemPreferences.promptDuration;
+    let promptDuration = systemPreferences.promptDuration;
 
     let permitCommentCount = systemPreferences.permitCommentCount;
     let tempCommentsCount = systemPreferences.tempCommentsCount;
@@ -6104,7 +6111,7 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
         settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
         settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
-        settingsPreferencesPromptDuration.value = promptDurration;
+        settingsPreferencesPromptDuration.value = promptDuration;
 
         /* Initializing missingInfo Popup */
         let today = new Date();
@@ -7474,7 +7481,7 @@ async function mainEvent() {
     })
     addToDoPopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonYes");
-        const h = new Haptix(promptDurration);
+        const h = new Haptix(promptDuration);
 
         const d = new Date();
         let year = d.getFullYear();
@@ -8955,7 +8962,7 @@ async function mainEvent() {
         /* Move To Container */
     toDoDisplayMoveIncompleteButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveIncompleteButton");
-        const h = new Haptix(promptDurration);
+        const h = new Haptix(promptDuration);
 
         let toRemove = [];
         let index = undefined;
@@ -10929,8 +10936,8 @@ async function mainEvent() {
         /* Buttons */
     addTabUpdateButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_update_button");
-        const h = new Haptix(promptDurration);
-        const e = new Error(promptDurration);
+        const h = new Haptix(promptDuration);
+        const e = new Error(promptDuration);
         const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
         const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
@@ -11260,8 +11267,8 @@ async function mainEvent() {
     })
     addTabGetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_get_button");
-        const e = new Error(promptDurration);
-        const h = new Haptix(promptDurration);  
+        const e = new Error(promptDuration);
+        const h = new Haptix(promptDuration);  
 
         if (filterCheckboxAddWr.checked == true) {
             const curWrNum = addTabNewWorkRequestNumber.value;
@@ -11329,8 +11336,8 @@ async function mainEvent() {
     })
     addTabAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab_add_button");
-        const e = new Error(promptDurration);
-        const h = new Haptix(promptDurration);
+        const e = new Error(promptDuration);
+        const h = new Haptix(promptDuration);
         const wrTypeDDMenuCurrent = document.getElementById("wr_type_dd_menu_current").innerHTML;
         const generalStatusDDMenuCurrent = document.getElementById("general_status_dd_add_tab_current").innerHTML;
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
@@ -12695,7 +12702,7 @@ async function mainEvent() {
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
 
-        const e = new Error(promptDurration);
+        const e = new Error(promptDuration);
 
         if (addTabDisplayToDoRowThreeTextfield.value != null && addTabDisplayToDoRowThreeTextfield.value.length > 0) {
             const d = new Date();
@@ -13134,7 +13141,7 @@ async function mainEvent() {
     })
     addCommentsTabCommentsAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked - add_comments_tab_comments_add_button");
-        const e = new Error(promptDurration);
+        const e = new Error(promptDuration);
 
         if (document.getElementById("comment_type_dd_menu_current").innerHTML == "Not Set") {
             e.displayInvalidCommentType();
@@ -15085,14 +15092,18 @@ async function mainEvent() {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                     tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+
                     return;
                 }
             }
         } else if (addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) {
             resetDisplayToDoAddUpdate();
+            document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+
         }
 
-        document.getElementById("clear_complete_to_dos_container").classList.add("hidden");
+
 
     })
     clearCompleteToDosPopUpButtonNo.addEventListener("click", (event) => {
