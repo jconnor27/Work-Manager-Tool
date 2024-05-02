@@ -8172,7 +8172,6 @@ async function mainEvent() {
             document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
         } 
     }
-
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
 
@@ -10591,6 +10590,11 @@ async function mainEvent() {
             console.log("* Internal List Updated *");
         }
 
+        if (document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current").innerHTML == "Expiring Soon") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`
+        }
         /* Hiding DDMenu Content */
         const tempContent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_content");
         tempContent.style.display = 'none';
