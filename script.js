@@ -4782,7 +4782,7 @@ function insertRcdError(tab, row) {
     const rcdError = document.createElement("rcdError");
     rcdError.innerText = "* RCD is < 5 Weeks *";
     rcdError.style.color = "red";
-    rcdError.style.fontSize = "smaller";
+    //rcdError.style.fontSize = "smaller";
     rcdError.id = tab + "_tab_row_" + row + "_rcd_error";
 
     let temp = [];
@@ -4790,16 +4790,19 @@ function insertRcdError(tab, row) {
     if (tab == "permits") {
         temp = document.getElementById(tab + "_tab_row_" + row + "_rcd_date");
     } else if (tab == "add" && row == "two") {
-        temp = document.getElementById("add_tab_display_add_permit_left");
+        console.log("Adding error to permits tab");
+        temp = document.getElementById("add_tab_container_permit_rcd");
         rcdError.classList.add("addTabPermitRcdError");
         document.getElementById("add_tab_display_add_permit_top").classList.add("removeSideMargins");
+        document.getElementById("date_add_tab_permit_rcd").style.backgroundColor = 'rgba(237, 57, 57, 0.765)'; 
     } else if (tab == "add" && row == "one") {
-        temp = document.getElementById("add_tab_display_bottom_left_container");
+        temp = document.getElementById("add_tab_wr_textfield_container_rcd");
         rcdError.classList.add("addTabWrRCDError");
-        document.getElementById("add_tab_display_bottom").classList.add("removeSideMargins");
+        document.getElementById("date_add_tab_wr_rcd").style.backgroundColor = 'rgba(237, 57, 57, 0.765)'; 
+        //document.getElementById("add_tab_display_bottom").classList.add("removeSideMargins");
     } else {
         temp = document.getElementById(tab + "_tab_row_" + row + "_rcd");
-        rcdError.classList.add("addTabWrRcdError");
+        rcdError.classList.add("allWrTabRcdError");
     }
     
     const str = new String(temp.innerHTML);
@@ -4818,10 +4821,12 @@ function removeRcdError(tab, row) {
 
     if (tab == "add" && row == "two" && document.getElementById("add_tab_display_add_permit_top") != null) {
         document.getElementById("add_tab_display_add_permit_top").classList.remove("removeMargins");
+        document.getElementById("date_add_tab_permit_rcd").style.backgroundColor = 'white'; 
+
     }
     if (tab == "add" && row == "one" && document.getElementById("add_tab_display_bottom") != null) {
-        document.getElementById("add_tab_display_bottom").classList.remove("removeSideMargins");
-
+        document.getElementById("date_add_tab_wr_rcd").style.backgroundColor = 'white'; 
+        
     }
 }
 
@@ -11358,7 +11363,15 @@ async function mainEvent() {
         if (permitDateChangeValues[1] != addTabPermitStart.value) { // permit start date changed 
             // Setting Last Updated
             const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            let month = d2.getMonth() + 1;
+            if (month < 10) {
+                month= "0" + month;
+            }
+            let day = d2.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d2.getFullYear() + "-" + month + "-" + day;
             addTabPermitDateUpdated.value = tempDate;
         }
     })
@@ -11368,7 +11381,15 @@ async function mainEvent() {
         if (permitDateChangeValues[2] != addTabPermitExpiration.value) { // permit expiration changed 
             // Setting Last Updated
             const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            let month = d2.getMonth() + 1;
+            if (month < 10) {
+                month= "0" + month;
+            }
+            let day = d2.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d2.getFullYear() + "-" + month + "-" + day;
             addTabPermitDateUpdated.value = tempDate;
         }
     })

@@ -2314,9 +2314,11 @@ h5 {
 
 .addTabPermitRcdError {
     display: flex;
-    padding-left: 40px;
-    
-    margin-top: 100px;
+    margin-left: -100px;    
+    margin-top: -20px;
+    margin-left: 265px;
+    margin-right: -50px;
+    margin-bottom: -20px;
     height: 20px;
     width: 200px;
     justify-content: flex-end;
@@ -2324,11 +2326,27 @@ h5 {
 
 .addTabWrRcdError {
     display: flex;
-    padding-left: 40px;
-    padding-right: 130px;
-    margin-top: 100px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-top: -10px;
+
+    margin-bottom: -10px;
     height: 20px;
+    width: 150px;
+    font-size: small;
+    /*justify-content: flex-end;*/
+}
+
+.allWrTabRcdError {
+    display: flex;
+    padding-left: 118px;
+    padding-right: 130px;
+    margin-bottom: -20px;
+    /*margin-top: 100px;*/
+    height: 20px;
+    width: 100px;
     justify-content: flex-end;
+    font-size: 10px;
 }
 /* Small change to push*/
 
