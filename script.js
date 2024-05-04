@@ -2626,7 +2626,7 @@ class ToDoDayObject {
                 if (this.contactCustomerList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
@@ -2660,7 +2660,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="contact_customer_to_do_list_data_${i}">${this.contactCustomerList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.contactCustomerList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.contactCustomerList[i].creationDate)}</div>`}
@@ -2722,7 +2722,7 @@ class ToDoDayObject {
                 if (this.siteVisitList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
@@ -2757,7 +2757,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="site_visit_to_do_list_data_${i}">${this.siteVisitList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.siteVisitList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.siteVisitList[i].creationDate)}</div>`}
@@ -2817,7 +2817,7 @@ class ToDoDayObject {
                 if (this.svcCalcList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
@@ -2852,7 +2852,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="svc_calc_to_do_list_data_${i}">${this.svcCalcList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.svcCalcList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.svcCalcList[i].creationDate)}</div>`}
@@ -2898,7 +2898,7 @@ class ToDoDayObject {
                 if (this.checkNJUNSList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
@@ -2934,7 +2934,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_njuns_to_do_list_data_${i}">${this.checkNJUNSList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.checkNJUNSList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.checkNJUNSList[i].creationDate)}</div>`}
@@ -2987,7 +2987,7 @@ class ToDoDayObject {
                 if (this.checkPermitList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="check_permit_to_do_list_data_${i}">${this.checkPermitList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.checkPermitList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.checkPermitList[i].creationDate)}</div>`}
@@ -3075,7 +3075,7 @@ class ToDoDayObject {
                 if (this.checkEasementList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
@@ -3109,7 +3109,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="check_easement_to_do_list_data_${i}">${this.checkEasementList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.checkEasementList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.checkEasementList[i].creationDate)}</div>`}
@@ -3156,7 +3156,7 @@ class ToDoDayObject {
                 if (this.designList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
@@ -3191,7 +3191,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="design_to_do_list_data_${i}">${this.designList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.designList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.designList[i].creationDate)}</div>`}
@@ -3237,7 +3237,7 @@ class ToDoDayObject {
                 if (this.revisionsList[i].completed != 1) { // Normal display for To-Do
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}
+                        ${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].addressStr}</div>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
@@ -3272,7 +3272,7 @@ class ToDoDayObject {
                 } else { // Need to add strike through all
                     toDoObjectWrInfo.innerHTML = 
                     `<div class="toDoObjectContainer">
-                        ${`<strike>${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].workRequestNumber}</div>`}</strike>`}
+                        ${`<strike>${`<div class="toDoListBumpOnce" id="revisions_to_do_list_data_${i}">${this.revisionsList[i].addressStr}</div>`}</strike>`}
                         ${`<div class="toDoListLabelButtonContainer">
                             ${`<div class="toDoListLabelID">${this.revisionsList[i].toDoId}</div>`}
                             ${`<div class="toDoListLabel">${formatDateNormal(this.revisionsList[i].creationDate)}</div>`}
@@ -3319,7 +3319,7 @@ class ToDoDayObject {
                     if (this.generalList[i].completed != 1) { // Normal display for To-Do
                         toDoObjectWrInfo.innerHTML = 
                         `<div class="toDoObjectContainer">
-                            ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}
+                            ${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].addressStr}</div>`}
                             ${`<div class="toDoListLabelButtonContainer">
                                 ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
                                 ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
@@ -3336,7 +3336,7 @@ class ToDoDayObject {
                                     ${`<div class="toDoListBumpTwice" id="general_to_do_list_item_${i}_note_${j}">${this.generalList[i].notes[j][0]}</div>`}
                                     ${`<div class="toDoCompleteNoteCheckbox" id="general_to_do_list_item_${i}_complete_note_${j}_checkbox"></div>`}
                                 </div>`;
-            
+
                                 toDoObjectWrInfo.insertAdjacentHTML("beforeend", temp);  
                                 tempPageElem.push(temp);           
                             } else { // Need to add strike through note
@@ -3354,7 +3354,7 @@ class ToDoDayObject {
                     } else { // Need to add strike through all
                         toDoObjectWrInfo.innerHTML = 
                         `<div class="toDoObjectContainer">
-                            ${`<strike>${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].workRequestNumber}</div>`}</strike>`}
+                            ${`<strike>${`<div class="toDoListBumpOnce" id="general_to_do_list_data_${i}">${this.generalList[i].addressStr}</div>`}</strike>`}
                             ${`<div class="toDoListLabelButtonContainer">
                                 ${`<div class="toDoListLabelID">${this.generalList[i].toDoId}</div>`}
                                 ${`<div class="toDoListLabel">${formatDateNormal(this.generalList[i].creationDate)}</div>`}
@@ -3593,7 +3593,7 @@ class ToDoDayObject {
 }
 
 class ToDoObject {
-    constructor(toDoId, tab, dueDate, type, creationDate, completed, notes, workRequestNumber) {
+    constructor(toDoId, tab, dueDate, type, creationDate, completed, notes, workRequestNumber, addressStr) {
         this.toDoId = toDoId;
         this.tab = tab;
         this.dueDate = dueDate;
@@ -3602,6 +3602,7 @@ class ToDoObject {
         this.completed = completed;
         this.notes = notes; // will be an array strs
         this.workRequestNumber = workRequestNumber; // may be undefined at times
+        this.addressStr = addressStr;
     }
 
     compare(toDo) {
@@ -3637,6 +3638,10 @@ class ToDoObject {
         if (temp == undefined) {
             temp = "No Wr#";
         }
+        let tempAddressStr = this.addressStr;
+        if (tempAddressStr == undefined) {
+            tempAddressStr = "No Adr - No Wr#";
+        }
 
         let str = "";
 
@@ -3646,7 +3651,7 @@ class ToDoObject {
             str += this.notes[i] + "*";
         }
 
-        str += "^EN^" + temp + "@ET@";
+        str += "^EN^" + temp + "@" + tempAddressStr + "@ET@";
 
 
         return str;
@@ -7498,6 +7503,20 @@ async function mainEvent() {
         let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
         let str = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
+        let tempWr = [];
+        for (var i = 0; i < allWrList.length; i++) {
+            if (allWrList[i].workRequestNumber == str) {
+                tempWr = allWrList[i];
+            }
+        }
+
+        let addressStr = ""
+        if (tempWr != []) {
+            addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + str;
+        } else {
+            addressStr = undefined;
+        }
+
         let tab = "";
 
         if (document.getElementById("add_to_do_pop_up_tab_coordinator").classList.contains("hidden")) {
@@ -7513,35 +7532,35 @@ async function mainEvent() {
         }
 
         if (addToDoPopUpHeader.innerHTML.includes("Site Visit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Site Visit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Svc Calc + Coding")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Svc Calcs + Coding", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("NJUNS")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - NJUNS", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Permit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Easement")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Design")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Design", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Revisions")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Revisions", str);
         } else if (addToDoPopUpTab.innerHTML.includes("Waiting")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [], str);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
         } 
@@ -10949,8 +10968,6 @@ async function mainEvent() {
         if (filterCheckboxAddWr.checked == true) {
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
 
-            
-
             let curComments = curWrData[1].commentsGeneral.comments;
             const curWrIndex = curWrData[2];
             
@@ -10958,6 +10975,14 @@ async function mainEvent() {
                 console.log("wr length != 8");
 
                 e.displayInvalidWr(addTabNewWorkRequestNumber.value);
+            } else if (inTestMode == false && !addressLineTextfieldCoverHouseNumber.classList.contains("hidden")) {
+                e.displayEnterHouseNumber();
+            } else if (inTestMode == false && addressLineTextfieldStreetName.value == "Enter Street Name") {
+                e.displayEnterStreetName();
+            } else if (inTestMode == false && addressLineTextfieldCounty.value == "Enter County/City Name") {
+                e.displayEnterCountyCity();
+            } else if (inTestMode == false && !addressLineTextfieldCoverZip.classList.contains("hidden")) {
+                e.displayEnterZip();
             } else if (addTabPriorityBox.value.length < 1) {
                 console.log("Priority Number length < 1");
 
@@ -11195,15 +11220,31 @@ async function mainEvent() {
                         notes.push([document.getElementById("add_tab_display_to_do_note_item_" + i).innerHTML, 0]);
                     }
                 i++;
-            }
+                }
 
                 let tempChecked = 0;
                 if (document.getElementById("add_tab_display_to_do_completed").checked) {
                     tempChecked = 1;
                 }
+
+                let tempWr = [];
+                if (addTabNewWorkRequestNumber.value != undefined) {
+                    for (var i = 0; i < allWrList.length; i++) {
+                        if (allWrList[i].workRequestNumber == addTabNewWorkRequestNumber.value) {
+                            tempWr = allWrList[i];
+                        }
+                    }
+                }
+                let addressStr = "";
+                if (tempWr != []) {
+                    addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + str;
+                } else {
+                    addressStr = undefined;
+                }
+
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
-                tempChecked, notes, addTabNewWorkRequestNumber.value);
+                tempChecked, notes, addTabNewWorkRequestNumber.value, addressStr);
                 
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
 
@@ -11352,13 +11393,13 @@ async function mainEvent() {
                 console.log("wr length != 8");
 
                 e.displayInvalidWr(addTabNewWorkRequestNumber.value);
-            } else if (inTestMode == true && !addressLineTextfieldCoverHouseNumber.classList.contains("hidden")) {
+            } else if (inTestMode == false && !addressLineTextfieldCoverHouseNumber.classList.contains("hidden")) {
                 e.displayEnterHouseNumber();
-            } else if (inTestMode == true && addressLineTextfieldStreetName.value == "Enter Street Name") {
+            } else if (inTestMode == false && addressLineTextfieldStreetName.value == "Enter Street Name") {
                 e.displayEnterStreetName();
-            } else if (inTestMode == true && addressLineTextfieldCounty.value == "Enter County/City Name") {
+            } else if (inTestMode == false && addressLineTextfieldCounty.value == "Enter County/City Name") {
                 e.displayEnterCountyCity();
-            } else if (inTestMode == true && !addressLineTextfieldCoverZip.classList.contains("hidden")) {
+            } else if (inTestMode == false && !addressLineTextfieldCoverZip.classList.contains("hidden")) {
                 e.displayEnterZip();
             } else if (addTabPriorityBox.value.length < 1) {
                 console.log("Priority Number length < 1");
@@ -11442,6 +11483,21 @@ async function mainEvent() {
                 e.displayNoteTypedNotAdded();
             } else {
 
+                let tempWr = [];
+                if (addTabNewWorkRequestNumber.value != undefined) {
+                    for (var i = 0; i < allWrList.length; i++) {
+                        if (allWrList[i].workRequestNumber == addTabNewWorkRequestNumber.value) {
+                            tempWr = allWrList[i];
+                        }
+                    }
+                }
+                let addressStr = "";
+                if (tempWr != []) {
+                    addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + tempWr.workRequestNumber;
+                } else {
+                    addressStr = undefined;
+                }
+
                 let tempChecked = 0;
                 
                 if (document.getElementById("add_tab_display_to_do_completed").checked) {
@@ -11450,7 +11506,7 @@ async function mainEvent() {
                 }
                 const toDo = new ToDoObject(addTabDisplayToDoRowZeroNumfield.value, document.getElementById("to_do_tab_dd_0_current").innerHTML,
                 addTabDisplayDayOfWeekDate.value, document.getElementById("to_do_type_dd_0_current").innerHTML, addTabDisplayToDoCreationDate.value,
-                tempChecked, notes, addTabNewWorkRequestNumber.value);
+                tempChecked, notes, addTabNewWorkRequestNumber.value, addressStr);
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
