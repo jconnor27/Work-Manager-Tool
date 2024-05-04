@@ -3733,18 +3733,19 @@ function formatDatePermitApplied(date) {
 
     if (date == "0001-01-01") {
         return date;
-    } else if (date.length == 9) {
+    } else if (date.length == 9) { // this code shouldn't run bc i formatted date prior 
         const year = date.substring(5);
         console.log(year);
         const month = date.substring(3, 4);
         console.log(month);
         const day = date.substring(0, 2);
+        console.log("formatDatePermitApplie ERROR ***");
         return year + "-0" + month + "-" + day;
 
     } else {
         const year = date.substring(6);
         console.log(year);
-        const month = date.substring(2, 4);
+        const month = date.substring(3, 5);
         console.log(month);
         const day = date.substring(0, 2);
         return year + "-" + month + "-" + day;
@@ -4207,6 +4208,9 @@ function setPermitRowValues(wr, rowNumber, userColors) {
     address.innerHTML = wr.wrAddressType().outerHTML;
 
     const applied = document.getElementById("permits_tab_row_" + rowNumberText + "_applied");
+
+    console.log("dddd");
+    console.log(wr.permit);
     applied.innerText = formatDateNormal(formatDatePermitApplied(wr.permit.dateApplied));
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
@@ -6102,34 +6106,8 @@ async function mainEvent() {
 
         }
     }
-
-    /* Adds all dropdowns */
-    window.onload = function() {
-        console.log("Entered - Window.onload function");
-        
-        /* All Wr Tab DDs */
-        initializeAllWrTab();
-
-        /* Permit Tab DDs */
-        initializePermitsTab();
-
-        /* Add Tab DDs */
-        initializeAddTab();
-            
-        /* To-Do Tab Page Objects */
-        initializeToDoTab();
-
-        /* Commented out when Testing */
-        initializeLocalStorage();
-
-        /* Settings System Preference Values */
-        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
-        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
-        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
-        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
-        settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
-        settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
-        settingsPreferencesPromptDuration.value = promptDuration;
+    function initializePopups() {
+        console.log("Entered - initializePopups()");
 
         /* Initializing missingInfo Popup */
         let today = new Date();
@@ -6172,8 +6150,86 @@ async function mainEvent() {
 
         document.getElementById("add_to_do_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
         setDay("add_to_do_pop_up", today.getDay());
+    }
+
+    /* Adds all dropdowns */
+    window.onload = function() {
+        console.log("Entered - Window.onload function");
+        
+        /* All Wr Tab DDs */
+        initializeAllWrTab();
+
+        /* Permit Tab DDs */
+        initializePermitsTab();
+
+        /* Add Tab DDs */
+        initializeAddTab();
+            
+        /* To-Do Tab Page Objects */
+        initializeToDoTab();
+
+        /* Commented out when Testing */
+        initializeLocalStorage();
+
+        /* Settings System Preference Values */
+        settingsPreferencesTextfieldRowsPerPage.value = rowsOnPage;
+        settingsPreferencesTextfieldCommentsWr.value = tempCommentsCount;
+        settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
+        settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
+        settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
+        settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
+        settingsPreferencesPromptDuration.value = promptDuration;
+
+        /* Missing Info and Add To-Do Pop Ups */
+        initializePopups();
+
+        initialCheckPermitDates();
+
         // Running test function
         testFunction();
+    }
+
+    function initialCheckPermitDates() {
+        console.log("Entered - initialCheckPermitDates()");
+
+        if (allWrList.length == undefined) {
+            return; // if list doesn't exist, nothing to check
+        }
+
+        const d = new Date();
+        let day = d.getDate();
+        let dayNum = new Number(day);
+
+        let curDataDate = document.getElementById("data_from_value_date").value;
+        const curDataDayStr = curDataDate.substring(8, 10);
+        const curDataDayNum = new Number(curDataDayStr);
+
+        if (dayNum.valueOf() != curDataDayNum.valueOf()) {
+            console.log("permit dates not checked yet");
+
+            for (var i = 0; i < allWrList.length; i++) {
+                if (allWrList[i].permit.endDate != "0001-01-01") {
+                    const today = new Date();
+                    const curWrPermitEnd = new Date(allWrList[i].permit.endDate);
+                    const dif = calculateCrdRcdDifference(curWrPermitEnd - today);
+                    
+                    if (dif < 35) { // will change/add in system preferences
+
+                        /* Changing Permit Status */
+                        allWrList[i].permit.permitStatus = "Expiring Soon";
+
+                        console.log("Code calling click below");
+                        allWrTab.click();
+
+                        /* Revealing Popup */  // Need to change text "35" below when system preferences is updated
+                        document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                        addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days. Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                    } 
+                }
+                
+            }
+            
+        }
     }
 
         /* Deslect Header Tab Functions */
@@ -10614,7 +10670,17 @@ async function mainEvent() {
                 console.log("Setting Permit Applied Date to Today");
 
                 const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                const year = d.getFullYear();
+                let month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                let day = d.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                //let tempDate = year + "-" + month + "-" + day;
+                const tempDate = month + "-" + day + "-" + d.getFullYear();
 
                 currentWr.permit.dateApplied = tempDate;
                 
