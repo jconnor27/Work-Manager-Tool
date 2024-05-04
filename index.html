@@ -985,8 +985,9 @@
                     <div class="addTabDisplayLabel" id="add_tab_display_header_left">Add / Update&ensp;</div>
                     <div class="addTabDisplayLabel" id="add_tab_display_header_label">"Work Request"</div>
                 </div>
-                <!-- Wr Num Textfield and Get/Update/Add Buttons -->
+                <!-- Wr Num Textfield and Get/Update/Add Buttons and Remove Button -->
                 <div class="addTabDisplayTopMid" id="add_tab_display_top_mid">
+                    <button type="button" class="addTabAddWrRemoveButton hidden" id="add_tab_remove_button" disabled>REMOVE</button>
                     <div class="newWrNumContainer">
                         <label for="new_work_request_number_textfield" class="newWorkRequestNumberTextfieldLabel" id="add_tab_display_work_request_number_label"><b>New Work Request Number:&ensp;</b></label>
                         <input type="text" class="newWrNumberTextfield" id="new_work_request_number_textfield" name="new_work_request_number_textfield" value="Enter Wr Number"/>
@@ -1348,7 +1349,7 @@
                     <button type="button" class="confirmRemovePopupXButton" id="confirm_remove_popup_x_button">X</button>
                     <div class="confirmRemovePopupTextContainer" id="confirm_remove_popup_text_container">
                         <p style="margin-top: 5px; margin-bottom: 0px; min-width: 180px;"><b>Are You Sure You Want</b></p>
-                        <p style="margin-top: 5px; margin-bottom: 0px; width: 130px;"><b>To Remove To-Do:</b></p>
+                        <p id="confirm_remove_popup_type" style="margin-top: 5px; margin-bottom: 0px; width: 180px;"><b>To Remove To-Do:</b></p>
                     </div>
                     <div class="confirmRemovePopupButtonContainer">
                         <button type="button" class="confirmRemovePopupButton" style="background-color: rgba(244, 73, 73, 0.532);" id="confirm_remove_popup_yes">Yes</button>

@@ -679,6 +679,18 @@ class Haptix {
             temp.remove();
         }, this.promptDuration);
     }
+
+    displayWrRemoved(wrNum) {
+        console.log("Entered - displayWrRemoved(" + wrNum + ")");
+
+        const temp = document.getElementById("new_work_request_number_textfield");
+
+        temp.insertAdjacentHTML("afterend", `<div class="wrRemovedPrompt" id="wr_removed_prompt">Work Request ${wrNum} Removed</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("wr_removed_prompt");
+            temp.remove();
+        }, this.promptDuration);
+    }
 }
 /* Error Class used to insert error prompts */
 class Error {
@@ -5112,6 +5124,7 @@ async function mainEvent() {
     const addTabGetButton = document.querySelector("#add_tab_get_button");
     const addTabUpdateButton = document.querySelector("#add_tab_update_button");
     const addTabClearButton = document.querySelector("#add_tab_clear_button");
+    const addTabRemoveButton = document.querySelector("#add_tab_remove_button");
 
     /* Generic Tab Filter Containers */
     const searchByBoxContainer = document.querySelector("#search_by_box_container");
@@ -6649,6 +6662,7 @@ async function mainEvent() {
             document.getElementById("add_tab_display_header_left").innerHTML = "Add / Update";
         }
         clearAddTabDisplays();
+        addTabDisplayAddWr.classList.remove("hidden");
         addTabDisplayHeaderLabel.innerHTML = "\"Work Request\"";
         addTabDisplayWorkRequestNumberLabel.classList.remove("newWorkRequestNumberTextfieldLabelBig");
         
@@ -6689,6 +6703,8 @@ async function mainEvent() {
         addTabAddButton.disabled = true;
         tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // emptying tempComments in case user add comments before getting wr
 
+        addTabRemoveButton.classList.remove("hidden");
+        addTabRemoveButton.disabled = false;
     
     }
     function resetDisplayWrAddUpdate() {
@@ -6743,6 +6759,8 @@ async function mainEvent() {
             document.getElementById("comment_to_add_item_" + i).remove(); 
         }*/
         tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // Emptying tempComments
+        addTabRemoveButton.classList.add("hidden");
+        addTabRemoveButton.disabled = true;
     }
 
             /* To-Do */
@@ -8523,6 +8541,12 @@ async function mainEvent() {
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
 
             console.log("* Internal List Updated *");
+        }
+        /* Revealing Pop Up */
+        if (document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current").innerHTML == "Expiring Soon") {
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`
         }
 
         /* Hiding DDMenu Content */
@@ -10615,7 +10639,7 @@ async function mainEvent() {
 
             console.log("* Internal List Updated *");
         }
-
+        /* Revealing Pop Up */
         if (document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current").innerHTML == "Expiring Soon") {
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
 
@@ -11542,6 +11566,11 @@ async function mainEvent() {
             addressLineTextfieldCoverHouseNumber.classList.add("hidden");
         }
     })
+    addTabRemoveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabRemoveButton");
+
+        displayConfirmRemove(addTabNewWorkRequestNumber.value);
+    })
 
         /* List - Remove Buttons + Yes and No*/
     function displayConfirmRemove(toDoId) {
@@ -11549,6 +11578,13 @@ async function mainEvent() {
 
         document.getElementById("confirm_remove_popup_container").classList.remove("hidden");
         document.getElementById("confirm_remove_popup_text_container").insertAdjacentHTML("beforeend", toDoId);
+        
+        if (toDoTab.classList.contains("hidden") || addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) {
+            document.getElementById("confirm_remove_popup_type").innerHTML = `<b>To Remove To-Do:</b>`
+        } else if (addTab.classList.contains("hidden") && filterCheckboxAddWr.checked) {
+            console.log("setting confirm_remove_popup_type to wr");
+            document.getElementById("confirm_remove_popup_type").innerHTML = `<b>To Remove WR#:</b>`
+        }
     }
     addTabDisplayToDoRemoveButton.addEventListener("click", (event) => {
         console.log("Clicked - addTabDisplayToDoRemoveButton");
@@ -11574,7 +11610,7 @@ async function mainEvent() {
         console.log("Fired - Clicked confirmRemovePopupYes");
         const h = new Haptix(promptDuration);
 
-        if (toDoTab.classList.contains("hidden")) {
+        if (toDoTab.classList.contains("hidden")) { // remove to-do from to-do tab using move to
             toDoMasterList.removeById(tempCurToDo[0].toDoId);
             document.getElementById("confirm_remove_popup_container").classList.add("hidden");
             toDoDisplayMoveToContainer.classList.add("hidden");
@@ -11586,12 +11622,25 @@ async function mainEvent() {
                     return;
                 }
             }
-        } else if (addTab.classList.contains("hidden")) {
+        } else if (addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) { // remove to-do from add tab
             toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
             document.getElementById("confirm_remove_popup_container").classList.add("hidden");
             addTabDisplayToDoRemoveButton.classList.remove("activeRemoveButton");
             resetDisplayToDoAddUpdate();
             h.displayToDoRemoved(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
+        } else if (addTab.classList.contains("hidden") && filterCheckboxAddWr.checked) { // remove wr from add tab
+            let temp = [];
+
+            for (var i = 0; i < allWrList.length; i++) {
+                if (allWrList[i].workRequestNumber != addTabNewWorkRequestNumber.value) {
+                    temp.push(allWrList[i]);
+                }
+            }
+            allWrList = temp;
+            h.displayWrRemoved(addTabNewWorkRequestNumber.value);
+            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            resetDisplayWrAddUpdate();
+            document.getElementById("all_wr_tab_current_page_box").innerHTML = "1";
         }
     })
 
@@ -16002,8 +16051,14 @@ async function mainEvent() {
         addTabFilterLabelContainer.classList.remove("hidden");
         addTypeContainer.classList.remove("hidden");
 
+        /* call to resetDisplayToDoAddUpdate clears wr num from add tab - saving temporarily and resetting if exists */
+        let tempNum = addTabNewWorkRequestNumber.value;
         /* Reseting (Actually used for initializing) add To-Do display */
         resetDisplayToDoAddUpdate();
+
+        if (tempNum != undefined) {
+            addTabNewWorkRequestNumber.value = tempNum;
+        }
 
         filterCheckboxAddWr.click();
 
