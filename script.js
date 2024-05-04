@@ -680,6 +680,17 @@ class Haptix {
         }, this.promptDuration);
     }
 
+    displayToDoUpdatedFromPopUp(type, wrNum) {
+        console.log("Entered - displayToDoUpdatedFromPopUp(type= " + type + " wrNum= " + wrNum + ")");
+        
+        const temp = document.getElementById("left_side_container");
+        temp.insertAdjacentHTML("beforeend", `<div class="toDoUpdatedFromPopUpPrompt" id="to_do_updated_from_pop_up_prompt">"${type}" To-Do Updated For Work Request # ${wrNum}</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_updated_from_pop_up_prompt");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
     displayWrRemoved(wrNum) {
         console.log("Entered - displayWrRemoved(" + wrNum + ")");
 
@@ -1871,6 +1882,67 @@ class ToDoMasterList {
         this.linesPerPage = linesPerPage;
     }
 
+    /* Checks some of the to-do types to maintain a unique list - 
+        EX. would not need multiple svc calc to-do's for same wr - 
+        first used / created for initial permit end date prompt -
+        don't want to prompt user to add to-do if one already exists */
+        // Checking - Site Visit, Svc Calc, Check Njuns, Check Permit, Check Easement, Design, and Revision Lists */
+    toDoTypeExistsForWorkRequest(type, wrNum) {
+        console.log("Entered - ToDoMasterList - toDoTypeExistsForWorkRequest(" + type + ", " + wrNum + ")");
+
+        /* Go through every day - for each day, check to-do list of type based on param 
+        if a to-do has a wrNum and it is equal to wrNum param, return true 
+        returns false at end once all to-do's have been checked. */
+        for (var i = 0; i < this.list.length; i++) {
+            if (type == "site_visit") { /* Checking Check/ Apply Permit List */
+                for (var j = 0; j < this.list[i].siteVisitList.length; j++) {
+                    if (this.list[i].siteVisitList[j].workRequestNumber != undefined && this.list[i].siteVisitList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            } else if (type == "svc_calc") { /* Checking Svc Calc List */
+                for (var j = 0; j < this.list[i].svcCalcList.length; j++) {
+                    if (this.list[i].svcCalcList[j].workRequestNumber != undefined && this.list[i].svcCalcList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            
+            } else if (type == "check_njuns") { /* Checking Check/ Apply NJUNS List */
+                for (var j = 0; j < this.list[i].checkNJUNSList.length; j++) {
+                    if (this.list[i].checkNJUNSList[j].workRequestNumber != undefined && this.list[i].checkNJUNSList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            } else if (type == "check_permit") { /* Checking Check/ Apply Permit List */
+                for (var j = 0; j < this.list[i].checkPermitList.length; j++) {
+                    if (this.list[i].checkPermitList[j].workRequestNumber != undefined && this.list[i].checkPermitList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            } else if (type == "check_easement") { /* Checking Check/ Apply Easement List */
+                for (var j = 0; j < this.list[i].checkEasementList.length; j++) {
+                    if (this.list[i].checkEasementList[j].workRequestNumber != undefined && this.list[i].checkEasementList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            } else if (type == "design") { /* Checking Design List */
+                for (var j = 0; j < this.list[i].designList.length; j++) {
+                    if (this.list[i].designList[j].workRequestNumber != undefined && this.list[i].designList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+            } else if (type == "revisions") { /* Checking Revisions List */
+                for (var j = 0; j < this.list[i].revisionsList.length; j++) {
+                    if (this.list[i].revisionsList[j].workRequestNumber != undefined && this.list[i].revisionsList[j].workRequestNumber == wrNum) {
+                        return true;
+                    }
+                }
+        } 
+        }
+        console.log("Returning False");
+        return false;
+    }
+
     /* Completes and uncompletes toDoObject and associated notes */
     complete(date, type, index, tempToDoPageElement) {
         console.log("Entered - ToDoMasterList - complete(date = " + date + " type= " + type + " index= " + index + ")");
@@ -2259,10 +2331,19 @@ class ToDoMasterList {
             data.push(tempNotes);
             toDoStr = toDoStr.substring(tempIndex + 4);
 
-            data.push(toDoStr); // should just be wr num from trimming
+            console.log("FFF TEST - after notes");
+            console.log(toDoStr); 
+
+            tempIndex = toDoStr.indexOf("*");
+            data.push(toDoStr.substring(0, tempIndex)); 
+            toDoStr = toDoStr.substring(tempIndex + 1);
+
+            console.log("FFF TEST");
+            console.log(toDoStr); 
+            data.push(toDoStr); // should just be addressStr from trimming
 
             /* Adding parsed ToDoObject to masterList */
-            const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+            const toDo = new ToDoObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8]);
            
             this.add(toDo);
 
@@ -3596,8 +3677,8 @@ class ToDoDayObject {
             str += this.generalList[i].toString();
         }
         str += "%#";
-        str += this.linesPerPage;
-        str+= "%#";
+        //str += this.linesPerPage; // shouldn't need this - can get from parent and is messing up parse
+        //str+= "%#";
         
         return str;
 
@@ -3663,7 +3744,7 @@ class ToDoObject {
             str += this.notes[i] + "*";
         }
 
-        str += "^EN^" + temp + "@" + tempAddressStr + "@ET@";
+        str += "^EN^" + temp + "*" + tempAddressStr + "@ET@";
 
 
         return str;
@@ -4255,9 +4336,13 @@ function setPermitRowValues(wr, rowNumber, userColors) {
     if (tempLength == 0) {
         console.log("No Comments to add");
         comments.innerText = "No Comments";
+        comments.style.fontSize = '16px';
     } else {
         comments.innerText = wr.commentsGeneral.comments[tempLength - 1].comment +
         " (" + wr.commentsGeneral.comments[tempLength - 1].date + ")";
+        comments.style.fontSize = '10px';
+
+
     }
 }
 function hideAllPermitRows() {
@@ -4373,11 +4458,14 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     if (tempLength == 0) {
         console.log("no comments to add");
         comments.innerText = "No Comments";
+        comments.style.fontSize = '16px';
+
     } else {
         //comments.innerText = wr.commentsGeneral.comments[0].comment + " (" + wr.commentsGeneral.comments[0].date + ")";
                                                       // length - 1 display newest comment - list is ascending
         comments.innerText = wr.commentsGeneral.comments[tempLength - 1].comment + 
                             " (" + wr.commentsGeneral.comments[tempLength - 1].date + ")";
+        comments.style.fontSize = '10px';
     }
     
     //const pocs = document.getElementById("all_wr_tab_row_" + rowNumberText + "_pocs");
@@ -6183,12 +6271,17 @@ async function mainEvent() {
         /* Missing Info and Add To-Do Pop Ups */
         initializePopups();
 
+        /* Checks all work requests to see if permits are expiring soon -
+            if so, updates status and prompts user to add/update to-do */
         initialCheckPermitDates();
 
         // Running test function
         testFunction();
     }
 
+    
+    /* Checks all work requests to see if permit dates are within specified range - 
+        if there are, changes status to expiring soon and prompts to add/update to-do */
     function initialCheckPermitDates() {
         console.log("Entered - initialCheckPermitDates()");
 
@@ -6204,7 +6297,8 @@ async function mainEvent() {
         const curDataDayStr = curDataDate.substring(8, 10);
         const curDataDayNum = new Number(curDataDayStr);
 
-        if (dayNum.valueOf() != curDataDayNum.valueOf()) {
+        /* CHANGE != to == (below) when testing - allows to test same day on load */
+        if (dayNum.valueOf() != curDataDayNum.valueOf()) { 
             console.log("permit dates not checked yet");
 
             for (var i = 0; i < allWrList.length; i++) {
@@ -6221,9 +6315,16 @@ async function mainEvent() {
                         console.log("Code calling click below");
                         allWrTab.click();
 
-                        /* Revealing Popup */  // Need to change text "35" below when system preferences is updated
-                        document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                        addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days. Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                        if (toDoMasterList.toDoTypeExistsForWorkRequest("check_permit", allWrList[i].workRequestNumber) == false) { // Function that checks to do's for wr to see if to-do already exists
+                            /* Revealing Popup */   // Need to change text "35" below when system preferences is updated
+                            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days. Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                    
+                        } else { // wr has to-do for that type - note to self: move the to-do to today if it isn't already 
+                            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText" style="margin-top: -15px;">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days.<br> Do you want to update the date/tab for existing \"Check/ <br>Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                    
+                        }
                     } 
                 }
                 
@@ -7586,7 +7687,10 @@ async function mainEvent() {
 
         let addressStr = ""
         if (tempWr != []) {
-            addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + str;
+            addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode;
+            if (str != undefined) {
+                addressStr += " - " + str;
+            }
         } else {
             addressStr = undefined;
         }
@@ -7621,6 +7725,10 @@ async function mainEvent() {
             const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
+        } else if (addToDoPopUpHeader.innerHTML.includes("Permit") && addToDoPopUpHeader.innerHTML.includes("update")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
+            toDoMasterList.add(newToDo);
+            h.displayToDoUpdatedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Easement")) {
             const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str, addressStr);
             toDoMasterList.add(newToDo);
@@ -8578,7 +8686,16 @@ async function mainEvent() {
                 console.log("Setting Permit Applied Date to Today");
                 
                 const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                const year = d.getFullYear();
+                let month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                let day = d.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                const tempDate = month + "-" + day + "-" + year;
 
                 currentWr.permit.dateApplied = tempDate;
                 
@@ -8586,7 +8703,16 @@ async function mainEvent() {
                 console.log("Setting Permit Applied Date to Today - Extension");
 
                 const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                const year = d.getFullYear();
+                let month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                let day = d.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                const tempDate = month + "-" + day + "-" + year;
 
                 currentWr.permit.dateApplied = tempDate;
             }
@@ -10688,7 +10814,17 @@ async function mainEvent() {
                 console.log("Setting Permit Applied Date to Today - Extension");
 
                 const d = new Date();
-                const tempDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
+                const year = d.getFullYear();
+                let month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+                let day = d.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                //let tempDate = year + "-" + month + "-" + day;
+                const tempDate = month + "-" + day + "-" + d.getFullYear();
 
                 currentWr.permit.dateApplied = tempDate;
             }
@@ -11254,7 +11390,7 @@ async function mainEvent() {
                 newWr.permit = curWr.permit;
                 
                 
-                if (addCommentTabTextfield.value != undefined && addCommentTabTextfield.value != "Type Comment Here" &&
+                if (addCommentTabTextfield.value != undefined && addCommentTabTextfield.value != "Enter Comment Here" &&
                 addCommentTabTextfield.value.length > 0) {
                     console.log("Comment typed but not entered");
     
