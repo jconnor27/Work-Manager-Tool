@@ -3760,7 +3760,6 @@ class ToDoObject {
     }
 }
 
-
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
 function updateComments(comments, tab) {
@@ -5741,6 +5740,7 @@ async function mainEvent() {
     const addToDoPopUpXButton = document.querySelector("#add_to_do_pop_up_x_button");
     const addToDoPopUpButtonNo = document.querySelector("#add_to_do_pop_up_button_no");
     const addToDoPopUpButtonYes = document.querySelector("#add_to_do_pop_up_button_yes");
+    const addToDoPopUpTextfield = document.querySelector("#add_to_do_pop_up_textfield");
 
     /* Permit Status Warning Pop Up */
     const permitStatusWarningPopUpDayOfWeekDate = document.querySelector("#permit_status_warning_pop_up_day_of_week_date");
@@ -5750,6 +5750,8 @@ async function mainEvent() {
     const permitStatusWarningPopUpButtonYes = document.querySelector("#permit_status_warning_pop_up_button_yes");
     const permitStatusWarningPopUpHeader = document.querySelector("#permit_status_warning_pop_up_header");
     const permitStatusWarningPopUpType = document.querySelector("#permit_status_warning_pop_up_type");
+    const permitStatusWarningPopUpTextfield = document.querySelector("#permit_status_warning_pop_up_textfield");
+
 
     /* Easement Status Warning Pop Up */
     const easementStatusWarningPopUpDayOfWeekDate = document.querySelector("#easement_status_warning_pop_up_day_of_week_date");
@@ -5759,6 +5761,8 @@ async function mainEvent() {
     const easementStatusWarningPopUpButtonYes = document.querySelector("#easement_status_warning_pop_up_button_yes");
     const easementStatusWarningPopUpHeader = document.querySelector("#easement_status_warning_pop_up_header");
     const easementStatusWarningPopUpType = document.querySelector("#easement_status_warning_pop_up_type");
+    const easementStatusWarningPopUpTextfield = document.querySelector("#easement_status_warning_pop_up_textfield");
+
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -7781,45 +7785,76 @@ async function mainEvent() {
             tab = "Mentor";
         }
 
+        let notes = []
+        if (addToDoPopUpTextfield.value != "Enter Note (Optional)") {
+            notes.push(`<li>${addToDoPopUpTextfield.value}</li>`);
+        }
+
         if (addToDoPopUpHeader.innerHTML.includes("Site Visit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Site Visit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Svc Calc + Coding")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Svc Calcs + Coding", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("NJUNS")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - NJUNS", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Permit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Permit") && addToDoPopUpHeader.innerHTML.includes("update")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoUpdatedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Easement")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Design")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Design", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Revisions")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Revisions", str);
+        } else if (addToDoPopUpTab.innerHTML.includes("Waiting - LL/SP/Etc.")) { // Waiting LL/Sp
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [notes], str, addressStr);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
         } else if (addToDoPopUpTab.innerHTML.includes("Waiting")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [notes], str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
         } 
 
+        addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
+    })
+    addToDoPopUpTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpTextfield");
+
+        if (event.target.value != null) {
+            event.target.select();
+        } 
+    })
+    addToDoPopUpTextfield.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout addToDoPopUpTextfield");
+
+        if (event.target.value.length == 0) {
+            event.target.value = "Enter Note (Optional)";
+        } 
+    })
+    addToDoPopUpTextfield.addEventListener("input", (event) => {
+        console.log("Fired - Input addToDoPopUpTextfield");
+
+        if (event.target.value.length == 1) {
+            event.target.value = event.target.value.toUpperCase();
+        } 
     })
 
     /* Permit Status Warning Pop Up */
@@ -8059,12 +8094,38 @@ async function mainEvent() {
             tab = "Mentor";
         }
 
+        let notes = []
+        if (permitStatusWarningPopUpTextfield.value != "Enter Note (Optional)") {
+            notes.push(`<li>${permitStatusWarningPopUpTextfield.value}</li>`);
+        }
      
-        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, permitStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
+        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, permitStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [notes], str, addressStr);
         toDoMasterList.add(newToDo);
         h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
 
+        permitStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         permitStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    permitStatusWarningPopUpTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitStatusWarningPopUpTextfield");
+
+        if (event.target.value != null) {
+            event.target.select();
+        } 
+    })
+    permitStatusWarningPopUpTextfield.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout permitStatusWarningPopUpTextfield");
+
+        if (event.target.value.length == 0) {
+            event.target.value = "Enter Note (Optional)";
+        } 
+    })
+    permitStatusWarningPopUpTextfield.addEventListener("input", (event) => {
+        console.log("Fired - input permitStatusWarningPopUpTextfield");
+
+        if (event.target.value.length == 1) {
+            event.target.value = event.target.value.toUpperCase();
+        } 
     })
 
     /* Easement Status Warning Pop Up */
@@ -8304,12 +8365,38 @@ async function mainEvent() {
             tab = "Mentor";
         }
 
+        let notes = []
+        if (easementStatusWarningPopUpTextfield.value != "Enter Note (Optional)") {
+            notes.push(`<li>${easementStatusWarningPopUpTextfield.value}</li>`);
+        }
      
-        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, easementStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str, addressStr);
+        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, easementStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [notes], str, addressStr);
         toDoMasterList.add(newToDo);
         h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
 
+        easementStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         easementStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    easementStatusWarningPopUpTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpTextfield");
+
+        if (event.target.value != null) {
+            event.target.select();
+        } 
+    })
+    easementStatusWarningPopUpTextfield.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout easementStatusWarningPopUpTextfield");
+
+        if (event.target.value.length == 0) {
+            event.target.value = "Enter Note (Optional)";
+        } 
+    })
+    easementStatusWarningPopUpTextfield.addEventListener("input", (event) => {
+        console.log("Fired - input easementStatusWarningPopUpTextfield");
+
+        if (event.target.value.length == 1) {
+            event.target.value = event.target.value.toUpperCase();
+        } 
     })
 
     
@@ -8959,6 +9046,14 @@ async function mainEvent() {
         } else if (tempCurrent.innerHTML == "Revisions") {
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+        } else if (tempCurrent.innerHTML.includes("Waiting - LL")) { // Waiting on LL/SP/Etc.
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+            addToDoPopUpTextfield.value = "Waiting on Load Letter/ Site Plan/ Etc.";
+            clearAddToDoPopUpTabs();
+            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
         } else if (tempCurrent.innerHTML.includes("Waiting")) {
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
