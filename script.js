@@ -5742,6 +5742,23 @@ async function mainEvent() {
     const addToDoPopUpButtonNo = document.querySelector("#add_to_do_pop_up_button_no");
     const addToDoPopUpButtonYes = document.querySelector("#add_to_do_pop_up_button_yes");
 
+    /* Permit Status Warning Pop Up */
+    const permitStatusWarningPopUpDayOfWeekDate = document.querySelector("#permit_status_warning_pop_up_day_of_week_date");
+    const permitStatusWarningPopUpContainer = document.querySelector("#permit_status_warning_pop_up_container");
+    const permitStatusWarningPopUpXButton = document.querySelector("#permit_status_warning_pop_up_x_button");
+    const permitStatusWarningPopUpButtonNo = document.querySelector("#permit_status_warning_pop_up_button_no");
+    const permitStatusWarningPopUpButtonYes = document.querySelector("#permit_status_warning_pop_up_button_yes");
+    const permitStatusWarningPopUpHeader = document.querySelector("#permit_status_warning_pop_up_header");
+    const permitStatusWarningPopUpType = document.querySelector("#permit_status_warning_pop_up_type");
+
+    /* Easement Status Warning Pop Up */
+    const easementStatusWarningPopUpDayOfWeekDate = document.querySelector("#easement_status_warning_pop_up_day_of_week_date");
+    const easementStatusWarningPopUpContainer = document.querySelector("#easement_status_warning_pop_up_container");
+    const easementStatusWarningPopUpXButton = document.querySelector("#easement_status_warning_pop_up_x_button");
+    const easementStatusWarningPopUpButtonNo = document.querySelector("#easement_status_warning_pop_up_button_no");
+    const easementStatusWarningPopUpButtonYes = document.querySelector("#easement_status_warning_pop_up_button_yes");
+    const easementStatusWarningPopUpHeader = document.querySelector("#easement_status_warning_pop_up_header");
+    const easementStatusWarningPopUpType = document.querySelector("#easement_status_warning_pop_up_type");
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -6248,6 +6265,51 @@ async function mainEvent() {
 
         document.getElementById("add_to_do_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
         setDay("add_to_do_pop_up", today.getDay());
+
+        /* Initializing Status Warning Pop Up - Permit */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("permit_status_warning_pop_up", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+
+        document.getElementById("permit_status_warning_pop_up_date_object_container").innerHTML = "";
+        document.getElementById("permit_status_warning_pop_up_date_object_container").insertAdjacentElement("beforeend", pageObjectRow);
+
+        document.getElementById("permit_status_warning_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
+        setDay("permit_status_warning_pop_up", today.getDay());
+
+        /* Initializing Status Warning Pop Up - Easement */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("easement_status_warning_pop_up", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+
+        document.getElementById("easement_status_warning_pop_up_date_object_container").innerHTML = "";
+        document.getElementById("easement_status_warning_pop_up_date_object_container").insertAdjacentElement("beforeend", pageObjectRow);
+
+        document.getElementById("easement_status_warning_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
+        setDay("easement_status_warning_pop_up", today.getDay());
+
     }
 
     /* Adds all dropdowns */
@@ -7305,43 +7367,43 @@ async function mainEvent() {
         const tempResetArrow = document.createElement("tempResetArrow");
         tempResetArrow.innerHTML = "&#8634";
 
-        if (event.target.innerHTML == "Su") {
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_sunday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_sunday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 0);
-        } else if (event.target.innerHTML == "M") {
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_monday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_monday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 1);
-        } else if (event.target.innerHTML == "Tu") {
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_tuesday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 2);
-        } else if (event.target.innerHTML == "W") {
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_wednesday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 3);
-        } else if (event.target.innerHTML == "Th") {
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_thursday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 4);
-        } else if (event.target.innerHTML == "F") {
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_friday").classList.add("hidden");
             document.getElementById("missing_info_tab_day_of_week_box_friday_active").classList.remove("hidden");
             assessDayOfWeekChange("missing_info", 5);
-        } else if (event.target.innerHTML == "Sa") {
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
             clearDays("missing_info");
 
             document.getElementById("missing_info_tab_day_of_week_box_saturday").classList.add("hidden");
@@ -7529,43 +7591,43 @@ async function mainEvent() {
         const tempResetArrow = document.createElement("tempResetArrow");
         tempResetArrow.innerHTML = "&#8634";
 
-        if (event.target.innerHTML == "Su") {
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_sunday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_sunday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 0);
-        } else if (event.target.innerHTML == "M") {
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_monday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_monday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 1);
-        } else if (event.target.innerHTML == "Tu") {
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_tuesday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 2);
-        } else if (event.target.innerHTML == "W") {
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_wednesday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 3);
-        } else if (event.target.innerHTML == "Th") {
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_thursday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 4);
-        } else if (event.target.innerHTML == "F") {
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_friday").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_friday_active").classList.remove("hidden");
             assessDayOfWeekChange("add_to_do_pop_up", 5);
-        } else if (event.target.innerHTML == "Sa") {
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
             clearDays("add_to_do_pop_up");
 
             document.getElementById("add_to_do_pop_up_tab_day_of_week_box_saturday").classList.add("hidden");
@@ -7758,6 +7820,496 @@ async function mainEvent() {
         } 
 
         addToDoPopUpContainer.classList.add("hidden");
+    })
+
+    /* Permit Status Warning Pop Up */
+    function clearPermitStatusWarningPopUpTabs() {
+        console.log("Entered - clearPermitStatusWarningPopUpTabs()");
+
+        document.getElementById("permit_status_warning_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_mentor_active").classList.add("hidden");
+
+        document.getElementById("permit_status_warning_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("permit_status_warning_pop_up_tab_mentor").classList.remove("hidden");
+    }
+    permitStatusWarningPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout permitStatusWarningPopUpDayOfWeekDate");
+
+        const temp = permitStatusWarningPopUpDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("permit_status_warning_pop_up", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("permit_status_warning_pop_up", tempStr);
+    })
+    permitStatusWarningPopUpContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitStatusWarningPopUpContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 0);
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 1);
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 2);
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 3);
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 4);
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 5);
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
+            clearDays("permit_status_warning_pop_up");
+
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("permit_status_warning_pop_up", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = permitStatusWarningPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            permitStatusWarningPopUpDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            
+            const temp = permitStatusWarningPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("permit_status_warning_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("permit_status_warning_pop_up", tempStr);
+            
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = permitStatusWarningPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            permitStatusWarningPopUpDayOfWeekDate.value = addDays(year, month, day, 7);
+
+
+            const temp = permitStatusWarningPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("permit_status_warning_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("permit_status_warning_pop_up", tempStr);        
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            permitStatusWarningPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+            setDay("permit_status_warning_pop_up", d.getDay());
+            setFromToDates("permit_status_warning_pop_up", (year + "-" + month + "-" + day));
+        } 
+        
+        if (event.target.innerHTML == "Coordinator") {
+            clearPermitStatusWarningPopUpTabs();
+
+            document.getElementById("permit_status_warning_pop_up_tab_coordinator").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_coordinator_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Waiting") {
+            clearPermitStatusWarningPopUpTabs();
+
+            document.getElementById("permit_status_warning_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_waiting_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "On Return" || event.target.innerHTML == "To Office") {
+            clearPermitStatusWarningPopUpTabs();
+
+            document.getElementById("permit_status_warning_pop_up_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "General") {
+            clearPermitStatusWarningPopUpTabs();
+
+            document.getElementById("permit_status_warning_pop_up_tab_general").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_general_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Mentor") {
+            clearPermitStatusWarningPopUpTabs();
+
+            document.getElementById("permit_status_warning_pop_up_tab_mentor").classList.add("hidden");
+            document.getElementById("permit_status_warning_pop_up_tab_mentor_active").classList.remove("hidden");
+        } 
+    })
+    permitStatusWarningPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitStatusWarningPopUpXButton");
+
+        permitStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    permitStatusWarningPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitStatusWarningPopUpButtonNo");
+
+        permitStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    permitStatusWarningPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitStatusWarningPopUpButtonYes");
+        const h = new Haptix(promptDuration);
+
+        const d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        let tempIndex = permitStatusWarningPopUpHeader.innerHTML.indexOf("#");
+        let str = permitStatusWarningPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        let tempWr = [];
+        for (var i = 0; i < allWrList.length; i++) {
+            if (allWrList[i].workRequestNumber == str) {
+                tempWr = allWrList[i];
+            }
+        }
+
+        let addressStr = ""
+        if (tempWr != []) {
+            addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode;
+            if (str != undefined) {
+                addressStr += " - " + str;
+            }
+        } else {
+            addressStr = undefined;
+        }
+
+        let tab = "";
+
+        if (document.getElementById("permit_status_warning_pop_up_tab_coordinator").classList.contains("hidden")) {
+            tab = "Coordinator";
+        } else if (document.getElementById("permit_status_warning_pop_up_tab_waiting").classList.contains("hidden")) {
+            tab = "Waiting";
+        } else if (document.getElementById("permit_status_warning_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+            tab = "On Return To Office";
+        } else if (document.getElementById("permit_status_warning_pop_up_tab_general").classList.contains("hidden")) {
+            tab = "General";
+        } else if (document.getElementById("permit_status_warning_pop_up_tab_mentor").classList.contains("hidden")) {
+            tab = "Mentor";
+        }
+
+     
+        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, permitStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [], str, addressStr);
+        toDoMasterList.add(newToDo);
+        h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
+
+        permitStatusWarningPopUpContainer.classList.add("hidden");
+    })
+
+    /* Easement Status Warning Pop Up */
+    function clearEasementStatusWarningPopUpTabs() {
+        console.log("Entered - clearEasementStatusWarningPopUpTabs()");
+
+        document.getElementById("easement_status_warning_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_mentor_active").classList.add("hidden");
+
+        document.getElementById("easement_status_warning_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("easement_status_warning_pop_up_tab_mentor").classList.remove("hidden");
+    } 
+    easementStatusWarningPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout easementStatusWarningPopUpDayOfWeekDate");
+
+        const temp = easementStatusWarningPopUpDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("easement_status_warning_pop_up", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("easement_status_warning_pop_up", tempStr);
+    })
+    easementStatusWarningPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpXButton");
+
+        easementStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    easementStatusWarningPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpButtonNo");
+
+        easementStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    easementStatusWarningPopUpContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 0);
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 1);
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 2);
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 3);
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 4);
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 5);
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
+            clearDays("easement_status_warning_pop_up");
+
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("easement_status_warning_pop_up", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = easementStatusWarningPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            easementStatusWarningPopUpDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            
+            const temp = easementStatusWarningPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("easement_status_warning_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("easement_status_warning_pop_up", tempStr);
+            
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = easementStatusWarningPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            easementStatusWarningPopUpDayOfWeekDate.value = addDays(year, month, day, 7);
+
+
+            const temp = easementStatusWarningPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("easement_status_warning_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("easement_status_warning_pop_up", tempStr);        
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            easementStatusWarningPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+            setDay("easement_status_warning_pop_up", d.getDay());
+            setFromToDates("easement_status_warning_pop_up", (year + "-" + month + "-" + day));
+        } 
+        
+        if (event.target.innerHTML == "Coordinator") {
+            clearEasementStatusWarningPopUpTabs();
+
+            document.getElementById("easement_status_warning_pop_up_tab_coordinator").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_coordinator_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Waiting") {
+            clearEasementStatusWarningPopUpTabs();
+
+            document.getElementById("easement_status_warning_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_waiting_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "On Return" || event.target.innerHTML == "To Office") {
+            clearEasementStatusWarningPopUpTabs();
+
+            document.getElementById("easement_status_warning_pop_up_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "General") {
+            clearEasementStatusWarningPopUpTabs();
+
+            document.getElementById("easement_status_warning_pop_up_tab_general").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_general_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Mentor") {
+            clearEasementStatusWarningPopUpTabs();
+
+            document.getElementById("easement_status_warning_pop_up_tab_mentor").classList.add("hidden");
+            document.getElementById("easement_status_warning_pop_up_tab_mentor_active").classList.remove("hidden");
+        } 
+    })
+    easementStatusWarningPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpButtonYes");
+        const h = new Haptix(promptDuration);
+
+        const d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        let tempIndex = easementStatusWarningPopUpHeader.innerHTML.indexOf("#");
+        let str = easementStatusWarningPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        let tempWr = [];
+        for (var i = 0; i < allWrList.length; i++) {
+            if (allWrList[i].workRequestNumber == str) {
+                tempWr = allWrList[i];
+            }
+        }
+
+        let addressStr = ""
+        if (tempWr != []) {
+            addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode;
+            if (str != undefined) {
+                addressStr += " - " + str;
+            }
+        } else {
+            addressStr = undefined;
+        }
+
+        let tab = "";
+
+        if (document.getElementById("easement_status_warning_pop_up_tab_coordinator").classList.contains("hidden")) {
+            tab = "Coordinator";
+        } else if (document.getElementById("easement_status_warning_pop_up_tab_waiting").classList.contains("hidden")) {
+            tab = "Waiting";
+        } else if (document.getElementById("easement_status_warning_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+            tab = "On Return To Office";
+        } else if (document.getElementById("easement_status_warning_pop_up_tab_general").classList.contains("hidden")) {
+            tab = "General";
+        } else if (document.getElementById("easement_status_warning_pop_up_tab_mentor").classList.contains("hidden")) {
+            tab = "Mentor";
+        }
+
+     
+        const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, easementStatusWarningPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [], str, addressStr);
+        toDoMasterList.add(newToDo);
+        h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
+
+        easementStatusWarningPopUpContainer.classList.add("hidden");
     })
 
     
@@ -8335,6 +8887,31 @@ async function mainEvent() {
 
             /* General Status DDs */
         /* Functions */
+    /* Checks the status of a wr's permit and easement when it's general status is changed to design */
+    function runAtDesignStatusCheck(curWr) {
+        console.log("Entered - runAtDesignStatusCheck(curWr)");
+
+        /* Have to check in reverse to get popups to display in order of row element */
+
+        /* Checking Easement Status */
+        if (curWr.easementRequestStatus == "Not Set") {
+            document.getElementById("easement_status_warning_pop_up_container").classList.remove("hidden");
+            easementStatusWarningPopUpHeader.innerHTML = `<div class="statusWarningPopUpText">Easement Status for Work Request # ${curWr.workRequestNumber} " is \"Not Set\". Do you want <br> to add a \"Check/ Apply - Easement\" To-Do for Work Request # ${curWr.workRequestNumber}?</div>`;
+        } else if(curWr.easementRequestStatus == "Haven't Checked") {
+            document.getElementById("easement_status_warning_pop_up_container").classList.remove("hidden");
+            easementStatusWarningPopUpHeader.innerHTML = `<div class="statusWarningPopUpText">Easement Status for Work Request # ${curWr.workRequestNumber} " is \"Haven't Checked\". Do you want <br> to add a \"Check/ Apply - Easement\" To-Do for Work Request # ${curWr.workRequestNumber}?</div>`;
+        }
+
+        /* Checking Permit Status */
+        if (curWr.permit.permitStatus == "Not Set") {
+            document.getElementById("permit_status_warning_pop_up_container").classList.remove("hidden");
+            permitStatusWarningPopUpHeader.innerHTML = `<div class="statusWarningPopUpText">Permit Status for Work Request # ${curWr.workRequestNumber} " is \"Not Set\". Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${curWr.workRequestNumber}?</div>`;
+        } else if(curWr.permit.permitStatus == "Haven't Checked") {
+            document.getElementById("permit_status_warning_pop_up_container").classList.remove("hidden");
+            permitStatusWarningPopUpHeader.innerHTML = `<div class="statusWarningPopUpText">Permit Status for Work Request # ${curWr.workRequestNumber} " is \"Haven't Checked\". Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${curWr.workRequestNumber}?</div>`;
+        }
+
+    }
     function assessGeneralStatusChange(rowNum) {
         console.log("Entered - assessGeneralStatusChange(" + rowNum + ")");
 
@@ -8376,6 +8953,7 @@ async function mainEvent() {
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
         } else if (tempCurrent.innerHTML == "Design") {
+            runAtDesignStatusCheck(currentWr);
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
         } else if (tempCurrent.innerHTML == "Revisions") {
@@ -9445,43 +10023,43 @@ async function mainEvent() {
         const tempResetArrow = document.createElement("tempResetArrow");
         tempResetArrow.innerHTML = "&#8634";
 
-        if (event.target.innerHTML == "Su") {
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_sunday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_sunday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 0);
-        } else if (event.target.innerHTML == "M") {
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_monday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_monday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 1);
-        } else if (event.target.innerHTML == "Tu") {
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_tuesday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 2);
-        } else if (event.target.innerHTML == "W") {
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_wednesday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 3);
-        } else if (event.target.innerHTML == "Th") {
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_thursday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 4);
-        } else if (event.target.innerHTML == "F") {
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_friday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_friday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 5);
-        } else if (event.target.innerHTML == "Sa") {
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_saturday").classList.add("hidden");
@@ -9917,7 +10495,7 @@ async function mainEvent() {
 
             
 
-        } else if (event.target.innerHTML == "Su") {
+        } else if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_sunday").classList.add("hidden");
@@ -9925,7 +10503,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 0);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "M") {
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_monday").classList.add("hidden");
@@ -9933,7 +10511,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 1);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "Tu") {
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_tuesday").classList.add("hidden");
@@ -9941,7 +10519,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 2);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "W") {
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_wednesday").classList.add("hidden");
@@ -9949,7 +10527,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 3);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "Th") {
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_thursday").classList.add("hidden");
@@ -9957,7 +10535,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 4);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "F") {
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_friday").classList.add("hidden");
@@ -9965,7 +10543,7 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 5);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-        } else if (event.target.innerHTML == "Sa") {
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_saturday").classList.add("hidden");
@@ -12020,6 +12598,51 @@ async function mainEvent() {
                 const tempCurrent = document.getElementById("general_status_dd_add_tab_current");
                 tempCurrent.innerHTML = event.target.innerHTML;
 
+                if (tempCurrent.innerHTML == "Need to Visit" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    if (currentWr.crd == "0001-01-01") {
+                        document.getElementById("missing_info_container").classList.remove("hidden");
+                        missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
+                        missingInfoType.innerHTML = `<div class="missingInfoText">${"Set CRD?"}</div>`;
+                    } else if (currentWr.rcd == "0001-01-01") {
+                        document.getElementById("missing_info_container").classList.remove("hidden");
+                        missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
+                        missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
+                    } else { // Asking User if they want to add to-do
+                        document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                        addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                    }
+                } else if (tempCurrent.innerHTML == "Need to Flag" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "SVC Calcs + Coding" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Svc Calc + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "Check/ Apply For Permit" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "Check/ Apply For Easement" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "Design" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    runAtDesignStatusCheck(currentWr);
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML == "Revisions" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                } else if (tempCurrent.innerHTML.includes("Waiting") && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+                    clearAddToDoPopUpTabs();
+                    document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+                    document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+                } 
+                
+
                     /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
                 dropdownCover.classList.add("hidden");
@@ -12700,6 +13323,12 @@ async function mainEvent() {
         } else if (tab == "add_to_do_pop_up") {
             document.getElementById("add_to_do_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("add_to_do_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        } else if (tab == "permit_status_warning") {
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("permit_status_warning_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        } else if (tab == "easement_status_warning") {
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("easement_status_warning_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
         }
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
@@ -12901,7 +13530,28 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
-        }
+        } else if (tab == "permit_status_warning_pop_up") {
+            let temp = permitStatusWarningPopUpDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
+        } else if (tab == "easement_status_warning_pop_up") {
+            let temp = easementStatusWarningPopUpDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
+        } 
+
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
         if (month < 10) {
@@ -12936,6 +13586,12 @@ async function mainEvent() {
             } else if (tab == "add_to_do_pop_up") {
                 addToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("add_to_do_pop_up", temp);
+            } else if (tab == "permit_status_warning_pop_up") {
+                permitStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("permit_status_warning_pop_up");
+            } else if (tab == "easement_status_warning_pop_up") {
+                easementStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("easement_status_warning_pop_up");
             }
 
         } else if (newDay > curDay) { // Going forwards
@@ -12958,6 +13614,12 @@ async function mainEvent() {
             } else if (tab == "add_to_do_pop_up") {
                 addToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("add_to_do_pop_up", temp);
+            } else if (tab == "permit_status_warning_pop_up") {
+                permitStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("permit_status_warning_pop_up");
+            } else if (tab == "easement_status_warning_pop_up") {
+                easementStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("easement_status_warning_pop_up");
             }
 
         } else { // Going to today
@@ -12986,6 +13648,12 @@ async function mainEvent() {
             } else if (tab == "add_to_do_pop_up") {
                 addToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("add_to_do_pop_up", temp);
+            } else if (tab == "permit_status_warning_pop_up") {
+                permitStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("permit_status_warning_pop_up");
+            } else if (tab == "easement_status_warning_pop_up") {
+                easementStatusWarningPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("easement_status_warning_pop_up");
             }
         }
 
@@ -13217,37 +13885,37 @@ async function mainEvent() {
         const tempResetArrow = document.createElement("tempResetArrow");
         tempResetArrow.innerHTML = "&#8634";
         
-        if (event.target.innerHTML == "Su") {
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_sunday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_sunday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 0);
-        } else if (event.target.innerHTML == "M") {
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_monday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_monday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 1);
-        } else if (event.target.innerHTML == "Tu") {
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_tuesday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 2);
-        } else if (event.target.innerHTML == "W") {
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_wednesday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 3);
-        } else if (event.target.innerHTML == "Th") {
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("add_tab_day_of_week_box_thursday_active").classList.remove("hidden");
             assessDayOfWeekChange("add", 4);
-        } else if (event.target.innerHTML == "F") {
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
             clearDays("add");
 
             document.getElementById("add_tab_day_of_week_box_friday").classList.add("hidden");
@@ -14394,6 +15062,23 @@ async function mainEvent() {
 
             assessToDoFilterBy();
         } 
+
+        if (!filterCheckboxGeneral.checked && !filterCheckboxContactCustomer.checked && !filterCheckboxNeedToVisit.checked &&
+            !filterCheckboxSvcCalcs.checked && !filterCheckboxCheckNJUNS.checked && !filterCheckboxCheckPermit.checked && 
+            !filterCheckboxCheckEasement.checked && !filterCheckboxDesign.checked && !filterCheckboxRevisions.checked) {
+                if (document.getElementById("to_do_general_tab").classList.contains("hidden")) {
+                    document.getElementById("to_do_general_tab").click();
+                } else if (document.getElementById("to_do_mentor_tab").classList.contains("hidden")) {
+                    document.getElementById("to_do_mentor_tab").click();
+                } else if (document.getElementById("to_do_coordinator_tab").classList.contains("hidden")) {
+                    document.getElementById("to_do_coordinator_tab").click();
+                } else if (document.getElementById("to_do_waiting_tab").classList.contains("hidden")) {
+                    document.getElementById("to_do_waiting_tab").click();
+                } else if (document.getElementById("to_do_return_to_office_tab").classList.contains("hidden")) {
+                    document.getElementById("to_do_return_to_office_tab").click();
+                } 
+            }
+        
 
          
 

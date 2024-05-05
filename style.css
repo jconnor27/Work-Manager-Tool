@@ -3510,7 +3510,7 @@ h5 {
     min-width: 147px;
 }
 
-.missingInfoContainer, .addToDoPopUpContainer {
+.missingInfoContainer, .addToDoPopUpContainer, .statusWarningPopUpContainer {
     display: flex;
     z-index: 1;
     position: absolute;
@@ -3531,7 +3531,7 @@ h5 {
     border: 2px solid black;
 }
 
-.addToDoPopUpBox {
+.addToDoPopUpBox, .statusWarningPopUpBox {
     display: flex;
     flex-direction: column;
     height: 450px;
@@ -3541,6 +3541,16 @@ h5 {
     border: 2px solid black;
 }
 
+/*.statusWarningPopUpBox {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 600px;
+    z-index: 2;
+    background-color: white;
+    border: 2px solid black;
+}*/
+
 .missingInfoRowOne {
     display: flex;
     flex-direction: row;
@@ -3549,7 +3559,7 @@ h5 {
     justify-content: center;
 }
 
-.addToDoPopUpRowOne {
+.addToDoPopUpRowOne, .statusWarningPopUpRowOne {
     display: flex;
     flex-direction: row;
     width: 650px;
@@ -3567,7 +3577,7 @@ h5 {
     margin-top: 10px;
 }
 
-.addToDoPopUpRowTwo {
+.addToDoPopUpRowTwo, .statusWarningPopUpRowTwo {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -3582,7 +3592,7 @@ h5 {
     margin-bottom: 50px;
 }
 
-.addToDoPopUpRowThree {
+.addToDoPopUpRowThree, .statusWarningPopUpRowThree {
     display: flex;
     flex-direction: column;
     width: 650px;
@@ -3591,7 +3601,7 @@ h5 {
     margin-top: 10px;
 }
 
-.missingInfoXButton, .addToDoPopUpXButton {
+.missingInfoXButton, .addToDoPopUpXButton, .statusWarningPopUpXButton {
     display: flex;
     font-size: 20px;
     margin-left: 15px;
@@ -3601,7 +3611,7 @@ h5 {
     margin-top: 10px;
 }
 
-.missingInfoText, .addToDoPopUpText {
+.missingInfoText, .addToDoPopUpText, .statusWarningPopUpText {
     display: flex;
     font-size: large;
     justify-self: center;
@@ -3622,7 +3632,7 @@ h5 {
     justify-content: center;
 }
 
-.addToDoPopUpButtonContainer {
+.addToDoPopUpButtonContainer, .statusWarningPopUpButtonContainer {
     display: flex;
     flex-direction: row;
     width: 650px;
@@ -3630,7 +3640,7 @@ h5 {
     margin-top: 30px;
 }
 
-.missingInfoButton, .addToDoPopUpButton {
+.missingInfoButton, .addToDoPopUpButton, .statusWarningPopUpButton {
     display: flex;
     font-size: large;
     padding: 5px;
@@ -3645,7 +3655,7 @@ h5 {
     margin-bottom: 5px;
 }
 
-.addToDoPopUpTabContainer {
+.addToDoPopUpTabContainer, .statusWarningPopUpTabContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -3654,7 +3664,7 @@ h5 {
     align-self: center;
 }
 
-.addToDoPopUpTab {
+.addToDoPopUpTab, .statusWarningPopUpTab {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
