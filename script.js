@@ -946,6 +946,17 @@ class Error {
             temp.remove();
         }, this.promptDuration);  
     }
+
+    displayInvalidMoveToDate() {
+        console.log("Entered - displayInvalidMoveToDate()");
+
+        const temp = document.getElementById("move_to_display_day_of_week_date");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidMoveToDate" id="error_invalid_move_to_date">Invalid Date</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_invalid_move_to_date");
+            temp.remove();
+        }, this.promptDuration); 
+    }
 }
 
 class workRequest {
@@ -9605,6 +9616,7 @@ async function mainEvent() {
     })
     toDoDisplayMoveToContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayMoveToContainer");
+        const e = new Error(promptDuration);
 
         const tempLeftArrow = document.createElement("tempLeftArrow");
         tempLeftArrow.innerHTML = "&#8592";
@@ -9620,7 +9632,9 @@ async function mainEvent() {
             tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
             clickedMoveIncompleteButton = 0;
         } else if (event.target.innerHTML == "Save") { 
-            if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
+            if (moveToDayOfWeekDate.value == undefined || moveToDayOfWeekDate.value == "") {
+                e.displayInvalidMoveToDate();
+            } else if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
                 console.log("Fired - Clicked toDoDisplayMoveToContainer Save button - clickedMoveIncompleteButton == 1");
                 
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
@@ -13559,8 +13573,10 @@ async function mainEvent() {
     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */     /* FILTER COMPONENTS */
     
     function assessSpecificStatus() {
-        console.log("Entered - assessSpecficiStatus(allWrList)");
+        console.log("Entered - assessSpecificStatus(allWrList)");
         let tempList = [];
+
+        console.log("GRGRG");
     
         if (document.getElementById("all_wr_tab").classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_waiting_ll").checked == true) {
@@ -13594,7 +13610,7 @@ async function mainEvent() {
                 uncolorAllWrFilterCheckboxes();
                 document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
                 for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For NJUNS") {
+                    if (allWrList[i].generalStatus == "Check/ Apply NJUNS") {
                         tempList.push(allWrList[i]);
                     }
                 }
@@ -13703,109 +13719,6 @@ async function mainEvent() {
                 /* clearing highlights */
                 uncolorAllWrFilterCheckboxes();
                 return allWrList;
-            }
-        } else if (document.getElementById("to_do_tab").classList.contains("hidden")) {
-            if (document.getElementById("filter_checkbox_general").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_checkbox_general").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                
-                /* Probably need to remove for all below */
-                /*for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Need to Visit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;*/
-            } else if (document.getElementById("filter_checkbox_contact_customer").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_checkbox_contact_customer").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                
-                /* Probably need to remove for all below */
-                /*for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Need to Visit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;*/
-            } else if (document.getElementById("filter_checkbox_need_to_visit").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_need_to_visit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                
-                /* Probably need to remove for all below */
-                /*for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Need to Visit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;*/
-            } else if (document.getElementById("filter_checkbox_svc_calcs").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_svc_calcs").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "SVC Calcs + Coding") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_check_njuns").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_check_njuns").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For NJUNS") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_check_permit").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_check_permit").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For Permit") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_container_check_easement").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_check_easement").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Check/ Apply For Easement") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_design").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_design").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Design") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_revisions").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_container_revisions").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Revisions") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else if (document.getElementById("filter_checkbox_waiting_other").checked == true) {
-                uncolorAllWrFilterCheckboxes();
-                document.getElementById("filter_checkbox_waiting_other").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
-                for (let i = 0; i < allWrList.length; i++) {
-                    if (allWrList[i].generalStatus == "Waiting/ Other") {
-                        tempList.push(allWrList[i]);
-                    }
-                }
-                return tempList;
-            } else {
-                console.log("returning toDoMasterList normal");
-                /* clearing highlights */
-                uncolorAllWrFilterCheckboxes();
-                return toDoMasterList;
             }
         } else if (document.getElementById("permits_tab").classList.contains("hidden")) {
             if (filterCheckboxPermitApplied.checked == true) {
@@ -13959,6 +13872,7 @@ async function mainEvent() {
             document.getElementById("filter_container_age_old_new").style.backgroundColor = "rgba(87, 245, 43, 0.627)"
             return quickSortAgeOld(list);
         } else {
+            uncolorGenericFilterCheckboxes();
             console.log("No Filter (sort) checkboxes checked - returning list");
             return list;
         }
@@ -14146,7 +14060,7 @@ async function mainEvent() {
 
             sortedList = filterToDosByType("Revisions");
             
-        } else {
+        } else { // returning to normal display by cur date
             document.getElementById("hide_date_page_object").classList.add("hidden");
             document.getElementById("hide_to_do_tabs").classList.add("hidden");
             
@@ -14268,7 +14182,6 @@ async function mainEvent() {
                         }
                     }         
                 } else { // footer_filter_checkbox_all_to_do.checked == true
-                    console.log("trim all to do checked");
                     uncolorTrimByCheckboxes();
                     document.getElementById("footer_filter_container_all_to_do").style.backgroundColor = "rgba(87, 245, 43, 0.627)";
 
@@ -14278,7 +14191,7 @@ async function mainEvent() {
                 buildPaginatedFromFlat(trimmedList);
     
             }
-        } else {
+        } else { // resetting
             uncolorSearchByCheckboxes();
             document.getElementById("hide_date_page_object").classList.add("hidden");
             document.getElementById("hide_to_do_tabs").classList.add("hidden");
@@ -14301,14 +14214,23 @@ async function mainEvent() {
 
         tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
 
-        for (var i = 0; i < list.length; i++) {
-            if (list[i].workRequestNumber == searchBySelectionTextfield.value) {
-               let tempToDo = list[i];
-               tempToDo.dueDate = "0001-01-01";
-               tempToDoMasterList.add(tempToDo); 
+        if (searchBySelectionCheckbox.checked) {
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].workRequestNumber == searchBySelectionTextfield.value) {
+                    const tempToDo = new ToDoObject(list[i].toDoId, list[i].tab, "0001-01-01", list[i].type, list[i].creationDate, 
+                        list[i].completed, list[i].notes, list[i].workRequestNumber, list[i].addressStr);
+                    tempToDoMasterList.add(tempToDo);
+                    
+                }
+            }
+        } else if (filterBySelectionCheckbox.checked) {
+            for (var i = 0; i < list.length; i++) {
+                const tempToDo = new ToDoObject(list[i].toDoId, list[i].tab, "0001-01-01", list[i].type, list[i].creationDate, 
+                    list[i].completed, list[i].notes, list[i].workRequestNumber, list[i].addressStr);
+                tempToDoMasterList.add(tempToDo);
+
             }
         }
-        console.log("calling tempToDoMasterlist.makepageelem");
         tempToDoMasterList.list[0].makePageElement();
     }
     
@@ -14370,13 +14292,11 @@ async function mainEvent() {
             assessToDoSearchBy();
         }
 
-        
-    
     })
     filterGoButton.addEventListener("click", (event) => {
         console.log("Clicked - filterGoButton");
 
-        if (allWrTab.classList.contains("hidden")) {
+        if (allWrTab.classList.contains("hidden") || permitsTab.classList.contains("hidden")) {
             const allWrListStatus = assessSpecificStatus(allWrList);
             const allWrListTrimmed = assessTrimByStatus(allWrListStatus);
             const allWrListFiltered = assessFilterBy(allWrListTrimmed);
@@ -14386,9 +14306,11 @@ async function mainEvent() {
             // Display no wr prompt if no wr match input
             if (allWrListFiltered.length == 0) {
                 if (allWrTab.classList.contains("hidden")) { // allWrTab is active
+                    document.getElementById("all_wr_display_label_container").innerHTML = "";
                     document.getElementById("all_wr_display_label_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_all_wr_tab">
                     ${"No Work Requests Match User Input"}</div>`);
                 } else if (permitsTab.classList.contains("hidden")) {
+                    document.getElementById("permits_tab_display_header_container").innerHTML = "";
                     document.getElementById("permits_tab_display_header_container").insertAdjacentHTML("afterend", `<div class="noWrFound" id="no_wr_found_permit_tab">
                     ${"No Work Requests Match User Input"}</div>`);
                 }
@@ -14416,7 +14338,7 @@ async function mainEvent() {
             document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
 
             assessToDoFilterBy();
-        }
+        } 
 
          
 
@@ -16037,10 +15959,6 @@ async function mainEvent() {
         }
 
         footerButtonLoad.classList.add("hidden");
-
-        /*if (toDoMasterList.length != undefined && toDoMasterList.length > 0) {
-            injectHTMLToDoTabDisplay()
-        }*/
 
     })
     footerButtonLoad.addEventListener("click", (event) => {

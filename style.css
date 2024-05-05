@@ -1722,6 +1722,14 @@ h5 {
     margin-bottom: -10px;
 }
 
+.errorMessageInvalidMoveToDate {
+    display: flex;
+    font-size: medium;
+    color: red;
+    margin-top: -24px;
+    align-self: center;
+}
+
 .errorMessageEnterCountyCity {
     display: flex;
     font-size: medium;
