@@ -2711,10 +2711,6 @@ class ToDoDayObject {
 
         let pageElement2 = new PaginatedToDoPageElement(this.linesPerPage);
 
-        /*let pageElement = document.createElement("pageElement");
-        pageElement.classList.add("toDoDisplayPageElement");
-        pageElement.id = "to_do_display_page_element";*/
-
         let tempPageElem = [];
         let curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
 
@@ -2803,15 +2799,6 @@ class ToDoDayObject {
 
             pageElement2.add(tempPageElem);
 
-            //console.log("pageElement2 after siteVisit");
-            //console.log(pageElement2);
-
-            
-
-            //pageElement2.display(curPage);
-            //return pageElement2;
-            
-            //pageElement.insertAdjacentElement("beforeend", contactCustomerListElem); // add the contact customer list to the page elem
         }
         /* Site Visit List */
         if (this.siteVisitList.length > 0) {
@@ -9048,12 +9035,13 @@ async function mainEvent() {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
             }
         }    
-        /* Checking to what tab is selected so I can filter list */
+        /* Checking to see what tab is selected so I can filter list */
         if (toDoGeneralTab.classList.contains("hidden")) {
             toDoGeneralTab.click();
         } else if (toDoMentorTab.classList.contains("hidden")) {
             toDoMentorTab.click();
         } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+            console.log("clicking coordinatortab");
             toDoCoordinatorTab.click();
         } else if (toDoWaitingTab.classList.contains("hidden")) {
             toDoWaitingTab.click();
@@ -9192,6 +9180,9 @@ async function mainEvent() {
     function moveIncompleteFilteredFunction(tab, list, newDate) {
         console.log("Entered - moveIncompleteFilteredFunction(tab = " + tab + ", list, newDate = " + newDate + ")");
 
+        /* Setting Active Tab so toDoDisplayDayOfWeekDateMouseoutFunction (called at end) filters properly */
+        
+
         /* Removing all list items from toDoMasterList */
         for (var i = 0; i < list.length; i++) {
             toDoMasterList.removeById(list[i].toDoId);
@@ -9203,10 +9194,31 @@ async function mainEvent() {
             toDoMasterList.add(newToDo);
         }
 
+        
+
          /* Updating Display */
          toDoDisplayMoveToContainer.classList.add("hidden");
          toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
-         toDoDisplayDayOfWeekDateMouseoutFunction();
+         document.getElementById("hide_date_page_object").classList.add("hidden");
+         document.getElementById("hide_to_do_tabs").classList.add("hidden");
+         uncheckToDoFilterCheckboxes();
+         uncheckGenericFilterCheckboxes();
+         uncolorGenericFilterCheckboxes();
+         uncolorToDoFilterCheckboxes();
+
+        toDoDisplayDayOfWeekDateMouseoutFunction();
+
+        if (tab == "General") {
+            toDoGeneralTab.click();
+        } else if (tab == "Mentor") {
+            toDoMentorTab.click();
+        } else if (tab == "Coordinator") {
+            toDoCoordinatorTab.click();
+        } else if (tab == "Waiting") {
+            toDoWaitingTab.click();
+        } else if (tab == "On Return To Office") {
+            toDoOnReturnToOfficeTab.click();
+        } 
     }
     function toDoDisplayDeselectTabs() {
         console.log("Entered - toDoDisplayDeselectTabs()");
