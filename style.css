@@ -1730,6 +1730,18 @@ h5 {
     align-self: center;
 }
 
+.errorMessageInvalidDateToDoDisplay {
+    display: flex;
+    font-size: large;
+    color: red;
+    width: 150px;
+    margin-left: 60px;
+    margin-right: -238px;
+    z-index: 1;
+    margin-bottom: 30px;
+    margin-top: -5px;
+}
+
 .errorMessageEnterCountyCity {
     display: flex;
     font-size: medium;

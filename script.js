@@ -957,6 +957,17 @@ class Error {
             temp.remove();
         }, this.promptDuration); 
     }
+
+    displayInvalidDateToDoDisplay() {
+        console.log("Entered - displayInvalidDateToDoDisplay()");
+
+        const temp = document.getElementById("to_do_display_day_of_week_date");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidDateToDoDisplay" id="error_invalid_date_move_to_display">Invalid Date</li>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_invalid_date_move_to_display");
+            temp.remove();
+        }, this.promptDuration); 
+    }
 }
 
 class workRequest {
@@ -9392,6 +9403,7 @@ async function mainEvent() {
     }) 
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDayOfWeekContainer");
+        const e = new Error(promptDuration);
 
         const tempLeftArrow = document.createElement("tempLeftArrow");
         tempLeftArrow.innerHTML = "&#8592";
@@ -9443,12 +9455,20 @@ async function mainEvent() {
             document.getElementById("to_do_display_tab_day_of_week_box_saturday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 6);
         } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
-            let curDate = toDoDisplayDayOfWeekDate.value;
-            const year = curDate.substring(0, 4);
-            const month = curDate.substring(5, 7);
-            const day = curDate.substring(8, 10);
-            toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 7);
-            toDoDisplayDayOfWeekDateMouseoutFunction();
+            if (toDoDisplayDayOfWeekDate.value == "0001-01-01" || toDoDisplayDayOfWeekDate.value == "0001-01-02" || 
+            toDoDisplayDayOfWeekDate.value == "0001-01-03" || toDoDisplayDayOfWeekDate.value == "0001-01-04" ||
+            toDoDisplayDayOfWeekDate.value == "0001-01-05" || toDoDisplayDayOfWeekDate.value == "0001-01-06" ||
+            toDoDisplayDayOfWeekDate.value == "0001-01-07") {
+                e.displayInvalidDateToDoDisplay();
+            } else {
+                let curDate = toDoDisplayDayOfWeekDate.value;
+                const year = curDate.substring(0, 4);
+                const month = curDate.substring(5, 7);
+                const day = curDate.substring(8, 10);
+                toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 7);
+                toDoDisplayDayOfWeekDateMouseoutFunction();
+            }
+            
         } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
             let curDate = toDoDisplayDayOfWeekDate.value;
             const year = curDate.substring(0, 4);
@@ -9675,8 +9695,6 @@ async function mainEvent() {
     
                 for (var i = 0; i < toDoMasterList.list.length; i++) {
                     if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
-                        console.log("tempCurToDo[2] = ");
-                        console.log(tempCurToDo[2]);
                         if (tempCurToDo[2] == "contact_customer") {
                             toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
                             break;
@@ -9866,8 +9884,6 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 0);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "M") {
             clearDays("move_to");
 
@@ -9876,8 +9892,6 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 1);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "Tu") {
             clearDays("move_to");
 
@@ -9886,8 +9900,6 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 2);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "W") {
             clearDays("move_to");
 
@@ -9896,20 +9908,14 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 3);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "Th") {
             clearDays("move_to");
 
             document.getElementById("move_to_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("move_to_tab_day_of_week_box_thursday_active").classList.remove("hidden");
-            console.log(toDoMasterList);
             assessDayOfWeekChange("move_to", 4);
-            console.log(toDoMasterList);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "F") {
             clearDays("move_to");
 
@@ -9918,8 +9924,6 @@ async function mainEvent() {
             assessDayOfWeekChange("move_to", 5);
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "Sa") {
             clearDays("move_to");
 
@@ -9931,16 +9935,22 @@ async function mainEvent() {
             console.log("changed tempCurToDo[1] to");
             console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
-            let curDate = moveToDayOfWeekDate.value;
-            const year = curDate.substring(0, 4);
-            const month = curDate.substring(5, 7);
-            const day = curDate.substring(8, 10);
-            moveToDayOfWeekDate.value = subtractDays(year, month, day, 7);
-            setFromToDates("move_to", moveToDayOfWeekDate.value);
-            tempCurToDo[1] = moveToDayOfWeekDate.value;
-            tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
+            if (moveToDayOfWeekDate.value == "0001-01-01" || moveToDayOfWeekDate.value == "0001-01-02" || 
+            moveToDayOfWeekDate.value == "0001-01-03" || moveToDayOfWeekDate.value == "0001-01-04" ||
+            moveToDayOfWeekDate.value == "0001-01-05" || moveToDayOfWeekDate.value == "0001-01-06" ||
+            moveToDayOfWeekDate.value == "0001-01-07") {
+                e.displayInvalidMoveToDate();
+            } else {
+                let curDate = moveToDayOfWeekDate.value;
+                const year = curDate.substring(0, 4);
+                const month = curDate.substring(5, 7);
+                const day = curDate.substring(8, 10);
+                moveToDayOfWeekDate.value = subtractDays(year, month, day, 7);
+                setFromToDates("move_to", moveToDayOfWeekDate.value);
+                tempCurToDo[1] = moveToDayOfWeekDate.value;
+                tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
+            }
+            
         } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
             let curDate = moveToDayOfWeekDate.value;
             const year = curDate.substring(0, 4);
@@ -9951,8 +9961,6 @@ async function mainEvent() {
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
 
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         } else if (event.target.innerHTML == "Coordinator") {
             clearMoveToTabs();
 
@@ -9995,19 +10003,24 @@ async function mainEvent() {
             setDay("move_to", d.getDay());
             tempCurToDo[1] = moveToDayOfWeekDate.value;
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
-            console.log("changed tempCurToDo[1] to");
-            console.log(moveToDayOfWeekDate.value);
         }
     })
     toDoDisplayDatePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDatePrevButton");
 
-        let curDate = toDoDisplayDayOfWeekDate.value;
-        const year = curDate.substring(0, 4);
-        const month = curDate.substring(5, 7);
-        const day = curDate.substring(8, 10);
-        toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 1);
-        toDoDisplayDayOfWeekDateMouseoutFunction();
+        const e = new Error(promptDuration);
+
+        if (toDoDisplayDayOfWeekDate.value == "0001-01-01") {
+            e.displayInvalidDateToDoDisplay();
+        } else {
+            let curDate = toDoDisplayDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            toDoDisplayDayOfWeekDate.value = subtractDays(year, month, day, 1);
+            toDoDisplayDayOfWeekDateMouseoutFunction();
+        }
+        
     })
     toDoDisplayDateNextButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDateNextButton");
@@ -10059,7 +10072,7 @@ async function mainEvent() {
     })
     toDoTabPagePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTabPagePrevButton");
-
+        
         if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // normal toDoDisplay by day
             const curPage = new Number (document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
 
