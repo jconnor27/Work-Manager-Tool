@@ -5769,6 +5769,7 @@ async function mainEvent() {
     let tempCurWrNumber = "";
     let tempCurToDo = [];
     let tempToRemove = []; // used to store array of indexs of to-do's to move (for move incomplete button)
+    let tempFilteredToDoList = []; // used to store the filtered list of to-do's (for move incomplete button)
     let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
 
     let systemPreferences = new SystemPreferences();
@@ -9060,6 +9061,7 @@ async function mainEvent() {
             toDoOnReturnToOfficeTab.click();
         }     
     }
+    /* Takes in list of indexes corresponding to toDoDayObject lists */
     function moveIncompleteFunction(tab, tempToRemove, oldDate, newDate) {
         console.log("Entered - moveIncompleteFunction(tab, tempToRemove, oldDate, newDate)");
 
@@ -9185,7 +9187,26 @@ async function mainEvent() {
         toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
         toDoDisplayDayOfWeekDateMouseoutFunction();
         
-        console.log(toDoMasterList);
+    }
+    /* Takes a list of ToDoObjects, removes them from the list, and adds them back with the new date on the new tab */
+    function moveIncompleteFilteredFunction(tab, list, newDate) {
+        console.log("Entered - moveIncompleteFilteredFunction(tab = " + tab + ", list, newDate = " + newDate + ")");
+
+        /* Removing all list items from toDoMasterList */
+        for (var i = 0; i < list.length; i++) {
+            toDoMasterList.removeById(list[i].toDoId);
+        }
+
+        for (var i = 0; i < list.length; i++) {
+            const newToDo = new ToDoObject(list[i].toDoId, tab, newDate, list[i].type, list[i].creationDate, list[i].completed, 
+                list[i].notes, list[i].workRequestNumber, list[i].addressStr);
+            toDoMasterList.add(newToDo);
+        }
+
+         /* Updating Display */
+         toDoDisplayMoveToContainer.classList.add("hidden");
+         toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
+         toDoDisplayDayOfWeekDateMouseoutFunction();
     }
     function toDoDisplayDeselectTabs() {
         console.log("Entered - toDoDisplayDeselectTabs()");
@@ -9657,23 +9678,31 @@ async function mainEvent() {
             } else if (clickedMoveIncompleteButton == 1) { // moving multiple to-do's
                 console.log("Fired - Clicked toDoDisplayMoveToContainer Save button - clickedMoveIncompleteButton == 1");
                 
+                let tab = "";
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
-                    moveIncompleteFunction("Coordinator", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                            
+                    tab = "Coordinator";
                 } else if (document.getElementById("move_to_tab_waiting").classList.contains("hidden")) {
-                    moveIncompleteFunction("Waiting", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        
+                    tab = "Waiting";                     
                 } else if (document.getElementById("move_to_tab_on_return_to_office").classList.contains("hidden")) {
-                    moveIncompleteFunction("On Return To Office", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                      
-                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {                   
-                    moveIncompleteFunction("General", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                    
-                    
+                    tab = "On Return To Office";                      
+                } else if (document.getElementById("move_to_tab_general").classList.contains("hidden")) {           
+                    tab = "General";                            
                 } else if (document.getElementById("move_to_tab_mentor").classList.contains("hidden")) {
-                    moveIncompleteFunction("Mentor", tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
-                        
+                    tab = "Mentor";                        
                 } 
+                console.log("tempToRemove =");
+                console.log(tempToRemove);
+
+                console.log("tempFilteredToDoList =");
+                console.log(tempFilteredToDoList);
+                
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // moving incomplete from "single day" view
+                    moveIncompleteFunction(tab, tempToRemove, toDoDisplayDayOfWeekDate.value, moveToDayOfWeekDate.value);
+                } else { // moving incomplete from a filtered view - using tempFilteredToDoList
+                    console.log("should see this");
+                    moveIncompleteFilteredFunction(tab, tempFilteredToDoList, moveToDayOfWeekDate.value);
+                }
+                
                 clickedMoveIncompleteButton = 0;
 
             } else { // Moving single to-do
@@ -14139,10 +14168,10 @@ async function mainEvent() {
             
             toDoDisplayRowElementContainer.innerHTML = "";
             toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
-
+            tempFilteredToDoList = [];
         } else {
             buildPaginatedFromFlat(filteredList);
-            
+            tempFilteredToDoList = filteredList;
         }
         
 
@@ -14212,6 +14241,7 @@ async function mainEvent() {
             for (var i = 0; i < toDoMasterList.list.length; i++) {
                 if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
                     tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                    tempFilteredToDoList = toDoMasterList.list[i].flatten();
                     break;
                 }
             }
