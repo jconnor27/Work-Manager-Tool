@@ -702,6 +702,17 @@ class Haptix {
             temp.remove();
         }, this.promptDuration);
     }
+
+    displayCommentAdded(wrNum, type) {
+        console.log("Entered - displayCommentAdded(workRequestNumber =" + wrNum + ", type = " + type + ")");
+
+        const temp = document.getElementById("left_side_container");
+        temp.insertAdjacentHTML("beforeend", `<div class="commentAddedFromPopUp" id="comment_added_from_pop_up">"${type}" Comment for Work Request # ${wrNum} Added</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("comment_added_from_pop_up");
+            temp.remove();
+        }, this.promptDuration);
+    }
 }
 /* Error Class used to insert error prompts */
 class Error {
@@ -7421,6 +7432,7 @@ async function mainEvent() {
     })
     addCommentPopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked addCommentPopUpButtonYes");
+        const h = new Haptix(promptDuration);
 
         /* Getting Comment */
         let tempIndex = addCommentPopUpHeader.innerText.indexOf("\""); // gets index of left paren
@@ -7480,6 +7492,8 @@ async function mainEvent() {
         console.log("Code calling click");
         allWrTab.click();
         addCommentPopUpContainer.classList.add("hidden");
+
+        h.displayCommentAdded(currentWr.workRequestNumber, commentType);
     })
 
     /* Missing Info Pop Up */
@@ -7647,15 +7661,55 @@ async function mainEvent() {
         let temp = document.getElementById("missing_info_header").innerHTML;
         let tempIndex = temp.indexOf("#");
         let curWrNum = temp.substring(tempIndex + 1, tempIndex + 9)
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
        
         for (var i = 0; i < allWrList.length; i++) {
             
             if (allWrList[i].workRequestNumber == curWrNum) {
+
+                let addressStr = "";
+                if (allWrList[i] != []) {
+                    addressStr = allWrList[i].houseNumber + " " + allWrList[i].streetName + ", " + allWrList[i].countyCity + 
+                    " " + allWrList[i].zipCode + " - " + allWrList[i].workRequestNumber;
+                } else {
+                    addressStr = undefined;
+                }
+
                 if (temp.includes("CRD")) {
                     console.log("skipped - setting crd year to 0002 to avoid checking again");
+                    const newNoteItem = new NoteItem("Request CRD");
+                   
+                    let list = [[`<li>${newNoteItem}</li>`, 0]];
+                    
+                    const newToDo = new ToDoObject(toDoMasterList.getCount(), "General", today, "Contact Customer", today, 0, 
+                        list, curWrNum, addressStr);
+
+                    toDoMasterList.add(newToDo);
+
                     allWrList[i].crd = "0002-01-01";
                 } else if (temp.includes("RCD")) {
                     console.log("skipped - setting rcd year to 0002 to avoid checking again");
+                    const newNoteItem = new NoteItem("Request RCD");
+                   
+                    let list = [[`<li>${newNoteItem}</li>`, 0]];
+                    
+                    const newToDo = new ToDoObject(toDoMasterList.getCount(), "General", today, "Contact Customer", today, 0, 
+                        list, curWrNum, addressStr);
+
+                    toDoMasterList.add(newToDo);
+
                     allWrList[i].rcd = "0002-01-01";
                 }
                 

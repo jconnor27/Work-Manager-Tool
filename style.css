@@ -1867,12 +1867,13 @@ h5 {
     width: 120px;
 }
 
-.toDoAddedFromPopUpPrompt, .toDoUpdatedFromPopUpPrompt {
+.toDoAddedFromPopUpPrompt, .toDoUpdatedFromPopUpPrompt, .commentAddedFromPopUp {
     display: flex;
     font-size: small;
     align-items: center;
     justify-content: center;
     color: green;
+    padding-left: 5px;
 }
 
 .wrRemovedPrompt {
