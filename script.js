@@ -1919,44 +1919,44 @@ class ToDoMasterList {
             if (type == "site_visit") { /* Checking Check/ Apply Permit List */
                 for (var j = 0; j < this.list[i].siteVisitList.length; j++) {
                     if (this.list[i].siteVisitList[j].workRequestNumber != undefined && this.list[i].siteVisitList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].siteVisitList[j].toDoId;
                     }
                 }
             } else if (type == "svc_calc") { /* Checking Svc Calc List */
                 for (var j = 0; j < this.list[i].svcCalcList.length; j++) {
                     if (this.list[i].svcCalcList[j].workRequestNumber != undefined && this.list[i].svcCalcList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].svcCalcList[j].toDoId;
                     }
                 }
             
             } else if (type == "check_njuns") { /* Checking Check/ Apply NJUNS List */
                 for (var j = 0; j < this.list[i].checkNJUNSList.length; j++) {
                     if (this.list[i].checkNJUNSList[j].workRequestNumber != undefined && this.list[i].checkNJUNSList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].checkNJUNSList[j].toDoId;
                     }
                 }
             } else if (type == "check_permit") { /* Checking Check/ Apply Permit List */
                 for (var j = 0; j < this.list[i].checkPermitList.length; j++) {
                     if (this.list[i].checkPermitList[j].workRequestNumber != undefined && this.list[i].checkPermitList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].checkPermitList[j].toDoId;
                     }
                 }
             } else if (type == "check_easement") { /* Checking Check/ Apply Easement List */
                 for (var j = 0; j < this.list[i].checkEasementList.length; j++) {
                     if (this.list[i].checkEasementList[j].workRequestNumber != undefined && this.list[i].checkEasementList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].checkEasementList[j].toDoId;
                     }
                 }
             } else if (type == "design") { /* Checking Design List */
                 for (var j = 0; j < this.list[i].designList.length; j++) {
                     if (this.list[i].designList[j].workRequestNumber != undefined && this.list[i].designList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].designList[j].toDoId;
                     }
                 }
             } else if (type == "revisions") { /* Checking Revisions List */
                 for (var j = 0; j < this.list[i].revisionsList.length; j++) {
                     if (this.list[i].revisionsList[j].workRequestNumber != undefined && this.list[i].revisionsList[j].workRequestNumber == wrNum) {
-                        return true;
+                        return this.list[i].revisionsList[j].toDoId;
                     }
                 }
         } 
@@ -3541,6 +3541,9 @@ class ToDoDayObject {
         } else if (toDo.type == "Site Visit") {
             this.siteVisitList.push(toDo);
         } else if (toDo.type == "Service Calc + Coding") {
+            this.svcCalcList.push(toDo);
+        } else if (toDo.type == "SVC Calcs + Coding") { // Compatability issue with DD - correcting here
+            toDo.type = "Service Calc + Coding";
             this.svcCalcList.push(toDo);
         } else if (toDo.type == "Check/ Apply - NJUNS") {
             this.checkNJUNSList.push(toDo);
@@ -5741,6 +5744,9 @@ async function mainEvent() {
     const addToDoPopUpButtonNo = document.querySelector("#add_to_do_pop_up_button_no");
     const addToDoPopUpButtonYes = document.querySelector("#add_to_do_pop_up_button_yes");
     const addToDoPopUpTextfield = document.querySelector("#add_to_do_pop_up_textfield");
+    const addToDoPopUpButtonNeither = document.querySelector("#add_to_do_pop_up_button_neither");
+    const addToDoPopUpButtonMove = document.querySelector("#add_to_do_pop_up_button_move");
+    const addToDoPopUpButtonNew = document.querySelector("#add_to_do_pop_up_button_new");
 
     /* Permit Status Warning Pop Up */
     const permitStatusWarningPopUpDayOfWeekDate = document.querySelector("#permit_status_warning_pop_up_day_of_week_date");
@@ -7199,6 +7205,33 @@ async function mainEvent() {
         addTabDisplayAddToDo.classList.add("hidden");
     }
 
+    function resetAddToDoPopUpDate() {
+        console.log("Entered - resetAddToDoPopUpDate()");
+
+        /* Setting Date to Today */
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        addToDoPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+        setFromToDates("add_to_do_pop_up", addToDoPopUpDayOfWeekDate.value);
+
+        const curDay = d.getDay();
+        setDay("add_to_do_pop_up", curDay);
+
+        document.getElementById("add_to_do_pop_up_tab_general").click(); // DD box sizing was messing up on click but this reset the page - fixing it
+
+        addToDoPopUpTextfield.value = "Enter Note (Optional)"
+
+    }
+
         /* Takes in str in format of yyyy-mm-dd and returns date version */
     function makeDate(str) {
         console.log("Entered - makeDate(" + str + ")");
@@ -7566,6 +7599,7 @@ async function mainEvent() {
         document.getElementById("add_to_do_pop_up_tab_mentor").classList.remove("hidden");
 
     }
+        /* Date + Container*/
     addToDoPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
         console.log("Fired - mouseout addToDoPopUpDayOfWeekDate");
 
@@ -7725,14 +7759,19 @@ async function mainEvent() {
             document.getElementById("add_to_do_pop_up_tab_mentor_active").classList.remove("hidden");
         } 
     })
+        /* Buttons */
     addToDoPopUpXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addtoDoPopUpXButton");
 
+        switchAddToDoPopUpButtons("");
+        addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
     })
     addToDoPopUpButtonNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonNo");
 
+        switchAddToDoPopUpButtons("");
+        addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
     })
     addToDoPopUpButtonYes.addEventListener("click", (event) => {
@@ -7789,52 +7828,128 @@ async function mainEvent() {
         if (addToDoPopUpTextfield.value != "Enter Note (Optional)") {
             notes.push(`<li>${addToDoPopUpTextfield.value}</li>`);
         }
+        let temp = [notes];
+        
+        if (notes.length == 0) {
+            temp = [];
+        }
 
         if (addToDoPopUpHeader.innerHTML.includes("Site Visit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Site Visit", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Site Visit", str);
-        } else if (addToDoPopUpHeader.innerHTML.includes("Svc Calc + Coding")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, [notes], str, addressStr);
+        } else if (addToDoPopUpHeader.innerHTML.includes("SVC Calcs + Coding")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Service Calc + Coding", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Svc Calcs + Coding", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("NJUNS")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - NJUNS", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - NJUNS", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Permit")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Permit") && addToDoPopUpHeader.innerHTML.includes("update")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Permit", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoUpdatedFromPopUp("Check/ Apply - Permit", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Easement")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Check/ Apply - Easement", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Check/ Apply - Easement", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Design")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Design", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Design", str);
         } else if (addToDoPopUpHeader.innerHTML.includes("Revisions")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "Revisions", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("Revisions", str);
         } else if (addToDoPopUpTab.innerHTML.includes("Waiting - LL/SP/Etc.")) { // Waiting LL/Sp
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
         } else if (addToDoPopUpTab.innerHTML.includes("Waiting")) {
-            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, [notes], str, addressStr);
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
         } 
 
+        resetAddToDoPopUpDate();
+        console.log("Calling Click with Code");
+        allWrTab.click();
+        addToDoPopUpContainer.classList.add("hidden");
+    })
+    addToDoPopUpButtonNeither.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpButtonNeither");
+
+        switchAddToDoPopUpButtons("");
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
     })
+    addToDoPopUpButtonNew.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpButtonNew");
+
+        console.log("Clicking from code");
+        addToDoPopUpButtonYes.click();
+    })
+    addToDoPopUpButtonMove.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpButtonMove");
+        const h = new Haptix(promptDuration);
+
+        /* Getting Work Request Number of current To-Do */
+        let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
+        let curWrNum = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        /* Getting Type of current To-Do */
+        tempIndex = addToDoPopUpHeader.innerText.indexOf("\""); // gets index of left paren
+       
+        let tempNextIndex = addToDoPopUpHeader.innerText.substring(tempIndex + 1).indexOf("\""); // gets index of right paren
+
+        const curType = addToDoPopUpHeader.innerText.substring(tempIndex + 1, tempIndex + tempNextIndex + 1);
+        
+        /* Getting Tab */
+        let tab = "";
+
+        if (document.getElementById("add_to_do_pop_up_tab_coordinator").classList.contains("hidden")) {
+            tab = "Coordinator";
+        } else if (document.getElementById("add_to_do_pop_up_tab_waiting").classList.contains("hidden")) {
+            tab = "Waiting";
+        } else if (document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+            tab = "On Return To Office";
+        } else if (document.getElementById("add_to_do_pop_up_tab_general").classList.contains("hidden")) {
+            tab = "General";
+        } else if (document.getElementById("add_to_do_pop_up_tab_mentor").classList.contains("hidden")) {
+            tab = "Mentor";
+        }
+
+        /* Getting toDoId */
+        tempIndex = addToDoPopUpTab.innerText.indexOf(":"); // gets left side of toDoId
+        tempNextIndex = addToDoPopUpTab.innerText.substring(tempIndex).indexOf(")"); //gets right side of toDoId
+        const curToDoId = addToDoPopUpTab.innerText.substring(tempIndex + 1, tempIndex + tempNextIndex);
+
+        const curToDo = toDoMasterList.getToDo(curToDoId);
+
+        /* Removing Existing To-Do */
+        toDoMasterList.removeById(curToDoId);
+
+        /* Creating New To-Do with same ID and info except for changes made by user */
+        const newToDo = new ToDoObject(curToDoId, tab, addToDoPopUpDayOfWeekDate.value, curType, curToDo[1].creationDate, curToDo[1].completed,
+            curToDo[1].notes, curToDo[1].workRequestNumber, curToDo[1].addressStr);
+
+        toDoMasterList.add(newToDo);
+
+        h.displayToDoUpdatedFromPopUp(curType, newToDo.workRequestNumber);
+        
+        /* Reseting Display */
+        resetAddToDoPopUpDate();
+        console.log("Clicking with Code");
+        allWrTab.click();
+        switchAddToDoPopUpButtons("");
+        addToDoPopUpContainer.classList.add("hidden");
+    })
+        /* Textfield */
     addToDoPopUpTextfield.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpTextfield");
 
@@ -7873,6 +7988,7 @@ async function mainEvent() {
         document.getElementById("permit_status_warning_pop_up_tab_general").classList.remove("hidden");
         document.getElementById("permit_status_warning_pop_up_tab_mentor").classList.remove("hidden");
     }
+        /* Date + Container */
     permitStatusWarningPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
         console.log("Fired - mouseout permitStatusWarningPopUpDayOfWeekDate");
 
@@ -8034,14 +8150,18 @@ async function mainEvent() {
             document.getElementById("permit_status_warning_pop_up_tab_mentor_active").classList.remove("hidden");
         } 
     })
+
+        /* Buttons */
     permitStatusWarningPopUpXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitStatusWarningPopUpXButton");
 
+        permitStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         permitStatusWarningPopUpContainer.classList.add("hidden");
     })
     permitStatusWarningPopUpButtonNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitStatusWarningPopUpButtonNo");
 
+        permitStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         permitStatusWarningPopUpContainer.classList.add("hidden");
     })
     permitStatusWarningPopUpButtonYes.addEventListener("click", (event) => {
@@ -8106,6 +8226,8 @@ async function mainEvent() {
         permitStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         permitStatusWarningPopUpContainer.classList.add("hidden");
     })
+
+    /* Textfield */
     permitStatusWarningPopUpTextfield.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitStatusWarningPopUpTextfield");
 
@@ -8144,6 +8266,7 @@ async function mainEvent() {
         document.getElementById("easement_status_warning_pop_up_tab_general").classList.remove("hidden");
         document.getElementById("easement_status_warning_pop_up_tab_mentor").classList.remove("hidden");
     } 
+        /* Date + Container */
     easementStatusWarningPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
         console.log("Fired - mouseout easementStatusWarningPopUpDayOfWeekDate");
 
@@ -8162,16 +8285,6 @@ async function mainEvent() {
         
         const tempStr = year + "-" + month + "-" + day;
         setFromToDates("easement_status_warning_pop_up", tempStr);
-    })
-    easementStatusWarningPopUpXButton.addEventListener("click", (event) => {
-        console.log("Fired - Clicked easementStatusWarningPopUpXButton");
-
-        easementStatusWarningPopUpContainer.classList.add("hidden");
-    })
-    easementStatusWarningPopUpButtonNo.addEventListener("click", (event) => {
-        console.log("Fired - Clicked easementStatusWarningPopUpButtonNo");
-
-        easementStatusWarningPopUpContainer.classList.add("hidden");
     })
     easementStatusWarningPopUpContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked easementStatusWarningPopUpContainer");
@@ -8315,6 +8428,20 @@ async function mainEvent() {
             document.getElementById("easement_status_warning_pop_up_tab_mentor_active").classList.remove("hidden");
         } 
     })
+
+        /* Buttons */
+    easementStatusWarningPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpXButton");
+
+        easementStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
+        easementStatusWarningPopUpContainer.classList.add("hidden");
+    })
+    easementStatusWarningPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked easementStatusWarningPopUpButtonNo");
+
+        easementStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
+        easementStatusWarningPopUpContainer.classList.add("hidden");
+    })
     easementStatusWarningPopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked easementStatusWarningPopUpButtonYes");
         const h = new Haptix(promptDuration);
@@ -8377,6 +8504,8 @@ async function mainEvent() {
         easementStatusWarningPopUpTextfield.value = "Enter Note (Optional)"
         easementStatusWarningPopUpContainer.classList.add("hidden");
     })
+
+        /* Textfield */
     easementStatusWarningPopUpTextfield.addEventListener("click", (event) => {
         console.log("Fired - Clicked easementStatusWarningPopUpTextfield");
 
@@ -8974,6 +9103,26 @@ async function mainEvent() {
 
             /* General Status DDs */
         /* Functions */
+    /* hides addToDoPopUp Buttons based on input - anything other than "Existing" resets to normal */
+    function switchAddToDoPopUpButtons(tab) {
+        console.log("Entered - switchAddToDoPopUpButtons(" + tab + ")");
+
+        if (tab == "Existing") {
+            addToDoPopUpButtonNo.classList.add("hidden");
+            addToDoPopUpButtonYes.classList.add("hidden");
+
+            addToDoPopUpButtonNeither.classList.remove("hidden");
+            addToDoPopUpButtonMove.classList.remove("hidden");
+            addToDoPopUpButtonNew.classList.remove("hidden");
+        } else {
+            addToDoPopUpButtonNo.classList.remove("hidden");
+            addToDoPopUpButtonYes.classList.remove("hidden");
+
+            addToDoPopUpButtonNeither.classList.add("hidden");
+            addToDoPopUpButtonMove.classList.add("hidden");
+            addToDoPopUpButtonNew.classList.add("hidden");
+        }
+    }
     /* Checks the status of a wr's permit and easement when it's general status is changed to design */
     function runAtDesignStatusCheck(curWr) {
         console.log("Entered - runAtDesignStatusCheck(curWr)");
@@ -9021,31 +9170,138 @@ async function mainEvent() {
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
             } else { // Asking User if they want to add to-do
-                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                
+                let temp = toDoMasterList.toDoTypeExistsForWorkRequest("site_visit", currentWr.workRequestNumber)
+
+                if (temp != false) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Site Visit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                    addToDoPopUpHeader.style.marginTop = '-10px';
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Site Visit\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addToDoPopUpTab.style.display = 'flex';
+                    addToDoPopUpTab.style.flexDirection = 'column';
+                    addToDoPopUpTab.style.alignItems = 'center';
+                    switchAddToDoPopUpButtons("Existing")
+                } else {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                }
             }
         } else if (tempCurrent.innerHTML == "Need to Flag") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                let temp = toDoMasterList.toDoTypeExistsForWorkRequest("site_visit", currentWr.workRequestNumber)
+
+                if (temp != false) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Site Visit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                    addToDoPopUpHeader.style.marginTop = '-10px';
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Site Visit\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addToDoPopUpTab.style.display = 'flex';
+                    addToDoPopUpTab.style.flexDirection = 'column';
+                    addToDoPopUpTab.style.alignItems = 'center';
+                    switchAddToDoPopUpButtons("Existing")
+                } else {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                }
         } else if (tempCurrent.innerHTML == "SVC Calcs + Coding") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Svc Calc + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            console.log("TGTG");
+                let temp = toDoMasterList.toDoTypeExistsForWorkRequest("svc_calc", currentWr.workRequestNumber)
+
+                if (temp != false) {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"SVC Calcs + Coding\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                    addToDoPopUpHeader.style.marginTop = '-10px';
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"SVC Calcs + Coding\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addToDoPopUpTab.style.display = 'flex';
+                    addToDoPopUpTab.style.flexDirection = 'column';
+                    addToDoPopUpTab.style.alignItems = 'center';
+                    switchAddToDoPopUpButtons("Existing")
+                } else {
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"SVC Calcs + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                }
         } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_njuns", currentWr.workRequestNumber)
+
+            if (temp != false) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - NJUNS\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                addToDoPopUpHeader.style.marginTop = '-10px';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Check/ Apply - NJUNS\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.flexDirection = 'column';
+                addToDoPopUpTab.style.alignItems = 'center';
+                switchAddToDoPopUpButtons("Existing")
+            } else {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            }
         } else if (tempCurrent.innerHTML == "Check/ Apply For Permit") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_permit", currentWr.workRequestNumber)
+
+            if (temp != false) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - Permit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                addToDoPopUpHeader.style.marginTop = '-10px';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Check/ Apply - Permit\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.flexDirection = 'column';
+                addToDoPopUpTab.style.alignItems = 'center';
+                switchAddToDoPopUpButtons("Existing")
+            } else {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            }
         } else if (tempCurrent.innerHTML == "Check/ Apply For Easement") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_easement", currentWr.workRequestNumber)
+
+            if (temp != false) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - Easement\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                addToDoPopUpHeader.style.marginTop = '-10px';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Check/ Apply - Easement\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.flexDirection = 'column';
+                addToDoPopUpTab.style.alignItems = 'center';
+                switchAddToDoPopUpButtons("Existing")
+            } else {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            }
         } else if (tempCurrent.innerHTML == "Design") {
             runAtDesignStatusCheck(currentWr);
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+
+            let temp = toDoMasterList.toDoTypeExistsForWorkRequest("design", currentWr.workRequestNumber)
+
+            if (temp != false) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Design\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                addToDoPopUpHeader.style.marginTop = '-10px';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Design\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.flexDirection = 'column';
+                addToDoPopUpTab.style.alignItems = 'center';
+                switchAddToDoPopUpButtons("Existing")
+            } else {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            }
         } else if (tempCurrent.innerHTML == "Revisions") {
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            let temp = toDoMasterList.toDoTypeExistsForWorkRequest("revisions", currentWr.workRequestNumber)
+
+            if (temp != false) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Revisions\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
+                addToDoPopUpHeader.style.marginTop = '-10px';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Revisions\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.flexDirection = 'column';
+                addToDoPopUpTab.style.alignItems = 'center';
+                switchAddToDoPopUpButtons("Existing")
+            } else {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            }
         } else if (tempCurrent.innerHTML.includes("Waiting - LL")) { // Waiting on LL/SP/Etc.
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
