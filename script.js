@@ -711,9 +711,9 @@ class Error {
     displayWrAlreadyExistsAddUpdate(wrNum) {
         console.log("Entered - disaplayWrAlreadyExistsAddUpdate(" + wrNum + ")");
 
-        const temp = document.getElementById("add_tab_display_top_mid");
+        const temp = document.getElementById("new_work_request_number_textfield");
 
-        temp.insertAdjacentHTML("afterbegin", `<div class="errorMessage" id="error_wr_already_exists">Work Request Number Already Exists</li>`);
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageWorkRequestNumberAlreadyExists" id="error_wr_already_exists">Work Request Number Already Exists</li>`);
         setTimeout(() => {
             const temp = document.getElementById("error_wr_already_exists");
             temp.remove();
@@ -5769,6 +5769,14 @@ async function mainEvent() {
     const easementStatusWarningPopUpType = document.querySelector("#easement_status_warning_pop_up_type");
     const easementStatusWarningPopUpTextfield = document.querySelector("#easement_status_warning_pop_up_textfield");
 
+    /* Add Comment Pop Up */
+    const addCommentPopUpContainer = document.querySelector("#add_comment_pop_up_container");
+    const addCommentPopUpHeader = document.querySelector("#add_comment_pop_up_header");
+    const addCommentPopUpXButton = document.querySelector("#add_comment_pop_up_x_button");
+    const addCommentPopUpButtonNo = document.querySelector("#add_comment_pop_up_button_no");
+    const addCommentPopUpButtonYes = document.querySelector("#add_comment_pop_up_button_yes");
+
+
 
         /* Variable */
     let addTabCommentsTextfieldInput = [];
@@ -7125,9 +7133,28 @@ async function mainEvent() {
 
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
         document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML = wr.permit.permitStatus;
-        console.log("**** hi");
-        console.log(wr.permit.dateUpdated);
-        addTabPermitDateUpdated.value = wr.permit.dateUpdated;
+        
+        let temp = wr.permit.dateUpdated;
+        if (temp.length < 10) {
+            let index = temp.indexOf("-");
+            const year = temp.substring(0, index);
+            temp = temp.substring(index + 1);
+            
+            index = temp.indexOf("-");
+            let month = temp.substring(0, index);
+            if (month.length == 1) {
+                month = "0" + month;
+            }
+            
+            temp = temp.substring(index + 1);
+            
+            let day = temp;
+            if (day.length == 1) {
+                day = "0" + day;
+            }
+            temp = year + "-" + month + "-" + day;
+        }
+        addTabPermitDateUpdated.value = temp;
         addTabPermitDateApplied.value =  formatDatePermitApplied(wr.permit.dateApplied); //formatDate(wr.permit.dateApplied);
         addTabPermitPriority.value = wr.priorityNumber;
         addTabPermitCRD.value = formatDate(wr.crd);
@@ -7203,6 +7230,9 @@ async function mainEvent() {
         addTabDisplayAddPermit.classList.add("hidden");
         addTabDisplayAddComment.classList.add("hidden");
         addTabDisplayAddToDo.classList.add("hidden");
+
+        /* Hiding Top Left Remove Button */
+        addTabRemoveButton.classList.add("hidden");
     }
 
     function resetAddToDoPopUpDate() {
@@ -7372,6 +7402,84 @@ async function mainEvent() {
         
 
         dropdownCover.classList.add("hidden");
+    })
+
+    /* Add Comment Pop Up */
+    addCommentPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addCommentPopUpXButton");
+
+        console.log("Code calling click");
+        allWrTab.click();
+        addCommentPopUpContainer.classList.add("hidden");
+    })
+    addCommentPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addCommentPopUpButtonNo");
+
+        console.log("Code calling click");
+        allWrTab.click();
+        addCommentPopUpContainer.classList.add("hidden");
+    })
+    addCommentPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addCommentPopUpButtonYes");
+
+        /* Getting Comment */
+        let tempIndex = addCommentPopUpHeader.innerText.indexOf("\""); // gets index of left paren
+        let tempNextIndex = addCommentPopUpHeader.innerText.substring(tempIndex + 1).indexOf("\""); // getins index of right paren
+        let comment = addCommentPopUpHeader.innerText.substring(tempIndex + 1, tempIndex + 1 + tempNextIndex);
+
+        /* Getting Comment Type */
+        let commentType = "General";
+        if (addCommentPopUpHeader.innerText.includes("Permit")) {
+            commentType = "Permit";
+        }
+        
+        /* Getting Current Work Request Number */
+        tempIndex = addCommentPopUpHeader.innerHTML.indexOf("#");
+        let curWrNum = addCommentPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        /* Getting Current Work Request Index */
+        let index = undefined;
+        for (var i = 0; i < allWrList.length; i++) {
+            if (allWrList[i].workRequestNumber == curWrNum) {
+                index = i;
+                break;
+            }
+        }
+
+        const currentWr = allWrList[index];
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        let temp = new Comments(currentWr.commentsGeneral.comments);
+        const tempCommentItem = new CommentItem(comment, today, commentType);
+        temp.addComments([tempCommentItem]);
+
+        const newWr = new workRequest(currentWr.workRequestNumber, currentWr.houseNumber, currentWr.streetName, currentWr.countyCity,
+            currentWr.zipCode, currentWr.priorityNumber, currentWr.ownerName, currentWr.ownerNumber, currentWr.ownerEmail, 
+            currentWr.builderName, currentWr.builderNumber, currentWr.builderEmail, currentWr.otherName, currentWr.otherNumber, 
+            currentWr.otherEmail, currentWr.wrType, currentWr.crd, currentWr.rcd, currentWr.generalStatus, currentWr.permit.permitStatus, 
+            currentWr.easementRequestStatus, temp.comments, currentWr.customerContacted, 
+            currentWr.creationDate);
+        
+        const curPermit = currentWr.permit;
+
+        newWr.permit = curPermit;
+
+        allWrList[index] = newWr;
+
+        console.log("Code calling click");
+        allWrTab.click();
+        addCommentPopUpContainer.classList.add("hidden");
     })
 
     /* Missing Info Pop Up */
@@ -7763,6 +7871,8 @@ async function mainEvent() {
     addToDoPopUpXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addtoDoPopUpXButton");
 
+        console.log("Code calling click");
+        allWrTab.click();
         switchAddToDoPopUpButtons("");
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
@@ -7770,6 +7880,8 @@ async function mainEvent() {
     addToDoPopUpButtonNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonNo");
 
+        console.log("Code calling click");
+        allWrTab.click();
         switchAddToDoPopUpButtons("");
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
@@ -7960,8 +8072,17 @@ async function mainEvent() {
     addToDoPopUpTextfield.addEventListener("mouseout", (event) => {
         console.log("Fired - mouseout addToDoPopUpTextfield");
 
+        
         if (event.target.value.length == 0) {
-            event.target.value = "Enter Note (Optional)";
+
+            if (addToDoPopUpTab.innerText.includes("Customer")) {
+                event.target.value = "Waiting on Customer";
+            } else if (addToDoPopUpTab.innerText.includes("LL/SP/Etc.")) {
+                event.target.value = "Waiting on Load Letter/ Site Plan/ Etc.";
+            } else {
+                event.target.value = "Enter Note (Optional)";
+            }
+
         } 
     })
     addToDoPopUpTextfield.addEventListener("input", (event) => {
@@ -9186,6 +9307,13 @@ async function mainEvent() {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
+
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Required Documents\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
             }
         } else if (tempCurrent.innerHTML == "Need to Flag") {
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("site_visit", currentWr.workRequestNumber)
@@ -9193,20 +9321,28 @@ async function mainEvent() {
                 if (temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Site Visit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
-                    addToDoPopUpHeader.style.marginTop = '-10px';
                     addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Site Visit\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
                     addToDoPopUpTab.style.display = 'flex';
                     addToDoPopUpTab.style.flexDirection = 'column';
                     addToDoPopUpTab.style.alignItems = 'center';
+                    addToDoPopUpHeader.style.marginTop = '-10px';
                     switchAddToDoPopUpButtons("Existing")
                 } else {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
+
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Electrical Inspection</div><div class="addToDoPopUpText">and/or Customer Site Ready pics\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+                addCommentPopUpHeader.style.marginTop = '-10px';
         } else if (tempCurrent.innerHTML == "SVC Calcs + Coding") {
-            console.log("TGTG");
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("svc_calc", currentWr.workRequestNumber)
 
+                /* Add To Do Prompt */
                 if (temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"SVC Calcs + Coding\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
@@ -9220,7 +9356,14 @@ async function mainEvent() {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"SVC Calcs + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
-        } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS") {
+
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Conducted Site Visit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+            } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS") {
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_njuns", currentWr.workRequestNumber)
 
             if (temp != false) {
@@ -9304,20 +9447,33 @@ async function mainEvent() {
             }
         } else if (tempCurrent.innerHTML.includes("Waiting - LL")) { // Waiting on LL/SP/Etc.
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">"Do you want to add a \"General\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+            addToDoPopUpTab.style.display = 'flex';
+            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: LL/SP/Etc. by Default)</div>`;
             addToDoPopUpTextfield.value = "Waiting on Load Letter/ Site Plan/ Etc.";
+            document.getElementById("add_to_do_pop_up_row_two").style.alignSelf = 'center';
             clearAddToDoPopUpTabs();
             document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
-        } else if (tempCurrent.innerHTML.includes("Waiting")) {
+        } else if (tempCurrent.innerHTML.includes("Waiting")) { // Waiting on Cust by default
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
+            addToDoPopUpTab.style.display = 'flex';
+            addToDoPopUpTab.style.width = 'fit-content';
+            addToDoPopUpTab.style.alignSelf = 'center';
+            addToDoPopUpTextfield.value = "Waiting on Customer";
             clearAddToDoPopUpTabs();
             document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
-        } 
+        } else if (tempCurrent.innerHTML.includes("7010'd")) {
+            /* Add Comment Prompt */
+            addCommentPopUpContainer.classList.remove("hidden");
+            addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Released To Construction\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+            addCommentPopUpHeader.style.display = 'flex';
+            addCommentPopUpHeader.style.flexDirection = 'column';
+            addCommentPopUpHeader.style.alignItems = 'center';
+        }
     }
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
@@ -9637,7 +9793,13 @@ async function mainEvent() {
                 const tempDate = month + "-" + day + "-" + year;
 
                 currentWr.permit.dateApplied = tempDate;
-                
+
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add an \"Applied for Permit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
             } else if (currentWr.permit.permitStatus == "Extension Submitted") {
                 console.log("Setting Permit Applied Date to Today - Extension");
 
@@ -9654,7 +9816,27 @@ async function mainEvent() {
                 const tempDate = month + "-" + day + "-" + year;
 
                 currentWr.permit.dateApplied = tempDate;
-            }
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add an \"Extension Submitted for Permit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+            } else if (currentWr.permit.permitStatus == "Received") {
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Permit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+            } else if (currentWr.permit.permitStatus == "Extension Received") {
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add an \"Extension Received Permit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+            } 
 
             allWrList[curWrIndex] = currentWr;
 
@@ -12546,6 +12728,7 @@ async function mainEvent() {
             } else {
                 e.displayWrNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
             }
+            filterCheckboxAddWr.checked = true;
         } else if (filterCheckboxAddPermit.checked == true) {
             console.log("** I Am Here **");
             const curWrNum = addTabNewWorkRequestNumber.value;
@@ -12987,7 +13170,7 @@ async function mainEvent() {
                 } else if (tempCurrent.innerHTML.includes("Waiting") && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab by Default)</div>`;
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSubAddTab">(On "Waiting" Tab by Default)</div>`;
                     clearAddToDoPopUpTabs();
                     document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
                     document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
@@ -15614,7 +15797,7 @@ async function mainEvent() {
         /* Add Tab */
     
     filterCheckboxAddWr.addEventListener("change", (event) => {
-            console.log("Fired - Clicked filterContainerAddWr");
+            console.log("Fired - Clicked filterCheckboxAddWr");
 
             if (tempCurWrNumber != "") {
                 addTabNewWorkRequestNumber.value = tempCurWrNumber;
@@ -15640,6 +15823,9 @@ async function mainEvent() {
 
             if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
                 addTabGetButton.disabled = false;
+                addTabAddButton.disabled = true;
+
+            } else {
             }
     })
     filterCheckboxAddToDo.addEventListener("click", (event) => {
@@ -15670,6 +15856,8 @@ async function mainEvent() {
         /* Setting To-Do ID field to next unique number in Masterlist */
         addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
         addTabAddButton.disabled = false;
+
+        
 
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
