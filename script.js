@@ -4050,11 +4050,39 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
 
     window.localStorage.setItem("data", dataStr);
 
-    const newHandle = await window.showSaveFilePicker();
-    const writableStream = await newHandle.createWritable();
+    let newHandle = [];
+    let goodName = false;
+    let count = 0; // used to break loop on 50 to prevent infinite
+    while (goodName == false) {
+        newHandle = await window.showSaveFilePicker();
+        if (newHandle.name.substring(newHandle.name.length - 1 - 4, newHandle.name.length -1) == ".txt") {
+            console.log("Good File Name");
+            goodName = true;
+            document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
+            window.localStorage.setItem("goodSave", true);
+        } else if (count >= 50) {
+            console.log("**ERROR** Broke at 50");
+            window.localStorage.setItem("goodSave", false);
+            break;
+        } else {
+            console.log("Bad File Name");
+            document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
+            setTimeout(() => {
+                document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
+            }, 5000);
+            document.getElementById("bad_file_name_container").innerText = newHandle.name;
+            window.localStorage.setItem("goodSave", false);
+        }
+        count++;
+    }
     
-    await writableStream.write(dataBlob);
-    await writableStream.close();
+    if (goodName == true) {
+        const writableStream = await newHandle.createWritable();
+    
+        await writableStream.write(dataBlob);
+        await writableStream.close();
+    }
+    
 
     
 }
@@ -6375,6 +6403,8 @@ async function mainEvent() {
         /* Checks all work requests to see if permits are expiring soon -
             if so, updates status and prompts user to add/update to-do */
         initialCheckPermitDates();
+
+        
 
         // Running test function
         testFunction();
@@ -9509,7 +9539,15 @@ async function mainEvent() {
             clearAddToDoPopUpTabs();
             document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
-        } else if (tempCurrent.innerHTML.includes("Waiting")) { // Waiting on Cust by default
+
+             /* Add Comment Prompt */
+             addCommentPopUpContainer.classList.remove("hidden");
+             addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Customer contacted.\"</div><div class="addToDoPopUpText">Comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
+             addCommentPopUpHeader.style.display = 'flex';
+             addCommentPopUpHeader.style.flexDirection = 'column';
+             addCommentPopUpHeader.style.alignItems = 'center';
+             addCommentPopUpHeader.style.marginTop = '-10px';
+        } else if (tempCurrent.innerHTML.includes("Waiting") && tempCurrent.innerHTML.includes("Not")) { // Waiting on Cust Not Approve 
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
@@ -9520,6 +9558,26 @@ async function mainEvent() {
             clearAddToDoPopUpTabs();
             document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+
+        } else if (tempCurrent.innerHTML.includes("Waiting")) { // Waiting on Cust Approved by default
+            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
+            addToDoPopUpTab.style.display = 'flex';
+            addToDoPopUpTab.style.width = 'fit-content';
+            addToDoPopUpTab.style.alignSelf = 'center';
+            addToDoPopUpTextfield.value = "Waiting on Customer";
+            clearAddToDoPopUpTabs();
+            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+
+            /* Add Comment Prompt */
+            addCommentPopUpContainer.classList.remove("hidden");
+            addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"4010'd\" comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
+            addCommentPopUpHeader.style.display = 'flex';
+            addCommentPopUpHeader.style.flexDirection = 'column';
+            addCommentPopUpHeader.style.alignItems = 'center';
+            addCommentPopUpHeader.style.marginTop = '-10px';
         } else if (tempCurrent.innerHTML.includes("7010'd")) {
             /* Add Comment Prompt */
             addCommentPopUpContainer.classList.remove("hidden");
