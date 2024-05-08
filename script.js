@@ -17492,6 +17492,7 @@ async function mainEvent() {
         } else {
             document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_address").classList.remove("hidden");
             document.getElementById("search_by_selection_lower_container_checkbox_and_label_container_wr").style.marginLeft = '0px';
+            
         }
     }
     function switchTrimBoxes(tab) {
