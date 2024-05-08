@@ -2291,6 +2291,23 @@ class ToDoMasterList {
         return count;
     }
 
+    getAllToDosByWorkRequestNumber(wrNum) {
+        console.log("Entered - getAllToDosByWorkRequestNumber(" + wrNum + ")");
+
+        let allToDos = [];
+
+        for (var i = 0; i < this.list.length; i++) {
+            let curDay = this.list[i].flatten();
+
+            for (var j = 0; j < curDay.length; j++) {
+                if (curDay[j].workRequestNumber == wrNum) {
+                    allToDos.push(curDay[j]);
+                }
+            }
+        }
+        return allToDos;
+    }
+
     load(str) {
         console.log("Entered - ToDoMasterList - load(str)");
 
@@ -3548,7 +3565,23 @@ class ToDoDayObject {
         console.log("Entered - ToDoDayObject - add(toDo)");
 
         if (toDo.type == "Contact Customer") {
+            /*if (this.contactCustomerList.length == 0) {
+                this.contactCustomerList.push(toDo);
+            } else {
+                for (var i = 0; i < this.contactCustomerList.length; i++) {
+                    if (this.contactCustomerList[i].workRequestNumber == toDo.workRequestNumber) {
+                        for (var j = 0; j < toDo.notes.length; j++) {
+                            this.contactCustomerList[i].notes.push(toDo.notes[j]);
+                            console.log("note added");
+                            return;
+                        }
+
+                    } 
+                }
+                this.contactCustomerList.push(toDo);
+            }*/
             this.contactCustomerList.push(toDo);
+
         } else if (toDo.type == "Site Visit") {
             this.siteVisitList.push(toDo);
         } else if (toDo.type == "Service Calc + Coding") {
@@ -3569,6 +3602,8 @@ class ToDoDayObject {
         } else if (toDo.type == "General") {
             this.generalList.push(toDo);
         } 
+        console.log("RRR");
+        console.log(this);
     }
 
     /* Takes in a list and returns a list without the index param - used in addTabUpdateButton */
@@ -4059,10 +4094,10 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
             console.log("Good File Name");
             goodName = true;
             document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
-            window.localStorage.setItem("goodSave", true);
+            //window.localStorage.setItem("goodSave", true);
         } else if (count >= 50) {
             console.log("**ERROR** Broke at 50");
-            window.localStorage.setItem("goodSave", false);
+            //window.localStorage.setItem("goodSave", false);
             break;
         } else {
             console.log("Bad File Name");
@@ -4071,7 +4106,7 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
                 document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
             }, 5000);
             document.getElementById("bad_file_name_container").innerText = newHandle.name;
-            window.localStorage.setItem("goodSave", false);
+            //window.localStorage.setItem("goodSave", false);
         }
         count++;
     }
@@ -7732,13 +7767,51 @@ async function mainEvent() {
                 } else if (temp.includes("RCD")) {
                     console.log("skipped - setting rcd year to 0002 to avoid checking again");
                     const newNoteItem = new NoteItem("Request RCD");
-                   
+
                     let list = [[`<li>${newNoteItem}</li>`, 0]];
                     
-                    const newToDo = new ToDoObject(toDoMasterList.getCount(), "General", today, "Contact Customer", today, 0, 
-                        list, curWrNum, addressStr);
+                    const allToDos = toDoMasterList.getAllToDosByWorkRequestNumber(curWrNum);
 
-                    toDoMasterList.add(newToDo);
+                    let tempToDoId = undefined;
+
+                    /* Getting toDoId of added "Request CRD" To-Do */
+                    for (var j = 0; j < allToDos.length; j++) {
+                        if (allToDos[j].type == "Contact Customer" && allToDos[j].notes[0][0] == "<li>Request CRD</li>") {
+                            tempToDoId = allToDos[j].toDoId;
+                            break;
+                        }
+                    }
+
+                    if (tempToDoId == undefined) { // "Request CRD" To-Do not added/doesn't exist (user can click X button to not add To-Do)                    
+                        const newToDo = new ToDoObject(toDoMasterList.getCount(), "General", today, "Contact Customer", today, 0, 
+                            list, curWrNum, addressStr);
+
+                        toDoMasterList.add(newToDo);
+
+                    } else { // Combining Notes and removing to have only 1 To-Do
+                        
+                        /* Grabbing To-Do */
+                        let tempToDo = toDoMasterList.getToDo(tempToDoId)[1];
+                        console.log(tempToDo);
+
+                        /* Updating Notes */
+
+                        let tempList = [];
+
+                        for (var j = 0; j < tempToDo.notes.length; j++) {
+                            tempList.push(tempToDo.notes[j]);
+                        }
+                        tempList.push([`<li>${newNoteItem}</li>`, 0]);
+                        
+                        /* Removing Old To-Do */
+                        toDoMasterList.removeById(tempToDoId);
+
+                        /* Adding new To-Do */
+                        const newToDo = new ToDoObject(toDoMasterList.getCount(), "General", today, "Contact Customer", today, 0, 
+                            tempList, curWrNum, addressStr);
+
+                        toDoMasterList.add(newToDo);
+                    }
 
                     allWrList[i].rcd = "0002-01-01";
                 }
@@ -13031,8 +13104,6 @@ async function mainEvent() {
 
                 resetDisplayToDoAddUpdate();
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
-
-                //tempToDoPageElement = new PaginatedToDoPageElement(5);
 
                 tempToDoPageElement = injectHTMLToDoTabDisplay(toDoMasterList.list[temp[2]]);
             }
