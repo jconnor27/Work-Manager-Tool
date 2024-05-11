@@ -2049,8 +2049,7 @@ class ToDoMasterList {
                             } else {
                                 curToDo.completed = "0";
                             }
-                            this.add(curToDo);                            this.add(curToDo);
-    
+                            this.add(curToDo);                           
                             tempToDoPageElement = injectHTMLToDoTabDisplay(tempToDoDayObject);
                             const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
                             tempToDoPageElement.display(curPage);
@@ -2102,6 +2101,122 @@ class ToDoMasterList {
             }
         }
         
+        console.log("Did Not Complete");
+
+    }
+    completeNoteByMasterIndex(type, masterIndex, noteIndex, tempToDoPageElement, tempFilteredToDoList, order) {
+        console.log("Entered - ToDoMasterList - completeNoteByMasterIndex(type = " + type + ", masterIndex = " + masterIndex + ", noteIndex = " + noteIndex + ",  tempToDoPageElement, order = " + order + ")");
+
+        let count = masterIndex;
+        let noteCount = noteIndex;
+
+        let typeConverted = ""
+        if (type == "contact_customer") {
+            typeConverted = "Contact Customer";
+        } else if (type == "site_visit") {
+            typeConverted = "Site Visit";
+        } else if (type == "svc_calc") {
+            typeConverted = "Service Calc + Coding";
+        } else if (type == "check_njuns") {
+            typeConverted = "Check/ Apply - NJUNS";
+        } else if (type == "check_permit") {
+            typeConverted = "Check/ Apply - Permit";
+        } else if (type == "check_easement") {
+            typeConverted = "Check/ Apply - Easement";
+        } else if (type == "design") {
+            typeConverted = "Design";
+        } else if (type == "revisions") {
+            typeConverted = "Revisions";
+        } else if (type == "general") {
+            typeConverted = "General";
+        } 
+
+        /* Creating temporary ToDoDayObject to update display with */
+        const tempToDoDayObject = new ToDoDayObject("0001-01-01", this.linesPerPage, this);
+
+        for (var i = 0; i < tempFilteredToDoList.length; i++) {
+            tempToDoDayObject.add(tempFilteredToDoList[i]);
+        }
+
+        if (order == "new_old") {
+            for (var i = 0; i < this.list.length; i++) {
+                let dayIndex = 0;
+                let curDay = this.list[i].flatten();
+
+                for (var j = 0; j < curDay.length; j++) {
+                    console.log(curDay[j].type);
+                    if (curDay[j].type == typeConverted) {
+                        console.log("type == type");
+                        if (count == 0) {
+                            console.log("count == 0");
+                            const curToDo = curDay[j];
+    
+                            this.removeById(curToDo.toDoId);
+                            console.log("curToDo =");
+                            console.log(curToDo);
+                            if (curToDo.notes[noteIndex][1] == "0") {
+                                curToDo.notes[noteIndex][1] = "1";
+                            } else {
+                                curToDo.notes[noteIndex][1] = "0";
+                            }
+                            this.add(curToDo);                           
+                            tempToDoPageElement = injectHTMLToDoTabDisplay(tempToDoDayObject);
+                            const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+                            tempToDoPageElement.display(curPage);
+                            return;
+                        } else {
+                            count--;
+                            dayIndex++;
+                        }
+                    }
+                }
+            }
+        } else if (order == "old_new") {
+            for (var i = this.list.length - 1; i >= 0; i--) {
+                let curDay = this.list[i].flatten();
+
+                console.log("curday == ");
+                console.log(curDay);
+
+                /* Going through and counting to-do's of convertedType to have last index */
+                let dayIndex = -1; // finding 1 to-do means index 0
+                for (var j = 0; j < curDay.length; j++) {
+                    if (curDay[j].type == typeConverted) {
+                        dayIndex++;
+                    }
+                }
+
+                for (var j = curDay.length - 1; j >= 0; j--) {
+                    if (curDay[j].type == typeConverted) {
+                        console.log("type == type");
+                        if (count == 0) {
+                            console.log("count == 0 - old_new");
+                            const curToDo = curDay[j];
+
+                            console.log("curToDo = ");
+                            console.log(curToDo);
+
+                            this.removeById(curToDo.toDoId);
+                            if (curToDo.notes[noteIndex][1] == "0") {
+                                curToDo.notes[noteIndex][1] = "1";
+                            } else {
+                                curToDo.notes[noteIndex][1] = "0";
+                            }
+                            this.add(curToDo);
+
+                            tempToDoPageElement = injectHTMLToDoTabDisplay(tempToDoDayObject);
+                            const curPage = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+                            tempToDoPageElement.display(curPage);
+                            return;
+                        } else {
+                            count--;
+                            dayIndex--;
+                        }
+                    }
+                }
+            }
+        }
+
         console.log("Did Not Complete");
 
     }
@@ -4084,7 +4199,7 @@ function quickSortAgeOld(arr) {
         }
     }
 
-    return [...quickSortAgeNew(leftArr), pivot, ...quickSortAgeNew(rightArr)];
+    return [...quickSortAgeOld(leftArr), pivot, ...quickSortAgeOld(rightArr)];
 }
 /* Compares creation dates - returns in order from newest to oldest */
 function quickSortAgeNew(arr) {
@@ -11026,6 +11141,9 @@ async function mainEvent() {
             if (tempID.includes("checkbox")) {
                 console.log("clicked note checkbox")
 
+                console.log(event.target.outerHTML);
+                console.log(tempFilteredToDoList);
+
                 /* Pulls listItemIndex (index of toDoObject within contact customer list) */
                 let tempListItemIndex = tempID.indexOf("item_");
                 let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
@@ -11037,7 +11155,24 @@ async function mainEvent() {
                 let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
                 const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
 
-                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+                //let leftIndex = event.target.outerHTML.indexOf("id")
+
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Displaying To-Do's by day
+                    toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+
+                } else {// Displaying All To-Do's
+                    let order = "";
+                    if (filterCheckboxAgeNewAll.checked) {
+                        order = "new_old";
+                    } else if (filterCheckboxAgeOldAll.checked) {
+                        order = "old_new";
+                    }
+                    console.log("order = ");
+                    console.log(order);
+                    toDoMasterList.completeNoteByMasterIndex(curList, listItemIndex, noteIndex, tempToDoPageElement, tempFilteredToDoList, order);
+
+                }
+
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "data") {
                 console.log("clicked data");
 
@@ -12981,7 +13116,7 @@ async function mainEvent() {
                 }
                 let addressStr = "";
                 if (tempWr != []) {
-                    addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + str;
+                    addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode + " - " + tempWr.workRequestNumber;
                 } else {
                     addressStr = undefined;
                 }
@@ -13101,11 +13236,13 @@ async function mainEvent() {
 
             if (toDoMasterList.getToDo(addTabDisplayToDoRowZeroNumfield.value).length == undefined) {
                 e.displayInvalidToDoId();
-            } else if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value != toDoMasterList.getCount() - 1) {
+            } else if (addTabDisplayToDoRowZeroNumfield.value == undefined || addTabDisplayToDoRowZeroNumfield.value >= toDoMasterList.getCount() - 1) {
                 e.displayInvalidToDoId();
             } else {
                 const curToDoId = addTabDisplayToDoRowZeroNumfield.value;
                 const curToDoData = toDoMasterList.getToDo(curToDoId);
+
+                console.log(curToDoData);
     
                 if (curToDoData[0] != 0) { // to-do was found
                     resetDisplayToDoAddUpdate();
@@ -15731,8 +15868,9 @@ async function mainEvent() {
             }
 
             filteredList = quickSortAgeOld(tempAllToDos);
-
+            console.log("filteredList =");
             console.log(filteredList);
+
 
         } else if (document.getElementById("filter_checkbox_age_new_old_all").checked) {
             document.getElementById("hide_date_page_object").classList.remove("hidden");
@@ -15751,6 +15889,7 @@ async function mainEvent() {
             }
 
             filteredList = quickSortAgeNew(tempAllToDos);
+            
 
         } else {
             uncolorGenericFilterCheckboxes();
