@@ -11083,19 +11083,14 @@ async function mainEvent() {
     toDoDisplayRowElementContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayRowElementContainer");
 
-        console.log("TEST");
-
         let temp = event.target.outerHTML;
-        console.log(temp);
         let leftIndex = temp.indexOf("\"");
         let rightIndex = temp.indexOf("_to_do_list");
         let curType = temp.substring(leftIndex + 1, rightIndex);
-        console.log(curType);
 
         rightIndex = event.target.outerHTML.lastIndexOf("\"");
-        leftIndex = event.target.outerHTML.indexOf("complete") + 8 + 1;
+        leftIndex = event.target.outerHTML.indexOf("complete") + 8 + 1; 
         let curIndex = event.target.outerHTML.substring(leftIndex, rightIndex);
-        console.log(curIndex);
 
         console.log(tempFilteredToDoList);
 
@@ -11138,11 +11133,8 @@ async function mainEvent() {
             let tempIndex = tempID.lastIndexOf("_");
             const lastNum = tempID.substring(tempIndex + 1); // gets last number on id (except for checkbox)
 
-            if (tempID.includes("checkbox")) {
+            if (tempID.includes("checkbox") && !tempID.includes("general")) {
                 console.log("clicked note checkbox")
-
-                console.log(event.target.outerHTML);
-                console.log(tempFilteredToDoList);
 
                 /* Pulls listItemIndex (index of toDoObject within contact customer list) */
                 let tempListItemIndex = tempID.indexOf("item_");
@@ -11167,18 +11159,117 @@ async function mainEvent() {
                     } else if (filterCheckboxAgeOldAll.checked) {
                         order = "old_new";
                     }
-                    console.log("order = ");
-                    console.log(order);
                     toDoMasterList.completeNoteByMasterIndex(curList, listItemIndex, noteIndex, tempToDoPageElement, tempFilteredToDoList, order);
 
                 }
 
+            } else if (tempID.includes("checkbox")) {
+                console.log("clicked note checkbox - general");
+
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
+                    const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+
+                } else { // Viewing all To-Do's
+                    /* Pulls listItemIndex (index of toDoObject within contact customer list) */
+                    let tempListItemIndex = tempID.indexOf("item_");
+                    let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
+                    let endListItemIndex = listItemIndexStr.indexOf("_");
+                    const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
+
+                    /* Pulls noteIndex (index of note within toDoObject notes) */
+                    let rightIndex = tempID.lastIndexOf("_");
+                    let tempStr = tempID.substring(0, rightIndex); // takes off first _
+                    rightIndex = tempStr.lastIndexOf("_");
+                    const noteItemIndex = tempStr.substring(rightIndex + 1);
+
+                    let curToDo = [];
+
+                    let count = new Number(listItemIndex);
+
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == "General") {
+                            if (count == 0) { // found curToDo
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+
+                        }
+                    }
+                    let noteIndexNum = new Number(noteItemIndex)
+
+                    if (curToDo.notes[noteIndexNum][1] == "0") {
+                        curToDo.notes[noteIndexNum][1] = "1";
+                    } else {
+                        curToDo.notes[noteIndexNum][1] = "0";
+                    }
+                    /* Updating Display */
+                    const tempDay = new ToDoDayObject("0001-01-01", linesPerPageToDo, toDoMasterList);
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        tempDay.add(tempFilteredToDoList[i]);
+                    }
+                    injectHTMLToDoTabDisplay(tempDay);
+                }
+
+                /* Changing display to addTab add To-Do 
+                addTab.click();
+                filterCheckboxAddToDo.click();
+                addTabUpdateButton.disabled = false;
+
+                displayToDoAddUpdate(curToDo);*/
             } else if (tempID.substring(tempIndex - 4, tempIndex) == "data") {
                 console.log("clicked data");
 
-                const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+                let curToDo = [];
+
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
+                    curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+                } else { // Viewing all To-Do's
+
+                    let rightIndex = tempID.indexOf("to_do_list");
+                    const curList = tempID.substring(0, rightIndex - 1);
+
+                    let typeConverted = ""
+                    if (curList == "contact_customer") {
+                        typeConverted = "Contact Customer";
+                    } else if (curList == "site_visit") {
+                        typeConverted = "Site Visit";
+                    } else if (curList == "svc_calc") {
+                        typeConverted = "Service Calc + Coding";
+                    } else if (curList == "check_njuns") {
+                        typeConverted = "Check/ Apply - NJUNS";
+                    } else if (curList == "check_permit") {
+                        typeConverted = "Check/ Apply - Permit";
+                    } else if (curList == "check_easement") {
+                        typeConverted = "Check/ Apply - Easement";
+                    } else if (curList == "design") {
+                        typeConverted = "Design";
+                    } else if (curList == "revisions") {
+                        typeConverted = "Revisions";
+                    } else if (curList == "general") {
+                        typeConverted = "General";
+                    } 
+
+                    let leftIndex = tempID.lastIndexOf("_");
+                    const curIndex = tempID.substring(leftIndex + 1);
+
+                    let count = new Number(curIndex);
+
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == typeConverted) {
+                            if (count == 0) {
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+                        }
+                    }
+                }
 
                 /* Changing display to addTab add To-Do */
+                console.log("** Clicking addTab and addTabUpdateButton with code. **");
                 addTab.click();
                 filterCheckboxAddToDo.click();
                 addTabUpdateButton.disabled = false;
@@ -11191,10 +11282,54 @@ async function mainEvent() {
                 document.getElementById("to_do_display_move_to_remove_button").classList.remove("hidden");
 
                 const curDate = toDoDisplayDayOfWeekDate.value;
-                const curToDo = toDoMasterList.getToDoDisplay(curDate, curList, lastNum);
+                
+                let curToDo= [];
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
+                    curToDo = toDoMasterList.getToDoDisplay(curDate, curList, lastNum);
+                } else { // Viewing all To-Do's
+                    let rightIndex = tempID.indexOf("to_do_list");
+                    const curList = tempID.substring(0, rightIndex - 1);
 
+                    let typeConverted = ""
+                    if (curList == "contact_customer") {
+                        typeConverted = "Contact Customer";
+                    } else if (curList == "site_visit") {
+                        typeConverted = "Site Visit";
+                    } else if (curList == "svc_calc") {
+                        typeConverted = "Service Calc + Coding";
+                    } else if (curList == "check_njuns") {
+                        typeConverted = "Check/ Apply - NJUNS";
+                    } else if (curList == "check_permit") {
+                        typeConverted = "Check/ Apply - Permit";
+                    } else if (curList == "check_easement") {
+                        typeConverted = "Check/ Apply - Easement";
+                    } else if (curList == "design") {
+                        typeConverted = "Design";
+                    } else if (curList == "revisions") {
+                        typeConverted = "Revisions";
+                    } else if (curList == "general") {
+                        typeConverted = "General";
+                    } 
+
+                    let leftIndex = tempID.lastIndexOf("_");
+                    const curIndex = tempID.substring(leftIndex + 1);
+
+                    let count = new Number(curIndex);
+
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == typeConverted) {
+                            if (count == 0) {
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+                        }
+                    }
+                }
+
+                
                 displayToDoMoveToDisplay(curToDo);
-
                 tempCurToDo = [curToDo, moveToDayOfWeekDate.value, curList, lastNum];
                 
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete" && curList != "general") { // complete for all except general to-do's
@@ -11209,43 +11344,176 @@ async function mainEvent() {
                     } else if (filterCheckboxAgeOldAll.checked) {
                         order = "old_new";
                     }
-                    toDoMasterList.completeByMasterIndex(curType, curIndex, tempToDoPageElement, tempFilteredToDoList, order);
+                    //toDoMasterList.completeByMasterIndex(curType, curIndex, tempToDoPageElement, tempFilteredToDoList, order);
+                    let rightIndex = tempID.indexOf("to_do_list");
+                    const curList = tempID.substring(0, rightIndex - 1);
+
+                    let typeConverted = ""
+                    if (curList == "contact_customer") {
+                        typeConverted = "Contact Customer";
+                    } else if (curList == "site_visit") {
+                        typeConverted = "Site Visit";
+                    } else if (curList == "svc_calc") {
+                        typeConverted = "Service Calc + Coding";
+                    } else if (curList == "check_njuns") {
+                        typeConverted = "Check/ Apply - NJUNS";
+                    } else if (curList == "check_permit") {
+                        typeConverted = "Check/ Apply - Permit";
+                    } else if (curList == "check_easement") {
+                        typeConverted = "Check/ Apply - Easement";
+                    } else if (curList == "design") {
+                        typeConverted = "Design";
+                    } else if (curList == "revisions") {
+                        typeConverted = "Revisions";
+                    } else if (curList == "general") {
+                        typeConverted = "General";
+                    } 
+
+                    let leftIndex = tempID.lastIndexOf("_");
+                    const curIndex = tempID.substring(leftIndex + 1);
+
+                    let count = new Number(curIndex);
+
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == typeConverted) {
+                            if (count == 0) {
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+                        }
+                    }
+                    
+                    if (curToDo.completed == "0") {
+                        curToDo.completed = "1";
+                    } else {
+                        curToDo.completed = "0";
+                    }
+                    const tempDay = new ToDoDayObject("0001-01-01", linesPerPageToDo, toDoMasterList);
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        tempDay.add(tempFilteredToDoList[i]);
+                    }
+                    injectHTMLToDoTabDisplay(tempDay);
                 }
                 
             } else if (tempID.substring(tempIndex - 8, tempIndex) == "complete") { // complete for general to-do's with work request numbers
                 console.log("clicked complete - general - with work request number");
 
-                toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum, tempToDoPageElement);
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
+                    toDoMasterList.complete(toDoDisplayDayOfWeekDate.value, curList, lastNum, tempToDoPageElement);
+                } else { // Viewing all To-Do's
+                    let order = "";
+                    if (filterCheckboxAgeNewAll.checked) {
+                        order = "new_old";
+                    } else if (filterCheckboxAgeOldAll.checked) {
+                        order = "old_new";
+                    }
+                    //toDoMasterList.completeByMasterIndex(curType, curIndex, tempToDoPageElement, tempFilteredToDoList, order);
+                    let rightIndex = tempID.indexOf("to_do_list");
+                    const curList = tempID.substring(0, rightIndex - 1);
+
+                    let typeConverted = ""
+                    if (curList == "contact_customer") {
+                        typeConverted = "Contact Customer";
+                    } else if (curList == "site_visit") {
+                        typeConverted = "Site Visit";
+                    } else if (curList == "svc_calc") {
+                        typeConverted = "Service Calc + Coding";
+                    } else if (curList == "check_njuns") {
+                        typeConverted = "Check/ Apply - NJUNS";
+                    } else if (curList == "check_permit") {
+                        typeConverted = "Check/ Apply - Permit";
+                    } else if (curList == "check_easement") {
+                        typeConverted = "Check/ Apply - Easement";
+                    } else if (curList == "design") {
+                        typeConverted = "Design";
+                    } else if (curList == "revisions") {
+                        typeConverted = "Revisions";
+                    } else if (curList == "general") {
+                        typeConverted = "General";
+                    } 
+
+                    let leftIndex = tempID.lastIndexOf("_");
+                    const curIndex = tempID.substring(leftIndex + 1);
+
+                    let count = new Number(curIndex);
+
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == typeConverted) {
+                            if (count == 0) {
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+                        }
+                    }
+                    
+                    if (curToDo.completed == "0") {
+                        curToDo.completed = "1";
+                    } else {
+                        curToDo.completed = "0";
+                    }
+                    const tempDay = new ToDoDayObject("0001-01-01", linesPerPageToDo, toDoMasterList);
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        tempDay.add(tempFilteredToDoList[i]);
+                    }
+                    injectHTMLToDoTabDisplay(tempDay);
+                }
                 
             } else if (tempID.substring(tempIndex + 1) == "cb") { // complete for general to-do's without work request numbers
                 console.log("clicked complete (note checkbox) - general - without work request number");
 
+
+
                 /* Pulls listItemIndex (index of toDoObject within contact customer list) */
-                let tempListItemIndex = tempID.indexOf("item_");
-                let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
-                let endListItemIndex = listItemIndexStr.indexOf("_");
-                const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
+                    let tempListItemIndex = tempID.indexOf("item_");
+                    let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
+                    let endListItemIndex = listItemIndexStr.indexOf("_");
+                    const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
 
-                /* Pulls noteIndex (index of note within toDoObject notes) */
-                let tempNoteIndexStr = tempID.substring(0, tempIndex);
-                let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
-                const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
+                    /* Pulls noteIndex (index of note within toDoObject notes) */
+                    let tempNoteIndexStr = tempID.substring(0, tempIndex);
+                    let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
+                    const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
 
-                toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
+                    toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+                } else { // Viewing all To-Do's
+                    let count = new Number(listItemIndex);
+
+                    let curToDo = [];
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        if (tempFilteredToDoList[i].type == "General") {
+                            if (count == 0) { // found curToDo
+                                curToDo = tempFilteredToDoList[i];
+                                break;
+                            } else {
+                                count--;
+                            }
+                            
+                            
+                        }
+                    }
+                    let noteIndexNum = new Number(noteIndex);
+                    
+                    if (curToDo.notes[noteIndexNum][1] == "0") {
+                        curToDo.notes[noteIndexNum][1] = "1";
+                    } else {
+                        curToDo.notes[noteIndexNum][1] = "0";
+                    }
+
+                    /* Updating Display */
+                    const tempDay = new ToDoDayObject("0001-01-01", linesPerPageToDo, toDoMasterList);
+                    for (var i = 0; i < tempFilteredToDoList.length; i++) {
+                        tempDay.add(tempFilteredToDoList[i]);
+                    }
+                    injectHTMLToDoTabDisplay(tempDay);
+                }
                 
 
-            } else if (tempID.substring(tempIndex - 4, tempIndex) == "note") {
-                console.log("clicked note checkbox - general");
-
-                const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
-
-                /* Changing display to addTab add To-Do */
-                addTab.click();
-                filterCheckboxAddToDo.click();
-                addTabUpdateButton.disabled = false;
-
-                displayToDoAddUpdate(curToDo);
-            }
+            } 
            
         } else { // Didn't click on anything actionable 
             console.log("Didn't click anything/ clicked container");
@@ -11304,7 +11572,7 @@ async function mainEvent() {
 
             } else { // Moving single to-do
                 console.log("Fired - Clicked Save button - clickedMoveIncompleteButton == 0");
-                tempCurToDo.dueDate = moveToDayOfWeekDate.value;
+                tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
                 document.getElementById("to_do_tab_current_page_box").innerHTML = 1;
             
                 if (document.getElementById("move_to_tab_coordinator").classList.contains("hidden")) {
@@ -11319,39 +11587,25 @@ async function mainEvent() {
                     tempCurToDo[0].tab = "Mentor";
                 } 
     
-                /*for (var i = 0; i < toDoMasterList.list.length; i++) {
-                    if (toDoMasterList.list[i].date == tempCurToDo[1]) { // found toDoDayObject 
-                        if (tempCurToDo[2] == "contact_customer") {
-                            toDoMasterList.list[i].contactCustomerList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "site_visit") {
-                            toDoMasterList.list[i].siteVisitList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "svc_calc") {
-                            toDoMasterList.list[i].svcCalcList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "check_njuns") {
-                            toDoMasterList.list[i].checkNJUNSList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "check_permit") {
-                            toDoMasterList.list[i].checkPermitList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "check_easement") {
-                            toDoMasterList.list[i].checkEasementList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "design") {
-                            toDoMasterList.list[i].designList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "revisions") {
-                            toDoMasterList.list[i].revisionsList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } else if (tempCurToDo[2] == "general") {
-                            toDoMasterList.list[i].generalList[tempCurToDo[3]] = tempCurToDo[0];
-                            break;
-                        } 
-                    } 
-                }*/
-                let temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
+                let temp = [];
+
+                temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
+
+                if (document.getElementById("hide_date_page_object").classList.contains("hidden") != true) { // Viewing all To-Do's
+                    toDoMasterList.removeById(temp[1].toDoId);
+                    toDoMasterList.add(temp[1]);
+                    
+                    allWrTab.click();
+                    toDoTab.click();
+                    for (var i = 0; i < toDoMasterList.list.length; i++) {
+                        if (toDoMasterList.list[i].dueDate == moveToDayOfWeekDate.value) {
+                            injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
+                        }
+                    }
+                    toDoDisplayDayOfWeekDate.value = moveToDayOfWeekDate.value;
+                    toDoDisplayMoveToContainer.classList.add("hidden");
+                    return;
+                }
                 let tempDate = temp[1].dueDate;
                 
                 /* Checks all lists for incomplete to-do's and adds them to tempData */
@@ -18015,6 +18269,9 @@ async function mainEvent() {
         document.getElementById("filter_container_rcd").classList.add("hidden");
         document.getElementById("filter_container_waiting_other").classList.add("hidden");
 
+        /* Removing Hide Page-Object Objects */
+        document.getElementById("hide_date_page_object").classList.add("hidden");
+        document.getElementById("hide_to_do_tabs").classList.add("hidden");
 
 
         /* Setting Page Defaults */
