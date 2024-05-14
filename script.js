@@ -11167,7 +11167,19 @@ async function mainEvent() {
                 console.log("clicked note checkbox - general");
 
                 if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // Viewing To-Do's by day
-                    const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+                    /* Pulls listItemIndex (index of toDoObject within contact customer list) */
+                    let tempListItemIndex = tempID.indexOf("item_");
+                    let listItemIndexStr = tempID.substring(tempListItemIndex + 5);
+                    let endListItemIndex = listItemIndexStr.indexOf("_");
+                    const listItemIndex = listItemIndexStr.substring(0, endListItemIndex);
+
+                    /* Pulls noteIndex (index of note within toDoObject notes) */
+                    let tempNoteIndexStr = tempID.substring(0, tempIndex);
+                    let endNoteIndex = tempNoteIndexStr.lastIndexOf("_");
+                    const noteIndex = tempNoteIndexStr.substring(endNoteIndex + 1);
+
+                    toDoMasterList.completeNote(toDoDisplayDayOfWeekDate.value, curList, listItemIndex, noteIndex, tempToDoPageElement);
+
 
                 } else { // Viewing all To-Do's
                     /* Pulls listItemIndex (index of toDoObject within contact customer list) */
@@ -11513,7 +11525,19 @@ async function mainEvent() {
                 }
                 
 
-            } 
+            } else if (tempID.substring(tempIndex - 4, tempIndex) == "note") {
+                console.log("clicked note checkbox - general");
+
+                const curToDo = toDoMasterList.getToDoDisplay(toDoDisplayDayOfWeekDate.value, curList, lastNum);
+
+                /* Changing display to addTab add To-Do */
+                addTab.click();
+                filterCheckboxAddToDo.click();
+                addTabUpdateButton.disabled = false;
+
+                displayToDoAddUpdate(curToDo);
+            }
+
            
         } else { // Didn't click on anything actionable 
             console.log("Didn't click anything/ clicked container");
