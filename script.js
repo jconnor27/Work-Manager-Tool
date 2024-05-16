@@ -11928,6 +11928,25 @@ async function mainEvent() {
             tempCurToDo[0].dueDate = moveToDayOfWeekDate.value;
         }
     })
+    moveToDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - Mousedout - moveToDayOfWeekDate");
+
+        const temp = moveToDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("move_to", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("move_to", tempStr);
+    })
     toDoDisplayDatePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDatePrevButton");
 

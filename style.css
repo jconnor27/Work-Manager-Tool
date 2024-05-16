@@ -3796,6 +3796,11 @@ h5 {
     margin-bottom: 5px;
 }
 
+.topLevelPopUpContainer {
+    display: flex;
+    position: absolute;
+}
+
 .hidden {
     display: none;
     

@@ -1381,465 +1381,470 @@
         </div>
     </div>
 
-    <!-- Add Comment Pop Up Container -->
-    <div class="addCommentPopUpContainer hidden" id="add_comment_pop_up_container">
-        <div class="addCommentPopUpBox">
-            <button type="button" class="addCommentPopUpXButton" id="add_comment_pop_up_x_button">X</button>
+    <!-- Container for Top Level Pop Ups -->
+    <div class="topLevelPopUpContainer">
 
-            <!-- Row One -->
-            <div class="addCommentPopUpRowOne" id="add_comment_pop_up_header" style="align-self: center">Not Set</div>
+        <!-- Add Comment Pop Up Container -->
+        <div class="addCommentPopUpContainer hidden" id="add_comment_pop_up_container">
+            <div class="addCommentPopUpBox">
+                <button type="button" class="addCommentPopUpXButton" id="add_comment_pop_up_x_button">X</button>
 
-            <!-- Button Container -->
-            <div class="addCommentPopUpButtonContainer" id="missing_info_button_container">
-                <button type="button" class="missingInfoButton " id="add_comment_pop_up_button_no">No</button>
-                <button type="button" class="missingInfoButton " id="add_comment_pop_up_button_yes">Yes</button>
-            </div>
-        </div>
-    </div>
+                <!-- Row One -->
+                <div class="addCommentPopUpRowOne" id="add_comment_pop_up_header" style="align-self: center">Not Set</div>
 
-    <!-- Missing Info Pop Up Container -->
-    <div class="missingInfoContainer hidden" id="missing_info_container">
-        <div class="missingInfoBox">
-
-            <button type="button" class="missingInfoXButton" id="missing_info_x_button">X</button>
-
-            <!-- Row One -->
-            <div class="missingInfoRowOne">
-                <div class="missingInfoText" id="missing_info_header" style="align-self: center;">Not Set</div>
-            </div>
-
-            <!-- Row Two -->
-            <div class="missingInfoRowTwo">
-                <div class="missingInfoText" id="missing_info_type">Not Set</div>
-            </div>
-
-            <!-- Row Three -->
-            <div class="missingInfoRowThree" id="missing_info_row_two">
-                <input type="date" class="missingInfoDayOfWeekDate" id="missing_info_day_of_week_date">
-                <div class="missingInfoDateObjectContainer" id="missing_info_date_object_container">
-
+                <!-- Button Container -->
+                <div class="addCommentPopUpButtonContainer" id="missing_info_button_container">
+                    <button type="button" class="missingInfoButton " id="add_comment_pop_up_button_no">No</button>
+                    <button type="button" class="missingInfoButton " id="add_comment_pop_up_button_yes">Yes</button>
                 </div>
             </div>
-
-            <!-- Button Container -->
-            <div class="missingInfoButtonContainer" id="missing_info_button_container">
-                <button type="button" class="missingInfoButton " id="missing_info_button_skip">Skip</button>
-                <button type="button" class="missingInfoButton " id="missing_info_button_save">Save</button>
-            </div>
-
         </div>
-    </div>
 
-    <!-- Add To-Do Pop Up Container -->
-    <div class="addToDoPopUpContainer hidden" id="add_to_do_pop_up_container">
-        <div class="addToDoPopUpBox">
-            <button type="button" class="addToDoPopUpXButton" id="add_to_do_pop_up_x_button">X</button>
+        <!-- Missing Info Pop Up Container -->
+        <div class="missingInfoContainer hidden" id="missing_info_container">
+            <div class="missingInfoBox">
 
-            <!-- Row One -->
-            <div class="addToDoPopUpRowOne">
-                <div class="addToDoPopUpText" id="add_to_do_pop_up_header">Not Set</div>
-            </div>
+                <button type="button" class="missingInfoXButton" id="missing_info_x_button">X</button>
 
-            <!-- Row Two -->
-            <div class="addToDoPopUpRowTwo" id="add_to_do_pop_up_row_two">
-                <div class="addToDoPopUpText" id="add_to_do_pop_up_tab"></div>
-            </div>
-
-            <!-- Row Three -->
-            <div class="addToDoPopUpRowThree" id="add_to_do_pop_up_row_three">
-                <input type="date" class="addToDoPopUpDayOfWeekDate" id="add_to_do_pop_up_day_of_week_date">
-                <div class="addToDoPopUpDateObjectContainer" id="add_to_do_pop_up_date_object_container">
-
+                <!-- Row One -->
+                <div class="missingInfoRowOne">
+                    <div class="missingInfoText" id="missing_info_header" style="align-self: center;">Not Set</div>
                 </div>
-            </div>
 
-            
-            <!-- Tabs -->
-            <div class="addToDoPopUpTabContainer">
-                <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_coordinator">Coordinator</div>
-                <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_coordinator_active">Coordinator</div>
-
-                <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_waiting">Waiting</div>
-                <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_waiting_active">Waiting</div>
-
-                <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-                <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-
-                <div class="addToDoPopUpTab hidden" id="add_to_do_pop_up_tab_general">General</div>
-                <div class="addToDoPopUpTab activeTab " id="add_to_do_pop_up_tab_general_active">General</div>
-
-                <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_mentor"><div>Mentor</div></div>
-                <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_mentor_active"><div>Mentor</div></div>
-
-            </div>
-
-            <!-- Note Textfield -->
-            <input type="text" class="addToDoPopUpNoteTextfield" id="add_to_do_pop_up_textfield" value="Enter Note (Optional)">
-
-            <!-- Button Container -->
-            <div class="addToDoPopUpButtonContainer">
-                <button type="button" class="addToDoPopUpButton" id="add_to_do_pop_up_button_no">No</button>
-                <button type="button" class="addToDoPopUpButton" id="add_to_do_pop_up_button_yes">Yes</button>
-                <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_neither">Neither</button>
-                <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_move">Move</button>
-                <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_new">Create New To-Do</button>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Status Warning Container - Easement -->
-    <div class="statusWarningPopUpContainer hidden" id="easement_status_warning_pop_up_container">
-        <div class="statusWarningPopUpBox">
-            <button type="button" class="statusWarningPopUpXButton" id="easement_status_warning_pop_up_x_button">X</button>
-       
-             <!-- Row One -->
-            <div class="statusWarningPopUpRowOne">
-                <div class="statusWarningPopUpText" id="easement_status_warning_pop_up_header">Not Set</div>
-            </div>
-
-            <!-- Row Two -->
-            <div class="statusWarningPopUpRowTwo">
-                <div class="statusWarningPopUpText" id="easement_status_warning_pop_up_tab"></div>
-            </div>
-
-            <!-- Row Three -->
-            <div class="statusWarningPopUpRowThree" id="easement_status_warning_pop_up_row_three">
-                <input type="date" class="statusWarningPopUpDayOfWeekDate" id="easement_status_warning_pop_up_day_of_week_date">
-                <div class="statusWarningPopUpDateObjectContainer" id="easement_status_warning_pop_up_date_object_container">
-
+                <!-- Row Two -->
+                <div class="missingInfoRowTwo">
+                    <div class="missingInfoText" id="missing_info_type">Not Set</div>
                 </div>
-            </div>
 
-            <!-- Tabs -->
-            <div class="statusWarningPopUpTabContainer">
-                <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_coordinator">Coordinator</div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_coordinator_active">Coordinator</div>
+                <!-- Row Three -->
+                <div class="missingInfoRowThree" id="missing_info_row_two">
+                    <input type="date" class="missingInfoDayOfWeekDate" id="missing_info_day_of_week_date">
+                    <div class="missingInfoDateObjectContainer" id="missing_info_date_object_container">
 
-                <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_waiting">Waiting</div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_waiting_active">Waiting</div>
-
-                <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-
-                <div class="statusWarningPopUpTab hidden" id="easement_status_warning_pop_up_tab_general">General</div>
-                <div class="statusWarningPopUpTab activeTab " id="easement_status_warning_pop_up_tab_general_active">General</div>
-
-                <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_mentor"><div>Mentor</div></div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_mentor_active"><div>Mentor</div></div>
-
-            </div>
-
-            <!-- Note Textfield -->
-            <input type="text" class="statusWarningPopUpNoteTextfield" id="easement_status_warning_pop_up_textfield" value="Enter Note (Optional)">
-
-            <!-- Button Container -->
-            <div class="statusWarningPopUpButtonContainer">
-                <button type="button" class="statusWarningPopUpButton" id="easement_status_warning_pop_up_button_no">No</button>
-                <button type="button" class="statusWarningPopUpButton" id="easement_status_warning_pop_up_button_yes">Yes</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Status Warning Container - Permit -->
-    <div class="statusWarningPopUpContainer hidden" id="permit_status_warning_pop_up_container">
-        <div class="statusWarningPopUpBox">
-            <button type="button" class="statusWarningPopUpXButton" id="permit_status_warning_pop_up_x_button">X</button>
-       
-             <!-- Row One -->
-            <div class="statusWarningPopUpRowOne">
-                <div class="statusWarningPopUpText" id="permit_status_warning_pop_up_header">Not Set</div>
-            </div>
-
-            <!-- Row Two -->
-            <div class="statusWarningPopUpRowTwo">
-                <div class="statusWarningPopUpText" id="permit_status_warning_pop_up_type"></div>
-            </div>
-
-            <!-- Row Three -->
-            <div class="statusWarningPopUpRowThree" id="permit_status_warning_pop_up_row_three">
-                <input type="date" class="addToDoPopUpDayOfWeekDate" id="permit_status_warning_pop_up_day_of_week_date">
-                <div class="statusWarningPopUpDateObjectContainer" id="permit_status_warning_pop_up_date_object_container">
-
+                    </div>
                 </div>
-            </div>
 
-            <!-- Tabs -->
-            <div class="statusWarningPopUpTabContainer">
-                <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_coordinator">Coordinator</div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_coordinator_active">Coordinator</div>
+                <!-- Button Container -->
+                <div class="missingInfoButtonContainer" id="missing_info_button_container">
+                    <button type="button" class="missingInfoButton " id="missing_info_button_skip">Skip</button>
+                    <button type="button" class="missingInfoButton " id="missing_info_button_save">Save</button>
+                </div>
 
-                <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_waiting">Waiting</div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_waiting_active">Waiting</div>
-
-                <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
-
-                <div class="statusWarningPopUpTab hidden" id="permit_status_warning_pop_up_tab_general">General</div>
-                <div class="statusWarningPopUpTab activeTab " id="permit_status_warning_pop_up_tab_general_active">General</div>
-
-                <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_mentor"><div>Mentor</div></div>
-                <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_mentor_active"><div>Mentor</div></div>
-
-            </div>
-
-            <!-- Note Textfield -->
-            <input type="text" class="statusWarningPopUpNoteTextfield" id="permit_status_warning_pop_up_textfield" value="Enter Note (Optional)">
-
-
-            <!-- Button Container -->
-            <div class="statusWarningPopUpButtonContainer">
-                <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_no">No</button>
-                <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_yes">Yes</button>
             </div>
         </div>
-    </div>
 
-    
+        <!-- Add To-Do Pop Up Container -->
+        <div class="addToDoPopUpContainer hidden" id="add_to_do_pop_up_container">
+            <div class="addToDoPopUpBox">
+                <button type="button" class="addToDoPopUpXButton" id="add_to_do_pop_up_x_button">X</button>
 
-    <!-- Invisible cover to close DDs -->
-    <div class="dropDownCover hidden" id="drop_down_cover"></div>
+                <!-- Row One -->
+                <div class="addToDoPopUpRowOne">
+                    <div class="addToDoPopUpText" id="add_to_do_pop_up_header">Not Set</div>
+                </div>
 
-    <!-- Settings Display -->
-    <div class="settingsDisplayContainer hidden" id="settings_display_container">
-        <div class="settingsDisplayRowsContainer" id="settings_display_rows_container">
-            
-            <!-- Row One -->
-            <div class="settingsDisplayRowOne" id="settings_display_row_one">
-                <button type="button" class="settingsXButton" id="settings_x_button">X</button>
-                <label for="settings_display_container" class="settingsDisplayContainerLabel" id="settings_display_container_label"><b>Settings</b></label>
-            </div>
+                <!-- Row Two -->
+                <div class="addToDoPopUpRowTwo" id="add_to_do_pop_up_row_two">
+                    <div class="addToDoPopUpText" id="add_to_do_pop_up_tab"></div>
+                </div>
 
-            <!-- Row Two -->
-            <div class="settingsDisplayRowTwo" id="settings_display_row_one">
+                <!-- Row Three -->
+                <div class="addToDoPopUpRowThree" id="add_to_do_pop_up_row_three">
+                    <input type="date" class="addToDoPopUpDayOfWeekDate" id="add_to_do_pop_up_day_of_week_date">
+                    <div class="addToDoPopUpDateObjectContainer" id="add_to_do_pop_up_date_object_container">
 
-                <!-- Color Tabs -->
-                <div class="settingsDisplayTab " id="settings_display_tab_colors">Colors</div>
-                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_colors_active">Colors</div>
+                    </div>
+                </div>
 
-                <!-- Preference Tabs -->
-                <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
-                <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_preferences_active">Preferences</div>
-            </div>
-
-            <!-- Lower Display -->
-            <div class="settingsDisplayLowerDisplayContainer" id="settings_display_lower_display_container">
                 
-                <!-- Colors - Left Side -->
-                <div class="settingsDisplayLowerDisplayContainerColorsLeft hidden" id="settings_display_lower_display_container_colors_left">
+                <!-- Tabs -->
+                <div class="addToDoPopUpTabContainer">
+                    <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_coordinator">Coordinator</div>
+                    <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_coordinator_active">Coordinator</div>
+
+                    <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_waiting">Waiting</div>
+                    <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_waiting_active">Waiting</div>
+
+                    <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+                    <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+
+                    <div class="addToDoPopUpTab hidden" id="add_to_do_pop_up_tab_general">General</div>
+                    <div class="addToDoPopUpTab activeTab " id="add_to_do_pop_up_tab_general_active">General</div>
+
+                    <div class="addToDoPopUpTab" id="add_to_do_pop_up_tab_mentor"><div>Mentor</div></div>
+                    <div class="addToDoPopUpTab activeTab hidden" id="add_to_do_pop_up_tab_mentor_active"><div>Mentor</div></div>
+
+                </div>
+
+                <!-- Note Textfield -->
+                <input type="text" class="addToDoPopUpNoteTextfield" id="add_to_do_pop_up_textfield" value="Enter Note (Optional)">
+
+                <!-- Button Container -->
+                <div class="addToDoPopUpButtonContainer">
+                    <button type="button" class="addToDoPopUpButton" id="add_to_do_pop_up_button_no">No</button>
+                    <button type="button" class="addToDoPopUpButton" id="add_to_do_pop_up_button_yes">Yes</button>
+                    <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_neither">Neither</button>
+                    <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_move">Move</button>
+                    <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_new">Create New To-Do</button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Warning Container - Easement -->
+        <div class="statusWarningPopUpContainer hidden" id="easement_status_warning_pop_up_container">
+            <div class="statusWarningPopUpBox">
+                <button type="button" class="statusWarningPopUpXButton" id="easement_status_warning_pop_up_x_button">X</button>
+        
+                <!-- Row One -->
+                <div class="statusWarningPopUpRowOne">
+                    <div class="statusWarningPopUpText" id="easement_status_warning_pop_up_header">Not Set</div>
+                </div>
+
+                <!-- Row Two -->
+                <div class="statusWarningPopUpRowTwo">
+                    <div class="statusWarningPopUpText" id="easement_status_warning_pop_up_tab"></div>
+                </div>
+
+                <!-- Row Three -->
+                <div class="statusWarningPopUpRowThree" id="easement_status_warning_pop_up_row_three">
+                    <input type="date" class="statusWarningPopUpDayOfWeekDate" id="easement_status_warning_pop_up_day_of_week_date">
+                    <div class="statusWarningPopUpDateObjectContainer" id="easement_status_warning_pop_up_date_object_container">
+
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="statusWarningPopUpTabContainer">
+                    <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_coordinator">Coordinator</div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_coordinator_active">Coordinator</div>
+
+                    <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_waiting">Waiting</div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_waiting_active">Waiting</div>
+
+                    <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+
+                    <div class="statusWarningPopUpTab hidden" id="easement_status_warning_pop_up_tab_general">General</div>
+                    <div class="statusWarningPopUpTab activeTab " id="easement_status_warning_pop_up_tab_general_active">General</div>
+
+                    <div class="statusWarningPopUpTab" id="easement_status_warning_pop_up_tab_mentor"><div>Mentor</div></div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="easement_status_warning_pop_up_tab_mentor_active"><div>Mentor</div></div>
+
+                </div>
+
+                <!-- Note Textfield -->
+                <input type="text" class="statusWarningPopUpNoteTextfield" id="easement_status_warning_pop_up_textfield" value="Enter Note (Optional)">
+
+                <!-- Button Container -->
+                <div class="statusWarningPopUpButtonContainer">
+                    <button type="button" class="statusWarningPopUpButton" id="easement_status_warning_pop_up_button_no">No</button>
+                    <button type="button" class="statusWarningPopUpButton" id="easement_status_warning_pop_up_button_yes">Yes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Warning Container - Permit -->
+        <div class="statusWarningPopUpContainer hidden" id="permit_status_warning_pop_up_container">
+            <div class="statusWarningPopUpBox">
+                <button type="button" class="statusWarningPopUpXButton" id="permit_status_warning_pop_up_x_button">X</button>
+        
+                <!-- Row One -->
+                <div class="statusWarningPopUpRowOne">
+                    <div class="statusWarningPopUpText" id="permit_status_warning_pop_up_header">Not Set</div>
+                </div>
+
+                <!-- Row Two -->
+                <div class="statusWarningPopUpRowTwo">
+                    <div class="statusWarningPopUpText" id="permit_status_warning_pop_up_type"></div>
+                </div>
+
+                <!-- Row Three -->
+                <div class="statusWarningPopUpRowThree" id="permit_status_warning_pop_up_row_three">
+                    <input type="date" class="addToDoPopUpDayOfWeekDate" id="permit_status_warning_pop_up_day_of_week_date">
+                    <div class="statusWarningPopUpDateObjectContainer" id="permit_status_warning_pop_up_date_object_container">
+
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="statusWarningPopUpTabContainer">
+                    <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_coordinator">Coordinator</div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_coordinator_active">Coordinator</div>
+
+                    <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_waiting">Waiting</div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_waiting_active">Waiting</div>
+
+                    <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_on_return_to_office"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_on_return_to_office_active"><div class="addToDoPopUpRow">On Return</div><div class="addToDoPopUpRow">To Office</div></div>
+
+                    <div class="statusWarningPopUpTab hidden" id="permit_status_warning_pop_up_tab_general">General</div>
+                    <div class="statusWarningPopUpTab activeTab " id="permit_status_warning_pop_up_tab_general_active">General</div>
+
+                    <div class="statusWarningPopUpTab" id="permit_status_warning_pop_up_tab_mentor"><div>Mentor</div></div>
+                    <div class="statusWarningPopUpTab activeTab hidden" id="permit_status_warning_pop_up_tab_mentor_active"><div>Mentor</div></div>
+
+                </div>
+
+                <!-- Note Textfield -->
+                <input type="text" class="statusWarningPopUpNoteTextfield" id="permit_status_warning_pop_up_textfield" value="Enter Note (Optional)">
+
+
+                <!-- Button Container -->
+                <div class="statusWarningPopUpButtonContainer">
+                    <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_no">No</button>
+                    <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_yes">Yes</button>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Invisible cover to close DDs -->
+        <div class="dropDownCover hidden" id="drop_down_cover"></div>
+
+        <!-- Settings Display -->
+        <div class="settingsDisplayContainer hidden" id="settings_display_container">
+            <div class="settingsDisplayRowsContainer" id="settings_display_rows_container">
+                
+                <!-- Row One -->
+                <div class="settingsDisplayRowOne" id="settings_display_row_one">
+                    <button type="button" class="settingsXButton" id="settings_x_button">X</button>
+                    <label for="settings_display_container" class="settingsDisplayContainerLabel" id="settings_display_container_label"><b>Settings</b></label>
+                </div>
+
+                <!-- Row Two -->
+                <div class="settingsDisplayRowTwo" id="settings_display_row_one">
+
+                    <!-- Color Tabs -->
+                    <div class="settingsDisplayTab " id="settings_display_tab_colors">Colors</div>
+                    <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_colors_active">Colors</div>
+
+                    <!-- Preference Tabs -->
+                    <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
+                    <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_preferences_active">Preferences</div>
+                </div>
+
+                <!-- Lower Display -->
+                <div class="settingsDisplayLowerDisplayContainer" id="settings_display_lower_display_container">
                     
-                    <!-- Label -->
-                    <div class="settingsDisplayTabLower"><b>Options</b></div>
-
-                    <div class="settingsDisplayColorOptionsContainer" id="settings_display_color_options_container">
+                    <!-- Colors - Left Side -->
+                    <div class="settingsDisplayLowerDisplayContainerColorsLeft hidden" id="settings_display_lower_display_container_colors_left">
                         
-                        <div class="optionElement hidden" id="option_element_not_set">Not Set</div>
-                        <div class="optionElement hidden" id="option_element_dont_need">Don't Need</div>
+                        <!-- Label -->
+                        <div class="settingsDisplayTabLower"><b>Options</b></div>
+
+                        <div class="settingsDisplayColorOptionsContainer" id="settings_display_color_options_container">
+                            
+                            <div class="optionElement hidden" id="option_element_not_set">Not Set</div>
+                            <div class="optionElement hidden" id="option_element_dont_need">Don't Need</div>
+                            
+                            <!-- Permit Status Colors -->
+                            <div class="optionElement hidden" id="option_element_applied">Applied</div>
+                            <div class="optionElement hidden" id="option_element_received">Received</div>
+                            <div class="optionElement hidden" id="option_element_started">Started</div>
+                            <div class="optionElement hidden" id="option_element_expiring_soon">Expiring Soon</div>
+                            <div class="optionElement hidden" id="option_element_extension_submitted">Ext. Submitted</div>
+                            <div class="optionElement hidden" id="option_element_expired">Expired</div>
+
+                            <!-- Easement Status Colors -->
+                            <div class="optionElement hidden" id="option_element_need_easement">Need Easement</div>
+                            <div class="optionElement hidden" id="option_element_pending">Pending</div>
+                            <div class="optionElement hidden" id="option_element_have_easement">Have Easement</div>
+                            <div class="optionElement hidden" id="option_element_waiting">Waiting</div>
+                            <div class="optionElement hidden" id="option_element_pending">Pending</div>
+
+                            <!-- CRD + RCD + Permit End Date Color Types (In Assess Date) -->
+                            <div class="optionElement hidden" id="option_element_past_today">Past Today</div>
+                            <div class="optionElement hidden" id="option_element_under_14">Under 14 Days</div>
+                            <div class="optionElement hidden" id="option_element_under_31">Under 31 Days</div>
+                            <div class="optionElement hidden" id="option_element_over_31">Over 31 Days</div>
+                            <div class="optionElement hidden" id="option_element_set">Set - Not Started</div> 
+
+
+
+                            <div class="optionElement hidden" id="option_element_havent_checked">Haven't Checked</div>
+
+                        </div>
+                    </div>
+
+                    <!-- Colors - Right Side -->
+                    <div class="settingsDisplayLowerDisplayContainerColorsRight hidden" id="settings_display_lower_display_container_colors_right">
                         
-                        <!-- Permit Status Colors -->
-                        <div class="optionElement hidden" id="option_element_applied">Applied</div>
-                        <div class="optionElement hidden" id="option_element_received">Received</div>
-                        <div class="optionElement hidden" id="option_element_started">Started</div>
-                        <div class="optionElement hidden" id="option_element_expiring_soon">Expiring Soon</div>
-                        <div class="optionElement hidden" id="option_element_extension_submitted">Ext. Submitted</div>
-                        <div class="optionElement hidden" id="option_element_expired">Expired</div>
+                        <!-- Tabs -->
+                        <div class="settingsDisplayColorsTabsContainer">
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_crd">CRD</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_crd_active">CRD</div>
 
-                        <!-- Easement Status Colors -->
-                        <div class="optionElement hidden" id="option_element_need_easement">Need Easement</div>
-                        <div class="optionElement hidden" id="option_element_pending">Pending</div>
-                        <div class="optionElement hidden" id="option_element_have_easement">Have Easement</div>
-                        <div class="optionElement hidden" id="option_element_waiting">Waiting</div>
-                        <div class="optionElement hidden" id="option_element_pending">Pending</div>
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_rcd">RCD</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_rcd_active">RCD</div>
 
-                        <!-- CRD + RCD + Permit End Date Color Types (In Assess Date) -->
-                        <div class="optionElement hidden" id="option_element_past_today">Past Today</div>
-                        <div class="optionElement hidden" id="option_element_under_14">Under 14 Days</div>
-                        <div class="optionElement hidden" id="option_element_under_31">Under 31 Days</div>
-                        <div class="optionElement hidden" id="option_element_over_31">Over 31 Days</div>
-                        <div class="optionElement hidden" id="option_element_set">Set - Not Started</div> 
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_status">Permit Status</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_status_active">Permit Status</div>
+
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_start">Permit Start Date</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_start_active">Permit Start Date</div>
+
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_end">Permit End Date</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_end_active">Permit End Date</div>
+
+                            <div class="settingsDisplayTabColors" id="settings_display_tab_colors_easement_status">Easement Status</div>
+                            <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_easement_status_active">Easement Status</div>
+                        </div>
+
+                        <!-- Display -->
+                        <div class="settingsDisplayInnerColors" id="settings_display_inner_colors">
+                            
+                            <!-- Top -->
+                            <div class="settingsDisplayInnerColorsTop hidden" id="settings_display_inner_colors_top">
+                                <label class="settingsDisplayInnerColorsLabel" id="settings_display_inner_colors_label">Current Color Assigned:</label>
+                                <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
+                                <button type="button" class="colorSaveButton hidden" id="color_local_save_button">Save</button>
+                            </div>
+
+                            <!-- Bottom -->
+                            <div class="settingsDisplayInnerColorsBottom hidden" id="settings_display_inner_colors_bottom">
+                                <div class="colorOption" style="background-color: white;" id="color_option_white">White</div>
+                                <div class="colorOption" style="background-color: #dbea06ca;" id="color_option_yellow">Yellow</div>
+                                <div class="colorOption" style="background-color: #ea8f06ca;" id="color_option_orange">Orange</div>
+                                <div class="colorOption" style="background-color: #ff3191cd;" id="color_option_red">Magenta</div>
+                                <div class="colorOption" style="background-color: #ed3939c3;" id="color_option_dark_red">Red</div>
+                                <div class="colorOption" style="background-color: rgba(87, 245, 43, 0.627);"id="color_option_green">Green</div>
+                                <div class="colorOption" style="background-color: rgba(39, 252, 203, 0.83);"id="color_option_teal">Teal</div>
+                                <div class="colorOption" style="background-color: #1913d9c3;"id="color_option_blue">Blue</div>
+                                <div class="colorOption" style="background-color: #ed39cfc3;"id="color_option_pink">Pink</div>
+                                <div class="colorOption" style="background-color: #9722dfc3;"id="color_option_pink">Purple</div>
 
 
-
-                        <div class="optionElement hidden" id="option_element_havent_checked">Haven't Checked</div>
-
-                    </div>
-                </div>
-
-                <!-- Colors - Right Side -->
-                <div class="settingsDisplayLowerDisplayContainerColorsRight hidden" id="settings_display_lower_display_container_colors_right">
-                    
-                    <!-- Tabs -->
-                    <div class="settingsDisplayColorsTabsContainer">
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_crd">CRD</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_crd_active">CRD</div>
-
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_rcd">RCD</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_rcd_active">RCD</div>
-
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_status">Permit Status</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_status_active">Permit Status</div>
-
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_start">Permit Start Date</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_start_active">Permit Start Date</div>
-
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_permit_end">Permit End Date</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_permit_end_active">Permit End Date</div>
-
-                        <div class="settingsDisplayTabColors" id="settings_display_tab_colors_easement_status">Easement Status</div>
-                        <div class="settingsDisplayTabColors activeTab hidden" id="settings_display_tab_colors_easement_status_active">Easement Status</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Display -->
-                    <div class="settingsDisplayInnerColors" id="settings_display_inner_colors">
+                    <!-- Preferences Container -->
+                    <div class="settingsDisplayLowerDisplayContainerPreferences hidden" id="settings_display_lower_display_container_preferences">
+                        <!-- Save Button Container -->
+                        <div class="settingsPreferencesSaveContainer">
+                            <button type="button" class="settingsPreferencesSaveButton hidden" id="settings_preferences_save_button">Save</button>
+                        </div>
+
+                        <div class="settingsPreferencesRowContainer">
+
+                            <div class="settingsPreferencesRowContainerLeft">
+
+                                <!-- Row One -->
+                                <div class="settingsDisplayRowOnePreferences" id="settings_display_row_one_preferences">
+                                    <div class="settingsPreferencesText">Rows Per Page:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_rows_per_page" disabled>
+                                </div>
+
+                                <!-- Row Two -->
+                                <div class="settingsDisplayRowTwoPreferences">
+                                    <div class="settingsPreferencesText"># of Comments - Add/Update Wr:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_wr">
+                                </div>
+
+                                <!-- Row Three-->
+                                <div class="settingsDisplayRowThreePreferences">
+                                    <div class="settingsPreferencesText"># of Comments - Update Permit:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_permit">
+                                </div>
+
+                                <!-- Row Four -->
+                                <div class="settingsDisplayRowFourPreferences">
+                                    <div class="settingsPreferencesText"># of Comments - Add/Update Comment:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_comment">
+                                </div>
+                            </div>
+
+                            <div class="settingsPreferencesRowContainerRight">
+
+                                <!-- Row Five -->
+                                <div class="settingsDisplayRowFivePreferences">
+                                    <div class="settingsPreferencesText"># of Notes - Add/Update To-Do:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_notes_to_do">
+                                </div>
+
+                                <!-- Row Six -->
+                                <div class="settingsDisplayRowSixPreferences">
+                                    <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
+                                </div>
+
+                                <!-- Row Seven -->
+                                <div class="settingsDisplayRowSevenPreferences">
+                                    <div class="settingsPreferencesText">Durration of Prompts (In Seconds)</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_prompt_duration">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settingsDisplayClearButtonsContainer">
+                            <!-- Clear 7010 Jobs Button -->
+                            <button type="button" class="settingsPreferencesClear7010Button" id="settings_preferences_clear_7010_button">Clear - 7010 Jobs</button>
+
+                            <!-- Clear Complete To-Do's Button -->
+                            <button type="button" class="settingsPreferencesClearCompleteToDosButton" id="settings_preferences_clear_complete_to_dos_button">Clear - Complete To-Do's</button>
+                            
+                            <!-- Clear Local Storage Button -->
+                            <button type="button" class="settingsPreferencesClearLocalStorageButton" id="settings_preferences_clear_local_storage_button">Clear - Local Storage</button>
+                        </div>
                         
-                        <!-- Top -->
-                        <div class="settingsDisplayInnerColorsTop hidden" id="settings_display_inner_colors_top">
-                            <label class="settingsDisplayInnerColorsLabel" id="settings_display_inner_colors_label">Current Color Assigned:</label>
-                            <div class="currentColorAssignedBox" id="current_color_assigned_box">Not Set</div>
-                            <button type="button" class="colorSaveButton hidden" id="color_local_save_button">Save</button>
-                        </div>
-
-                        <!-- Bottom -->
-                        <div class="settingsDisplayInnerColorsBottom hidden" id="settings_display_inner_colors_bottom">
-                            <div class="colorOption" style="background-color: white;" id="color_option_white">White</div>
-                            <div class="colorOption" style="background-color: #dbea06ca;" id="color_option_yellow">Yellow</div>
-                            <div class="colorOption" style="background-color: #ea8f06ca;" id="color_option_orange">Orange</div>
-                            <div class="colorOption" style="background-color: #ff3191cd;" id="color_option_red">Magenta</div>
-                            <div class="colorOption" style="background-color: #ed3939c3;" id="color_option_dark_red">Red</div>
-                            <div class="colorOption" style="background-color: rgba(87, 245, 43, 0.627);"id="color_option_green">Green</div>
-                            <div class="colorOption" style="background-color: rgba(39, 252, 203, 0.83);"id="color_option_teal">Teal</div>
-                            <div class="colorOption" style="background-color: #1913d9c3;"id="color_option_blue">Blue</div>
-                            <div class="colorOption" style="background-color: #ed39cfc3;"id="color_option_pink">Pink</div>
-                            <div class="colorOption" style="background-color: #9722dfc3;"id="color_option_pink">Purple</div>
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Preferences Container -->
-                <div class="settingsDisplayLowerDisplayContainerPreferences hidden" id="settings_display_lower_display_container_preferences">
-                    <!-- Save Button Container -->
-                    <div class="settingsPreferencesSaveContainer">
-                        <button type="button" class="settingsPreferencesSaveButton hidden" id="settings_preferences_save_button">Save</button>
                     </div>
 
-                    <div class="settingsPreferencesRowContainer">
-
-                        <div class="settingsPreferencesRowContainerLeft">
-
-                            <!-- Row One -->
-                            <div class="settingsDisplayRowOnePreferences" id="settings_display_row_one_preferences">
-                                <div class="settingsPreferencesText">Rows Per Page:</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_rows_per_page" disabled>
-                            </div>
-
-                            <!-- Row Two -->
-                            <div class="settingsDisplayRowTwoPreferences">
-                                <div class="settingsPreferencesText"># of Comments - Add/Update Wr:</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_wr">
-                            </div>
-
-                            <!-- Row Three-->
-                            <div class="settingsDisplayRowThreePreferences">
-                                <div class="settingsPreferencesText"># of Comments - Update Permit:</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_permit">
-                            </div>
-
-                            <!-- Row Four -->
-                            <div class="settingsDisplayRowFourPreferences">
-                                <div class="settingsPreferencesText"># of Comments - Add/Update Comment:</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_comments_comment">
+                    <!-- Popup for Clear - 7010 Jobs Button -->
+                    <div class="clear7010PopUpContainer hidden" id="clear_7010_pop_up_container">
+                        <div class="clear7010PopUp" id="clear_7010_pop_up">
+                            <button type="button" class="clear7010PopUpXButton" id="clear_7010_pop_up_x_button">X</button>
+                            <div class="clear7010PopUpRowOne"> Are You Sure You Want to DELETE ALL<br>7010 Jobs From Your Saved Data?</div>
+                            <div class="clear7010PopUpRowTwo">
+                                <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_no">No</button>
+                                <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_yes">Yes</button>
                             </div>
                         </div>
-
-                        <div class="settingsPreferencesRowContainerRight">
-
-                            <!-- Row Five -->
-                            <div class="settingsDisplayRowFivePreferences">
-                                <div class="settingsPreferencesText"># of Notes - Add/Update To-Do:</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_notes_to_do">
-                            </div>
-
-                            <!-- Row Six -->
-                            <div class="settingsDisplayRowSixPreferences">
-                                <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
-                            </div>
-
-                            <!-- Row Seven -->
-                            <div class="settingsDisplayRowSevenPreferences">
-                                <div class="settingsPreferencesText">Durration of Prompts (In Seconds)</div>
-                                <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_prompt_duration">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="settingsDisplayClearButtonsContainer">
-                        <!-- Clear 7010 Jobs Button -->
-                        <button type="button" class="settingsPreferencesClear7010Button" id="settings_preferences_clear_7010_button">Clear - 7010 Jobs</button>
-
-                        <!-- Clear Complete To-Do's Button -->
-                        <button type="button" class="settingsPreferencesClearCompleteToDosButton" id="settings_preferences_clear_complete_to_dos_button">Clear - Complete To-Do's</button>
                         
-                        <!-- Clear Local Storage Button -->
-                        <button type="button" class="settingsPreferencesClearLocalStorageButton" id="settings_preferences_clear_local_storage_button">Clear - Local Storage</button>
                     </div>
-                    
-                </div>
 
-                <!-- Popup for Clear - 7010 Jobs Button -->
-                <div class="clear7010PopUpContainer hidden" id="clear_7010_pop_up_container">
-                    <div class="clear7010PopUp" id="clear_7010_pop_up">
-                        <button type="button" class="clear7010PopUpXButton" id="clear_7010_pop_up_x_button">X</button>
-                        <div class="clear7010PopUpRowOne"> Are You Sure You Want to DELETE ALL<br>7010 Jobs From Your Saved Data?</div>
-                        <div class="clear7010PopUpRowTwo">
-                            <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_no">No</button>
-                            <button type="button" class="clear7010PopUpButton" id="clear_7010_pop_up_button_yes">Yes</button>
+                    <!-- Popup for Clear - Complete To-Do's Button -->
+                    <div class="clear7010PopUpContainer hidden" id="clear_complete_to_dos_container">
+                        <div class="clear7010PopUp" id="clear_complete_to_dos_pop_up">
+                            <button type="button" class="clear7010PopUpXButton" id="clear_complete_to_dos_pop_up_x_button">X</button>
+                            <div class="clear7010PopUpRowOne"> Are You Sure You Want to DELETE ALL<br>Complete To-Do's From Your Saved Data?</div>
+                            <div class="clear7010PopUpRowTwo">
+                                <button type="button" class="clear7010PopUpButton" id="clear_complete_to_dos_pop_up_button_no">No</button>
+                                <button type="button" class="clear7010PopUpButton" id="clear_complete_to_dos_pop_up_button_yes">Yes</button>
+                            </div>
                         </div>
                     </div>
-                    
-                </div>
 
-                <!-- Popup for Clear - Complete To-Do's Button -->
-                <div class="clear7010PopUpContainer hidden" id="clear_complete_to_dos_container">
-                    <div class="clear7010PopUp" id="clear_complete_to_dos_pop_up">
-                        <button type="button" class="clear7010PopUpXButton" id="clear_complete_to_dos_pop_up_x_button">X</button>
-                        <div class="clear7010PopUpRowOne"> Are You Sure You Want to DELETE ALL<br>Complete To-Do's From Your Saved Data?</div>
-                        <div class="clear7010PopUpRowTwo">
-                            <button type="button" class="clear7010PopUpButton" id="clear_complete_to_dos_pop_up_button_no">No</button>
-                            <button type="button" class="clear7010PopUpButton" id="clear_complete_to_dos_pop_up_button_yes">Yes</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Popup for Clear - Local Storage Button -->
-                <div class="clear7010PopUpContainer hidden" id="clear_local_storage_container">
-                    <div class="clear7010PopUp" id="clear_local_storage_pop_up">
-                        <button type="button" class="clear7010PopUpXButton" id="clear_local_storage_pop_up_x_button">X</button>
-                        <div class="clear7010PopUpRowOne"> Are You Sure You Want to Clear Local Storage?</div>
-                        <div class="clear7010PopUpRowTwo">
-                            <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_no">No</button>
-                            <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_yes">Yes</button>
+                    <!-- Popup for Clear - Local Storage Button -->
+                    <div class="clear7010PopUpContainer hidden" id="clear_local_storage_container">
+                        <div class="clear7010PopUp" id="clear_local_storage_pop_up">
+                            <button type="button" class="clear7010PopUpXButton" id="clear_local_storage_pop_up_x_button">X</button>
+                            <div class="clear7010PopUpRowOne"> Are You Sure You Want to Clear Local Storage?</div>
+                            <div class="clear7010PopUpRowTwo">
+                                <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_no">No</button>
+                                <button type="button" class="clear7010PopUpButton" id="clear_local_storage_pop_up_button_yes">Yes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bad File Name Pop Up -->
-    <div class="badFileNamePopUpContainer hidden" id="bad_file_name_pop_up_container">
-        <div class="badFileNameBox">
-            <div class="badFileNameRowOne">
-                <div class="badFileNameText">ERROR - "</div>
-                <div class="badFileNameText" id="bad_file_name_container"></div>
-                <div class="badFileNameText">" Is An Invalid File Name.</div>
+        <!-- Bad File Name Pop Up -->
+        <div class="badFileNamePopUpContainer hidden" id="bad_file_name_pop_up_container">
+            <div class="badFileNameBox">
+                <div class="badFileNameRowOne">
+                    <div class="badFileNameText">ERROR - "</div>
+                    <div class="badFileNameText" id="bad_file_name_container"></div>
+                    <div class="badFileNameText">" Is An Invalid File Name.</div>
+                </div>
+                <div class="badFileNameText">File Names Must End In ".txt".</div>
+                <div class="badFileNameText">To Continue, Click Save Again And</div>
+                <div class="badFileNameText">Re-enter A File Name Ending With ".txt".</div>
+
             </div>
-            <div class="badFileNameText">File Names Must End In ".txt".</div>
-            <div class="badFileNameText">To Continue, Click Save Again And</div>
-            <div class="badFileNameText">Re-enter A File Name Ending With ".txt".</div>
-
         </div>
+
     </div>
 
       <!-- Footer Container -->
