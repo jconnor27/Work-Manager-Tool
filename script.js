@@ -5955,6 +5955,7 @@ async function mainEvent() {
     const toDoDisplayDatePrevButton = document.querySelector("#to_do_display_date_prev_button");
     const toDoDisplayDateNextButton = document.querySelector("#to_do_display_date_next_button");
     const toDoDisplayMoveIncompleteButton = document.querySelector("#to_do_move_incomplete_button");
+    const toDoDisplayResetButton = document.querySelector("#to_do_display_reset_button");
 
         /* To-Do's Tab - Tabs */
     const toDoGeneralTab = document.querySelector("#to_do_general_tab");
@@ -12043,6 +12044,64 @@ async function mainEvent() {
         
 
     })
+    toDoDisplayResetButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayResetButton");
+
+        /* Resetting Search By Section */
+        uncheckSearchByCheckboxes();
+        uncolorSearchByCheckboxes(); 
+
+        /* Resetting Filter By Checkboxes */
+        uncheckGenericFilterCheckboxes();
+        uncolorGenericFilterCheckboxes();
+
+        /* Resetting Type Checkboxes */
+        uncheckToDoFilterCheckboxes();
+        uncolorToDoFilterCheckboxes();
+
+        /* Resetting Trim By Checkboxes */
+        uncheckTrimByCheckboxes();
+        uncolorTrimByCheckboxes();
+
+
+        /* Setting Defaults */
+        if (searchBySelectionCheckbox.checked) {
+            console.log("Calling click with code");
+            filterBySelectionCheckbox.click();
+        }        
+
+        console.log("Calling click with code");
+        trimByAllToDo.click();
+
+        console.log("Calling click with code");
+        toDoGeneralTab.click();
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        toDoDisplayDayOfWeekDate.value = today;
+        setDay("to_do_display", d.getDay());
+        setFromToDates("to_do_display", today);
+
+        document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
+
+        for (var i = 0; i < toDoMasterList.list.length; i++) {
+            if (toDoMasterList.list[i].date == today) {
+                toDoMasterList.list[i].makePageElement();
+                break;
+            }
+        }
+
+    })
 
         /* Tabs */
     toDoGeneralTab.addEventListener("click", (event) => {
@@ -16391,7 +16450,7 @@ async function mainEvent() {
 
     })
     filterGoButton.addEventListener("click", (event) => {
-        console.log("Clicked - filterGoButton");
+        console.log("Fired - Clicked - filterGoButton");
 
         if (allWrTab.classList.contains("hidden") || permitsTab.classList.contains("hidden")) {
             const allWrListStatus = assessSpecificStatus(allWrList);

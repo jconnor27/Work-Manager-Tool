@@ -3801,6 +3801,16 @@ h5 {
     position: absolute;
 }
 
+.toDoDisplayResetButton {
+    display: flex;
+    font-size: large;
+    align-items: center;
+    height: 35px;
+    margin-right: 100px;
+    margin-left: -160px;
+    align-self: flex-end;
+}
+
 .hidden {
     display: none;
     
