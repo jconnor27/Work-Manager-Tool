@@ -4331,7 +4331,12 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
 
     window.localStorage.setItem("data", dataStr);
 
-    const newHandle = await window.showSaveFilePicker();
+    const newHandle = await window.showSaveFilePicker().then(results => {
+        console.log("settings results.name =");
+        console.log(results.name);
+        window.localStorage.setItem("fileName", results.name);
+        
+    })
     if (newHandle.name.substring(newHandle.name.length - 1 - 4, newHandle.name.length -1) == ".txt") {
         console.log("Good File Name");
         document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
@@ -6515,6 +6520,20 @@ async function mainEvent() {
 
         if (data != undefined) {
             console.log("Getting Data From Local Storage");
+
+            /* Checking File Name to make sure user enter valid file */
+            const curFileName = window.localStorage.getItem("fileName");
+
+            if (curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
+                console.log("Bad File Name! Displaying Prompt");
+                document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
+                footerButtonSave.style.zIndex = '2';
+                document.getElementById("bad_file_name_container").innerHTML = curFileName;
+            } else {
+                console.log("Good File Name. Removing Prompt");
+                document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
+
+            }
 
             let toDoMasterListData = splitToDoMasterList(data);
             let systemPreferencesData = splitSystemPreferences(toDoMasterListData[1]);
