@@ -1996,6 +1996,20 @@ class ToDoMasterList {
         return false;
     }
 
+    getExistingWaitingToDoId(wrNum) {
+        console.log("Entered - ToDoMasterList - getExistingWaitingToDoId(" + wrNum + ")");
+
+        for (var i = 0; i < this.list.length; i++) {
+            const existingToDoId = this.list[i].getExistingWaitingToDoId(wrNum);
+
+            if (existingToDoId != -1) {
+                return existingToDoId;
+            }
+        }
+
+        return -1;
+    }
+
     /* Completes a To-Do based off of its type and index within the entire list - used when completing from all-to-do's view */
     completeByMasterIndex(type, masterIndex, tempToDoPageElement, tempFilteredToDoList, order) {
         console.log("Entered - ToDoMasterList - completeByMasterIndex(type = " + type + ", masterIndex = " + masterIndex + ",  tempToDoPageElement, order = " + order + ")");
@@ -2710,6 +2724,20 @@ class ToDoDayObject {
         this.linesPerPage = linesPerPage;
         this.toDoMasterList = toDoMasterList;
         //this.list = []; // List of To-Do's for the day
+    }
+
+    getExistingWaitingToDoId(wrNum) {
+        console.log("Entered - ToDoDayObject - getExistingWaitingToDoId(" + wrNum + ")");
+
+        let allToDos = this.flatten();
+
+        for (var i = 0; i < allToDos.length; i++) {
+            if (allToDos[i].tab == "Waiting" && allToDos[i].workRequestNumber == wrNum) {
+                return allToDos[i].toDoId;
+            }
+        }
+
+        return -1;
     }
 
     clearCompleted() {
@@ -6063,6 +6091,20 @@ async function mainEvent() {
     const addToDoPopUpButtonMove = document.querySelector("#add_to_do_pop_up_button_move");
     const addToDoPopUpButtonNew = document.querySelector("#add_to_do_pop_up_button_new");
 
+    /* Move Existing To-Do Pop Up */
+    const moveExistingToDoPopUpHeader = document.querySelector("#move_existing_to_do_pop_up_header");
+    const moveExistingToDoPopUpTab = document.querySelector("#move_existing_to_do_pop_up_tab");
+    const moveExistingToDoPopUpContainer = document.querySelector("#move_existing_to_do_pop_up_container");
+    const moveExistingToDoPopUpDayOfWeekDate = document.querySelector("#move_existing_to_do_pop_up_day_of_week_date");
+    const moveExistingToDoPopUpXButton = document.querySelector("#move_existing_to_do_pop_up_x_button");
+    const moveExistingToDoPopUpButtonNo = document.querySelector("#move_existing_to_do_pop_up_button_no");
+    const moveExistingToDoPopUpButtonYes = document.querySelector("#move_existing_to_do_pop_up_button_yes");
+    const moveExistingToDoPopUpTextfield = document.querySelector("#move_existing_to_do_pop_up_textfield");
+    const moveExistingToDoPopUpButtonNeither = document.querySelector("#move_existing_to_do_pop_up_button_neither");
+    const moveExistingToDoPopUpButtonMove = document.querySelector("#move_existing_to_do_pop_up_button_move");
+    const moveExistingToDoPopUpButtonNew = document.querySelector("#move_existing_to_do_pop_up_button_new");
+
+
     /* Permit Status Warning Pop Up */
     const permitStatusWarningPopUpDayOfWeekDate = document.querySelector("#permit_status_warning_pop_up_day_of_week_date");
     const permitStatusWarningPopUpContainer = document.querySelector("#permit_status_warning_pop_up_container");
@@ -6656,6 +6698,27 @@ async function mainEvent() {
 
         document.getElementById("easement_status_warning_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
         setDay("easement_status_warning_pop_up", today.getDay());
+
+        /* Initializing Move Existing To-Do Popup */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("move_existing_to_do_pop_up", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+        document.getElementById("move_existing_to_do_pop_up_date_object_container").innerHTML = "";
+        document.getElementById("move_existing_to_do_pop_up_date_object_container").insertAdjacentElement("beforeend", pageObjectRow);
+
+        document.getElementById("move_existing_to_do_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
+        setDay("move_existing_to_do_pop_up", today.getDay());
 
     }
 
@@ -7455,6 +7518,21 @@ async function mainEvent() {
         document.getElementById("move_to_tab_general_active").classList.add("hidden");
         document.getElementById("move_to_tab_mentor").classList.remove("hidden");
         document.getElementById("move_to_tab_mentor_active").classList.add("hidden");
+
+    }
+    function resetMoveExistingToDoPopUp() {
+        console.log("Entered - resetMoveExistingToDoPopUp()");
+
+        document.getElementById("move_existing_to_do_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_mentor").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_mentor_active").classList.add("hidden");
 
     }
             /* Permit */
@@ -8509,6 +8587,232 @@ async function mainEvent() {
             event.target.value = event.target.value.toUpperCase();
         } 
     })
+
+    /* Move Existing To-Do Pop Up */
+    function clearMoveExistingToDoPopUpTabs() {
+        console.log("Entered - clearMoveExistingToDoPopUpTabs()");
+
+        document.getElementById("move_existing_to_do_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_mentor_active").classList.add("hidden");
+
+        document.getElementById("move_existing_to_do_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("move_existing_to_do_pop_up_tab_mentor").classList.remove("hidden");
+
+    }
+    moveExistingToDoPopUpDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout moveExistingToDoPopUpDayOfWeekDate");
+
+        const temp = moveExistingToDoPopUpDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("move_existing_to_do_pop_up", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("move_existing_to_do_pop_up", tempStr);
+    })
+    moveExistingToDoPopUpContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingToDoPopUpContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 0);
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 1);
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 2);
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 3);
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 4);
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 5);
+        } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
+            clearDays("move_existing_to_do_pop_up");
+
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("move_existing_to_do_pop_up", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = moveExistingToDoPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            moveExistingToDoPopUpDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            
+            const temp = moveExistingToDoPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("move_existing_to_do_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("move_existing_to_do_pop_up", tempStr);
+            
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = moveExistingToDoPopUpDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            moveExistingToDoPopUpDayOfWeekDate.value = addDays(year, month, day, 7);
+
+
+            const temp = moveExistingToDoPopUpDayOfWeekDate.value;
+            const year2 = temp.substring(0, 4);
+            const month2 = temp.substring(5, 7);
+            const day2 = temp.substring(8, 10);
+            const d = new Date(temp);
+        
+            d.setFullYear(year2);
+            d.setMonth(month2 - 1);
+            d.setDate(day2);
+        
+            const curDay = d.getDay();
+            setDay("move_existing_to_do_pop_up", curDay);
+                
+            const tempStr = year + "-" + month + "-" + day;
+            setFromToDates("move_existing_to_do_pop_up", tempStr);        
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            moveExistingToDoPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+            setDay("move_existing_to_do_pop_up", d.getDay());
+            setFromToDates("move_existing_to_do_pop_up", (year + "-" + month + "-" + day));
+        } if (event.target.innerHTML == "Coordinator") {
+            clearMoveExistingToDoPopUpTabs();
+
+            document.getElementById("move_existing_to_do_pop_up_tab_coordinator").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_coordinator_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Waiting") {
+            clearMoveExistingToDoPopUpTabs();
+
+            document.getElementById("move_existing_to_do_pop_up_tab_waiting").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "On Return" || event.target.innerHTML == "To Office") {
+            clearMoveExistingToDoPopUpTabs();
+
+            document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "General") {
+            clearMoveExistingToDoPopUpTabs();
+
+            document.getElementById("move_existing_to_do_pop_up_tab_general").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.remove("hidden");
+        } else if (event.target.innerHTML == "Mentor") {
+            clearMoveExistingToDoPopUpTabs();
+
+            document.getElementById("move_existing_to_do_pop_up_tab_mentor").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_mentor_active").classList.remove("hidden");
+        } 
+    })
+    moveExistingToDoPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingtoDoPopUpXButton");
+
+        console.log("Code calling click");
+        allWrTab.click();
+        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+        moveExistingToDoPopUpContainer.classList.add("hidden");
+    })
+    moveExistingToDoPopUpButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingToDoPopUpButtonNo");
+
+        console.log("Code calling click");
+        allWrTab.click();
+        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+        moveExistingToDoPopUpContainer.classList.add("hidden");
+    })
+        /* Textfield */
+    moveExistingToDoPopUpTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingToDoPopUpTextfield");
+
+        if (event.target.value != null) {
+            event.target.select();
+        } 
+    })
+    moveExistingToDoPopUpTextfield.addEventListener("mouseout", (event) => {
+        console.log("Fired - mouseout moveExistingToDoPopUpTextfield");
+
+        // Need to revise logic
+
+        /*if (event.target.value.length == 0) {
+
+            if (addToDoPopUpTab.innerText.includes("Customer")) {
+                event.target.value = "Waiting on Customer";
+            } else if (addToDoPopUpTab.innerText.includes("LL/SP/Etc.")) {
+                event.target.value = "Waiting on Load Letter/ Site Plan/ Etc.";
+            } else {
+                event.target.value = "Enter Note (Optional)";
+            }
+
+        } */
+    })
+    moveExistingToDoPopUpTextfield.addEventListener("input", (event) => {
+        console.log("Fired - Input moveExistingToDoPopUpTextfield");
+
+        if (event.target.value.length == 1) {
+            event.target.value = event.target.value.toUpperCase();
+        } 
+    })
+
 
     /* Permit Status Warning Pop Up */
     function clearPermitStatusWarningPopUpTabs() {
@@ -9920,6 +10224,62 @@ async function mainEvent() {
             addCommentPopUpHeader.style.alignItems = 'center';
         }
     }
+    function assessGeneralStatusPriorToChange(oldStatus, rowNum) {
+        console.log("Entered - assessGeneralStatusPriorToChange(oldStatus = " + oldStatus + ", rowNum = " + rowNum + ")");
+
+        const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curPageNum = new Number(curPage);
+
+        const curWrIndex = (rowsOnPage * (curPageNum - 1)) + (rowNum - 1);
+        let curWr = allWrList[curWrIndex];
+
+        resetToDoMoveToDisplay();
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        const today = year + "-" + month + "-" + day;
+
+        if (oldStatus.includes("Waiting")) {
+            console.log("oldStatus.includes waiting")
+
+            const existingToDoId = toDoMasterList.getExistingWaitingToDoId(curWr.workRequestNumber);
+            console.log("existingToDoID =");
+            console.log(existingToDoId);
+
+            if (existingToDoId != -1) {
+                moveExistingToDoPopUpContainer.classList.remove("hidden");
+                moveExistingToDoPopUpContainer.value = today;
+        
+                setDay("move_existing_to_do_pop_up", d.getDay());
+                setFromToDates("move_existing_to_do_pop_up", today);
+        
+                document.getElementById("move_existing_to_do_pop_up_tab_general").classList.add("hidden");
+                document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.remove("hidden");
+    
+                moveExistingToDoPopUpHeader.innerHTML = `<div class="moveExistingToDoPopUpText">Existing To-Do For Work Request # ${curWr.workRequestNumber} Found On Waiting Tab.</div><div class="moveExistingToDoPopUpText">Do you want to move the Existing To-Do (ID: ${existingToDoId})?</div>`;
+                moveExistingToDoPopUpHeader.style.display = 'flex';
+                moveExistingToDoPopUpHeader.style.flexDirection = 'column';
+                moveExistingToDoPopUpHeader.style.alignItems = 'center';
+
+                moveExistingToDoPopUpTab.innerHTML = `<div class="moveExistingToDoPopUpText">(Default is date is "Today", Default tab is "General")</div>`;
+                moveExistingToDoPopUpTab.style.display = 'flex';
+                moveExistingToDoPopUpTab.style.flexDirection = 'column';
+                moveExistingToDoPopUpTab.style.alignItems = 'center';
+            }
+            
+
+        }
+        
+
+    }
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
 
@@ -9974,6 +10334,9 @@ async function mainEvent() {
                 
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("general_status_dd_" + rowNum + "_current");
+
+                assessGeneralStatusPriorToChange(tempCurrent.innerHTML, rowNum);
+
                 tempCurrent.innerHTML = event.target.innerHTML;
         
                 if (tempCurrent.innerHTML.includes("Waiting on Cust") == true) {
@@ -10538,8 +10901,10 @@ async function mainEvent() {
         if (day < 10) {
             day = "0" + day;
         }
+        const today = year + "-" + month + "-" + day;
         const temp = new Date(addDays(year, month, day, 2));
         setDay("move_to", temp.getDay());
+        setFromToDates("move_to", today)
 
         if (toDo.tab == "Coordinator") {
             document.getElementById("move_to_tab_coordinator").classList.add("hidden");
@@ -12094,6 +12459,7 @@ async function mainEvent() {
 
         document.getElementById("to_do_tab_current_page_box").innerHTML = "1";
 
+        /* Updating Display */
         for (var i = 0; i < toDoMasterList.list.length; i++) {
             if (toDoMasterList.list[i].date == today) {
                 toDoMasterList.list[i].makePageElement();
@@ -14712,7 +15078,10 @@ async function mainEvent() {
         } else if (tab == "easement_status_warning") {
             document.getElementById("easement_status_warning_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("easement_status_warning_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
-        }
+        } else if (tab == "move_existing_to_do_pop_up") {
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        } 
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
         console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");  
@@ -14933,6 +15302,16 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
+        } else if (tab == "move_existing_to_do_pop_up") {
+            let temp = moveExistingToDoPopUpDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay) + 1;
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
         } 
 
         const year = d.getFullYear();
@@ -14975,7 +15354,10 @@ async function mainEvent() {
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("easement_status_warning_pop_up");
-            }
+            } else if (tab == "move_existing_to_do_pop_up") {
+                moveExistingToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("move_existing_to_do_pop_up", temp);
+            } 
 
         } else if (newDay > curDay) { // Going forwards
             const difference = newDay - curDay;
@@ -15003,7 +15385,10 @@ async function mainEvent() {
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("easement_status_warning_pop_up");
-            }
+            } else if (tab == "move_existing_to_do_pop_up") {
+                moveExistingToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("move_existing_to_do_pop_up", temp);
+            } 
 
         } else { // Going to today
 
@@ -15037,7 +15422,10 @@ async function mainEvent() {
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("easement_status_warning_pop_up");
-            }
+            } else if (tab == "move_existing_to_do_pop_up") {
+                moveExistingToDoPopUpDayOfWeekDate.value = (temp);
+                setFromToDates("move_existing_to_do_pop_up", temp);
+            } 
         }
 
         if (tab != "move_to") {

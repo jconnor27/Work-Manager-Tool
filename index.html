@@ -1387,6 +1387,8 @@
     <!-- Container for Top Level Pop Ups -->
     <div class="topLevelPopUpContainer">
 
+        
+
         <!-- Add Comment Pop Up Container -->
         <div class="addCommentPopUpContainer hidden" id="add_comment_pop_up_container">
             <div class="addCommentPopUpBox">
@@ -1598,6 +1600,63 @@
                     <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_no">No</button>
                     <button type="button" class="statusWarningPopUpButton" id="permit_status_warning_pop_up_button_yes">Yes</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Move Existing (Waiting) To-Do Pop Up Container -->
+        <div class="moveExistingToDoPopUpContainer hidden" id="move_existing_to_do_pop_up_container">
+            <div class="moveExistingToDoPopUpBox">
+                <button type="button" class="moveExistingToDoPopUpXButton" id="move_existing_to_do_pop_up_x_button">X</button>
+
+                <!-- Row 1 -->
+                <div class="moveExistingToDoPopUpRowOne">
+                    <div class="moveExistingToDoPopUpText" id="move_existing_to_do_pop_up_header">Not Set</div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="moveExistingToDoPopUpRowTwo" id="move_existing_to_do_pop_up_row_two">
+                    <div class="moveExistingToDoPopUpText" id="move_existing_to_do_pop_up_tab"></div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="moveExistingToDoPopUpRowThree" id="move_existing_to_do_pop_up_row_three">
+                    <input type="date" class="moveExistingToDoPopUpDayOfWeekDate" id="move_existing_to_do_pop_up_day_of_week_date">
+                    <div class="moveExistingToDoPopUpDateObjectContainer" id="move_existing_to_do_pop_up_date_object_container">
+
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="moveExistingToDoPopUpTabContainer">
+                    <div class="moveExistingToDoPopUpTab" id="move_existing_to_do_pop_up_tab_coordinator">Coordinator</div>
+                    <div class="moveExistingToDoPopUpTab activeTab hidden" id="move_existing_to_do_pop_up_tab_coordinator_active">Coordinator</div>
+
+                    <div class="moveExistingToDoPopUpTab" id="move_existing_to_do_pop_up_tab_waiting">Waiting</div>
+                    <div class="moveExistingToDoPopUpTab activeTab hidden" id="move_existing_to_do_pop_up_tab_waiting_active">Waiting</div>
+
+                    <div class="moveExistingToDoPopUpTab" id="move_existing_to_do_pop_up_tab_on_return_to_office"><div class="moveExistingToDoPopUpRow">On Return</div><div class="moveExistingToDoPopUpRow">To Office</div></div>
+                    <div class="moveExistingToDoPopUpTab activeTab hidden" id="move_existing_to_do_pop_up_tab_on_return_to_office_active"><div class="moveExistingToDoPopUpRow">On Return</div><div class="moveExistingToDoPopUpRow">To Office</div></div>
+
+                    <div class="moveExistingToDoPopUpTab hidden" id="move_existing_to_do_pop_up_tab_general">General</div>
+                    <div class="moveExistingToDoPopUpTab activeTab " id="move_existing_to_do_pop_up_tab_general_active">General</div>
+
+                    <div class="moveExistingToDoPopUpTab" id="move_existing_to_do_pop_up_tab_mentor"><div>Mentor</div></div>
+                    <div class="moveExistingToDoPopUpTab activeTab hidden" id="move_existing_to_do_pop_up_tab_mentor_active"><div>Mentor</div></div>
+                </div>
+
+                <!-- Note Textfield -->
+                <input type="text" class="moveExistingToDoPopUpNoteTextfield" id="move_existing_to_do_pop_up_textfield" value="Enter Note (Optional)">
+
+                <!-- Button Container -->
+                <div class="moveExistingToDoPopUpButtonContainer">
+                    <button type="button" class="moveExistingToDoPopUpButton" id="move_existing_to_do_pop_up_button_no">No</button>
+                    <button type="button" class="moveExistingToDoPopUpButton" id="move_existing_to_do_pop_up_button_yes">Yes</button>
+                    <button type="button" class="moveExistingToDoPopUpButton hidden" id="move_existing_to_do_pop_up_button_neither">Neither</button>
+                    <button type="button" class="moveExistingToDoPopUpButton hidden" id="move_existing_to_do_pop_up_button_move">Move</button>
+                    <button type="button" class="moveExistingToDoPopUpButton hidden" id="move_existing_to_do_pop_up_button_new">Create New To-Do</button>
+                    <button type="button" class="moveExistingToDoPopUpButton " id="move_existing_to_do_pop_up_button_delete">Delete</button>
+                </div>
+
             </div>
         </div>
 

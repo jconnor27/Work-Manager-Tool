@@ -3535,6 +3535,17 @@ h5 {
     align-items: center;
 }
 
+.moveExistingToDoPopUpContainer {
+    display: flex;
+    z-index: 1;
+    position: absolute;
+    width: 1430px;
+    height: 820px;
+    background-color: none;
+    justify-content: center;
+    align-items: center;
+}
+
 .missingInfoBox {
     display: flex;
     flex-direction: column;
@@ -3566,7 +3577,17 @@ h5 {
     border: 2px solid black;
 }
 
-.addToDoPopUpNoteTextfield, .statusWarningPopUpNoteTextfield {
+.moveExistingToDoPopUpBox {
+    display: flex;
+    flex-direction: column;
+    height: 525px;
+    width: 650px;
+    z-index: 3;
+    background-color: white;
+    border: 2px solid black;
+}
+
+.addToDoPopUpNoteTextfield, .statusWarningPopUpNoteTextfield, .moveExistingToDoPopUpNoteTextfield {
     display: flex;
     width: 500px;
     margin-left: 75px;
@@ -3605,7 +3626,7 @@ h5 {
     justify-content: center;
 }
 
-.addToDoPopUpRowOne, .statusWarningPopUpRowOne {
+.addToDoPopUpRowOne, .statusWarningPopUpRowOne, .moveExistingToDoPopUpRowOne {
     display: flex;
     flex-direction: row;
     width: 650px;
@@ -3614,10 +3635,10 @@ h5 {
     padding-left: 5px;
 }
 
-.missingInfoRowTwo {
+.missingInfoRowTwo, .moveExistingToDoPopUpRowTwo {
     display: flex;
     flex-direction: column;
-    width: 600px;
+    width: 650px;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
@@ -3646,7 +3667,7 @@ h5 {
     margin-bottom: 50px;
 }
 
-.addToDoPopUpRowThree, .statusWarningPopUpRowThree {
+.addToDoPopUpRowThree, .statusWarningPopUpRowThree, .moveExistingToDoPopUpRowThree {
     display: flex;
     flex-direction: column;
     width: 650px;
@@ -3655,7 +3676,7 @@ h5 {
     margin-top: 10px;
 }
 
-.missingInfoXButton, .addToDoPopUpXButton, .statusWarningPopUpXButton, .addCommentPopUpXButton {
+.missingInfoXButton, .addToDoPopUpXButton, .statusWarningPopUpXButton, .addCommentPopUpXButton, .moveExistingToDoPopUpXButton {
     display: flex;
     font-size: 20px;
     margin-left: 15px;
@@ -3665,7 +3686,7 @@ h5 {
     margin-top: 10px;
 }
 
-.missingInfoText, .addToDoPopUpText, .statusWarningPopUpText {
+.missingInfoText, .addToDoPopUpText, .statusWarningPopUpText, .moveExistingToDoPopUpText {
     display: flex;
     font-size: large;
     justify-self: center;
@@ -3701,7 +3722,7 @@ h5 {
     margin-top: 40px;
 }
 
-.addToDoPopUpButtonContainer, .statusWarningPopUpButtonContainer {
+.addToDoPopUpButtonContainer, .statusWarningPopUpButtonContainer, .moveExistingToDoPopUpButtonContainer {
     display: flex;
     flex-direction: row;
     width: 650px;
@@ -3709,7 +3730,7 @@ h5 {
     margin-top: 30px;
 }
 
-.missingInfoButton, .addToDoPopUpButton, .statusWarningPopUpButton {
+.missingInfoButton, .addToDoPopUpButton, .statusWarningPopUpButton, .moveExistingToDoPopUpButton {
     display: flex;
     font-size: large;
     padding: 5px;
@@ -3717,14 +3738,14 @@ h5 {
     margin-right: 30px;
 }
 
-.missingInfoDayOfWeekDate, .addToDoPopUpDayOfWeekDate {
+.missingInfoDayOfWeekDate, .addToDoPopUpDayOfWeekDate, .moveExistingToDoPopUpDayOfWeekDate {
     display: flex;
     width: fit-content;
     align-self: center;
     margin-bottom: 5px;
 }
 
-.addToDoPopUpTabContainer, .statusWarningPopUpTabContainer {
+.addToDoPopUpTabContainer, .statusWarningPopUpTabContainer, .moveExistingToDoPopUpTabContainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -3733,7 +3754,7 @@ h5 {
     align-self: center;
 }
 
-.addToDoPopUpTab, .statusWarningPopUpTab {
+.addToDoPopUpTab, .statusWarningPopUpTab, .moveExistingToDoPopUpTab {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -3746,7 +3767,7 @@ h5 {
     margin-bottom: 0px;
 }
 
-.addToDoPopUpRow {
+.addToDoPopUpRow, .moveExistingToDoPopUpRow {
     display: flex;
     flex-direction: row;
 }
