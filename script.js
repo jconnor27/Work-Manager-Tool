@@ -4363,28 +4363,13 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
         console.log("settings results.name =");
         console.log(results.name);
         window.localStorage.setItem("fileName", results.name);
+
+        const writableStream = results.createWritable().then(writable => {
+            writable.write(dataBlob);
+            writable.close();
+        })
         
     })
-    if (newHandle.name.substring(newHandle.name.length - 1 - 4, newHandle.name.length -1) == ".txt") {
-        console.log("Good File Name");
-        document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
-        //window.localStorage.setItem("goodSave", true);
-    } else {
-        console.log("Bad File Name");
-        document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
-        setTimeout(() => {
-            document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
-        }, 5000);
-        document.getElementById("bad_file_name_container").innerText = newHandle.name;
-        saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
-        //window.localStorage.setItem("goodSave", false);
-    }
-    
-    
-    const writableStream = await newHandle.createWritable();
-    
-    await writableStream.write(dataBlob);
-    await writableStream.close();
     
 }
 function readFile() {
@@ -7675,6 +7660,32 @@ async function mainEvent() {
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
 
     }
+    function resetMoveExistingToDoPopUpDate() {
+        console.log("Entered - resetMoveExistingToDoPopUpDate()");
+
+        /* Setting Date to Today */
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        moveExistingToDoPopUpDayOfWeekDate.value = year + "-" + month + "-" + day;
+
+        setFromToDates("move_existing_to_do_pop_up", moveExistingToDoPopUpDayOfWeekDate.value);
+
+        const curDay = d.getDay();
+        setDay("move_existing_to_do_pop_up", curDay);
+
+        document.getElementById("move_existing_to_do_pop_up_tab_general").click(); // DD box sizing was messing up on click but this reset the page - fixing it
+
+        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+
+    }
 
         /* Takes in str in format of yyyy-mm-dd and returns date version */
     function makeDate(str) {
@@ -8779,6 +8790,54 @@ async function mainEvent() {
         allWrTab.click();
         moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
         moveExistingToDoPopUpContainer.classList.add("hidden");
+    })
+    moveExistingToDoPopUpButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingToDoPopUpButtonYes");
+        const h = new Haptix(promptDuration);
+
+        /* Getting Work Request Number of current To-Do */
+        let tempIndex = moveExistingToDoPopUpHeader.innerHTML.indexOf("#");
+        let curWrNum = moveExistingToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+        /* Getting Tab */
+        let tab = "";
+
+        if (document.getElementById("move_existing_to_do_pop_up_tab_coordinator").classList.contains("hidden")) {
+            tab = "Coordinator";
+        } else if (document.getElementById("move_existing_to_do_pop_up_tab_waiting").classList.contains("hidden")) {
+            tab = "Waiting";
+        } else if (document.getElementById("move_existing_to_do_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+            tab = "On Return To Office";
+        } else if (document.getElementById("move_existing_to_do_pop_up_tab_general").classList.contains("hidden")) {
+            tab = "General";
+        } else if (document.getElementById("move_existing_to_do_pop_up_tab_mentor").classList.contains("hidden")) {
+            tab = "Mentor";
+        }
+
+        /* Getting Id of current To-Do */
+        tempIndex = moveExistingToDoPopUpHeader.innerText.indexOf(":"); // Gets left side of toDoId
+        let tempNextIndex = moveExistingToDoPopUpHeader.innerText.substring(tempIndex).indexOf(")"); // Gets right side of toDoId
+        const curToDoId = moveExistingToDoPopUpHeader.innerText.substring(tempIndex + 2, tempIndex + tempNextIndex);
+
+        const curToDo = toDoMasterList.getToDo(curToDoId);
+
+        /* Removing Existing To-Do */
+        toDoMasterList.removeById(curToDoId);
+
+        /* Creating New To-Do with same ID and info except for changes made by user */
+        const newToDo = new ToDoObject(curToDoId, tab, moveExistingToDoPopUpDayOfWeekDate.value, "General", curToDo[1].creationDate, curToDo[1].completed,
+            curToDo[1].notes, curToDo[1].workRequestNumber, curToDo[1].addressStr);
+
+        toDoMasterList.add(newToDo);
+
+        h.displayToDoUpdatedFromPopUp("General", newToDo.workRequestNumber);
+
+        /* Reseting Display */
+        resetMoveExistingToDoPopUpDate();
+        console.log("Clicking with Code");
+        allWrTab.click();
+        moveExistingToDoPopUpContainer.classList.add("hidden");
+        
     })
         /* Textfield */
     moveExistingToDoPopUpTextfield.addEventListener("click", (event) => {
@@ -10188,9 +10247,6 @@ async function mainEvent() {
             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
             addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
-            addToDoPopUpTab.style.display = 'flex';
-            addToDoPopUpTab.style.width = 'fit-content';
-            addToDoPopUpTab.style.alignSelf = 'center';
             addToDoPopUpTextfield.value = "Waiting on Customer";
             clearAddToDoPopUpTabs();
             document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
@@ -10214,7 +10270,7 @@ async function mainEvent() {
             addCommentPopUpHeader.style.display = 'flex';
             addCommentPopUpHeader.style.flexDirection = 'column';
             addCommentPopUpHeader.style.alignItems = 'center';
-            addCommentPopUpHeader.style.marginTop = '-10px';
+            addCommentPopUpHeader.style.marginBottom = '-10px';
         } else if (tempCurrent.innerHTML.includes("7010'd")) {
             /* Add Comment Prompt */
             addCommentPopUpContainer.classList.remove("hidden");
@@ -10254,22 +10310,28 @@ async function mainEvent() {
             console.log("existingToDoID =");
             console.log(existingToDoId);
 
-            if (existingToDoId != -1) {
+            if (existingToDoId != -1) { // To-Do exists
+
+                /* Revealing Pop Up */
                 moveExistingToDoPopUpContainer.classList.remove("hidden");
                 moveExistingToDoPopUpContainer.value = today;
         
+                /* Setting Page Object Values */ 
                 setDay("move_existing_to_do_pop_up", d.getDay());
                 setFromToDates("move_existing_to_do_pop_up", today);
         
+                /* Setting Default Tab - General */
                 document.getElementById("move_existing_to_do_pop_up_tab_general").classList.add("hidden");
                 document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.remove("hidden");
     
-                moveExistingToDoPopUpHeader.innerHTML = `<div class="moveExistingToDoPopUpText">Existing To-Do For Work Request # ${curWr.workRequestNumber} Found On Waiting Tab.</div><div class="moveExistingToDoPopUpText">Do you want to move the Existing To-Do (ID: ${existingToDoId})?</div>`;
+                /* Setting Top Text */
+                moveExistingToDoPopUpHeader.innerHTML = `<div class="moveExistingToDoPopUpText">Existing "General" To-Do For Work Request # ${curWr.workRequestNumber} Found On </div><div class="moveExistingToDoPopUpText">"Waiting" Tab. Do You Want To Move The Existing To-Do (ID: ${existingToDoId})?</div>`;
                 moveExistingToDoPopUpHeader.style.display = 'flex';
                 moveExistingToDoPopUpHeader.style.flexDirection = 'column';
                 moveExistingToDoPopUpHeader.style.alignItems = 'center';
 
-                moveExistingToDoPopUpTab.innerHTML = `<div class="moveExistingToDoPopUpText">(Default is date is "Today", Default tab is "General")</div>`;
+                /* Setting Bottom Text */ 
+                moveExistingToDoPopUpTab.innerHTML = `<div class="moveExistingToDoPopUpText">(Defaults - Date = "Today", Tab = "General")</div>`;
                 moveExistingToDoPopUpTab.style.display = 'flex';
                 moveExistingToDoPopUpTab.style.flexDirection = 'column';
                 moveExistingToDoPopUpTab.style.alignItems = 'center';
