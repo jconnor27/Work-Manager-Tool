@@ -1996,6 +1996,7 @@ class ToDoMasterList {
         return false;
     }
 
+    /* Returns toDoId of existing "Waiting" (General) To-Do or -1 */
     getExistingWaitingToDoId(wrNum) {
         console.log("Entered - ToDoMasterList - getExistingWaitingToDoId(" + wrNum + ")");
 
@@ -2424,7 +2425,7 @@ class ToDoMasterList {
         temp.add(toDo);
         this.list.push(temp);
     }
-    /* Returns 0 if not found else - returns toDo object */
+    /* Returns 0 if not found else - returns [1, To-Do Object, toDoMasterList index, toDoDayObject index, Type/List] */
     getToDo(toDoId) {
         console.log("Entered - ToDoMasterList - getToDo(" + toDoId + ")");
         console.log(this.list);
@@ -2922,11 +2923,18 @@ class ToDoDayObject {
         /* General List */
         for (var i = 0; i < this.generalList.length; i++) {
             if (this.generalList[i].tab == tab) {
+                console.log("QQQ in this.generalList[i].tab == tab");
+                console.log(this.generalList[i]);
                 curList.push(this.generalList[i]);
             }
         }
+        console.log("WWW curList =");
+        console.log(curList);
         filteredList.generalList = curList;
         curList = [];
+
+        console.log("GGG filteredList =");
+        console.log(filteredList);
 
         return filteredList;
     }
@@ -5994,9 +6002,9 @@ async function mainEvent() {
     const toDoDisplayMoveToRemoveButton = document.querySelector("#to_do_display_move_to_remove_button");
 
         /* Confirm Remove Buttons */
-    const confirmRemovePopupYes = document.querySelector("#confirm_remove_popup_yes");
-    const confirmRemovePopupNo = document.querySelector("#confirm_remove_popup_no");
-    const confirmRemovePopupXButton = document.querySelector("#confirm_remove_popup_x_button");
+    const confirmRemovePopupYes = document.querySelector("#confirm_remove_pop_up_yes");
+    const confirmRemovePopupNo = document.querySelector("#confirm_remove_pop_up_no");
+    const confirmRemovePopupXButton = document.querySelector("#confirm_remove_pop_up_x_button");
 
     const settingsBackButton = document.querySelector("#settings_back_button");
     const dropdownCover = document.querySelector("#drop_down_cover");
@@ -6084,6 +6092,7 @@ async function mainEvent() {
     const moveExistingToDoPopUpXButton = document.querySelector("#move_existing_to_do_pop_up_x_button");
     const moveExistingToDoPopUpButtonNo = document.querySelector("#move_existing_to_do_pop_up_button_no");
     const moveExistingToDoPopUpButtonYes = document.querySelector("#move_existing_to_do_pop_up_button_yes");
+    const moveExistingToDoPopUpButtonDelete = document.querySelector("#move_existing_to_do_pop_up_button_delete");
     const moveExistingToDoPopUpTextfield = document.querySelector("#move_existing_to_do_pop_up_textfield");
     const moveExistingToDoPopUpButtonNeither = document.querySelector("#move_existing_to_do_pop_up_button_neither");
     const moveExistingToDoPopUpButtonMove = document.querySelector("#move_existing_to_do_pop_up_button_move");
@@ -7683,7 +7692,7 @@ async function mainEvent() {
 
         document.getElementById("move_existing_to_do_pop_up_tab_general").click(); // DD box sizing was messing up on click but this reset the page - fixing it
 
-        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+        moveExistingToDoPopUpTextfield.value = "Not Set"
 
     }
 
@@ -8444,9 +8453,9 @@ async function mainEvent() {
 
         let notes = []
         if (addToDoPopUpTextfield.value != "Enter Note (Optional)") {
-            notes.push(`<li>${addToDoPopUpTextfield.value}</li>`);
+            notes.push([`<li>${addToDoPopUpTextfield.value}</li>`, 0]);
         }
-        let temp = [notes];
+        let temp = notes;
         
         if (notes.length == 0) {
             temp = [];
@@ -8555,6 +8564,7 @@ async function mainEvent() {
         /* Creating New To-Do with same ID and info except for changes made by user */
         const newToDo = new ToDoObject(curToDoId, tab, addToDoPopUpDayOfWeekDate.value, curType, curToDo[1].creationDate, curToDo[1].completed,
             curToDo[1].notes, curToDo[1].workRequestNumber, curToDo[1].addressStr);
+
 
         toDoMasterList.add(newToDo);
 
@@ -8780,7 +8790,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
-        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+        moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
     })
     moveExistingToDoPopUpButtonNo.addEventListener("click", (event) => {
@@ -8788,8 +8798,22 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
-        moveExistingToDoPopUpTextfield.value = "Enter Note (Optional)"
+        moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
+    })
+    moveExistingToDoPopUpButtonDelete.addEventListener("click", (event) => {
+        console.log("Fired - Clicked moveExistingToDoPopUpButtonDelete");
+
+        /* Getting Id of current To-Do */
+        tempIndex = moveExistingToDoPopUpHeader.innerText.indexOf(":"); // Gets left side of toDoId
+        let tempNextIndex = moveExistingToDoPopUpHeader.innerText.substring(tempIndex).indexOf(")"); // Gets right side of toDoId
+        const curToDoId = moveExistingToDoPopUpHeader.innerText.substring(tempIndex + 2, tempIndex + tempNextIndex);
+
+        displayConfirmRemove(curToDoId);        
+        document.getElementById("confirm_remove_pop_up_container").style.justifyContent = 'center';
+        document.getElementById("confirm_remove_pop_up_container").style.paddingLeft = '50px';
+
+
     })
     moveExistingToDoPopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked moveExistingToDoPopUpButtonYes");
@@ -8850,19 +8874,21 @@ async function mainEvent() {
     moveExistingToDoPopUpTextfield.addEventListener("mouseout", (event) => {
         console.log("Fired - mouseout moveExistingToDoPopUpTextfield");
 
-        // Need to revise logic
+        if (event.target.value.length == 0) {
 
-        /*if (event.target.value.length == 0) {
+            /* Getting Id of current To-Do */
+            tempIndex = moveExistingToDoPopUpHeader.innerText.indexOf(":"); // Gets left side of toDoId
+            let tempNextIndex = moveExistingToDoPopUpHeader.innerText.substring(tempIndex).indexOf(")"); // Gets right side of toDoId
+            const curToDoId = moveExistingToDoPopUpHeader.innerText.substring(tempIndex + 2, tempIndex + tempNextIndex);
 
-            if (addToDoPopUpTab.innerText.includes("Customer")) {
-                event.target.value = "Waiting on Customer";
-            } else if (addToDoPopUpTab.innerText.includes("LL/SP/Etc.")) {
-                event.target.value = "Waiting on Load Letter/ Site Plan/ Etc.";
-            } else {
-                event.target.value = "Enter Note (Optional)";
-            }
+            /* Setting Note */
+            const curToDo = toDoMasterList.getToDo(curToDoId)[1];
+            let leftIndex = curToDo.notes[0][0].indexOf("<li>");
+            let rightIndex = curToDo.notes[0][0].indexOf("</li>");
+            const curNote = curToDo.notes[0][0].substring(leftIndex + 4, rightIndex);
+            moveExistingToDoPopUpTextfield.value = curNote;
 
-        } */
+        } 
     })
     moveExistingToDoPopUpTextfield.addEventListener("input", (event) => {
         console.log("Fired - Input moveExistingToDoPopUpTextfield");
@@ -10335,6 +10361,14 @@ async function mainEvent() {
                 moveExistingToDoPopUpTab.style.display = 'flex';
                 moveExistingToDoPopUpTab.style.flexDirection = 'column';
                 moveExistingToDoPopUpTab.style.alignItems = 'center';
+
+                /* Setting Note */
+                const curToDo = toDoMasterList.getToDo(existingToDoId)[1];
+                let leftIndex = curToDo.notes[0][0].indexOf("<li>");
+                let rightIndex = curToDo.notes[0][0].indexOf("</li>");
+                const curNote = curToDo.notes[0][0].substring(leftIndex + 4, rightIndex);
+                moveExistingToDoPopUpTextfield.value = curNote;
+
             }
             
 
@@ -12657,6 +12691,9 @@ async function mainEvent() {
     toDoWaitingTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoWaitingTab");
 
+        console.log("toDoMasterList = TTT");
+        console.log(toDoMasterList);
+
         document.getElementById("to_do_display_row_one_label").innerHTML = "Waiting On To-Do's:"
         document.getElementById("to_do_display_row_one_label").style.marginLeft = '30px';
         document.getElementById("to_do_display_row_one_label").style.marginRight = '-14px';
@@ -12679,6 +12716,9 @@ async function mainEvent() {
 
         if (index != undefined) {
             let filteredList = toDoMasterList.list[index].filterToDosByTab("Waiting");
+
+            console.log("TTT filteredList = ");
+            console.log(filteredList);
 
             if (filteredList.flatten().length == 0) {
                 toDoDisplayRowElementContainer.innerHTML = `<div class="noToDosForToday" id="no_to_dos_for_today_prompt">No To-Do's for Today</div>`;
@@ -14235,14 +14275,14 @@ async function mainEvent() {
     function displayConfirmRemove(toDoId) {
         console.log("Entered - displayConfirmRemove(" + toDoId + ")");
 
-        document.getElementById("confirm_remove_popup_container").classList.remove("hidden");
-        document.getElementById("confirm_remove_popup_text_container").insertAdjacentHTML("beforeend", toDoId);
+        document.getElementById("confirm_remove_pop_up_container").classList.remove("hidden");
+        document.getElementById("confirm_remove_pop_up_text_container").insertAdjacentHTML("beforeend", toDoId);
         
         if (toDoTab.classList.contains("hidden") || addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) {
-            document.getElementById("confirm_remove_popup_type").innerHTML = `<b>To Remove To-Do:</b>`
+            document.getElementById("confirm_remove_pop_up_type").innerHTML = `<b>To Remove To-Do:</b>`
         } else if (addTab.classList.contains("hidden") && filterCheckboxAddWr.checked) {
-            console.log("setting confirm_remove_popup_type to wr");
-            document.getElementById("confirm_remove_popup_type").innerHTML = `<b>To Remove WR#:</b>`
+            console.log("setting confirm_remove_pop_up_type to wr");
+            document.getElementById("confirm_remove_pop_up_type").innerHTML = `<b>To Remove WR#:</b>`
         }
     }
     addTabDisplayToDoRemoveButton.addEventListener("click", (event) => {
@@ -14258,12 +14298,12 @@ async function mainEvent() {
     confirmRemovePopupXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupXButton");
 
-        document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+        document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
     })
     confirmRemovePopupNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupNo");
 
-        document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+        document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
     })
     confirmRemovePopupYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked confirmRemovePopupYes");
@@ -14271,7 +14311,7 @@ async function mainEvent() {
 
         if (toDoTab.classList.contains("hidden")) { // remove to-do from to-do tab using move to
             toDoMasterList.removeById(tempCurToDo[0].toDoId);
-            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
             toDoDisplayMoveToContainer.classList.add("hidden");
             
 
@@ -14283,7 +14323,7 @@ async function mainEvent() {
             }
         } else if (addTab.classList.contains("hidden") && filterCheckboxAddToDo.checked) { // remove to-do from add tab
             toDoMasterList.removeById(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
-            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
             addTabDisplayToDoRemoveButton.classList.remove("activeRemoveButton");
             resetDisplayToDoAddUpdate();
             h.displayToDoRemoved(document.getElementById("add_tab_display_to_do_row_zero_numfield").value);
@@ -14297,10 +14337,21 @@ async function mainEvent() {
             }
             allWrList = temp;
             h.displayWrRemoved(addTabNewWorkRequestNumber.value);
-            document.getElementById("confirm_remove_popup_container").classList.add("hidden");
+            document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
             resetDisplayWrAddUpdate();
             document.getElementById("all_wr_tab_current_page_box").innerHTML = "1";
+        } else if (allWrTab.classList.contains("hidden")) { // Removing from allWrTab - from existing To-Do Pop Up
+
+            const rightIndex = document.getElementById("confirm_remove_pop_up_text_container").innerHTML.lastIndexOf("\n");
+            const curToDoId = document.getElementById("confirm_remove_pop_up_text_container").innerHTML.substring(rightIndex).trim();
+            toDoMasterList.removeById(curToDoId);
+
+
+            //const curToDoId =
         }
+        /* Resetting to default location - moved for Delete from Existing To-Do Pop Up */
+        document.getElementById("confirm_remove_pop_up_container").style.justifyContent = 'flex-end';
+        document.getElementById("confirm_remove_pop_up_container").style.paddingLeft = '50px';
     })
 
         /* Permit - Last Updated Checks */
