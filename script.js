@@ -658,6 +658,17 @@ class Haptix {
         }, this.promptDuration);
     }
 
+    displayToDoRemovedFromPopUp(toDoId) {
+        console.log("Entered - displayToDoRemovedFromPopUp(toDoId = " + toDoId + ")");
+
+        const temp = document.getElementById("left_side_container");
+        temp.insertAdjacentHTML("beforeend", `<div class="toDoRemovedFromPopUpPrompt" id="to_do_removed_from_pop_up_prompt">"General" To-Do On "Waiting" Tab (ID: ${toDoId}) Removed.</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("to_do_removed_from_pop_up_prompt");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
     displayNoIncompleteToDosToMove() {
         console.log("Entered - displayNoIncompleteToDosToMove()");
 
@@ -2000,15 +2011,17 @@ class ToDoMasterList {
     getExistingWaitingToDoId(wrNum) {
         console.log("Entered - ToDoMasterList - getExistingWaitingToDoId(" + wrNum + ")");
 
-        for (var i = 0; i < this.list.length; i++) {
-            const existingToDoId = this.list[i].getExistingWaitingToDoId(wrNum);
+        let existingToDoIds = []
 
-            if (existingToDoId != -1) {
-                return existingToDoId;
+        for (var i = 0; i < this.list.length; i++) {
+            const temp = this.list[i].getExistingWaitingToDoId(wrNum);
+
+            if (temp.length != 0) {
+                existingToDoIds = existingToDoIds.concat(temp);
             }
         }
 
-        return -1;
+        return existingToDoIds;
     }
 
     /* Completes a To-Do based off of its type and index within the entire list - used when completing from all-to-do's view */
@@ -2732,13 +2745,17 @@ class ToDoDayObject {
 
         let allToDos = this.flatten();
 
+        let existingToDoIdList = [];
+
         for (var i = 0; i < allToDos.length; i++) {
             if (allToDos[i].tab == "Waiting" && allToDos[i].workRequestNumber == wrNum) {
-                return allToDos[i].toDoId;
+                existingToDoIdList.push(allToDos[i].toDoId);
+                //return allToDos[i].toDoId;
             }
         }
 
-        return -1;
+        return existingToDoIdList;
+        //return -1;
     }
 
     clearCompleted() {
@@ -6157,6 +6174,8 @@ async function mainEvent() {
     let tempAllCommentCount = systemPreferences.tempAllCommentCount;
     let tempNotesCount = systemPreferences.tempNotesCount;
 
+    let tempExistingToDoIds = [];
+
     let userColors = new ColorPreferences(); 
     let tempToDoPageElement = new PaginatedToDoPageElement(systemPreferences.linesPerPageToDo, toDoMasterList);
 
@@ -8792,6 +8811,8 @@ async function mainEvent() {
         allWrTab.click();
         moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
+
+        recursivePromptExistingToDoHelper(tempExistingToDoIds);
     })
     moveExistingToDoPopUpButtonNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked moveExistingToDoPopUpButtonNo");
@@ -8800,6 +8821,8 @@ async function mainEvent() {
         allWrTab.click();
         moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
+
+        recursivePromptExistingToDoHelper(tempExistingToDoIds);
     })
     moveExistingToDoPopUpButtonDelete.addEventListener("click", (event) => {
         console.log("Fired - Clicked moveExistingToDoPopUpButtonDelete");
@@ -8808,6 +8831,9 @@ async function mainEvent() {
         tempIndex = moveExistingToDoPopUpHeader.innerText.indexOf(":"); // Gets left side of toDoId
         let tempNextIndex = moveExistingToDoPopUpHeader.innerText.substring(tempIndex).indexOf(")"); // Gets right side of toDoId
         const curToDoId = moveExistingToDoPopUpHeader.innerText.substring(tempIndex + 2, tempIndex + tempNextIndex);
+
+    console.log("DDD");
+        console.log(curToDoId);
 
         displayConfirmRemove(curToDoId);        
         document.getElementById("confirm_remove_pop_up_container").style.justifyContent = 'center';
@@ -8861,6 +8887,8 @@ async function mainEvent() {
         console.log("Clicking with Code");
         allWrTab.click();
         moveExistingToDoPopUpContainer.classList.add("hidden");
+
+        recursivePromptExistingToDoHelper(tempExistingToDoIds);
         
     })
         /* Textfield */
@@ -10332,49 +10360,107 @@ async function mainEvent() {
         if (oldStatus.includes("Waiting")) {
             console.log("oldStatus.includes waiting")
 
-            const existingToDoId = toDoMasterList.getExistingWaitingToDoId(curWr.workRequestNumber);
+            const existingToDoIdList = toDoMasterList.getExistingWaitingToDoId(curWr.workRequestNumber);
             console.log("existingToDoID =");
-            console.log(existingToDoId);
+            console.log(existingToDoIdList);
 
-            if (existingToDoId != -1) { // To-Do exists
+            recursivePromptExistingToDoHelper(existingToDoIdList);
 
-                /* Revealing Pop Up */
+            /*if (existingToDoId != -1) { // To-Do exists
+
+                /* Revealing Pop Up 
                 moveExistingToDoPopUpContainer.classList.remove("hidden");
                 moveExistingToDoPopUpContainer.value = today;
         
-                /* Setting Page Object Values */ 
+                /* Setting Page Object Values *
                 setDay("move_existing_to_do_pop_up", d.getDay());
                 setFromToDates("move_existing_to_do_pop_up", today);
         
-                /* Setting Default Tab - General */
+                /* Setting Default Tab - General 
                 document.getElementById("move_existing_to_do_pop_up_tab_general").classList.add("hidden");
                 document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.remove("hidden");
     
-                /* Setting Top Text */
+                /* Setting Top Text 
                 moveExistingToDoPopUpHeader.innerHTML = `<div class="moveExistingToDoPopUpText">Existing "General" To-Do For Work Request # ${curWr.workRequestNumber} Found On </div><div class="moveExistingToDoPopUpText">"Waiting" Tab. Do You Want To Move The Existing To-Do (ID: ${existingToDoId})?</div>`;
                 moveExistingToDoPopUpHeader.style.display = 'flex';
                 moveExistingToDoPopUpHeader.style.flexDirection = 'column';
                 moveExistingToDoPopUpHeader.style.alignItems = 'center';
 
-                /* Setting Bottom Text */ 
+                /* Setting Bottom Text *
                 moveExistingToDoPopUpTab.innerHTML = `<div class="moveExistingToDoPopUpText">(Defaults - Date = "Today", Tab = "General")</div>`;
                 moveExistingToDoPopUpTab.style.display = 'flex';
                 moveExistingToDoPopUpTab.style.flexDirection = 'column';
                 moveExistingToDoPopUpTab.style.alignItems = 'center';
 
-                /* Setting Note */
+                /* Setting Note 
                 const curToDo = toDoMasterList.getToDo(existingToDoId)[1];
                 let leftIndex = curToDo.notes[0][0].indexOf("<li>");
                 let rightIndex = curToDo.notes[0][0].indexOf("</li>");
                 const curNote = curToDo.notes[0][0].substring(leftIndex + 4, rightIndex);
                 moveExistingToDoPopUpTextfield.value = curNote;
 
-            }
+            }*/
             
 
         }
-        
 
+    }
+    function recursivePromptExistingToDoHelper(existingToDoIds) {
+        console.log("Entered - recursivePromptExistingToDoHelper(" + existingToDoIds + ")");
+
+        if (existingToDoIds.length == 0) {
+            return;
+        } else {
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const today = year + "-" + month + "-" + day;
+
+            const curToDoId = existingToDoIds.shift();
+            const curToDo = toDoMasterList.getToDo(curToDoId)[1];
+    
+            /* Revealing Pop Up */
+            moveExistingToDoPopUpContainer.classList.remove("hidden");
+            moveExistingToDoPopUpContainer.value = today;
+    
+            /* Setting Page Object Values */ 
+            setDay("move_existing_to_do_pop_up", d.getDay());
+            setFromToDates("move_existing_to_do_pop_up", today);
+    
+            /* Setting Default Tab - General */
+            document.getElementById("move_existing_to_do_pop_up_tab_general").classList.add("hidden");
+            document.getElementById("move_existing_to_do_pop_up_tab_general_active").classList.remove("hidden");
+    
+            /* Setting Top Text */
+            moveExistingToDoPopUpHeader.innerHTML = `<div class="moveExistingToDoPopUpText">Existing "General" To-Do For Work Request # ${curToDo.workRequestNumber} Found On </div><div class="moveExistingToDoPopUpText">"Waiting" Tab. Do You Want To Move The Existing To-Do (ID: ${curToDoId})?</div>`;
+            moveExistingToDoPopUpHeader.style.display = 'flex';
+            moveExistingToDoPopUpHeader.style.flexDirection = 'column';
+            moveExistingToDoPopUpHeader.style.alignItems = 'center';
+    
+            /* Setting Bottom Text */ 
+            moveExistingToDoPopUpTab.innerHTML = `<div class="moveExistingToDoPopUpText">(Defaults - Date = "Today", Tab = "General")</div>`;
+            moveExistingToDoPopUpTab.style.display = 'flex';
+            moveExistingToDoPopUpTab.style.flexDirection = 'column';
+            moveExistingToDoPopUpTab.style.alignItems = 'center';
+    
+            /* Setting Note */
+            console.log(curToDo);
+            let leftIndex = curToDo.notes[0][0].indexOf("<li>");
+            let rightIndex = curToDo.notes[0][0].indexOf("</li>");
+            const curNote = curToDo.notes[0][0].substring(leftIndex + 4, rightIndex);
+            moveExistingToDoPopUpTextfield.value = curNote;
+        
+            tempExistingToDoIds = existingToDoIds;
+        }
+
+        
     }
     function allWrTabGeneralStatusContainerMouseoverFunction(rowNum) {
         console.log("Entered - allWrTabGeneralStatusContainerMouseoverFunction(" + rowNum + ")");
@@ -12508,6 +12594,10 @@ async function mainEvent() {
     toDoDisplayResetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayResetButton");
 
+        /* Removing Hide Page Objects */
+        document.getElementById("hide_date_page_object").classList.add("hidden");
+        document.getElementById("hide_to_do_tabs").classList.add("hidden");
+
         /* Resetting Search By Section */
         uncheckSearchByCheckboxes();
         uncolorSearchByCheckboxes(); 
@@ -14346,8 +14436,12 @@ async function mainEvent() {
             const curToDoId = document.getElementById("confirm_remove_pop_up_text_container").innerHTML.substring(rightIndex).trim();
             toDoMasterList.removeById(curToDoId);
 
+            document.getElementById("confirm_remove_pop_up_container").classList.add("hidden");
+            h.displayToDoRemovedFromPopUp(curToDoId);
+            
 
-            //const curToDoId =
+            /* Need to check all existing To-Dos when on that confirm box */
+            recursivePromptExistingToDoHelper(tempExistingToDoIds);
         }
         /* Resetting to default location - moved for Delete from Existing To-Do Pop Up */
         document.getElementById("confirm_remove_pop_up_container").style.justifyContent = 'flex-end';
