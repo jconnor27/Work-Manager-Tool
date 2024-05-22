@@ -4108,6 +4108,480 @@ class ToDoObject {
     }
 }
 
+/* Master Class for Back Buttons - saves page state on tab change, page next/prev, go buttons, NOT SAVE, 
+add, update, get, move/yes (for to-dos) buttons, to-do display dayOfWeek box, reset, delete,  */
+
+/* Idea: Could maybe just call in injectHTML functions */ 
+class BackButtonMasterClass {
+    constructor() {
+        this.data = [];
+    }
+
+    storePageState(tab) {
+        console.log("Entered - BackButtonMasterClass - storePageState(tab = " + tab + ")");
+
+        const temp = new DisplayState(tab);
+
+        if (tab == "all_wr" || tab == "permit") {
+            temp.saveWrPermit(tab);
+        } else if (tab == "to_do") {
+            temp.saveToDo();
+        }
+
+        this.data.push(temp);
+        console.log("stored page state");
+        console.log(temp);
+    }
+
+    storePageStateAddTab(type, tempComments) {
+        console.log("Entered - BackButtonMasterClass - storePageStateAddTab(type= " + type + ", tempComments)");
+
+        const temp = new AddTabDisplayState(type, tempComments);
+
+        if (type == "wr") {
+            temp.saveAddWr();
+        } else if (type == "to_do") {
+            temp.saveAddToDo();
+        } else if (type == "permit") {
+            temp.saveAddPermit();
+        } else if (type == "comment") {
+            temp.saveAddComment();
+        }
+
+        this.data.push(temp);
+        console.log("stored page state");
+        console.log(temp);
+    }
+
+    /* Stores old data when adding, updating, or deleting */
+    storeDataState(type, oldData) {
+        console.log("Entered - BackButtonMasterClass - storeDataState(type= " + type + ", oldData)");
+
+        this.data.push([type, oldData]);
+    }
+}
+
+class AddTabDisplayState {
+    constructor(type, tempComments) {
+
+        /* AllWr + To-Do + Permit + Comment */
+        this.type = type; 
+        this.tempComments = tempComments;
+        this.workRequestNumber = undefined;
+        this.newComment = undefined; // used as "note" for To-Do's
+
+        /* AllWr + To-Do + Permit */
+        this.creationDate = undefined;
+
+        /* AllWr Specific */  
+        this.houseNumber = undefined;
+        this.streetName = undefined;
+        this.countyCity = undefined;
+        this.zipCode = undefined;
+        this.customerContacted = undefined;
+        this.ownerName = undefined;
+        this.ownerNumber = undefined;
+        this.ownerEmail = undefined;
+        this.builderName = undefined;
+        this.builderNumber = undefined;
+        this.builderEmail = undefined;
+        this.otherName = undefined;
+        this.otherNumber = undefined;
+        this.otherEmail = undefined;
+        this.workRequestType = undefined;
+        this.crd = undefined;
+        this.rcd = undefined;
+        this.generalStatus = undefined;
+        this.permitStatus = undefined;
+        this.easementStatus = undefined;
+
+        /* To-Do Specific */
+        this.toDoId = undefined;
+        this.toDoTab = undefined;
+        this.dueDate = undefined;
+        this.toDoType = undefined;
+        this.completed = undefined;
+
+        /* Permit Specific */
+        this.dateApplied = undefined;
+        this.lastUpdated = undefined;
+        this.permitStartDate = undefined;
+        this.permitEndDate = undefined;
+
+        /* Comment Specific */
+        this.commentType = undefined;
+        this.commentTab = undefined;
+
+    }
+
+    saveAddComment() {
+        console.log("Entered - saveAddComment()");
+
+        /* Work Request Number */
+        if (document.getElementById("new_work_request_number_textfield").value != "") {
+            this.workRequestNumber = document.getElementById("new_work_request_number_textfield").value;
+        }
+
+        this.commentType = document.getElementById("comment_type_dd_menu_current").innerHTML;
+
+        if (document.getElementById("add_comment_filter_tab_all").classList.contains("hidden")) {
+            this.commentTab = "add_comment_filter_tab_all";
+        } else if (document.getElementById("add_comment_filter_tab_general").classList.contains("hidden")) {
+            this.commentTab = "add_comment_filter_tab_general";
+        } else if (document.getElementById("add_comment_filter_tab_permit").classList.contains("hidden")) {
+            this.commentTab = "add_comment_filter_tab_permit";
+        } 
+
+        /* New Comment Only (Existing Comments Initialized in Constructor) */
+        const temp = document.getElementById("add_comment_tab_textfield").value;
+        if (temp != undefined && temp != "Enter Comment Here" && temp != "") {
+            this.newComment = temp;
+        }
+    }
+
+    saveAddPermit() {
+        console.log("Entered - AddTabDisplayState - saveAddPermit()");
+
+        /* Work Request Number */
+        if (document.getElementById("new_work_request_number_textfield").value != "") {
+            this.workRequestNumber = document.getElementById("new_work_request_number_textfield").value;
+        }
+
+        /* Left Side */
+        this.permitStatus = document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML;
+        this.dateApplied = document.getElementById("date_add_tab_permit_applied");
+        this.lastUpdated = document.getElementById("date_add_tab_permit_updated");
+        this.priorityNumber = document.getElementById("add_tab_permit_priority");
+
+        /* Right Side */
+        this.crd = document.getElementById("date_add_tab_permit_crd");
+        this.rcd = document.getElementById("date_add_tab_permit_rcd");
+        this.permitStartDate = document.getElementById("date_add_tab_permit_start");
+        this.permitEndDate = document.getElementById("date_add_tab_permit_expire");
+
+        /* New Comment Only (Existing Comments Initialized in Constructor) */
+        const temp = document.getElementById("add_tab_permit_comments_textfield").value;
+        if (temp != undefined && temp != "Enter Comment Here" && temp != "") {
+            this.newComment = temp;
+        }
+    }
+
+    saveAddToDo() {
+        console.log("Entered - AddTabDisplayState - saveAddToDo()");
+
+        /* Work Request Number */
+        if (document.getElementById("new_work_request_number_textfield").value != "") {
+            this.workRequestNumber = document.getElementById("new_work_request_number_textfield").value;
+        }
+
+        /* To-Do Id */
+        if (document.getElementById("add_tab_display_to_do_row_zero_Numfield").value != "") {
+            this.toDoId = document.getElementById("add_tab_display_to_do_row_zero_Numfield").value;
+        }
+
+        /* To-Do Tab */
+        this.toDoTab = document.getElementById("to_do_tab_dd_0_current").innerHTML;
+        /* Due Date */
+        this.dueDate = document.getElementById("add_tab_display_day_of_week_date").value;
+        /* To-Do Type */
+        this.toDoType = document.getElementById("to_do_type_dd_0_current").innerHTML;
+        /* Creation Date */
+        this.creationDate = document.getElementById("add_tab_display_to_do_creation_date").value;
+        
+        /* Completed */
+        if (document.getElementById("add_tab_display_to_do_completed").checked) {
+            this.completed = "1";
+        }  else {
+            this.completed = "0";
+        }
+        
+        /* New Comment Only (Existing Comments Initialized in Constructor) */
+        const temp = document.getElementById("add_tab_display_to_do_row_three_textfield").value;
+        if (temp != undefined && temp != "Enter Comment Here" && temp != "") {
+            this.newComment = temp;
+        }
+
+
+    }
+
+    saveAddWr() {
+        console.log("Entered - AddTabDisplayState - saveAddWr()");
+
+        /* Work Request Number */
+        if (document.getElementById("new_work_request_number_textfield").value != "") {
+            this.workRequestNumber = document.getElementById("new_work_request_number_textfield").value;
+        }
+
+        /* Address Info */
+        if (document.getElementById("address_line_textfield_house_number").value != "") {
+            this.houseNumber = document.getElementById("address_line_textfield_house_number").value;
+        }
+        if (document.getElementById("address_line_textfield_street_name").value != "") {
+            this.streetName = document.getElementById("address_line_textfield_street_name").value;
+        }
+        if (document.getElementById("address_line_textfield_county").value != "" && document.getElementById("address_line_textfield_county").value != "Enter County/City Name") {
+            this.countyCity = document.getElementById("address_line_textfield_county").value;
+        }
+        if (document.getElementById("address_line_textfield_zip").value != "") {
+            this.zipCode = document.getElementById("address_line_textfield_zip").value;
+        }
+
+        /* Customer Contacted */
+        if (document.getElementById("customer_contacted_checkbox_yes").checked) {
+            this.customerContacted = "1";
+        } else {
+            this.customerContacted = "0"
+        }
+
+        /* Priority Number */  
+        this.priorityNumber = document.getElementById("add_tab_priority_box").value;
+
+        /* Creation Date */
+        this.creationDate = document.getElementById("add_tab_wr_creation_date").value;
+
+        /* POC's */
+        if (document.getElementById("poc_textbox_owner_name").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_owner_name").value;
+        }
+        if (document.getElementById("poc_textbox_owner_number").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_owner_number").value;
+        }
+        if (document.getElementById("poc_textbox_owner_email").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_owner_email").value;
+        }
+        if (document.getElementById("poc_textbox_builder_name").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_builder_name").value;
+        }
+        if (document.getElementById("poc_textbox_builder_number").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_builder_number").value;
+        }
+        if (document.getElementById("poc_textbox_builder_email").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_builder_email").value;
+        }
+        if (document.getElementById("poc_textbox_other_name").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_other_name").value;
+        }
+        if (document.getElementById("poc_textbox_other_number").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_other_number").value;
+        }
+        if (document.getElementById("poc_textbox_other_email").value != "N/A") {
+            this.ownerName = document.getElementById("poc_textbox_other_email").value;
+        }
+
+        /* Bottom Left */ 
+        this.workRequestType = document.getElementById("wr_type_dd_menu_current").innerHTML;
+        this.crd = document.getElementById("date_add_tab_wr_crd").innerHTML;
+        this.rcd = document.getElementById("date_add_tab_wr_rcd").innerHTML;
+        this.generalStatus = document.getElementById("general_status_dd_add_tab_current").innerHTML;
+        this.permitStatus = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
+        this.easementStatus = document.getElementById("easement_status_dd_add_tab_current").innerHTML;
+
+        /* Bottom Right - New Comment Only (Existing Comments Initialized in Constructor) */
+        const temp = document.getElementById("add_tab_comments_textfield").value;
+        if (temp != undefined && temp != "Enter Comment Here" && temp != "") {
+            this.newComment = temp;
+        }
+
+    }
+}
+
+class DisplayState {
+    constructor(tab) {
+        this.tab = tab;
+        this.subTab = undefined; // for To-Do Display Tabs
+        this.checkboxes = [];
+        this.searchByValue = undefined;
+        this.page = undefined;
+        this.date = undefined;
+    }
+
+    saveToDo() {
+        console.log("Entered - DisplayState - saveToDo()");
+
+        if (document.getElementById("search_by_selection_checkbox").checked) { // Search By Selection 
+            this.searchByValue = document.getElementById("search_by_selection_textfield").value;
+
+            if (document.getElementById("search_by_selection_lower_container_checkbox_wr").checked) {
+                this.checkboxes.push("search_by_selection_lower_container_checkbox_wr");
+            }
+        }
+
+        /* Generic Filters */
+        if (document.getElementById("filter_checkbox_age_new_old").checked) {
+            this.checkboxes.push("filter_checkbox_age_new_old");
+        } else if (document.getElementById("filter_checkbox_age_new_old_all").checked) {
+            this.checkboxes.push("filter_checkbox_age_new_old_all");
+        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+            this.checkboxes.push("filter_checkbox_age_old_new");
+        } else if (document.getElementById("filter_checkbox_age_old_new_all").checked) {
+            this.checkboxes.push("filter_checkbox_age_old_new_all");
+        }
+
+        /* To-Do Specific Checkboxes */
+        if (document.getElementById("filter_checkbox_general").checked) {
+            this.checkboxes.push("filter_checkbox_general");
+        } else if (document.getElementById("filter_checkbox_contact_customer").checked) {
+            this.checkboxes.push("filter_checkbox_contact_customer");
+        } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
+            this.checkboxes.push("filter_checkbox_need_to_visit");
+        } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
+            this.checkboxes.push("filter_checkbox_svc_calcs");
+        } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
+            this.checkboxes.push("filter_checkbox_check_njuns");
+        } else if (document.getElementById("filter_checkbox_check_permit").checked) {
+            this.checkboxes.push("filter_checkbox_check_permit");
+        } else if (document.getElementById("filter_checkbox_check_easement").checked) {
+            this.checkboxes.push("filter_checkbox_check_easement"); 
+        } else if (document.getElementById("filter_checkbox_design").checked) {
+            this.checkboxes.push("filter_checkbox_design");
+        } else if (document.getElementById("filter_checkbox_revisions").checked) {
+            this.checkboxes.push("filter_checkbox_revisions");
+        } 
+        
+        /* Trim Checkboxes */
+        if (document.getElementById("footer_filter_checkbox_not_complete").checked) {
+                this.checkboxes.push("footer_filter_checkbox_not_complete");
+        } else if (document.getElementById("footer_filter_checkbox_all_to_do").checked) {
+            this.checkboxes.push("footer_filter_checkbox_all_to_do");
+        } else if (document.getElementById("footer_filter_checkbox_complete").checked) {
+            this.checkboxes.push("footer_filter_checkbox_complete");
+        }
+
+        /* Tabs */
+        if (document.getElementById("to_do_general_tab").classList.contains("hidden")) {
+            this.subTab = "to_do_general_tab";
+        } else if (document.getElementById("to_do_mentor_tab").classList.contains("hidden")) {
+            this.subTab = "to_do_mentor_tab";
+        } else if (document.getElementById("to_do_coordinator_tab").classList.contains("hidden")) {
+            this.subTab = "to_do_coordinator_tab";
+        } else if (document.getElementById("to_do_waiting_tab").classList.contains("hidden")) {
+            this.subTab = "to_do_waiting_tab";
+        } else if (document.getElementById("to_do_on_return_to_office_tab").classList.contains("hidden")) {
+            this.subTab = "to_do_on_return_to_office_tab";
+        } 
+
+        /* Date */
+        this.date = document.getElementById("to_do_display_day_of_week_date").value;
+
+        /* Page */
+        if (!document.getElementById("to_do_tab_prev_next_container").classList.contains("hidden")) {
+            this.page = new Number(document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
+        }
+
+    }
+
+    saveWrPermit(tab) {
+        console.log("Entered - DisplayState - saveWrPermit(tab = " + tab + ")");
+
+        /* Generic Filters */
+        if (document.getElementById("filter_checkbox_priority_number").checked) {
+            this.checkboxes.push("filter_checkbox_priority_number");
+        } else if (document.getElementById("filter_checkbox_age_new_old").checked) {
+            this.checkboxes.push("filter_checkbox_age_new_old");
+        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+            this.checkboxes.push("filter_checkbox_age_old_new");
+        } else if (document.getElementById("filter_checkbox_crd").checked) {
+            this.checkboxes.push("filter_checkbox_crd");
+        } else if (document.getElementById("filter_checkbox_rcd").checked) {
+            this.checkboxes.push("filter_checkbox_rcd");
+        }
+
+        if (document.getElementById("search_by_selection_checkbox").checked) { // Search By Selection 
+            this.searchByValue = document.getElementById("search_by_selection_textfield").value;
+
+            if (document.getElementById("search_by_selection_lower_container_checkbox_address").checked) {
+                this.checkboxes.push("search_by_selection_lower_container_checkbox_address");
+            } else if (document.getElementById("search_by_selection_lower_container_checkbox_wr").checked) {
+                this.checkboxes.push("search_by_selection_lower_container_checkbox_wr");
+            }
+        }
+
+        if (tab == "all_wr") {
+             if (document.getElementById("filter_by_selection_checkbox").checked) { // Filter By Selection
+                
+                /* AllWr Specific Filters */
+                if (document.getElementById("filter_checkbox_waiting_ll").checked) {
+                    this.checkboxes.push("filter_checkbox_waiting_ll");
+                } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
+                    this.checkboxes.push("filter_checkbox_need_to_visit");
+                } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
+                    this.checkboxes.push("filter_checkbox_svc_calcs");
+                } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
+                    this.checkboxes.push("filter_checkbox_check_njuns");
+                } else if (document.getElementById("filter_checkbox_check_permit").checked) {
+                    this.checkboxes.push("filter_checkbox_check_permit");
+                } else if (document.getElementById("filter_checkbox_check_easement").checked) {
+                    this.checkboxes.push("filter_checkbox_check_easement");
+                } else if (document.getElementById("filter_checkbox_design").checked) {
+                    this.checkboxes.push("filter_checkbox_design");
+                } else if (document.getElementById("filter_checkbox_review_peer").checked) {
+                    this.checkboxes.push("filter_checkbox_review_peer");
+                } else if (document.getElementById("filter_checkbox_review_coordinator").checked) {
+                    this.checkboxes.push("filter_checkbox_review_coordinator");
+                } else if (document.getElementById("filter_checkbox_revisions").checked) {
+                    this.checkboxes.push("filter_checkbox_revisions");
+                } else if (document.getElementById("filter_checkbox_waiting_customer_not_approved").checked) {
+                    this.checkboxes.push("filter_checkbox_waiting_customer_not_approved");
+                } else if (document.getElementById("filter_checkbox_waiting_customer_approved").checked) {
+                    this.checkboxes.push("filter_checkbox_waiting_customer_approved");
+                } else if (document.getElementById("filter_checkbox_flag").checked) {
+                    this.checkboxes.push("filter_checkbox_flag");
+                } else if (document.getElementById("filter_checkbox_7010").checked) {
+                    this.checkboxes.push("filter_checkbox_7010");
+                } else  if (document.getElementById("filter_checkbox_cancled_other").checked) {
+                    this.checkboxes.push("filter_checkbox_cancled_other");
+                } else if (document.getElementById("filter_checkbox_waiting_other").checked) {
+                    this.checkboxes.push("filter_checkbox_waiting_other");
+                }
+            }
+
+            
+
+            /* Page */
+            if (!document.getElementById("all_wr_tab_prev_next_container").classList.contains("hidden")) {
+                this.page = new Number(document.getElementById("all_wr_tab_current_page_box").innerHTML.trim());
+            }
+            
+        } else if (tab == "permit") {
+            if (document.getElementById("filter_by_selection_checkbox").checked) { // Filter By Selection
+                if (document.getElementById("filter_checkbox_permit_applied").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_applied");
+                } else if (document.getElementById("filter_checkbox_permit_received").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_received");
+                } else if (document.getElementById("filter_checkbox_permit_expiring_soon").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_expiring_soon");
+                } else if (document.getElementById("filter_checkbox_permit_expired").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_expired");
+                } else if (document.getElementById("filter_checkbox_permit_extension_submitted").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_extension_submitted");
+                } else if (document.getElementById("filter_checkbox_permit_extension_received").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_extension_received");
+                } else if (document.getElementById("filter_checkbox_permit_dont_need").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_dont_need");
+                } else if (document.getElementById("filter_checkbox_permit_havent_checked").checked) {
+                    this.checkboxes.push("filter_checkbox_permit_havent_checked");
+                }
+            }
+
+            /* Page */
+            if (!document.getElementById("permits_tab_prev_next_container").classList.contains("hidden")) {
+                this.page = new Number(document.getElementById("permits_tab_current_page_box").innerHTML.trim());
+            }
+        }
+
+        /* Trim Checkboxes */
+        if (document.getElementById("footer_filter_checkbox_not_7010").checked) {
+                this.checkboxes.push("footer_filter_checkbox_not_7010");
+        } else if (document.getElementById("footer_filter_checkbox_all").checked) {
+            this.checkboxes.push("footer_filter_checkbox_all");
+        } else if (document.getElementById("footer_filter_checkbox_7010").checked) {
+            this.checkboxes.push("footer_filter_checkbox_7010");
+        }
+    }
+
+}
+
+
 /* Takes an array of commentItem objects and injects them to the specified tab
     Used in PaginatedComments but could also be used elsewhere */
 function updateComments(comments, tab) {
@@ -6162,6 +6636,8 @@ async function mainEvent() {
     let tempFilteredToDoList = []; // used to store the filtered list of to-do's (for move incomplete button)
     let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
 
+    let backButton = new BackButtonMasterClass();
+
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList(19);//systemPreferences.linesPerPageToDo);
     
@@ -7515,6 +7991,10 @@ async function mainEvent() {
         
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "New \"To-Do\" ID#: ";
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
+
+        /* Setting Notes Prompt */
+        document.getElementById("add_tab_display_to_do_row_three_textfield").value = "Enter Note Here";
+
 
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
     }
@@ -17379,7 +17859,8 @@ async function mainEvent() {
         addTabDisplayToDoRowZeroNumfield.value = toDoMasterList.getCount();
         addTabAddButton.disabled = false;
 
-        
+        /* Setting Notes Prompt */
+        document.getElementById("add_tab_display_to_do_row_three_textfield").value = "Enter Note Here";
 
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
@@ -18791,7 +19272,25 @@ async function mainEvent() {
                     /* allWr Tab */
     allWrTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked all_wr_tab");
-       
+
+        if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
+
         /* Deselecting all tabs */
         deselectAllTabs();
 
@@ -18954,6 +19453,24 @@ async function mainEvent() {
     toDoTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTab");
 
+        if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
+
         /* Deselecting all tabs */
         deselectAllTabs();
 
@@ -19018,6 +19535,24 @@ async function mainEvent() {
     addTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked add_tab");
 
+        if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
+
         /* Deselecting all tabs */
         deselectAllTabs();
 
@@ -19057,6 +19592,25 @@ async function mainEvent() {
                     /* permits Tab */
     permitsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked permits_tab");
+
+        if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
+
 
         /* Deselecting all tabs */
         deselectAllTabs();
