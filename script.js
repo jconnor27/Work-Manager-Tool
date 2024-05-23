@@ -4117,6 +4117,20 @@ class BackButtonMasterClass {
         this.data = [];
     }
 
+    /* I call ".click" on some elements, this is to remve the added object and disable back button if no back object exist */
+    removeLast() {
+        console.log("Entered - BackButtonMasterClass - removeLast()");
+
+        if (this.data.length == 0) {
+            document.getElementById("settings_back_button").disabled = true;
+        } else {
+            this.data.pop();
+            if (this.data.length == 0) {
+                document.getElementById("settings_back_button").disabled = true;
+            }
+        }
+    }
+
     storePageState(tab) {
         console.log("Entered - BackButtonMasterClass - storePageState(tab = " + tab + ")");
 
@@ -4131,6 +4145,9 @@ class BackButtonMasterClass {
         this.data.push(temp);
         console.log("stored page state");
         console.log(temp);
+
+        document.getElementById("settings_back_button").disabled = false;
+        document.getElementById("settings_back_button").innerHTML = "Back";
     }
 
     storePageStateAddTab(type, tempComments) {
@@ -4151,6 +4168,9 @@ class BackButtonMasterClass {
         this.data.push(temp);
         console.log("stored page state");
         console.log(temp);
+
+        document.getElementById("settings_back_button").disabled = false;
+        document.getElementById("settings_back_button").innerHTML = "Back";
     }
 
     /* Stores old data when adding, updating, or deleting */
@@ -4158,6 +4178,8 @@ class BackButtonMasterClass {
         console.log("Entered - BackButtonMasterClass - storeDataState(type= " + type + ", oldData)");
 
         this.data.push([type, oldData]);
+        document.getElementById("settings_back_button").disabled = false;
+        document.getElementById("settings_back_button").innerHTML = "Undo";
     }
 }
 
@@ -6650,6 +6672,7 @@ async function mainEvent() {
     let tempAllCommentCount = systemPreferences.tempAllCommentCount;
     let tempNotesCount = systemPreferences.tempNotesCount;
 
+    let tempCurrentDate = []; // used by back button
     let tempExistingToDoIds = [];
 
     let userColors = new ColorPreferences(); 
@@ -7022,6 +7045,7 @@ async function mainEvent() {
 
         /* Setting Default Creation Date */
         toDoDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
+        tempCurrentDate = toDoDisplayDayOfWeekDate.value;
         setDay("to_do_display", today.getDay());
 
             /* Move to DayOfWeekPageObject */
@@ -7089,11 +7113,17 @@ async function mainEvent() {
             deselectAllTabs();
             trimByAll.checked = true;
             allWrTab.click();
+            backButton.removeLast();
             allWrTabActive.click();
+            backButton.removeLast();
             allWrTab.click();
+            backButton.removeLast();
             document.getElementById("all_wr_tab").click();
+            backButton.removeLast();
             document.getElementById("all_wr_tab_active").click();
+            backButton.removeLast();
             document.getElementById("all_wr_tab").click();
+            backButton.removeLast();
             footerButtonLoad.classList.add("hidden");
 
 
@@ -7285,8 +7315,10 @@ async function mainEvent() {
                         /* Changing Permit Status */
                         allWrList[i].permit.permitStatus = "Expiring Soon";
 
-                        console.log("Code calling click below");
-                        allWrTab.click();
+                        /*console.log("Code calling click below");
+                        allWrTab.click();*/
+                        const rowNum = i % rowsOnPage;
+                        setAllWrRowValues(allWrList[i], rowNum, userColors, toDoMasterList);
 
                         if (toDoMasterList.toDoTypeExistsForWorkRequest("check_permit", allWrList[i].workRequestNumber) == false) { // Function that checks to do's for wr to see if to-do already exists
                             /* Revealing Popup */   // Need to change text "35" below when system preferences is updated
@@ -8343,6 +8375,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         addCommentPopUpContainer.classList.add("hidden");
     })
     addCommentPopUpButtonNo.addEventListener("click", (event) => {
@@ -8350,6 +8383,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         addCommentPopUpContainer.classList.add("hidden");
     })
     addCommentPopUpButtonYes.addEventListener("click", (event) => {
@@ -8413,6 +8447,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         addCommentPopUpContainer.classList.add("hidden");
 
         h.displayCommentAdded(currentWr.workRequestNumber, commentType);
@@ -8887,6 +8922,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         switchAddToDoPopUpButtons("");
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
@@ -8896,6 +8932,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         switchAddToDoPopUpButtons("");
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
@@ -9005,6 +9042,7 @@ async function mainEvent() {
         resetAddToDoPopUpDate();
         console.log("Calling Click with Code");
         allWrTab.click();
+        backButton.removeLast();
         addToDoPopUpContainer.classList.add("hidden");
     })
     addToDoPopUpButtonNeither.addEventListener("click", (event) => {
@@ -9073,6 +9111,7 @@ async function mainEvent() {
         resetAddToDoPopUpDate();
         console.log("Clicking with Code");
         allWrTab.click();
+        backButton.removeLast();
         switchAddToDoPopUpButtons("");
         addToDoPopUpContainer.classList.add("hidden");
     })
@@ -9289,6 +9328,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
 
@@ -9299,6 +9339,7 @@ async function mainEvent() {
 
         console.log("Code calling click");
         allWrTab.click();
+        backButton.removeLast();
         moveExistingToDoPopUpTextfield.value = "Not Set"
         moveExistingToDoPopUpContainer.classList.add("hidden");
 
@@ -9366,6 +9407,7 @@ async function mainEvent() {
         resetMoveExistingToDoPopUpDate();
         console.log("Clicking with Code");
         allWrTab.click();
+        backButton.removeLast();
         moveExistingToDoPopUpContainer.classList.add("hidden");
 
         recursivePromptExistingToDoHelper(tempExistingToDoIds);
@@ -9962,13 +10004,15 @@ async function mainEvent() {
             event.target.value = event.target.value.toUpperCase();
         } 
     })
-
     
         /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
         
         /* Priority Numbers */
     allWrTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowOnePriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -9981,6 +10025,9 @@ async function mainEvent() {
     })
     allWrTabRowTwoPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowTwoPriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -9993,6 +10040,9 @@ async function mainEvent() {
     })
     allWrTabRowThreePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowThreePriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10005,6 +10055,9 @@ async function mainEvent() {
     })
     allWrTabRowFourPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowFourPriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10017,6 +10070,9 @@ async function mainEvent() {
     })
     allWrTabRowFivePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowFivePriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10029,6 +10085,9 @@ async function mainEvent() {
     })
     allWrTabRowSixPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowSixPriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10041,6 +10100,9 @@ async function mainEvent() {
     })
     allWrTabRowSevenPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowSevenPriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10053,6 +10115,9 @@ async function mainEvent() {
     })
     allWrTabRowEightPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowEightPriority changed to - " + event);
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
@@ -10067,6 +10132,7 @@ async function mainEvent() {
         /* Addresses */
     allWrTabRowOneAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -10085,6 +10151,7 @@ async function mainEvent() {
     })
     allWrTabRowTwoAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -10104,6 +10171,7 @@ async function mainEvent() {
     })
     allWrTabRowThreeAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
@@ -10122,6 +10190,7 @@ async function mainEvent() {
     })
     allWrTabRowFourAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFourAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
@@ -10140,6 +10209,7 @@ async function mainEvent() {
     })
     allWrTabRowFiveAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFiveAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
@@ -10158,6 +10228,7 @@ async function mainEvent() {
     })
     allWrTabRowSixAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSixAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
@@ -10176,6 +10247,7 @@ async function mainEvent() {
     })
     allWrTabRowSevenAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSevenAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
@@ -10194,6 +10266,7 @@ async function mainEvent() {
     })
     allWrTabRowEightAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowEightAddress");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
@@ -10214,6 +10287,7 @@ async function mainEvent() {
         /* Comments */
     allWrTabRowOneComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowOneComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -10229,6 +10303,7 @@ async function mainEvent() {
     })
     allWrTabRowTwoComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowTwoComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -10244,6 +10319,7 @@ async function mainEvent() {
     })
     allWrTabRowThreeComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowThreeComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
@@ -10259,6 +10335,7 @@ async function mainEvent() {
     })
     allWrTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFourComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
@@ -10274,6 +10351,7 @@ async function mainEvent() {
     })
     allWrTabRowFiveComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowFiveComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
@@ -10289,6 +10367,7 @@ async function mainEvent() {
     })
     allWrTabRowSixComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSixComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
@@ -10304,6 +10383,7 @@ async function mainEvent() {
     })
     allWrTabRowSevenComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowSevenComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
@@ -10319,6 +10399,7 @@ async function mainEvent() {
     })
     allWrTabRowEightComments.addEventListener("click", (event) => {
         console.log("Fired - clicked allWrTabRowEightComments");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
@@ -10336,6 +10417,9 @@ async function mainEvent() {
         /* CRDs */
     function allWrTabCrdFunction(row, event) {
         console.log("Entered - allWrTabCrdFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -10434,6 +10518,9 @@ async function mainEvent() {
         /* RCDs */
     function allWrTabRcdFunction(row, event) {
         console.log("Entered - allWrTabRcdFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("wr", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -11040,6 +11127,10 @@ async function mainEvent() {
 
             /* Updating Status and List */
             currentWr.generalStatus = tempCurrent.innerHTML;
+
+            /* Saving old object */
+            backButton.storeDataState("wr", allWrList[curWrIndex]);
+
             allWrList[curWrIndex] = currentWr;
 
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
@@ -11100,6 +11191,7 @@ async function mainEvent() {
     /* To-Do Counts */
     function toDoCountBoxFunction(rowNum) {
         console.log("Entered - toDoCountBoxFunction(" + rowNum + ")");
+        backButton.storePageState("all_wr");
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + rowNum - 1);
@@ -11308,6 +11400,9 @@ async function mainEvent() {
                 addCommentPopUpHeader.style.alignItems = 'center';
             } 
 
+            /* Saving old object */
+            backButton.storeDataState("wr", allWrList[curWrIndex]);
+
             allWrList[curWrIndex] = currentWr;
 
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
@@ -11450,6 +11545,10 @@ async function mainEvent() {
 
             /* Updating Status and List */
             currentWr.easementRequestStatus = tempCurrent.innerHTML;
+
+            /* Saving old object */
+            backButton.storeDataState("wr", allWrList[curWrIndex]);
+
             allWrList[curWrIndex] = currentWr;
 
             injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
@@ -11508,6 +11607,7 @@ async function mainEvent() {
         /* AllWr Next and Prev Button */
     nextAllWr.addEventListener("click", (event) => {
         console.log("Fired - Clicked all_wr_tab_next_button");
+        backButton.storePageState("all_wr");
 
         console.log("currentPageAllWr = ");
         console.log(curPageAllWr);
@@ -11520,6 +11620,7 @@ async function mainEvent() {
     })
     prevAllWr.addEventListener("click", (event) => {
         console.log("Fired - Clicked all_wr_tab_prev_button");
+        backButton.storePageState("all_wr");
 
         curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
         injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors, toDoMasterList);
@@ -11587,6 +11688,7 @@ async function mainEvent() {
     }
     function toDoDisplayDayOfWeekDateMouseoutFunction() {
         console.log("Entered - toDoDisplayDayOfWeekDateMouseoutFunction()");
+        backButton.storePageState("to_do");
 
         const temp = toDoDisplayDayOfWeekDate.value;
         const year = temp.substring(0, 4);
@@ -11635,6 +11737,7 @@ async function mainEvent() {
     /* Takes in list of indexes corresponding to toDoDayObject lists */
     function moveIncompleteFunction(tab, tempToRemove, oldDate, newDate) {
         console.log("Entered - moveIncompleteFunction(tab, tempToRemove, oldDate, newDate)");
+        backButton.storeDataState("move_to_do_multiple", toDoMasterList);
 
         let index = undefined;
 
@@ -12029,42 +12132,49 @@ async function mainEvent() {
         tempResetArrow.innerHTML = "&#8634";
 
         if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_sunday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_sunday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 0);
         } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_monday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_monday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 1);
         } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_tuesday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 2);
         } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_wednesday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 3);
         } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_thursday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_thursday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 4);
         } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_friday").classList.add("hidden");
             document.getElementById("to_do_display_tab_day_of_week_box_friday_active").classList.remove("hidden");
             assessDayOfWeekChange("to_do_display", 5);
         } else if (event.target.innerHTML == "Sa" && !event.target.classList.contains("activeTab")) {
+            backButton.storePageState("to_do");
             clearDays("to_do_display");
 
             document.getElementById("to_do_display_tab_day_of_week_box_saturday").classList.add("hidden");
@@ -12077,6 +12187,7 @@ async function mainEvent() {
             toDoDisplayDayOfWeekDate.value == "0001-01-07") {
                 e.displayInvalidDateToDoDisplay();
             } else {
+                backButton.storePageState("to_do");
                 let curDate = toDoDisplayDayOfWeekDate.value;
                 const year = curDate.substring(0, 4);
                 const month = curDate.substring(5, 7);
@@ -12086,6 +12197,7 @@ async function mainEvent() {
             }
             
         } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            backButton.storePageState("to_do");
             let curDate = toDoDisplayDayOfWeekDate.value;
             const year = curDate.substring(0, 4);
             const month = curDate.substring(5, 7);
@@ -12093,6 +12205,7 @@ async function mainEvent() {
             toDoDisplayDayOfWeekDate.value = addDays(year, month, day, 7);
             toDoDisplayDayOfWeekDateMouseoutFunction();
         } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            backButton.storePageState("to_do");
             const d = new Date();
             const year = d.getFullYear();
             let month = d.getMonth() + 1;
@@ -12110,14 +12223,19 @@ async function mainEvent() {
         /* Checking to what tab is selected so I can filter list */
         if (toDoGeneralTab.classList.contains("hidden")) {
             toDoGeneralTab.click();
+            backButton.removeLast();
         } else if (toDoMentorTab.classList.contains("hidden")) {
             toDoMentorTab.click();
+            backButton.removeLast();
         } else if (toDoCoordinatorTab.classList.contains("hidden")) {
             toDoCoordinatorTab.click();
+            backButton.removeLast();
         } else if (toDoWaitingTab.classList.contains("hidden")) {
             toDoWaitingTab.click();
+            backButton.removeLast();
         } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
             toDoOnReturnToOfficeTab.click();
+            backButton.removeLast();
         } 
     })
     toDoDisplayDayOfWeekDate.addEventListener("mouseout", (event) => {
@@ -12604,6 +12722,7 @@ async function mainEvent() {
 
         if (event.target.innerHTML == "X") {
             console.log("Fired - Clicked toDoDisplayMoveToContainer X Button");
+            backButton.storePageState("move_to_do_pop_up");
             toDoDisplayMoveToContainer.classList.add("hidden");
             tempCurToDo[0].dueDate = toDoDisplayDayOfWeekDate.value;
             tempCurToDo[1] = toDoDisplayDayOfWeekDate.value;
@@ -12663,11 +12782,14 @@ async function mainEvent() {
                 temp = toDoMasterList.getToDo(tempCurToDo[0].toDoId);
 
                 if (document.getElementById("hide_date_page_object").classList.contains("hidden") != true) { // Viewing all To-Do's
+                    backButton.storeDataState("move_to_single", temp[1]);
                     toDoMasterList.removeById(temp[1].toDoId);
                     toDoMasterList.add(temp[1]);
                     
                     allWrTab.click();
+                    backButton.removeLast();
                     toDoTab.click();
+                    backButton.removeLast();
                     for (var i = 0; i < toDoMasterList.list.length; i++) {
                         if (toDoMasterList.list[i].dueDate == moveToDayOfWeekDate.value) {
                             injectHTMLToDoTabDisplay(toDoMasterList.list[i]);
@@ -12977,6 +13099,7 @@ async function mainEvent() {
     })
     toDoDisplayDatePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDatePrevButton");
+        backButton.storePageState("to_do");
 
         const e = new Error(promptDuration);
 
@@ -12994,6 +13117,7 @@ async function mainEvent() {
     })
     toDoDisplayDateNextButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayDateNextButton");
+        backButton.storePageState("to_do");
 
         let curDate = toDoDisplayDayOfWeekDate.value;
         const year = curDate.substring(0, 4);
@@ -13006,6 +13130,7 @@ async function mainEvent() {
         /* Page Prev/Next Buttons */
     toDoTabPageNextButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTabPageNextButton");
+        backButton.storePageState("to_do");
 
         if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // normal toDoDisplay by day
             const curPage = new Number (document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
@@ -13042,7 +13167,8 @@ async function mainEvent() {
     })
     toDoTabPagePrevButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTabPagePrevButton");
-        
+        backButton.storePageState("to_do");
+
         if (document.getElementById("hide_date_page_object").classList.contains("hidden")) { // normal toDoDisplay by day
             const curPage = new Number (document.getElementById("to_do_tab_current_page_box").innerHTML.trim());
 
@@ -13073,6 +13199,7 @@ async function mainEvent() {
     })
     toDoDisplayResetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoDisplayResetButton");
+        backButton.storePageState("to_do");
 
         /* Removing Hide Page Objects */
         document.getElementById("hide_date_page_object").classList.add("hidden");
@@ -13138,6 +13265,8 @@ async function mainEvent() {
         /* Tabs */
     toDoGeneralTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoGeneralTab");
+        backButton.storePageState("to_do");
+
 
         document.getElementById("to_do_display_row_one_label").innerHTML = "General To-Do's:"
         document.getElementById("to_do_display_row_one_label").style.marginLeft = '50px';
@@ -13179,7 +13308,7 @@ async function mainEvent() {
     })
     toDoMentorTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoMentorTab");
-
+        backButton.storePageState("to_do");
         document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's For Mentor:"
         document.getElementById("to_do_display_row_one_label").style.marginLeft = '30px';
         document.getElementById("to_do_display_row_one_label").style.marginRight = '-17px';
@@ -13220,6 +13349,7 @@ async function mainEvent() {
     })
     toDoCoordinatorTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoCoordinatorTab");
+        backButton.storePageState("to_do");
 
         document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's For Coordinator:"
         document.getElementById("to_do_display_row_one_label").style.marginLeft = '10px';
@@ -13260,6 +13390,7 @@ async function mainEvent() {
     })
     toDoWaitingTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoWaitingTab");
+        backButton.storePageState("to_do");
 
         console.log("toDoMasterList = TTT");
         console.log(toDoMasterList);
@@ -13306,6 +13437,7 @@ async function mainEvent() {
     })
     toDoOnReturnToOfficeTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoOnReturnToOfficeTab");
+        backButton.storePageState("to_do");
 
         document.getElementById("to_do_display_row_one_label").innerHTML = "To-Do's On Return To Office:"
         document.getElementById("to_do_display_row_one_label").style.fontSize = 'large';
@@ -13347,12 +13479,16 @@ async function mainEvent() {
         toDoGeneralTab.click(); // settings general as default
     })
     
+
     /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */       /* Permits Tab */
 
 
         /* Priority Numbers */
     permitsTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowOnePriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 1 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -13366,6 +13502,10 @@ async function mainEvent() {
     })
     permitsTabRowTwoPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowTwoPriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 2 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
+
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -13378,6 +13518,9 @@ async function mainEvent() {
     })
     permitsTabRowThreePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowThreePriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 3 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
@@ -13390,6 +13533,9 @@ async function mainEvent() {
     })
     permitsTabRowFourPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowFourPriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 4 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
@@ -13402,6 +13548,9 @@ async function mainEvent() {
     })
     permitsTabRowFivePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowFivePriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 5 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
@@ -13414,6 +13563,9 @@ async function mainEvent() {
     })
     permitsTabRowSixPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowSixPriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 6 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
@@ -13426,6 +13578,9 @@ async function mainEvent() {
     })
     permitsTabRowSevenPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowSevenPriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 7 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
@@ -13438,6 +13593,9 @@ async function mainEvent() {
     })
     permitsTabRowEightPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowEightPriority changed to - " + event);
+        const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + 8 - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
@@ -13452,6 +13610,7 @@ async function mainEvent() {
         /* Addresses */
     permitsTabRowOneAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowOneAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -13477,6 +13636,7 @@ async function mainEvent() {
     })
     permitsTabRowTwoAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowTwoAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -13490,6 +13650,7 @@ async function mainEvent() {
     })
     permitsTabRowThreeAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowThreeAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
@@ -13503,6 +13664,7 @@ async function mainEvent() {
     })
     permitsTabRowFourAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowFourAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
@@ -13516,6 +13678,7 @@ async function mainEvent() {
     })
     permitsTabRowFiveAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowFiveAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
@@ -13529,6 +13692,7 @@ async function mainEvent() {
     })
     permitsTabRowSixAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowSixAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
@@ -13542,6 +13706,7 @@ async function mainEvent() {
     })
     permitsTabRowSevenAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowSevenAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
@@ -13555,6 +13720,7 @@ async function mainEvent() {
     })
     permitsTabRowEightAddress.addEventListener("click", (event) => {
         console.log("Fired - clicked permitsTabRowEightAddress");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
@@ -13570,6 +13736,9 @@ async function mainEvent() {
         /* CRDs */
     function permitsTabCrdFunction(row, event) {
         console.log("Entered - permitsTabCrdFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -13675,6 +13844,9 @@ async function mainEvent() {
         /* RCDs */
     function permitsTabRcdFunction(row, event) {
         console.log("Entered - permitsTabRcdFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -13899,6 +14071,10 @@ async function mainEvent() {
             const d = new Date();
             const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
             currentWr.permit.dateUpdated = tempDate;
+
+            /* Saving old object */
+            backButton.storeDataState("permit", allWrList[curWrIndex]);
+
             allWrList[curWrIndex] = currentWr;
 
             /* Updating Page (Display) */
@@ -13963,6 +14139,9 @@ async function mainEvent() {
         /* Start Dates */
     function permitsTabStartDateFunction(row, event) {
         console.log("Entered - permitsTabStartDateFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -14034,6 +14213,9 @@ async function mainEvent() {
         /* End Dates */
     function permitsTabEndDateFunction(row, event) {
         console.log("Entered - permitsTabEndDateFunction(" + row + ")");
+        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
+        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -14096,6 +14278,7 @@ async function mainEvent() {
         /* Comments */
     permitsTabRowOneComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowOneComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
@@ -14112,6 +14295,7 @@ async function mainEvent() {
     })
     permitsTabRowTwoComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowTwoComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
@@ -14127,6 +14311,7 @@ async function mainEvent() {
     })
     permitsTabRowThreeComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowThreeComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
@@ -14143,6 +14328,7 @@ async function mainEvent() {
     })
     permitsTabRowFourComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowFourComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
@@ -14159,6 +14345,7 @@ async function mainEvent() {
     })
     permitsTabRowFiveComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowFiveComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
@@ -14175,6 +14362,7 @@ async function mainEvent() {
     })
     permitsTabRowSixComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowSixComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
@@ -14191,6 +14379,7 @@ async function mainEvent() {
     })
     permitsTabRowSevenComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowSevenComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
@@ -14207,6 +14396,7 @@ async function mainEvent() {
     })
     permitsTabRowEightComments.addEventListener("click", (event) => {
         console.log("Fired - Clicked permitsTabRowEightComments");
+        backButton.storePageState("permit");
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
@@ -14225,6 +14415,7 @@ async function mainEvent() {
         /* Permits Next and Prev Button */
     nextPermits.addEventListener("click", (event) => {
         console.log("Fired - Clicked permits_tab_next_button");
+        backButton.storePageState("permit");
 
         curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
         injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1, userColors);
@@ -14234,6 +14425,7 @@ async function mainEvent() {
     })
     prevPermits.addEventListener("click", (event) => {
         console.log("Fired - Clicked permits_tab_prev_button");
+        backButton.storePageState("permit");
 
         curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
         injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1, userColors);
@@ -14304,6 +14496,7 @@ async function mainEvent() {
                         if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
                             h.displayNoChanges(addTabNewWorkRequestNumber.value);
                         } else {
+                            backButton.storeDataState("update_wr", allWr[0]);
                             allWrList[0] = newWr;
                             console.log("wr added to empty list");
     
@@ -14323,6 +14516,7 @@ async function mainEvent() {
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
                             h.displayWrUpdated(newWr.workRequestNumber);
+                            
                             resetDisplayWrAddUpdate();
                             resetDisplayPermitAddUpdate(); // in case user pulls twice and adds comments - comments added on both wont be in sync
                             resetDisplayCommentsAddUpdate();
@@ -14331,6 +14525,7 @@ async function mainEvent() {
                         if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
                             h.displayNoChanges(addTabNewWorkRequestNumber.value);
                         } else {
+                            backButton.storeDataState("update_wr", allWr[curWrIndex]);
                             allWrList[curWrIndex] = newWr;
                             const tempAllWrList = document.getElementById("temp_all_wr_list");
                             tempAllWrList.innerHTML = allWrList;
@@ -14409,6 +14604,7 @@ async function mainEvent() {
                     if (allWrList[curWrIndex].compare(newWr) == 1 && tempPermitComments.list.length ==0) {
                         h.displayNoChanges(addTabNewWorkRequestNumber.value);
                     } else {
+                        backButton.storeDataState("update_permit", allWr[curWrIndex]);
                         allWrList[curWrIndex] = newWr;
     
                         const tempAllWrList = document.getElementById("temp_all_wr_list");
@@ -14466,6 +14662,8 @@ async function mainEvent() {
                 } else if (allWrList[curWrIndex].commentsGeneral.compare(tempAllComments.list) == 1) {
                     h.displayNoChanges(addTabNewWorkRequestNumber.value);
                 } else {
+                    backButton.storeDataState("update_comment", allWr[curWrIndex]);
+
                     allWrList[curWrIndex] = newWr;
 
                     const tempAllWrList = document.getElementById("temp_all_wr_list");
@@ -14587,6 +14785,7 @@ async function mainEvent() {
                     }
                     toDoMasterList.add(toDo); 
                     h.displayToDoUpdated(toDo.toDoId);
+                    backButton.storeDataState("update_to_do", old);
                     resetDisplayToDoAddUpdate();
 
                     toDoMasterList.list[temp[2]].clearStrikesAfterNoteUpdate();
@@ -14605,6 +14804,7 @@ async function mainEvent() {
 
         if (filterCheckboxAddWr.checked == true) {
             const curWrNum = addTabNewWorkRequestNumber.value;
+            backButton.storePageStateAddTab("get_wr", tempComments);
 
             let wr = getWr(curWrNum, allWrList); /* First index is true if wr is found or empty list, second index is wr object */
     
@@ -14617,7 +14817,6 @@ async function mainEvent() {
             }
             filterCheckboxAddWr.checked = true;
         } else if (filterCheckboxAddPermit.checked == true) {
-            console.log("** I Am Here **");
             const curWrNum = addTabNewWorkRequestNumber.value;
 
             let wr = getWr(curWrNum, allWrList);
@@ -14625,6 +14824,7 @@ async function mainEvent() {
             if (permitExists(curWrNum, allWrList) == true) {
                 resetDisplayPermitAddUpdate();
                 displayPermitAddUpdate(wr[1]);
+                backButton.storePageStateAddTab("get_permit", tempPermitComments);
                 addTabUpdateButton.disabled = false;
             } else {
                 e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
@@ -14639,6 +14839,7 @@ async function mainEvent() {
             if (wr[0] != false) {
                 resetDisplayCommentsAddUpdate();
                 displayCommentsAddUpdate(wr[1]);
+                backButton.storePageStateAddTab("get_comment", tempAllComments);
                 addTabUpdateButton.disabled = false;
                 enableAddCommentTabs();
             } else { 
@@ -14660,6 +14861,8 @@ async function mainEvent() {
                 if (curToDoData[0] != 0) { // to-do was found
                     resetDisplayToDoAddUpdate();
                     displayToDoAddUpdate(curToDoData[1]);
+                    backButton.storePageStateAddTab("get_to_do", tempNotes);
+
                     addTabUpdateButton.disabled = false;
                     addTabAddButton.disabled = true;
                 } else {
@@ -14749,6 +14952,7 @@ async function mainEvent() {
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
                 h.displayWrAdded(wr.workRequestNumber);
+                backButton.storeDataState("add_wr", wr);
                 resetDisplayWrAddUpdate();
             }
         } else if (filterCheckboxAddToDo.checked == true) {
@@ -14805,6 +15009,7 @@ async function mainEvent() {
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
+                backButton.storeDataState("add_to_do", toDo);
 
                 resetDisplayToDoAddUpdate();
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
@@ -14818,12 +15023,16 @@ async function mainEvent() {
         console.log("Fired - Clicked addTabClearButton");
 
         if (filterCheckboxAddWr.checked == true) {
+            backButton.storePageStateAddTab("wr", tempComments);
             resetDisplayWrAddUpdate();
         } else if (filterCheckboxAddPermit.checked == true) {
+            backButton.storePageStateAddTab("permit", tempPermitComments);
             resetDisplayPermitAddUpdate();
         } else if (filterCheckboxAddComment.checked == true) {
+            backButton.storePageStateAddTab("comment", tempAllComments);
             resetDisplayCommentsAddUpdate();
         } else if (filterCheckboxAddToDo.checked == true) {
+            backButton.storePageStateAddTab("to_do", tempNotes);
             resetDisplayToDoAddUpdate();
         }
     })
@@ -15417,6 +15626,8 @@ async function mainEvent() {
         if (addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value == undefined || 
         addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value.length == 0) {
             addressLineTextfieldCoverHouseNumber.classList.remove("hidden");
+
+            backButton.storePageStateAddTab("wr", tempComments);
         }
     })
     addressLineTextfieldHouseNumber.addEventListener("click", (event) => {
@@ -15435,6 +15646,7 @@ async function mainEvent() {
     })
     addressLineTextfieldStreetName.addEventListener("change", (event) => {
         console.log("Changed - addressLineTextfieldStreetName");
+        backButton.storePageStateAddTab("wr", tempComments);
 
         let temp = addressLineTextfieldStreetName.value.charAt(0).toUpperCase();
         temp += addressLineTextfieldStreetName.value.substring(1);
@@ -15457,6 +15669,7 @@ async function mainEvent() {
     })
     addressLineTextfieldCounty.addEventListener("change", (event) => {
         console.log("Changed - addressLineTextfieldCounty");
+        backButton.storePageStateAddTab("wr", tempComments);
 
         let temp = addressLineTextfieldCounty.value.charAt(0).toUpperCase();
         temp += addressLineTextfieldCounty.value.substring(1);
@@ -15484,6 +15697,8 @@ async function mainEvent() {
         if (addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value == undefined || 
         addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value.length == 0) {
             addressLineTextfieldCoverZip.classList.remove("hidden");
+
+            backButton.storePageStateAddTab("wr", tempComments);
         }
     })
     addressLineTextfieldZip.addEventListener("click", (event) => {
@@ -15569,6 +15784,7 @@ async function mainEvent() {
     })
     addTabCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_comments_add_button");
+            backButton.storePageStateAddTab("wr", tempComments);
 
             const d = new Date();
             let day = d.getDate();
@@ -15586,6 +15802,7 @@ async function mainEvent() {
     })
     addTabCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabCommentsRemoveButton");
+        backButton.storePageStateAddTab("wr", tempComments);
 
         removeSelectedComments(); 
 
@@ -16202,6 +16419,7 @@ async function mainEvent() {
     })
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
+        backButton.storePageStateAddTab("to_do", tempNotes);
 
         const e = new Error(promptDuration);
 
@@ -16227,6 +16445,7 @@ async function mainEvent() {
     })
     addTabDisplayToDoRowThreeRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeRemoveButton");
+        backButton.storePageStateAddTab("to_do", tempNotes);
 
         removeSelectedNotes();
 
@@ -16489,6 +16708,7 @@ async function mainEvent() {
     })
     addTabPermitCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_permit_comments_add_button");
+            backButton.storePageStateAddTab("permit", tempPermitComments);
 
             const d = new Date();
             let day = d.getDate();
@@ -16516,6 +16736,7 @@ async function mainEvent() {
     })
     addTabPermitCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabPermitCommentsRemoveButton");
+        backButton.storePageStateAddTab("permit", tempPermitComments);
 
         removeSelectedPermitComments();
 
@@ -16643,6 +16864,8 @@ async function mainEvent() {
     addCommentsTabCommentsAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked - add_comments_tab_comments_add_button");
         const e = new Error(promptDuration);
+        backButton.storePageStateAddTab("comment", tempAllComments);
+
 
         if (document.getElementById("comment_type_dd_menu_current").innerHTML == "Not Set") {
             e.displayInvalidCommentType();
@@ -16678,6 +16901,7 @@ async function mainEvent() {
     })
     addCommentsTabCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addCommentsTabCommentsRemoveButton");
+        backButton.storePageStateAddTab("comment", tempAllComments);
 
         removeSelectedAllComments();
 
@@ -17481,6 +17705,24 @@ async function mainEvent() {
         console.log("Clicked - searchGoButton");
 
         if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
+
+        if (allWrTab.classList.contains("hidden")) {
             const allWrListTrimmed = assessTrimByStatus(allWrList);
             const allWrListAssessed = assessSearchBy(allWrListTrimmed);
     
@@ -17526,6 +17768,24 @@ async function mainEvent() {
     })
     filterGoButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked - filterGoButton");
+
+        if (allWrTab.classList.contains("hidden")) {
+            backButton.storePageState("all_wr");
+        } else if (toDoTab.classList.contains("hidden")) {
+            backButton.storePageState("to_do");
+        } else if (permitsTab.classList.contains("hidden")) {
+            backButton.storePageState("permit");
+        } else if (addTab.classList.contains("hidden")) {
+            if (document.getElementById("filter_checkbox_add_wr").checked) {
+                backButton.storePageStateAddTab("wr", tempComments);
+            } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
+                backButton.storePageStateAddTab("to_do", tempNotes);
+            } else if (document.getElementById("filter_checkbox_add_permit").checked) {
+                backButton.storePageStateAddTab("permit", tempPermitComments);
+            } else if (document.getElementById("filter_checkbox_add_comment").checked) {
+                backButton.storePageStateAddTab("comment", tempAllComments);
+            }
+        }
 
         if (allWrTab.classList.contains("hidden") || permitsTab.classList.contains("hidden")) {
             const allWrListStatus = assessSpecificStatus(allWrList);
@@ -18888,6 +19148,7 @@ async function mainEvent() {
         /* Updating Displays - could check to see where user is and load - may do when I write logic for back button */ 
         /* Doing this for diplay but also because I'm not updating temp lists - User will see that everything has been "Reset" */
         allWrTab.click();
+        backButton.removeLast();
 
         settingsPreferencesSaveButton.classList.add("hidden");
         document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
@@ -18909,6 +19170,7 @@ async function mainEvent() {
 
         /* Updating Display - could do this better/cleaner */
         allWrTab.click();
+        backButton.removeLast();
     })
 
         /* Options */
