@@ -4126,6 +4126,7 @@ class BackButtonMasterClass {
         } else {
             this.data.pop();
             if (this.data.length == 0) {
+                console.log("disabling back button");
                 document.getElementById("settings_back_button").disabled = true;
             }
         }
@@ -4423,49 +4424,49 @@ class DisplayState {
         if (document.getElementById("search_by_selection_checkbox").checked) { // Search By Selection 
             this.searchByValue = document.getElementById("search_by_selection_textfield").value;
 
-            if (document.getElementById("search_by_selection_lower_container_checkbox_wr").checked) {
+            if (document.getElementById("search_by_selection_lower_container_checkbox_wr").style.backgroundColor = 'rgba(87, 245, 43, 0.627)') {
                 this.checkboxes.push("search_by_selection_lower_container_checkbox_wr");
             }
         }
 
         /* Generic Filters */
-        if (document.getElementById("filter_checkbox_age_new_old").checked) {
+        if (document.getElementById("filter_container_age_new_old").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_new_old");
-        } else if (document.getElementById("filter_checkbox_age_new_old_all").checked) {
+        } else if (document.getElementById("filter_container_age_new_old_all").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_new_old_all");
-        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+        } else if (document.getElementById("filter_container_age_old_new").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_old_new");
-        } else if (document.getElementById("filter_checkbox_age_old_new_all").checked) {
+        } else if (document.getElementById("filter_container_age_old_new_all").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_old_new_all");
         }
 
         /* To-Do Specific Checkboxes */
-        if (document.getElementById("filter_checkbox_general").checked) {
+        if (document.getElementById("filter_container_general").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_general");
-        } else if (document.getElementById("filter_checkbox_contact_customer").checked) {
+        } else if (document.getElementById("filter_container_contact_customer").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_contact_customer");
-        } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
+        } else if (document.getElementById("filter_container_need_to_visit").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_need_to_visit");
-        } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
+        } else if (document.getElementById("filter_container_svc_calcs").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_svc_calcs");
-        } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
+        } else if (document.getElementById("filter_container_check_njuns").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_check_njuns");
-        } else if (document.getElementById("filter_checkbox_check_permit").checked) {
+        } else if (document.getElementById("filter_container_check_permit").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_check_permit");
-        } else if (document.getElementById("filter_checkbox_check_easement").checked) {
+        } else if (document.getElementById("filter_container_check_easement").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_check_easement"); 
-        } else if (document.getElementById("filter_checkbox_design").checked) {
+        } else if (document.getElementById("filter_container_design").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_design");
-        } else if (document.getElementById("filter_checkbox_revisions").checked) {
+        } else if (document.getElementById("filter_container_revisions").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_revisions");
         } 
         
         /* Trim Checkboxes */
-        if (document.getElementById("footer_filter_checkbox_not_complete").checked) {
-                this.checkboxes.push("footer_filter_checkbox_not_complete");
-        } else if (document.getElementById("footer_filter_checkbox_all_to_do").checked) {
+        if (document.getElementById("footer_filter_container_not_complete").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
+            this.checkboxes.push("footer_filter_checkbox_not_complete");
+        } else if (document.getElementById("footer_filter_container_all_to_do").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("footer_filter_checkbox_all_to_do");
-        } else if (document.getElementById("footer_filter_checkbox_complete").checked) {
+        } else if (document.getElementById("footer_filter_container_complete").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("footer_filter_checkbox_complete");
         }
 
@@ -4496,24 +4497,24 @@ class DisplayState {
         console.log("Entered - DisplayState - saveWrPermit(tab = " + tab + ")");
 
         /* Generic Filters */
-        if (document.getElementById("filter_checkbox_priority_number").checked) {
+        if (document.getElementById("filter_container_priority_number").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_priority_number");
-        } else if (document.getElementById("filter_checkbox_age_new_old").checked) {
+        } else if (document.getElementById("filter_container_age_new_old").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_new_old");
-        } else if (document.getElementById("filter_checkbox_age_old_new").checked) {
+        } else if (document.getElementById("filter_container_age_old_new").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_age_old_new");
-        } else if (document.getElementById("filter_checkbox_crd").checked) {
+        } else if (document.getElementById("filter_container_crd").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_crd");
-        } else if (document.getElementById("filter_checkbox_rcd").checked) {
+        } else if (document.getElementById("filter_container_rcd").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("filter_checkbox_rcd");
         }
 
         if (document.getElementById("search_by_selection_checkbox").checked) { // Search By Selection 
             this.searchByValue = document.getElementById("search_by_selection_textfield").value;
 
-            if (document.getElementById("search_by_selection_lower_container_checkbox_address").checked) {
+            if (document.getElementById("search_by_selection_lower_container_checkbox_address").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                 this.checkboxes.push("search_by_selection_lower_container_checkbox_address");
-            } else if (document.getElementById("search_by_selection_lower_container_checkbox_wr").checked) {
+            } else if (document.getElementById("search_by_selection_lower_container_checkbox_wr").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                 this.checkboxes.push("search_by_selection_lower_container_checkbox_wr");
             }
         }
@@ -4522,37 +4523,37 @@ class DisplayState {
              if (document.getElementById("filter_by_selection_checkbox").checked) { // Filter By Selection
                 
                 /* AllWr Specific Filters */
-                if (document.getElementById("filter_checkbox_waiting_ll").checked) {
+                if (document.getElementById("filter_container_waiting_ll").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_waiting_ll");
-                } else if (document.getElementById("filter_checkbox_need_to_visit").checked) {
+                } else if (document.getElementById("filter_container_need_to_visit").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_need_to_visit");
-                } else if (document.getElementById("filter_checkbox_svc_calcs").checked) {
+                } else if (document.getElementById("filter_container_svc_calcs").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_svc_calcs");
-                } else if (document.getElementById("filter_checkbox_check_njuns").checked) {
+                } else if (document.getElementById("filter_container_check_njuns").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_check_njuns");
-                } else if (document.getElementById("filter_checkbox_check_permit").checked) {
+                } else if (document.getElementById("filter_container_check_permit").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_check_permit");
-                } else if (document.getElementById("filter_checkbox_check_easement").checked) {
+                } else if (document.getElementById("filter_container_check_easement").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_check_easement");
-                } else if (document.getElementById("filter_checkbox_design").checked) {
+                } else if (document.getElementById("filter_container_design").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_design");
-                } else if (document.getElementById("filter_checkbox_review_peer").checked) {
+                } else if (document.getElementById("filter_container_review_peer").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_review_peer");
-                } else if (document.getElementById("filter_checkbox_review_coordinator").checked) {
+                } else if (document.getElementById("filter_container_review_coordinator").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_review_coordinator");
-                } else if (document.getElementById("filter_checkbox_revisions").checked) {
+                } else if (document.getElementById("filter_container_revisions").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_revisions");
-                } else if (document.getElementById("filter_checkbox_waiting_customer_not_approved").checked) {
+                } else if (document.getElementById("filter_container_waiting_customer_not_approved").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_waiting_customer_not_approved");
-                } else if (document.getElementById("filter_checkbox_waiting_customer_approved").checked) {
+                } else if (document.getElementById("filter_container_waiting_customer_approved").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_waiting_customer_approved");
-                } else if (document.getElementById("filter_checkbox_flag").checked) {
+                } else if (document.getElementById("filter_container_flag").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_flag");
-                } else if (document.getElementById("filter_checkbox_7010").checked) {
+                } else if (document.getElementById("filter_container_7010").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_7010");
-                } else  if (document.getElementById("filter_checkbox_cancled_other").checked) {
+                } else  if (document.getElementById("filter_container_cancled_other").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_cancled_other");
-                } else if (document.getElementById("filter_checkbox_waiting_other").checked) {
+                } else if (document.getElementById("filter_container_waiting_other").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_waiting_other");
                 }
             }
@@ -4566,21 +4567,21 @@ class DisplayState {
             
         } else if (tab == "permit") {
             if (document.getElementById("filter_by_selection_checkbox").checked) { // Filter By Selection
-                if (document.getElementById("filter_checkbox_permit_applied").checked) {
+                if (document.getElementById("filter_container_permit_applied").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_applied");
-                } else if (document.getElementById("filter_checkbox_permit_received").checked) {
+                } else if (document.getElementById("filter_container_permit_received").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_received");
-                } else if (document.getElementById("filter_checkbox_permit_expiring_soon").checked) {
+                } else if (document.getElementById("filter_container_permit_expiring_soon").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_expiring_soon");
-                } else if (document.getElementById("filter_checkbox_permit_expired").checked) {
+                } else if (document.getElementById("filter_container_permit_expired").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_expired");
-                } else if (document.getElementById("filter_checkbox_permit_extension_submitted").checked) {
+                } else if (document.getElementById("filter_container_permit_extension_submitted").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_extension_submitted");
-                } else if (document.getElementById("filter_checkbox_permit_extension_received").checked) {
+                } else if (document.getElementById("filter_container_permit_extension_received").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_extension_received");
-                } else if (document.getElementById("filter_checkbox_permit_dont_need").checked) {
+                } else if (document.getElementById("filter_container_permit_dont_need").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_dont_need");
-                } else if (document.getElementById("filter_checkbox_permit_havent_checked").checked) {
+                } else if (document.getElementById("filter_container_permit_havent_checked").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                     this.checkboxes.push("filter_checkbox_permit_havent_checked");
                 }
             }
@@ -4592,11 +4593,11 @@ class DisplayState {
         }
 
         /* Trim Checkboxes */
-        if (document.getElementById("footer_filter_checkbox_not_7010").checked) {
+        if (document.getElementById("footer_filter_container_not_7010").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
                 this.checkboxes.push("footer_filter_checkbox_not_7010");
-        } else if (document.getElementById("footer_filter_checkbox_all").checked) {
+        } else if (document.getElementById("footer_filter_container_all").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("footer_filter_checkbox_all");
-        } else if (document.getElementById("footer_filter_checkbox_7010").checked) {
+        } else if (document.getElementById("footer_filter_container_7010").style.backgroundColor == 'rgba(87, 245, 43, 0.627)') {
             this.checkboxes.push("footer_filter_checkbox_7010");
         }
     }
@@ -7632,7 +7633,7 @@ async function mainEvent() {
         console.log("Entered - enableSearchBy()");
 
         searchBySelectionCheckbox.checked = true;
-        searchByWrCheckbox.checked = true;
+        //searchByWrCheckbox.checked = true;
 
         searchByBoxContainer.classList.remove("filterSectionInactive");
         searchBySelectionTextfield.disabled = false;
@@ -7650,7 +7651,7 @@ async function mainEvent() {
         console.log("Entered - enableFilterBy()");
 
         filterBySelectionCheckbox.checked = true;
-        filterCheckboxPriorityNumber.checked = true;
+        //filterCheckboxPriorityNumber.checked = true;
 
         /* Generic */
         filterByBoxContainer.classList.remove("filterSectionInactive");
@@ -8252,7 +8253,106 @@ async function mainEvent() {
     settingsBackButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsBackButton");
 
-        //window.history.back();        
+        let cur = backButton.data.pop();
+        console.log(cur);
+        //console.log(Object.getPrototypeOf(cur).constructor);
+
+        if (backButton.data.length == 0) {
+            console.log("disabling back button");
+            document.getElementById("settings_back_button").disabled = true;
+        }
+
+        const temp = new String(Object.getPrototypeOf(cur).constructor);
+        //console.log(temp.includes("DisplayState"));
+
+        if (temp.includes("DisplayState")) {
+            console.log("Redisplaying DisplayState");
+
+            /* If search by value is not undefined, set it */
+            if (cur.searchByValue != undefined) {
+                searchBySelectionTextfield.value = cur.searchByValue;
+            }
+
+            if (cur.tab == "all_wr") {
+                console.log("Calling click with code.");
+                allWrTab.click();
+                backButton.removeLast();
+
+                /* Checking Checkboxes */
+                for (var i = 0; i < cur.checkboxes.length; i++) {
+                    document.getElementById(cur.checkboxes[i]).click();
+                }
+
+                /* Checking which Go button to Click */
+                if (filterBySelectionCheckbox.checked) {
+                    filterGoButton.click();
+                    backButton.removeLast();
+                } else {
+                    searchGoButton.click();
+                    backButton.removeLast();
+                }
+                
+                /* Setting the Page */
+                for (var i = 1; i < cur.page; i++) {
+                    nextAllWr.click();
+                    backButton.removeLast();
+                }
+
+            } else if (cur.tab == "permit") {
+                console.log("Calling click with code.");
+                permitsTab.click();
+                backButton.removeLast();
+
+                /* Checking Checkboxes */
+                for (var i = 0; i < cur.checkboxes.length; i++) {
+                    document.getElementById(cur.checkboxes[i]).click();
+                }
+
+                /* Checking which Go button to Click */
+                if (filterBySelectionCheckbox.checked) {
+                    filterGoButton.click();
+                    backButton.removeLast();
+                } else {
+                    searchGoButton.click();
+                    backButton.removeLast();
+                }
+
+                /* Setting the Page */
+                for (var i = 1; i < cur.page; i++) {
+                    nextPermits.click();
+                    backButton.removeLast();
+                }
+            } else if (cur.tab == "to_do") {
+                console.log("Calling click with code.");
+                toDoTab.click();
+                backButton.removeLast();
+
+                /* Setting Date */
+                toDoDisplayDayOfWeekDate.value = cur.date;
+                toDoDisplayDayOfWeekDateMouseoutFunction();
+                backButton.removeLast();
+
+                /* Checking Checkboxes */
+                for (var i = 0; i < cur.checkboxes.length; i++) {
+                    document.getElementById(cur.checkboxes[i]).click();
+                }
+                
+                /* Checking which Go button to Click */
+                if (filterBySelectionCheckbox.checked) {
+                    filterGoButton.click();
+                    backButton.removeLast();
+                } else {
+                    searchGoButton.click();
+                    backButton.removeLast();
+                }
+
+                /* Setting the Page */
+                for (var i = 1; i < cur.page; i++) {
+                    toDoTabPageNextButton.click();
+                    backButton.removeLast();
+                }
+            }
+        }
     })
 
     /* "Invisible page cover that opens on DD open - when clicked, closes all dropdowns" */
@@ -11723,15 +11823,20 @@ async function mainEvent() {
         /* Checking to see what tab is selected so I can filter list */
         if (toDoGeneralTab.classList.contains("hidden")) {
             toDoGeneralTab.click();
+            backButton.removeLast();
         } else if (toDoMentorTab.classList.contains("hidden")) {
             toDoMentorTab.click();
+            backButton.removeLast();
         } else if (toDoCoordinatorTab.classList.contains("hidden")) {
             console.log("clicking coordinatortab");
             toDoCoordinatorTab.click();
+            backButton.removeLast();
         } else if (toDoWaitingTab.classList.contains("hidden")) {
             toDoWaitingTab.click();
+            backButton.removeLast();
         } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
             toDoOnReturnToOfficeTab.click();
+            backButton.removeLast();
         }     
     }
     /* Takes in list of indexes corresponding to toDoDayObject lists */
@@ -17835,14 +17940,19 @@ async function mainEvent() {
             !filterCheckboxAgeOldAll.checked && !filterCheckboxAgeNewAll.checked) {
                 if (document.getElementById("to_do_general_tab").classList.contains("hidden")) {
                     document.getElementById("to_do_general_tab").click();
+                    backButton.removeLast();
                 } else if (document.getElementById("to_do_mentor_tab").classList.contains("hidden")) {
                     document.getElementById("to_do_mentor_tab").click();
+                    backButton.removeLast();
                 } else if (document.getElementById("to_do_coordinator_tab").classList.contains("hidden")) {
                     document.getElementById("to_do_coordinator_tab").click();
+                    backButton.removeLast();
                 } else if (document.getElementById("to_do_waiting_tab").classList.contains("hidden")) {
                     document.getElementById("to_do_waiting_tab").click();
+                    backButton.removeLast();
                 } else if (document.getElementById("to_do_return_to_office_tab").classList.contains("hidden")) {
                     document.getElementById("to_do_return_to_office_tab").click();
+                    backButton.removeLast();
                 } 
             }
         
@@ -17943,11 +18053,11 @@ async function mainEvent() {
         if (searchBySelectionCheckbox.checked == false) { 
             disableSearchBy();
             enableFilterBy();
-            filterCheckboxPriorityNumber.checked = true;
+            //filterCheckboxPriorityNumber.checked = true;
         } else {
             enableSearchBy();
             disableFilterBy();
-            searchByWrCheckbox.checked = true;
+            //searchByWrCheckbox.checked = true;
         }
     })
     searchByAddressCheckbox.addEventListener("change", (event) => {
@@ -19574,8 +19684,10 @@ async function mainEvent() {
         if (searchBySelectionCheckbox.checked == true) {
             searchByWrCheckbox.checked = true;
         } else {
-            filterCheckboxPriorityNumber.checked = true;
+            //filterCheckboxPriorityNumber.checked = true;
             trimByAll.checked = true;
+            document.getElementById("footer_filter_container_all").style.backgroundColor = 'rgba(87, 245, 43, 0.627)';
+            
         }
         
 
@@ -19775,6 +19887,7 @@ async function mainEvent() {
         } else {
             //filterCheckboxGeneral.checked = true;
             trimByAllToDo.checked = true;
+            document.getElementById("footer_filter_container_all_to_do").style.backgroundColor = 'rgba(87, 245, 43, 0.627)';
         }
         
         if (toDoMasterList.list.length != undefined && toDoMasterList.list.length > 0) {
@@ -19894,8 +20007,9 @@ async function mainEvent() {
         if (searchBySelectionCheckbox.checked == true) {
             searchByWrCheckbox.checked = true;
         } else {
-            filterCheckboxPriorityNumber.checked = true;
+            //filterCheckboxPriorityNumber.checked = true;
             trimByAll.checked = true;
+            document.getElementById("footer_filter_container_all").style.backgroundColor = 'rgba(87, 245, 43, 0.627)';
         }
         if (allWrList.length > 0) {
             injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
