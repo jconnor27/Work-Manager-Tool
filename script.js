@@ -4128,6 +4128,10 @@ class BackButtonMasterClass {
             if (this.data.length == 0) {
                 console.log("disabling back button");
                 document.getElementById("settings_back_button").disabled = true;
+            } else if (this.data[this.data.length - 1][0] == "wr" || this.data[this.data.length - 1][0] == "permit" || 
+                        this.data[this.data.length - 1][0] == "to_do") {
+                document.getElementById("settings_back_button").innerHTML = "Undo";
+
             }
         }
     }
@@ -7801,12 +7805,15 @@ async function mainEvent() {
 
         console.log("~ Code clicking")
         toDoTab.click();
+        backButton.removeLast();
         console.log("~ Code clicking")
         searchBySelectionCheckbox.click();
+        backButton.removeLast();
         console.log("~ Settings searchBySelectionTextfield.value");
         searchBySelectionTextfield.value = wrNum;
         console.log("~ Code clicking")
         searchTextfieldGoButton.click();
+        backButton.removeLast();
     }
 
         /* Display/Reset Add Tab */
@@ -8067,6 +8074,7 @@ async function mainEvent() {
 
         deselectAllTabs();
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
 
         tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit"); // emptying tempPermitComments in case user add comments before getting wr
@@ -8134,6 +8142,7 @@ async function mainEvent() {
 
         deselectAllTabs();
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_comment").click();
 
         addTabNewWorkRequestNumber.value = wr.workRequestNumber;
@@ -8263,6 +8272,7 @@ async function mainEvent() {
         }
 
         const temp = new String(Object.getPrototypeOf(cur).constructor);
+        console.log(temp);
         //console.log(temp.includes("DisplayState"));
 
         if (temp.includes("DisplayState")) {
@@ -8280,7 +8290,9 @@ async function mainEvent() {
 
                 /* Checking Checkboxes */
                 for (var i = 0; i < cur.checkboxes.length; i++) {
-                    document.getElementById(cur.checkboxes[i]).click();
+                    if (!document.getElementById(cur.checkboxes[i]).checked) {
+                        document.getElementById(cur.checkboxes[i]).click();
+                    }                
                 }
 
                 /* Checking which Go button to Click */
@@ -8305,7 +8317,9 @@ async function mainEvent() {
 
                 /* Checking Checkboxes */
                 for (var i = 0; i < cur.checkboxes.length; i++) {
-                    document.getElementById(cur.checkboxes[i]).click();
+                    if (!document.getElementById(cur.checkboxes[i]).checked) {
+                        document.getElementById(cur.checkboxes[i]).click();
+                    }
                 }
 
                 /* Checking which Go button to Click */
@@ -8334,7 +8348,9 @@ async function mainEvent() {
 
                 /* Checking Checkboxes */
                 for (var i = 0; i < cur.checkboxes.length; i++) {
-                    document.getElementById(cur.checkboxes[i]).click();
+                    if (!document.getElementById(cur.checkboxes[i]).checked) {
+                        document.getElementById(cur.checkboxes[i]).click();
+                    }
                 }
                 
                 /* Checking which Go button to Click */
@@ -8349,6 +8365,18 @@ async function mainEvent() {
                 /* Setting the Page */
                 for (var i = 1; i < cur.page; i++) {
                     toDoTabPageNextButton.click();
+                    backButton.removeLast();
+                }
+            }
+        } else if (cur[0] == "wr") {
+            console.log("back on wr");
+
+            for (var i = 0; i < allWrList.length; i++) {
+                if (allWrList[i].workRequestNumber == cur[1].workRequestNumber) {
+                    allWrList[i] = cur[1];
+                    allWrTabActive.click();
+                    console.log("Calling click with code");
+                    allWrTab.click();
                     backButton.removeLast();
                 }
             }
@@ -9157,6 +9185,7 @@ async function mainEvent() {
 
         console.log("Clicking from code");
         addToDoPopUpButtonYes.click();
+        backButton.removeLast(); // will need to hook up back button to pop up yes buttons
     })
     addToDoPopUpButtonMove.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonMove");
@@ -12553,6 +12582,7 @@ async function mainEvent() {
                 /* Changing display to addTab add To-Do */
                 console.log("** Clicking addTab and addTabUpdateButton with code. **");
                 addTab.click();
+                backButton.removeLast();
                 filterCheckboxAddToDo.click();
                 addTabUpdateButton.disabled = false;
 
@@ -12802,6 +12832,7 @@ async function mainEvent() {
 
                 /* Changing display to addTab add To-Do */
                 addTab.click();
+                backButton.removeLast();
                 filterCheckboxAddToDo.click();
                 addTabUpdateButton.disabled = false;
 
@@ -13750,6 +13781,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13764,6 +13796,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13778,6 +13811,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13792,6 +13826,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13806,6 +13841,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13820,6 +13856,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -13834,6 +13871,7 @@ async function mainEvent() {
 
         displayPermitAddUpdate(currentWr);
         document.getElementById("add_tab").click();
+        backButton.removeLast();
         document.getElementById("filter_checkbox_add_permit").click();
         document.getElementById("add_tab_update_button").disabled = false;
     })
@@ -15926,6 +15964,7 @@ async function mainEvent() {
         console.log(document.getElementById("add_wr_tab_current_page_box").innerHTML.trim());
         if (addTabWrCommentsToAdd.innerHTML == "" && document.getElementById("add_wr_tab_current_page_box").innerHTML.trim() != "1") {
             addTabWrCommentsPrevButton.click();
+            backButton.removeLast();
         }
 
     })
@@ -16565,6 +16604,7 @@ async function mainEvent() {
         }
         if (addTabDisplayToDoRowThreeNotesToAdd.innerHTML == "" && document.getElementById("add_tab_display_to_do_current_page_box").innerHTML.trim() != "1") {
             addTabDisplayToDoPrevButton.click();
+            backButton.removeLast();
         }
     })
     addTabDisplayToDoRowThreeTextfield.addEventListener("click", (event) => {
@@ -19613,6 +19653,7 @@ async function mainEvent() {
         deselectAllTabs();
         trimByAll.checked = true;
         document.getElementById('all_wr_tab').click();
+        backButton.removeLast();
 
         const tempAllWrList = document.createElement("tempAllWrList");
 
@@ -19899,6 +19940,7 @@ async function mainEvent() {
             
         }
         toDoGeneralTab.click();
+        backButton.removeLast();
     })
     toDoTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toDoTabActive");
