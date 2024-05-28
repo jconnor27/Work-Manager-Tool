@@ -8368,18 +8368,58 @@ async function mainEvent() {
                     backButton.removeLast();
                 }
             }
-        } else if (cur[0] == "wr") {
+        } else if (cur[0] == "change_wr") {
             console.log("back on wr");
 
             for (var i = 0; i < allWrList.length; i++) {
-                if (allWrList[i].workRequestNumber == cur[1].workRequestNumber) {
-                    allWrList[i] = cur[1];
-                    allWrTabActive.click();
-                    console.log("Calling click with code");
-                    allWrTab.click();
-                    backButton.removeLast();
+                if (allWrList[i].workRequestNumber == cur[1][0]) {
+
+                    if (cur[1][1] == "priority_number") {
+                        allWrList[i].priorityNumber = cur[1][2];
+                    } else if (cur[1][1] == "crd") {
+                        allWrList[i].crd = cur[1][2];
+                    } else if (cur[1][1] == "rcd") {
+                        allWrList[i].rcd = cur[1][2];
+                    } else if (cur[1][1] == "general_status") {
+                        allWrList[i].generalStatus = cur[1][2];
+                    } else if (cur[1][1] == "permit_status") {
+                        allWrList[i].permit.permitStatus = cur[1][2];
+                    } else if (cur[1][1] == "easement_status") {
+                        allWrList[i].easementRequestStatus = cur[1][2];
+                    }
+
                 }
             }
+            //allWrList[i] = cur[1];
+            allWrTabActive.click();
+            console.log("Calling click with code");
+            allWrTab.click();
+            backButton.removeLast();
+        } else if (cur[0] == "change_permit") {
+            console.log("back on permit");
+
+            for (var i = 0; i < allWrList.length; i++) {
+                if (allWrList[i].workRequestNumber == cur[1][0]) {
+
+                    if (cur[1][1] == "priority_number") {
+                        allWrList[i].priorityNumber = cur[1][2];
+                    } else if (cur[1][1] == "crd") {
+                        allWrList[i].crd = cur[1][2];
+                    } else if (cur[1][1] == "rcd") {
+                        allWrList[i].rcd = cur[1][2];
+                    } else if (cur[1][1] == "permit_status") {
+                        allWrList[i].permit.permitStatus = cur[1][2];
+                    } else if (cur[1][1] == "start_date") {
+                        allWrList[i].permit.startDate = cur[1][2];
+                    } else if (cur[1][1] == "end_date") {
+                        allWrList[i].permit.endDate = cur[1][2];
+                    } 
+                }
+            }
+            permitsTabActive.click();
+            console.log("Calling click with code");
+            permitsTab.click();
+            backButton.removeLast();
         }
     })
 
@@ -10137,122 +10177,178 @@ async function mainEvent() {
         /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */     /* AllWr Tab */
         
         /* Priority Numbers */
+    allWrTabRowOnePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowOnePriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowOnePriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(1)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
-        
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
+
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowTwoPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowTwoPriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowTwoPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowTwoPriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(2)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 2 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowThreePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowThreePriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowThreePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowThreePriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(3)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowFourPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFourPriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowFourPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowFourPriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(4)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowFivePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowFivePriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowFivePriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowFivePriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(5)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowSixPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSixPriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowSixPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowSixPriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(6)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowSevenPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowSevenPriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowSevenPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowSevenPriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(7)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
     })
+    allWrTabRowEightPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked allWrTabRowEightPriority");
+        
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     allWrTabRowEightPriority.addEventListener("change", (event) => {
         console.log("Changed - allWrTabRowEightPriority changed to - " + event);
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        const curIndex = (temp * (rowsOnPage - 1) + (new Number(8)) - 1);
 
         const page = document.getElementById("all_wr_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows     - not sure if + 3 needs to be + 4
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
@@ -10546,9 +10642,9 @@ async function mainEvent() {
         /* CRDs */
     function allWrTabCrdFunction(row, event) {
         console.log("Entered - allWrTabCrdFunction(" + row + ")");
-        const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
-        const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
+        //const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+        //const curIndex = (curPage * (rowsOnPage - 1) + (new Number(row)) - 1);
+        //const temp = allWrList[curIndex];
 
         let rowNumberText = convertNumText(row); 
 
@@ -10557,6 +10653,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.crd) {
+            backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "crd", currentWr.crd]);
+
             currentWr.crd = event.target.value;
             let d = new Date(currentWr.crd);
             document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDateCRD(d, userColors);
@@ -10649,7 +10747,6 @@ async function mainEvent() {
         console.log("Entered - allWrTabRcdFunction(" + row + ")");
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("wr", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -10658,6 +10755,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.rcd) {
+            backButton.storeDataState("change_wr", [currentWr.workRequestNumber, "rcd", currentWr.rcd]);
+
             currentWr.rcd = event.target.value;
             let d = new Date(currentWr.crd);
             document.getElementById("all_wr_tab_row_" + rowNumberText + "_crd").style.backgroundColor = assessDateCRD(d, userColors);
@@ -11212,11 +11311,18 @@ async function mainEvent() {
                 
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("general_status_dd_" + rowNum + "_current");
+                
+                /* Saving old object */
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curWrIndex = ((curPage - 1) * rowsOnPage) + (rowNum - 1);
+                const temp = allWrList[curWrIndex];
+                
+                backButton.storeDataState("change_wr", [temp.workRequestNumber, "general_status", tempCurrent.innerHTML]);
 
                 assessGeneralStatusPriorToChange(tempCurrent.innerHTML, rowNum);
-
+                
                 tempCurrent.innerHTML = event.target.innerHTML;
-        
+                
                 if (tempCurrent.innerHTML.includes("Waiting on Cust") == true) {
                     tempCurrent.style.fontSize = 'smaller';
                     document.getElementById("general_status_dd_" + rowNum + "_button").style.height = '60px';
@@ -11256,9 +11362,6 @@ async function mainEvent() {
 
             /* Updating Status and List */
             currentWr.generalStatus = tempCurrent.innerHTML;
-
-            /* Saving old object */
-            backButton.storeDataState("wr", allWrList[curWrIndex]);
 
             allWrList[curWrIndex] = currentWr;
 
@@ -11436,6 +11539,14 @@ async function mainEvent() {
 
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNum + "_current");
+                
+                /* Saving old object */
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curWrIndex = ((curPage - 1) * rowsOnPage) + (rowNum - 1);
+                const temp = allWrList[curWrIndex];
+                
+                backButton.storeDataState("change_wr", [temp.workRequestNumber, "permit_status", tempCurrent.innerHTML]);
+                
                 tempCurrent.innerHTML = event.target.innerHTML;
 
                 if (tempCurrent.innerHTML.includes("Expiring") || tempCurrent.innerHTML.includes("Extension") || 
@@ -11530,7 +11641,7 @@ async function mainEvent() {
             } 
 
             /* Saving old object */
-            backButton.storeDataState("wr", allWrList[curWrIndex]);
+            //backButton.storeDataState("wr", allWrList[curWrIndex]);
 
             allWrList[curWrIndex] = currentWr;
 
@@ -11642,6 +11753,14 @@ async function mainEvent() {
             
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("easement_status_dd_" + rowNum + "_current");
+                
+                /* Saving old object */
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curWrIndex = ((curPage - 1) * rowsOnPage) + (rowNum - 1);
+                const temp = allWrList[curWrIndex];
+                
+                backButton.storeDataState("change_wr", [temp.workRequestNumber, "easement_status", tempCurrent.innerHTML]);
+                
                 tempCurrent.innerHTML = event.target.innerHTML;
 
                 if (tempCurrent.innerHTML.includes("Pending") || tempCurrent.innerHTML.includes("Not Set")) {
@@ -11676,7 +11795,7 @@ async function mainEvent() {
             currentWr.easementRequestStatus = tempCurrent.innerHTML;
 
             /* Saving old object */
-            backButton.storeDataState("wr", allWrList[curWrIndex]);
+            //backButton.storeDataState("wr", allWrList[curWrIndex]);
 
             allWrList[curWrIndex] = currentWr;
 
@@ -13620,27 +13739,38 @@ async function mainEvent() {
 
 
         /* Priority Numbers */
+    permitsTabRowOnePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowOnePriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
+    })
     permitsTabRowOnePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowOnePriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 1 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 1 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
-        
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
-        currentWr.permit.dateUpdated = 
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowTwoPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowTwoPriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowTwoPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowTwoPriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 2 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
@@ -13648,96 +13778,139 @@ async function mainEvent() {
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowThreePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowThreePriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowThreePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowThreePriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 3 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 3 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowFourPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFourPriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowFourPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowFourPriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 4 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 4 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowFivePriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowFivePriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowFivePriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowFivePriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 5 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 5 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowSixPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSixPriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowSixPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowSixPriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 6 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 6 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowSevenPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowSevenPriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowSevenPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowSevenPriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 7 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 7 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
+    })
+    permitsTabRowEightPriority.addEventListener("click", (event) => {
+        console.log("Fired - Clicked permitsTabRowEightPriority");
+
+        if (event.target.value != null) {
+            event.target.select();
+        }
     })
     permitsTabRowEightPriority.addEventListener("change", (event) => {
         console.log("Changed - permitsTabRowEightPriority changed to - " + event);
         const temp = document.getElementById("permits_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + 8 - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         const page = document.getElementById("permits_tab_current_page_box").innerHTML;
         const curWrIndex = parseInt(((page - 1) * rowsOnPage) + 8 - 1); // Will need to change when more rows
 
         let currentWr = allWrList[curWrIndex];
         
+        backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "priority_number", currentWr.priorityNumber]);
 
         currentWr.priorityNumber = event.target.value;
         allWrList[curWrIndex] = currentWr;        
@@ -13881,7 +14054,6 @@ async function mainEvent() {
         console.log("Entered - permitsTabCrdFunction(" + row + ")");
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -13890,6 +14062,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.crd) {
+            backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "crd", currentWr.crd]);
+
             currentWr.crd = event.target.value;
             let d = new Date(currentWr.crd);
             document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDateCRD(d, userColors);
@@ -13989,7 +14163,6 @@ async function mainEvent() {
         console.log("Entered - permitsTabRcdFunction(" + row + ")");
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -13999,6 +14172,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.rcd) {
+            backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "rcd", currentWr.rcd]);
+
             currentWr.rcd = event.target.value;
             let d = new Date(currentWr.rcd);
             document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDateRCD(d, userColors);
@@ -14139,6 +14314,14 @@ async function mainEvent() {
 
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("permit_status_dd_permits_tab_row_" + rowNum + "_current");
+                
+                /* Saving old object */
+                const curPage = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
+                const curWrIndex = ((curPage - 1) * rowsOnPage) + (rowNum - 1);
+                const temp = allWrList[curWrIndex];
+                
+                backButton.storeDataState("change_permit", [temp.workRequestNumber, "permit_status", tempCurrent.innerHTML]);
+                
                 tempCurrent.innerHTML = event.target.innerHTML;
 
                 if (tempCurrent.innerHTML.includes("Expiring") || tempCurrent.innerHTML.includes("Extension") || 
@@ -14216,7 +14399,7 @@ async function mainEvent() {
             currentWr.permit.dateUpdated = tempDate;
 
             /* Saving old object */
-            backButton.storeDataState("permit", allWrList[curWrIndex]);
+            //backButton.storeDataState("permit", allWrList[curWrIndex]);
 
             allWrList[curWrIndex] = currentWr;
 
@@ -14284,7 +14467,6 @@ async function mainEvent() {
         console.log("Entered - permitsTabStartDateFunction(" + row + ")");
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -14293,6 +14475,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.permit.startDate) {
+            backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "start_date", currentWr.permit.startDate]);
+
             currentWr.permit.startDate = event.target.value;
             const d = new Date(currentWr.permit.startDate);
             const d2 = new Date(currentWr.permit.endDate);
@@ -14358,7 +14542,6 @@ async function mainEvent() {
         console.log("Entered - permitsTabEndDateFunction(" + row + ")");
         const temp = document.getElementById("all_wr_tab_current_page_box").innerHTML.trim();
         const curIndex = (temp * (rowsOnPage - 1) + (new Number(row)) - 1);
-        backButton.storeDataState("permit", allWrList[curIndex]);
 
         let rowNumberText = convertNumText(row); 
 
@@ -14367,6 +14550,8 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (event.target.value != currentWr.permit.endDate) {
+            backButton.storeDataState("change_permit", [currentWr.workRequestNumber, "end_date", currentWr.permit.endDate]);
+
             currentWr.permit.endDate = event.target.value;
             const d = new Date(currentWr.permit.endDate);
             document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDatePermitEnd(d, userColors);
