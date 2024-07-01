@@ -4893,6 +4893,7 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
         const writableStream = results.createWritable().then(writable => {
             writable.write(dataBlob);
             writable.close();
+            location.reload();
         })
         
     })
@@ -12188,189 +12189,194 @@ async function mainEvent() {
 
         document.getElementById("to_do_display_move_to_remove_button").classList.add("hidden");        
 
-        for (var i = 0; i < toDoMasterList.list.length; i++) {
-            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                console.log("Entered if statement ^^^");
+        if (filterCheckboxAgeOldAll.checked || filterCheckboxAgeNewAll.checked) {
 
-                /* Contact Customer List */
-                if (toDoMasterList.list[i].contactCustomerList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].contactCustomerList[0], moveToDayOfWeekDate.value, "Contact Customer", 0];
-                    console.log("set tempCurToDo w/ first contact cust");
-                    break;
-                /* Site Visit List */
-                } else if (toDoMasterList.list[i].siteVisitList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].siteVisitList[0], moveToDayOfWeekDate.value, "Site Visit", 0];
-                    break;
-                /* Svc Calc List */
-                } else if (toDoMasterList.list[i].svcCalcList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].svcCalcList[0], moveToDayOfWeekDate.value, "Svc Calc", 0];
-                    break;
-                /* Check NJUNS List */
-                } else if (toDoMasterList.list[i].checkNJUNSList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].checkNJUNSList[0], moveToDayOfWeekDate.value, "Check NJUNS", 0];
-                    break;
-                /* Check Permit List */
-                } else if (toDoMasterList.list[i].checkPermitList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].checkPermitList[0], moveToDayOfWeekDate.value, "Check Permit", 0];
-                    break;
-                /* Check Easement List */
-                } else if (toDoMasterList.list[i].checkEasementList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].checkEasementList[0], moveToDayOfWeekDate.value, "Check Easement", 0];
-                    break;
-                /* Design List */
-                } else if (toDoMasterList.list[i].designList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].designList[0], moveToDayOfWeekDate.value, "Design", 0];
-                    break;
-                /* Revisions List */
-                } else if (toDoMasterList.list[i].revisionsList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].revisionsList[0], moveToDayOfWeekDate.value, "Revisions", 0];
-                    break;
-                /* General List */
-                } else if (toDoMasterList.list[i].generalList.length > 0) {
-                    tempCurToDo = [toDoMasterList.list[i].generalList[0], moveToDayOfWeekDate.value, "General", 0];
-                    break;
-                } 
-
-            }
-        }
-
-        for (var i = 0; i < toDoMasterList.list.length; i++) {
-
-            if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
-                index = i;
-            }
-        }
-
-        /* Compiles a 2D array corresponding to incomplete todos and their respective lists (toRemove)*/
-        if (index != undefined) {
-            let curList = [];
-                
-            for (var i = 0; i < toDoMasterList.list[index].contactCustomerList.length; i++) {
-                if (toDoMasterList.list[index].contactCustomerList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-
-            for (var i = 0; i < toDoMasterList.list[index].siteVisitList.length; i++) {
-                if (toDoMasterList.list[index].siteVisitList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].svcCalcList.length; i++) {
-                console.log("in svc calc loop");
-                if (toDoMasterList.list[index].svcCalcList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].checkNJUNSList.length; i++) {
-                if (toDoMasterList.list[index].checkNJUNSList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-
-            for (var i = 0; i < toDoMasterList.list[index].checkPermitList.length; i++) {
-                if (toDoMasterList.list[index].checkPermitList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].checkEasementList.length; i++) {
-                if (toDoMasterList.list[index].checkEasementList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].designList.length; i++) {
-                if (toDoMasterList.list[index].designList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].revisionsList.length; i++) {
-                if (toDoMasterList.list[index].revisionsList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];
-            
-            for (var i = 0; i < toDoMasterList.list[index].generalList.length; i++) {
-                if (toDoMasterList.list[index].generalList[i].completed == 0) { // has not been completed - needs to move
-                    curList.push(i);
-                }
-            }
-            toRemove.push(curList);
-            curList = [];        
-            
-        }
-
-        if (toRemove.length == 0 || toRemove[0].length == 0 && toRemove[1].length == 0 && toRemove[2].length == 0 && toRemove[3].length == 0 && 
-            toRemove[4].length == 0 && toRemove[5].length == 0 && toRemove[6].length == 0 && toRemove[7].length == 0 && 
-            toRemove[8].length == 0) {
-
-                console.log("No incomplete to-do's to move");
-                h.displayNoIncompleteToDosToMove();
-
-            return;
         } else {
-
-            tempToRemove = toRemove;
-            clickedMoveIncompleteButton = 1;
-
-            let tempToDo = [];
-
-            /* Finding any toDo that exists to pass into display function */
-            for (var j = 0; j < 9; j++) {
-                if (toRemove[j][0] != undefined) {
-
-                    if (j == 0) {
-                        tempToDo = toDoMasterList.list[index].contactCustomerList[0];
-                    } else if (j == 1) {
-                        tempToDo = toDoMasterList.list[index].siteVisitList[0];
-                    } else if (j == 2) {
-                        tempToDo = toDoMasterList.list[index].svcCalcList[0];
-                    } else if (j == 3) {
-                        tempToDo = toDoMasterList.list[index].checkNJUNSList[0];
-                    } else if (j == 4) {
-                        tempToDo = toDoMasterList.list[index].checkPermitList[0];
-                    } else if (j == 5) {
-                        tempToDo = toDoMasterList.list[index].checkEasementList[0];
-                    } else if (j == 6) {
-                        tempToDo = toDoMasterList.list[index].designList[0];
-                    } else if (j == 7) {
-                        tempToDo = toDoMasterList.list[index].revisionsList[0];
-                    } else if (j == 8) {
-                        tempToDo = toDoMasterList.list[index].generalList[0];
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    console.log("Entered if statement ^^^");
+    
+                    /* Contact Customer List */
+                    if (toDoMasterList.list[i].contactCustomerList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].contactCustomerList[0], moveToDayOfWeekDate.value, "Contact Customer", 0];
+                        console.log("set tempCurToDo w/ first contact cust");
+                        break;
+                    /* Site Visit List */
+                    } else if (toDoMasterList.list[i].siteVisitList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].siteVisitList[0], moveToDayOfWeekDate.value, "Site Visit", 0];
+                        break;
+                    /* Svc Calc List */
+                    } else if (toDoMasterList.list[i].svcCalcList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].svcCalcList[0], moveToDayOfWeekDate.value, "Svc Calc", 0];
+                        break;
+                    /* Check NJUNS List */
+                    } else if (toDoMasterList.list[i].checkNJUNSList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].checkNJUNSList[0], moveToDayOfWeekDate.value, "Check NJUNS", 0];
+                        break;
+                    /* Check Permit List */
+                    } else if (toDoMasterList.list[i].checkPermitList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].checkPermitList[0], moveToDayOfWeekDate.value, "Check Permit", 0];
+                        break;
+                    /* Check Easement List */
+                    } else if (toDoMasterList.list[i].checkEasementList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].checkEasementList[0], moveToDayOfWeekDate.value, "Check Easement", 0];
+                        break;
+                    /* Design List */
+                    } else if (toDoMasterList.list[i].designList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].designList[0], moveToDayOfWeekDate.value, "Design", 0];
+                        break;
+                    /* Revisions List */
+                    } else if (toDoMasterList.list[i].revisionsList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].revisionsList[0], moveToDayOfWeekDate.value, "Revisions", 0];
+                        break;
+                    /* General List */
+                    } else if (toDoMasterList.list[i].generalList.length > 0) {
+                        tempCurToDo = [toDoMasterList.list[i].generalList[0], moveToDayOfWeekDate.value, "General", 0];
+                        break;
                     } 
-
-                    break;
+    
                 }
             }
-
-            displayToDoMoveToDisplay(tempToDo);
+    
+            for (var i = 0; i < toDoMasterList.list.length; i++) {
+    
+                if (toDoMasterList.list[i].date == toDoDisplayDayOfWeekDate.value) {
+                    index = i;
+                }
+            }
+    
+            /* Compiles a 2D array corresponding to incomplete todos and their respective lists (toRemove)*/
+            if (index != undefined) {
+                let curList = [];
+                    
+                for (var i = 0; i < toDoMasterList.list[index].contactCustomerList.length; i++) {
+                    if (toDoMasterList.list[index].contactCustomerList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+    
+                for (var i = 0; i < toDoMasterList.list[index].siteVisitList.length; i++) {
+                    if (toDoMasterList.list[index].siteVisitList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].svcCalcList.length; i++) {
+                    console.log("in svc calc loop");
+                    if (toDoMasterList.list[index].svcCalcList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].checkNJUNSList.length; i++) {
+                    if (toDoMasterList.list[index].checkNJUNSList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+    
+                for (var i = 0; i < toDoMasterList.list[index].checkPermitList.length; i++) {
+                    if (toDoMasterList.list[index].checkPermitList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].checkEasementList.length; i++) {
+                    if (toDoMasterList.list[index].checkEasementList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].designList.length; i++) {
+                    if (toDoMasterList.list[index].designList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].revisionsList.length; i++) {
+                    if (toDoMasterList.list[index].revisionsList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];
+                
+                for (var i = 0; i < toDoMasterList.list[index].generalList.length; i++) {
+                    if (toDoMasterList.list[index].generalList[i].completed == 0) { // has not been completed - needs to move
+                        curList.push(i);
+                    }
+                }
+                toRemove.push(curList);
+                curList = [];        
+                
+            }
+    
+            if (toRemove.length == 0 || toRemove[0].length == 0 && toRemove[1].length == 0 && toRemove[2].length == 0 && toRemove[3].length == 0 && 
+                toRemove[4].length == 0 && toRemove[5].length == 0 && toRemove[6].length == 0 && toRemove[7].length == 0 && 
+                toRemove[8].length == 0) {
+    
+                    console.log("No incomplete to-do's to move");
+                    h.displayNoIncompleteToDosToMove();
+    
+                return;
+            } else {
+    
+                tempToRemove = toRemove;
+                clickedMoveIncompleteButton = 1;
+    
+                let tempToDo = [];
+    
+                /* Finding any toDo that exists to pass into display function */
+                for (var j = 0; j < 9; j++) {
+                    if (toRemove[j][0] != undefined) {
+    
+                        if (j == 0) {
+                            tempToDo = toDoMasterList.list[index].contactCustomerList[0];
+                        } else if (j == 1) {
+                            tempToDo = toDoMasterList.list[index].siteVisitList[0];
+                        } else if (j == 2) {
+                            tempToDo = toDoMasterList.list[index].svcCalcList[0];
+                        } else if (j == 3) {
+                            tempToDo = toDoMasterList.list[index].checkNJUNSList[0];
+                        } else if (j == 4) {
+                            tempToDo = toDoMasterList.list[index].checkPermitList[0];
+                        } else if (j == 5) {
+                            tempToDo = toDoMasterList.list[index].checkEasementList[0];
+                        } else if (j == 6) {
+                            tempToDo = toDoMasterList.list[index].designList[0];
+                        } else if (j == 7) {
+                            tempToDo = toDoMasterList.list[index].revisionsList[0];
+                        } else if (j == 8) {
+                            tempToDo = toDoMasterList.list[index].generalList[0];
+                        } 
+    
+                        break;
+                    }
+                }
+    
+                displayToDoMoveToDisplay(tempToDo);
+            }
+    
+    
+            /* Adds incomplete items to  */
+            if (toRemove.length != 0) { // this is true if the above conditional was entered (index != undefined)
+    
+            }
         }
-
-
-        /* Adds incomplete items to  */
-        if (toRemove.length != 0) { // this is true if the above conditional was entered (index != undefined)
-
-        }
+        
 
     }) 
     toDoDisplayDayOfWeekDateContainer.addEventListener("click", (event) => {
