@@ -6628,6 +6628,10 @@ async function mainEvent() {
     const addCommentPopUpButtonNo = document.querySelector("#add_comment_pop_up_button_no");
     const addCommentPopUpButtonYes = document.querySelector("#add_comment_pop_up_button_yes");
 
+    /* Test Button for SVC Calc */
+    const testButton = document.querySelector("#test_button");
+    const testButton2 = document.querySelector("#test_button_2");
+
 
 
         /* Variable */
@@ -6672,10 +6676,43 @@ async function mainEvent() {
     let tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
     let tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
     let tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
+
+    let tempRPC = "";
     
     /* Variable used to turn on and off user warnings - speeds up testing by making inputing shorter */
     const inTestMode = false;
     // green background highlight "rgba(87, 245, 43, 0.627)"
+
+    testButton.addEventListener("click", async (event) => {
+        console.log("Fired - Clicked testButton");
+
+        const filterOption = "propertyStreetNbrNameText";
+        const dd = "1712 N Hartford St";
+
+        //const data = await fetch("https://datahub-v2.arlingtonva.us/api/RealEstate/PropertyAddress");
+        const data = await fetch("https://datahub-v2.arlingtonva.us/api/RealEstate/PropertyAddress?$filter=contains(propertyStreetNbrNameText, '" + dd + "')");
+
+        const dataJson = await data.json();
+
+        console.log(dataJson);
+
+        const RPC = dataJson[0].realEstatePropertyCode;
+        console.log(RPC);
+        tempRPC = RPC;
+    })
+
+    testButton2.addEventListener("click", async (event) => {
+        console.log("Fired - Clicked testButton2");
+
+        
+
+        var curWindowDocument = window.open("https://www.zillow.com").document();
+        console.log(curWindowDocument);
+
+        const inputBox = curWindowDocument.getElementById("__c11n_p986");
+        console.log(inputBox);
+    })
+
 
     function testFunction() {
         console.log("** TEST FUNCTION **");
@@ -7422,6 +7459,10 @@ async function mainEvent() {
 
         permitsTab.classList.remove("hidden");
     }
+    function deselectToolsTab() {
+        document.getElementById("tools_tab_display_container").classList.add("hidden");
+        toolsTab.classList.remove("hidden");
+    }
     function deselectAllTabs() {
         console.log("Entered - deselectAllTabs");
 
@@ -7429,6 +7470,7 @@ async function mainEvent() {
         deselectAllToDoTab();
         deselectAllAddTab();
         deselectAllPermitsTab();
+        deselectToolsTab();
 
         uncolorGenericFilterCheckboxes();
         uncheckGenericFilterCheckboxes();
@@ -20351,6 +20393,28 @@ async function mainEvent() {
         deselectAllPermitsTab();
     })
 
+        /* Tools Tab */
+    toolsTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toolsTab");
+
+        /* Deselecting all tabs */
+        deselectAllTabs();
+
+        /* Hiding inactive tab */
+        toolsTab.classList.add("hidden");
+
+        toolsTabActive.classList.remove("hidden");
+
+        document.getElementById("tools_tab_display_container").classList.remove("hidden");
+    })
+    toolsTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toolsTabActive");
+
+        deselectAllTabs();
+        toolsTabActive.classList.add("hidden");
+        toolsTab.classList.remove("hidden");
+    })
+
                 /* Add Comment Tab */
     function hideActiveAddCommentTypeFilters() {
         console.log("Entered - hideAddCommentTypeFilters()");
@@ -20388,6 +20452,7 @@ async function mainEvent() {
         }
         return permitComments;
     }
+
                     /* All Comments */
     addCommentFilterTabAll.addEventListener("click", (event) => {
         console.log("Fired - Clicked addCommentFilterTabAll");
