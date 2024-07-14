@@ -17244,9 +17244,12 @@ async function mainEvent() {
 
         for (var i = 0; i < tempAllCommentCount; i++) {
             if (document.getElementById("existing_comment_item_" + i) != null && document.getElementById("existing_comment_item_" + i).classList.contains("selectedComment")) {
+                
                 document.getElementById("existing_comment_item_" + i).remove();
+
                 const secondHalf = tempAllComments.list.slice(tempAllComments.list.length - 1 - i + 1);
                 const firstHalf = tempAllComments.list.slice(0, tempAllComments.list.length - 1 - i);
+
                 tempAllComments.list = firstHalf.concat(secondHalf);
 
                 let newPage = [];
@@ -17256,7 +17259,7 @@ async function mainEvent() {
                         newPage.push(tempAllComments.list[j]);
                     }
                 }
-                updateComments(newPage, "addComment");
+                //updateComments(newPage, "addComment"); // taken out on 7-13-24 - was causing the removal of comments to redisplay incorrectly
             }
         }
     }
