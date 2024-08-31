@@ -7462,6 +7462,7 @@ async function mainEvent() {
     function deselectToolsTab() {
         document.getElementById("tools_tab_display_container").classList.add("hidden");
         toolsTab.classList.remove("hidden");
+        toolsTabActive.classList.add("hidden");
     }
     function deselectAllTabs() {
         console.log("Entered - deselectAllTabs");
@@ -20397,22 +20398,25 @@ async function mainEvent() {
     toolsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTab");
 
-        /* Deselecting all tabs */
+        /* Deselecting all tabs 
         deselectAllTabs();
 
-        /* Hiding inactive tab */
+        /* Hiding inactive tab 
         toolsTab.classList.add("hidden");
 
         toolsTabActive.classList.remove("hidden");
 
         document.getElementById("tools_tab_display_container").classList.remove("hidden");
+        */
     })
     toolsTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTabActive");
 
+        /*
         deselectAllTabs();
         toolsTabActive.classList.add("hidden");
         toolsTab.classList.remove("hidden");
+        */
     })
 
                 /* Add Comment Tab */
