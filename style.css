@@ -3908,8 +3908,14 @@ h5 {
 
     .searchTextfieldGoButton {
         padding-left: 2px;
+        padding-right: 2px;
         width: 30px;
         margin-right: 2px;
+
+    }
+
+    .searchBySelectionTextfieldLabel {
+        font-size: small;
     }
 
     .addressLineTextfieldCover {
