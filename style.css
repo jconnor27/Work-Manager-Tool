@@ -3877,6 +3877,12 @@ h5 {
 
     .newWorkRequestNumberTextfieldLabel {
         font-size: small;
+        width: fit-content;
+        margin-right: 20px;
+    }
+
+    .newWrNumContainer {
+        margin-right: 210px;
     }
 
     .dayOfWeekDate {
@@ -3961,6 +3967,7 @@ h5 {
         font-size: medium;
         align-items: center;
         justify-content: center;
+        padding-right: 5px;
         width: 30px;
     }
 
@@ -3973,6 +3980,10 @@ h5 {
     }
 
     .customerContactedLabel {
+        font-size: small;
+    }
+
+    .addTabPriorityBoxLabel {
         font-size: small;
     }
 
@@ -3998,5 +4009,37 @@ h5 {
 
     .pocTextboxEmail {
         margin-right: 0px;
+    }
+
+    .filterCheckboxLabel {
+        font-size: smaller;
+    }
+
+    .addTabPermitCommentsRemoveButton {
+        margin-left: 325px;
+    }
+
+    .addTabPermitCommentsAddButtonLabel {
+        font-size: small;
+    }
+
+    .addTabCommentsRemoveButton {
+        margin-left: 265px;
+    }
+
+    .addCommentTabTextfield {
+        width: 880px;
+    }
+
+    .addCommentTabExistingComments {
+        width: 860px;
+    }
+
+    .addTabCommentTextfieldLabel {
+        width: 130px;
+    }
+
+    .commentTypeDDMenuBox {
+        width: 80;
     }
 }
