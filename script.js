@@ -5368,6 +5368,8 @@ function setFooterDate(dateTime) {
 }
 
     /* Parse Functions */
+
+
 /* Removes saved color preferences from the front of the saved string */
 function splitColorPreferences(str) {
     console.log("Entered - splitColorPreferences(str)");
@@ -5462,6 +5464,7 @@ function parseWrString(str) {
     
     return wrList;
 }
+/* THIS IS WHERE YOU WILL ADD VERSIONING */
 /* Helper for parseWrString - returns a new wr object from str */
 function parseSingleWrString(str) {
     console.log("Entered - parseSingleWrString(str)");
@@ -16643,13 +16646,6 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
 
-            console.log("year=");
-            console.log(year);
-            console.log("month=");
-            console.log(month);
-            console.log("tempNewDay=");
-            console.log(tempNewDay);
-
             d = new Date(year + "-" + month + "-" + tempNewDay);
             console.log("d =");
             console.log(d);
@@ -16725,14 +16721,7 @@ async function mainEvent() {
             day = "0" + day;
         }
         const cur = (year + "-" + month + "-" + day);
-
-        const curDay = d.getDay();
-
-        console.log("GGG Test");
-        console.log("newDay=");
-        console.log(newDay);
-        console.log("curDay=");
-        console.log(curDay);
+        const curDay = d.getDay();      
 
         if (newDay < curDay) { // Going backwards
             //addTabDisplayDayOfWeekDate.value = (year + "-" + month + "-" + (day - (curDay - newDay)));
