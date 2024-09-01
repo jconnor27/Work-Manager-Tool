@@ -3905,4 +3905,16 @@ h5 {
         padding-left: 20px;
         
     }
+
+    .searchTextfieldGoButton {
+        padding-left: 2px;
+    }
+
+    .addressLineTextfieldCover {
+        font-size: medium;
+    }
+
+    .addTabCommentsRemoveButton {
+        margin-left: 280px;
+    }
 }
