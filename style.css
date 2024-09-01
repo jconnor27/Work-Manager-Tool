@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4026,7 +4026,7 @@ h5 {
     }
 
     .addTabCommentsRemoveButton {
-        margin-left: 265px;
+        margin-left: 245px;
         border-radius: 4px;
     }
 
