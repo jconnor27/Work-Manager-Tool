@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -3882,7 +3882,7 @@ h5 {
     }
 
     .newWrNumContainer {
-        margin-right: 210px;
+        margin-right: 160px;
     }
 
     .dayOfWeekDate {
@@ -4012,11 +4012,11 @@ h5 {
     }
 
     .filterCheckboxLabel {
-        font-size: smaller;
+        font-size: 11px;
     }
 
     .addTabPermitCommentsRemoveButton {
-        margin-left: 325px;
+        margin-left: 275px;
     }
 
     .addTabPermitCommentsAddButtonLabel {
@@ -4040,6 +4040,6 @@ h5 {
     }
 
     .commentTypeDDMenuBox {
-        width: 80;
+        width: 80px;
     }
 }
