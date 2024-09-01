@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -3907,7 +3907,6 @@ h5 {
     }
 
     .searchTextfieldGoButton {
-        padding-left: 2px;
         padding-right: 2px;
         width: 50px;
         margin-right: 2px;
@@ -3960,5 +3959,15 @@ h5 {
 
     .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton {
         font-size: medium;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .addTabDisplayDueDateInputContainer {
+        width: 520px;
+    }
+
+    .dataFromValueBox {
+        width: 120px;
     }
 }
