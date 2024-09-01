@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -3908,10 +3908,12 @@ h5 {
 
     .searchTextfieldGoButton {
         padding-left: 2px;
+        width: 30px;
+        margin-right: 2px;
     }
 
     .addressLineTextfieldCover {
-        font-size: medium;
+        font-size: small;
     }
 
     .addTabCommentsRemoveButton {
