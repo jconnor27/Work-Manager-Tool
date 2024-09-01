@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -3918,11 +3918,19 @@ h5 {
         font-size: small;
     }
 
+    .searchBySelectionLowerContainerCheckbox {
+        margin-right: 8px;
+    }
+
     .addressLineTextfieldCover {
         font-size: small;
     }
 
     .addTabCommentsRemoveButton {
         margin-left: 280px;
+    }
+
+    .prevNextContainer {
+        margin-right: 160px;
     }
 }
