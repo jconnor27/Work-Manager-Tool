@@ -5277,6 +5277,9 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     const toDos = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_do_count_box");
     toDos.innerHTML = toDoMasterList.getCountToDosByWorkRequestNumber(wr.workRequestNumber);
 
+    const toDoBox = document.getElementById("all_wr_tab_row_" + rowNumberText + "_to_dos");
+    toDoBox.classList.add("allWrRowElementContainerToDoAdjustment");
+
     const permitStatus = document.getElementById("permit_status_dd_allWr_tab_row_" + rowNumber + "_current");
     permitStatus.innerText = wr.permit.permitStatus;
     permitStatus.style.backgroundColor = assessPermitStatus(wr.permit.permitStatus, userColors);
@@ -16479,10 +16482,19 @@ async function mainEvent() {
             const tempDay = curDayNum + daysToAdd;
            
             if (tempDay > 28) {
-                const newDay = tempDay - 28;
+                let newDay = tempDay - 28;
+
+                if (newDay < 10) {
+                    newDay = "0" + newDay;
+                }
                 return (curYear + "-03-" + newDay);
             } else {
-                return (curYear + "-02-" + tempDay);
+
+                let newDay = tempDay;
+                if (newDay < 10) {
+                    newDay = "0" + tempDay;
+                }
+                return (curYear + "-02-" + newDay);
             }
         } else if (curMonth == 4 || curMonth == 6 || curMonth == 9 || curMonth == 11) { // Months with 30 Days
             const curDayNum = new Number(curDay);
@@ -16517,11 +16529,11 @@ async function mainEvent() {
 
                 const newMonth = new Number(curMonth) + 1;
                 if ((newMonth) < 10 && newDay < 10) {
-                    return (curYear + "-0" + newMonth + "-0" + newDay);
+                    return (curYear + "-0" + newMonth + "-" + newDay);
                 } else if ((newMonth) < 10) {
                     return (curYear + "-0" + newMonth + "-" + newDay);
                 } else if (newDay < 10) {
-                    return (curYear + "-" + newMonth + "-0" + newDay);
+                    return (curYear + "-" + newMonth + "-" + newDay);
                 } else {
                     return (curYear + "-" + newMonth + "-" + newDay);
                 }

@@ -3848,3 +3848,61 @@ h5 {
     
 
 }
+
+@media only screen and (max-width: 1370px) {
+
+    .headerTabsContainer {
+        border-color: red;
+    }
+
+    .footerContainer {
+        width: 1356px;
+    }
+
+    .headerTab {
+        width: 133.5px;
+    }
+
+    .leftSideContainer {
+        width: 280px;
+    }
+
+    .searchByBoxContainer {
+        width: 278px;
+    }
+
+    .filterGoButton {
+        margin-left: 6rem;
+    }
+
+    .newWorkRequestNumberTextfieldLabel {
+        font-size: small;
+    }
+
+    .dayOfWeekDate {
+        font-size: small;
+    }
+
+    .toDoMoveIncompleteButton {
+        font-size: small;
+    }
+
+    .allWrTabDisplayHeaderSmall {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .allWrRowElementContainerSmall {
+        width: 60px;
+    }
+
+    .allWrRowElementContainerToDoAdjustment {
+        width: 66px;
+    }
+
+    .allWrTabDisplayHeaderToDo {
+        width: 30px;
+        padding-left: 20px;
+        
+    }
+}
