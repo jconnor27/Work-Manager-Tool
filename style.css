@@ -3971,4 +3971,32 @@ h5 {
     .dataFromValueBox {
         width: 120px;
     }
+
+    .customerContactedLabel {
+        font-size: small;
+    }
+
+    .addTabCreationBoxLabel {
+        font-size: small;
+    }
+
+    .addTabTextfieldLabel {
+        font-size: small;
+    }
+
+    .addTabCommentsAddButtonLabel {
+        font-size: medium;
+    }
+
+    .pocRowOneLabelContainer {
+        font-size: medium;
+    }
+
+    .pocRowOneContainer, .pocRowTwoContainer, .pocRowThreeContainer, .pocRowFourContainer {
+        justify-content: space-between;
+    }
+
+    .pocTextboxEmail {
+        margin-right: 0px;
+    }
 }
