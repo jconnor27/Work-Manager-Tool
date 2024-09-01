@@ -3909,7 +3909,7 @@ h5 {
     .searchTextfieldGoButton {
         padding-left: 2px;
         padding-right: 2px;
-        width: 30px;
+        width: 50px;
         margin-right: 2px;
 
     }
@@ -3932,5 +3932,33 @@ h5 {
 
     .prevNextContainer {
         margin-right: 160px;
+    }
+
+    .toDoDisplayRowOne {
+        width: 1050px;
+    }
+
+    .toDoDisplayRowTwo {
+        width: 1050px;
+    }
+
+    .toDoDisplayRowElementContainer {
+        width: 1050px;
+    }
+
+    .addDisplayContainer {
+        width: 1075px;
+    }
+
+    .addTabDisplayBottom {
+        width: 1070px;
+    }
+
+    .addTabTextfieldContainer {
+        margin-top: 8px;
+    }
+
+    .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton {
+        font-size: medium;
     }
 }
