@@ -3852,7 +3852,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -3882,7 +3882,7 @@ h5 {
     }
 
     .newWrNumContainer {
-        margin-right: 160px;
+        margin-right: 170px;
     }
 
     .dayOfWeekDate {
@@ -3915,7 +3915,7 @@ h5 {
     .searchTextfieldGoButton {
         padding-right: 2px;
         width: 50px;
-        margin-right: 2px;
+        margin-right: 4px;
 
     }
 
@@ -3933,6 +3933,7 @@ h5 {
 
     .addTabCommentsRemoveButton {
         margin-left: 280px;
+        border-radius: 4px;
     }
 
     .prevNextContainer {
@@ -3964,7 +3965,7 @@ h5 {
     }
 
     .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton {
-        font-size: medium;
+        font-size: small;
         align-items: center;
         justify-content: center;
         padding-right: 5px;
@@ -4017,6 +4018,7 @@ h5 {
 
     .addTabPermitCommentsRemoveButton {
         margin-left: 275px;
+        border-radius: 4px;
     }
 
     .addTabPermitCommentsAddButtonLabel {
@@ -4025,6 +4027,7 @@ h5 {
 
     .addTabCommentsRemoveButton {
         margin-left: 265px;
+        border-radius: 4px;
     }
 
     .addCommentTabTextfield {
@@ -4041,5 +4044,6 @@ h5 {
 
     .commentTypeDDMenuBox {
         width: 80px;
+        font-size: small;
     }
 }
