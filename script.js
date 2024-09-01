@@ -4465,7 +4465,7 @@ class DisplayState {
             this.subTab = "to_do_coordinator_tab";
         } else if (document.getElementById("to_do_waiting_tab").classList.contains("hidden")) {
             this.subTab = "to_do_waiting_tab";
-        } else if (document.getElementById("to_do_on_return_to_office_tab").classList.contains("hidden")) {
+        } else if (document.getElementById("to_do_return_to_office_tab").classList.contains("hidden")) {
             this.subTab = "to_do_on_return_to_office_tab";
         } 
 
@@ -7576,7 +7576,7 @@ async function mainEvent() {
     
         
 
-        if (toDoTab.classList.contains("hidden")) {
+        if (toDoTab.classList.contains("hidden")) { // to Do Tab is active
             document.getElementById("filter_checkbox_general").checked = false;
             document.getElementById("filter_checkbox_contact_customer").checked = false;
 
@@ -7604,6 +7604,13 @@ async function mainEvent() {
             document.getElementById("filter_checkbox_flag").checked = false;
             document.getElementById("filter_checkbox_7010").checked = false;
             document.getElementById("filter_checkbox_cancled_other").checked = false;
+
+            if (document.getElementById("filter_checkbox_waiting_other").checked) {
+                document.getElementById("filter_checkbox_waiting_other").checked = false;
+
+                document.getElementById("footer_filter_checkbox_7010").checked = false;
+                document.getElementById("footer_filter_checkbox_all").checked = true;
+            }
         }
     
     }
@@ -16619,7 +16626,7 @@ async function mainEvent() {
         if (tab == "add") {
             let temp = addTabDisplayDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16629,17 +16636,27 @@ async function mainEvent() {
         } else if (tab == "to_do_display") {
             let temp = toDoDisplayDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
+
+            console.log("year=");
+            console.log(year);
+            console.log("month=");
+            console.log(month);
+            console.log("tempNewDay=");
+            console.log(tempNewDay);
+
             d = new Date(year + "-" + month + "-" + tempNewDay);
+            console.log("d =");
+            console.log(d);
         } else if  (tab == "move_to") {
             let temp = moveToDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16649,7 +16666,7 @@ async function mainEvent() {
         } else if (tab == "missing_info") {
             let temp = missingInfoDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16659,7 +16676,7 @@ async function mainEvent() {
         } else if (tab == "add_to_do_pop_up") {
             let temp = addToDoPopUpDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16669,7 +16686,7 @@ async function mainEvent() {
         } else if (tab == "permit_status_warning_pop_up") {
             let temp = permitStatusWarningPopUpDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16679,7 +16696,7 @@ async function mainEvent() {
         } else if (tab == "easement_status_warning_pop_up") {
             let temp = easementStatusWarningPopUpDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16689,7 +16706,7 @@ async function mainEvent() {
         } else if (tab == "move_existing_to_do_pop_up") {
             let temp = moveExistingToDoPopUpDayOfWeekDate.value;
             let tempDay = temp.substring(8);
-            let tempNewDay = new Number(tempDay) + 1;
+            let tempNewDay = new Number(tempDay);
             if (tempNewDay < 10) {
                 tempNewDay = "0" + tempNewDay;
             }
@@ -16710,6 +16727,12 @@ async function mainEvent() {
         const cur = (year + "-" + month + "-" + day);
 
         const curDay = d.getDay();
+
+        console.log("GGG Test");
+        console.log("newDay=");
+        console.log(newDay);
+        console.log("curDay=");
+        console.log(curDay);
 
         if (newDay < curDay) { // Going backwards
             //addTabDisplayDayOfWeekDate.value = (year + "-" + month + "-" + (day - (curDay - newDay)));
