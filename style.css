@@ -3860,7 +3860,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4066,7 +4066,6 @@ h5 {
 
     .errorMessageInvalidWrType {
         font-size: small;
-        margin-left: -5px;
     }
 
     .permitRowElementContainer {
@@ -4101,6 +4100,6 @@ h5 {
     }
 
     .wrTypeRowElement {
-        margin-left: -15px;
+        margin-left: -20px;
     }
 }
