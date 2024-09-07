@@ -448,7 +448,6 @@ class ToDoTypeDDMenu {
         str.style.marginTop = '200px';
         str.style.backgroundColor = "white";
         str.style.height = '240px';
-        //str.style.width = '350px';
         str.style.flexWrap = 'wrap';
         str.style.zIndex = '1';
         str.id = "to_do_type_dd_" + this.rowNumber + "_content";

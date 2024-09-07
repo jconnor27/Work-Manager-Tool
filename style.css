@@ -3856,7 +3856,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4081,6 +4081,6 @@ h5 {
     }
 
     .addToDoTypeDDMenuContentBox {
-        width: 260px;
+        width: 275px;
     }
 }
