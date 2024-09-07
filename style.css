@@ -4078,10 +4078,17 @@ h5 {
         padding-right: 21px;
     }
 
+    .permitDateAppliedHeader {
+        width: 92px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
     .permitDateApplied {
         width: 92px;
         padding-left: 5px;
         padding-right: 5px;
+        font-size: medium;
     }
 
     .addToDoTypeDDMenuContentBox {
@@ -4090,5 +4097,9 @@ h5 {
 
     .addWrGeneralStatusDDMenuContentBox {
         width: 400px;
+    }
+
+    .wrTypeRowElement {
+        margin-left: -15px;
     }
 }
