@@ -386,7 +386,8 @@ class GeneralStatusDDMenu {
         str.style.marginTop = '25px';
         str.style.backgroundColor = "white";
         str.style.height = '290px';
-        str.style.width = '350px';
+        //str.style.width = '350px';
+        str.classList.add("addWrGeneralStatusDDMenuContentBox");
         str.style.flexWrap = 'wrap';
         str.style.zIndex = 1;
         str.id = "general_status_dd_" + this.rowNumber + "_content";
@@ -15716,6 +15717,7 @@ async function mainEvent() {
 
             tempContent.style.marginBottom = '350px';
             tempContent.style.zIndex = 2;
+            tempContent.classList.add("addWrGeneralStatusDDMenuContentBox");
 
             dropdownCover.classList.remove("hidden");
         } else if (tempContent.style.display = 'flex' && event.target.innerHTML == "/\\") {

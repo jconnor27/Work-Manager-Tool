@@ -3847,6 +3847,10 @@ h5 {
     width: 230px;
 }
 
+.addWrGeneralStatusDDMenuContentBox {
+    width: 350px;
+}
+
 .hidden {
     display: none;
     
@@ -4052,16 +4056,16 @@ h5 {
     }
 
     .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
-        margin-left: 30px;
-        font-size: medium;
+        margin-left: none;
+        font-size: small;
     }
 
-    .dropdownMenuWrGeneralStatus {
-        width: 400px;
-    }
+    /*.dropdownMenuWrGeneralStatus {
+        width: 40px;
+    }*/
 
     .errorMessageInvalidWrType {
-        font-size: medium;
+        font-size: small;
     }
 
     .permitRowElementContainer {
@@ -4082,5 +4086,9 @@ h5 {
 
     .addToDoTypeDDMenuContentBox {
         width: 275px;
+    }
+
+    .addWrGeneralStatusDDMenuContentBox {
+        width: 400px;
     }
 }
