@@ -3843,6 +3843,10 @@ h5 {
     align-self: flex-end;
 }
 
+.addToDoTypeDDMenuContentBox {
+    width: 230px;
+}
+
 .hidden {
     display: none;
     
@@ -4045,5 +4049,38 @@ h5 {
     .commentTypeDDMenuBox {
         width: 80px;
         font-size: small;
+    }
+
+    .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
+        margin-left: 30px;
+        font-size: medium;
+    }
+
+    .dropdownMenuWrGeneralStatus {
+        width: 400px;
+    }
+
+    .errorMessageInvalidWrType {
+        font-size: medium;
+    }
+
+    .permitRowElementContainer {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .permitsTabDisplayHeader {
+        padding-left: 21px;
+        padding-right: 21px;
+    }
+
+    .permitDateApplied {
+        width: 92px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .addToDoTypeDDMenuContentBox {
+        width: 260px;
     }
 }

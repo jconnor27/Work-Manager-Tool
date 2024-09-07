@@ -448,10 +448,11 @@ class ToDoTypeDDMenu {
         str.style.marginTop = '200px';
         str.style.backgroundColor = "white";
         str.style.height = '240px';
-        str.style.width = '350px';
+        //str.style.width = '350px';
         str.style.flexWrap = 'wrap';
         str.style.zIndex = '1';
         str.id = "to_do_type_dd_" + this.rowNumber + "_content";
+        str.classList.add("addToDoTypeDDMenuContentBox");
 
         rowElement.innerHTML = `<div class="toDoTypeDDMenuBox" id="to_do_type_dd_${this.rowNumber}_current">${this.curOption}</div>` +
         `<button type"button" class="toDoTypeDDMenuButton" id="to_do_type_dd_${this.rowNumber}_button">\\/</button>` + str.outerHTML;
@@ -7027,7 +7028,9 @@ async function mainEvent() {
         dd = new ToDoTypeDDMenu("0");
         dd.setHeight("50px");
         dd.setWidth("200px");
+
         ddRow = dd.makeRowElement();
+        //ddRow.classList.add("addToDoTypeDDMenu");
 
         addTabDisplayToDoDDMenuTypeContainer.innerHTML = "";
         addTabDisplayToDoDDMenuTypeContainer.insertAdjacentHTML("beforeend", `<label for="add_tab_display_to_do_dd_menu_type_container" class="addTabDisplayToDoTypeDDLabel">Type: </label>`);
@@ -16001,7 +16004,8 @@ async function mainEvent() {
             tempContent.style.border = '1px solid black';
 
             tempContent.style.marginTop = '240px';
-            tempContent.style.width = '230px';
+            //tempContent.style.width = '230px';
+            tempContent.classList.add("addToDoTypeDDMenuContentBox");
             tempContent.style.height = '200px';
             tempContent.style.paddingLeft = '20px';
             tempContent.style.zIndex = 2;
