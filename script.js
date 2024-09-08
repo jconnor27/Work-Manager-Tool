@@ -1588,13 +1588,53 @@ class ColorPreferences {
 }
 class SystemPreferences {
     constructor() {
-        this.rowsOnPage = 8;
-        this.permitCommentCount = 6;
-        this.tempCommentsCount = 7;
-        this.tempAllCommentCount = 14;
-        this.tempNotesCount = 3;
-        this.linesPerPageToDo = 19;
-        this.promptDuration = 3;
+        this.rowsOnPage;
+        this.permitCommentCount;
+        this.tempCommentsCount;
+        this.tempAllCommentCount;
+        this.tempNotesCount;
+        this.linesPerPageToDo;
+        this.promptDuration;
+        this.permitExpirationWarning;
+
+        const data = window.localStorage.getItem("data");
+        console.log(data);
+
+        if (data != undefined) { // Settings Values From Saved Data
+            console.log("Getting Data From Local Storage");
+
+            /* Checking File Name to make sure user enter valid file */
+            const curFileName = window.localStorage.getItem("fileName");
+
+            if (curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
+                console.log("Bad File Name! Displaying Prompt");
+                document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
+                footerButtonSave.style.zIndex = '2';
+                document.getElementById("bad_file_name_container").innerHTML = curFileName;
+            } else {
+                console.log("Good File Name. Removing Prompt");
+                document.getElementById("bad_file_name_pop_up_container").classList.add("hidden");
+
+            }
+
+            let toDoMasterListData = splitToDoMasterList(data);
+            let systemPreferencesData = splitSystemPreferences(toDoMasterListData[1]);
+            
+            let systemPreferencesStr = systemPreferencesData[0];
+            
+            this.load(systemPreferencesStr);
+        } else { // No Previous Data Found - Default Values
+            this.rowsOnPage = 8;
+            this.permitCommentCount = 6;
+            this.tempCommentsCount = 7;
+            this.tempAllCommentCount = 14;
+            this.tempNotesCount = 3;
+            this.linesPerPageToDo = 19;
+            this.promptDuration = 3;
+            this.permitExpirationWarning = 35;
+        }
+
+        
     }
 
     load(str) {
@@ -1605,7 +1645,7 @@ class SystemPreferences {
         let data = [];
         let count = 0;
 
-        while (count < 7) {
+        while (count < 8) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1620,6 +1660,7 @@ class SystemPreferences {
         this.tempNotesCount = data[4];
         this.linesPerPageToDo = data[5];
         this.promptDuration = data[6];
+        this.permitExpirationWarning = data[7];
 
         console.log("linesPerPageToDo value = ");
         console.log(this.linesPerPageToDo);
@@ -1631,7 +1672,7 @@ class SystemPreferences {
         let str = "";
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
-        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@";
+        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@";
 
         console.log("Returning str =");
         console.log(str);
@@ -5400,7 +5441,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 7) {
+    while (count < 8) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -6563,6 +6604,7 @@ async function mainEvent() {
     const settingsPreferencesClearLocalStorageButton = document.querySelector("#settings_preferences_clear_local_storage_button");
     const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
     const settingsPreferencesPromptDuration = document.querySelector("#settings_preferences_textfield_prompt_duration");
+    const settingsPreferencesPermitExpirationWarning = document.querySelector("#settings_preferences_textfield_permit_expiration_warning");
     const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
     const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
     const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
@@ -6667,6 +6709,7 @@ async function mainEvent() {
     let systemPreferences = new SystemPreferences();
     let toDoMasterList = new ToDoMasterList(19);//systemPreferences.linesPerPageToDo);
     
+    let permitExpirationWarning = systemPreferences.permitExpirationWarning;
     let rowsOnPage = systemPreferences.rowsOnPage;
     let linesPerPageToDo = systemPreferences.linesPerPageToDo;
     let promptDuration = systemPreferences.promptDuration;
@@ -7307,6 +7350,7 @@ async function mainEvent() {
         settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
         settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
         settingsPreferencesPromptDuration.value = promptDuration;
+        settingsPreferencesPermitExpirationWarning.value = permitExpirationWarning;
 
         /* Missing Info and Add To-Do Pop Ups */
         initializePopups();
@@ -7314,8 +7358,6 @@ async function mainEvent() {
         /* Checks all work requests to see if permits are expiring soon -
             if so, updates status and prompts user to add/update to-do */
         initialCheckPermitDates();
-
-        
 
         // Running test function
         testFunction();
@@ -7349,7 +7391,7 @@ async function mainEvent() {
                     const curWrPermitEnd = new Date(allWrList[i].permit.endDate);
                     const dif = calculateCrdRcdDifference(curWrPermitEnd - today);
                     
-                    if (dif < 35) { // will change/add in system preferences
+                    if (dif < systemPreferences.permitExpirationWarning) { // will change/add in system preferences
 
                         /* Changing Permit Status */
                         allWrList[i].permit.permitStatus = "Expiring Soon";
@@ -7360,13 +7402,13 @@ async function mainEvent() {
                         setAllWrRowValues(allWrList[i], rowNum, userColors, toDoMasterList);
 
                         if (toDoMasterList.toDoTypeExistsForWorkRequest("check_permit", allWrList[i].workRequestNumber) == false) { // Function that checks to do's for wr to see if to-do already exists
-                            /* Revealing Popup */   // Need to change text "35" below when system preferences is updated
+                            /* Revealing Popup */  
                             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days. Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in ${systemPreferences.permitExpirationWarning} days. Do you want <br> to add a \"Check/ Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
                     
                         } else { // wr has to-do for that type - note to self: move the to-do to today if it isn't already 
                             document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText" style="margin-top: -15px;">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in 35 days.<br> Do you want to update the date/tab for existing \"Check/ <br>Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
+                            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText" style="margin-top: -15px;">Permit for Work Request # ${allWrList[i].workRequestNumber} " is expiring in ${systemPreferences.permitExpirationWarning} days.<br> Do you want to update the date/tab for existing \"Check/ <br>Apply - Permit\" To-Do for Work Request # ${allWrList[i].workRequestNumber}?</div>`;
                     
                         }
                     } 
@@ -19323,7 +19365,8 @@ async function mainEvent() {
             settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount &&
             settingsPreferencesTextfieldNotesToDo.value == systemPreferences.tempNotesCount &&
             settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo &&
-            settingsPreferencesPromptDuration.value == systemPreferences.promptDuration) {
+            settingsPreferencesPromptDuration.value == systemPreferences.promptDuration &&
+            settingsPreferencesPermitExpirationWarning.value == systemPreferences.permitExpirationWarning) {
                 return false;
         } else {
             return true;
@@ -19606,6 +19649,29 @@ async function mainEvent() {
             event.target.select();
         }
     })
+    settingsPreferencesPermitExpirationWarning.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesPermitExpirationWarning");
+        
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesPermitExpirationWarning.addEventListener("click", (event) => {
+        console.log("Clicked - settingsPreferencesPermitExpirationWarning");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
     
 
         /* Save Buttons */
@@ -19617,7 +19683,7 @@ async function mainEvent() {
         str += settingsPreferencesTextfieldRowsPerPage.value + "@" + settingsPreferencesTextfieldCommentsWr.value + "@" + 
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
                settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
-               settingsPreferencesPromptDuration.value + "@";
+               settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
@@ -19641,6 +19707,8 @@ async function mainEvent() {
         tempCommentsCount = systemPreferences.tempCommentsCount;
         tempAllCommentCount = systemPreferences.tempAllCommentCount;
         tempNotesCount = systemPreferences.tempNotesCount;
+        promptDuration = systemPreferences.promptDuration;
+        permitExpirationWarning = systemPreferences.permitExpirationWarning;
 
         /* Creating New Temp containers With Updated Sizes */
         tempToDoPageElement = new PaginatedToDoPageElement(linesPerPageToDo, toDoMasterList);

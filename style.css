@@ -2717,7 +2717,7 @@ h5 {
 }
 
 .settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, 
-.settingsDisplayRowSixPreferences, .settingsDisplayRowSevenPreferences {
+.settingsDisplayRowSixPreferences, .settingsDisplayRowSevenPreferences, .settingsDisplayRowEightPreferences {
     display: flex;
     flex-direction: row;
     margin-left: 50px;
