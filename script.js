@@ -5811,7 +5811,7 @@ function insertRcdError(tab, row, warningDays) {
     const rcdError = document.createElement("rcdError");
     rcdError.innerText = "* RCD is < " + warningDays + " days *";
     rcdError.style.color = "red";
-    //rcdError.style.fontSize = "smaller";
+    rcdError.style.fontSize = "smaller";
     rcdError.id = tab + "_tab_row_" + row + "_rcd_error";
 
     let temp = [];
