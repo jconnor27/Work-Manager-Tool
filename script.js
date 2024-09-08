@@ -5680,14 +5680,18 @@ function parseComments(comments) {
         /* Check Functions */
     /* CRD/RCD Check/Error Functions */
 function crdRcdCheck(crd, rcd, tab, row) {
-    console.log("Entered - crdRcdCheck(" + tab + " tab - row " + row + ")");
+    console.log("Entered - crdRcdCheck(crd = " + crd + ", rcd = " + rcd + ", " + tab + " tab - row " + row + ")");
 
     const crdDate = new Date(crd);
     const rcdDate = new Date(rcd);
     const difference = calculateCrdRcdDifference(rcdDate - crdDate);
 
+    console.log("TEST difference =");
+    console.log(difference);
+    console.log(crd == rcd);
+
     if (crd != "0001-01-01" && rcd != "0001-01-01") {
-        if (difference <= 35) {
+        if (crd == rcd || difference <= 35) {
             insertRcdError(tab, row); 
         } else {
             removeRcdError(tab, row); 
@@ -5904,8 +5908,8 @@ function assessEasementStatus(status, userColors) {
 }
 /* Compares the date param to the current date in real life and
    Returns a color to style the containers background */
-   function assessDateCRD(date, userColors) {
-    console.log("Entered - assessDateCRD(date)");
+function assessDateCRD(date, userColors) {
+    console.log("Entered - assessDateCRD( " + date + " )");
 
     const curDate = new Date();
     const temp = date - curDate;
@@ -5928,7 +5932,7 @@ function assessEasementStatus(status, userColors) {
     }
 }
 function assessDateRCD(date, userColors) {
-    console.log("Entered - assessDateRCD(date)");
+    console.log("Entered - assessDateRCD( " + date + ")");
 
     const curDate = new Date();
     const temp = date - curDate;
