@@ -991,6 +991,17 @@ class Error {
             temp.remove();
         }, this.promptDuration); 
     }
+
+    displayMaxRowsPerPage() {
+        console.log("Entered - displayMaxRowsPerPage()");
+
+        const temp = document.getElementById("settings_preferences_textfield_rows_per_page");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageMaxRowsPerPage" id="error_max_rows_per_page">The Maximum Number Of Rows On The Page Is 8.`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_max_rows_per_page");
+            temp.remove();
+        }, this.promptDuration);
+    }
 }
 
 class workRequest {
@@ -1148,10 +1159,11 @@ class Page {
 }
 /* To paginate allWrList */
 class Paginated {
-    constructor(list){
+    constructor(list, size){
         console.log("Entered - Paginated - Constructor - List = ");
         this.list = list;
         this.count = 0;
+        this.size = size;
     }
 
     getPages() {
@@ -1162,7 +1174,7 @@ class Paginated {
         let localCount = 0;
 
         for (let i=0; i < this.list.length + 1; i++) {
-            if (localCount == 8) { //*change*
+            if (localCount == this.size) { //*change*
                 const tempPage = new Page(curPage);
                 localCount = 0;
                 curPage = [];
@@ -1187,7 +1199,7 @@ class Paginated {
         const tempLength = this.list.length;
 
         curPage = [];
-        for (let i = 0; i < tempLength % 8; i++) { //*change*
+        for (let i = 0; i < tempLength % this.size; i++) { //*change*
             curPage[i] = pages[pages.length - 1].content[i];
         }
         
@@ -1596,6 +1608,7 @@ class SystemPreferences {
         this.linesPerPageToDo;
         this.promptDuration;
         this.permitExpirationWarning;
+        this.crdRcdWarning;
 
         const data = window.localStorage.getItem("data");
         console.log(data);
@@ -1632,6 +1645,7 @@ class SystemPreferences {
             this.linesPerPageToDo = 19;
             this.promptDuration = 3;
             this.permitExpirationWarning = 35;
+            this.crdRcdWarning = 35;
         }
 
         
@@ -1645,7 +1659,7 @@ class SystemPreferences {
         let data = [];
         let count = 0;
 
-        while (count < 8) {
+        while (count < 9) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1661,6 +1675,7 @@ class SystemPreferences {
         this.linesPerPageToDo = data[5];
         this.promptDuration = data[6];
         this.permitExpirationWarning = data[7];
+        this.crdRcdWarning = data[8];
 
         console.log("linesPerPageToDo value = ");
         console.log(this.linesPerPageToDo);
@@ -1669,10 +1684,14 @@ class SystemPreferences {
     toString() {
         console.log("Entered - SystemPreferences - toString()");
 
+        console.log("TESTP");
+        console.log(this.crdRcdWarning);
+
         let str = "";
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
-        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@";
+        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@" +
+        this.crdRcdWarning + "@";
 
         console.log("Returning str =");
         console.log(str);
@@ -4947,13 +4966,13 @@ function readFile() {
 }
 
     /* InjectHTML Functions */
-function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList) {
-    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ", userColors, toDoMasterList)");
+function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, rowsOnPage) {
+    console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ", userColors, toDoMasterList, rowsOnPage = " + rowsOnPage + ")");
     
-    const pag = new Paginated(allWrList);
+    const pag = new Paginated(allWrList, rowsOnPage);
     const pages = pag.getPages();
 
-    hideAllWrRows();
+    hideAllWrRows(rowsOnPage);
 
     if (document.getElementById("temp_all_wr_list") == null) {
         const tempAllWrList = document.createElement("temp_all_wr_list");
@@ -5033,13 +5052,13 @@ function injectHTMLToDoTabDisplay(toDoDayObject) {
     
     
 }
-function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors) {
-    console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ")");
+function injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, rowsOnPage) {
+    console.log("Entered - injectHTMLPermitsTabDisplay(allWrList, " + currentPagePermits + ", rowsOnPage = " + rowsOnPage + ")");
 
-    const pag = new Paginated(allWrList);
+    const pag = new Paginated(allWrList, rowsOnPage);
     const pages = pag.getPages();
 
-    hideAllPermitRows();
+    hideAllPermitRows(rowsOnPage);
 
     const tempAllWrList = document.getElementById("temp_all_wr_list");
     tempAllWrList.innerHTML = allWrList;
@@ -5176,9 +5195,6 @@ function setPermitRowValues(wr, rowNumber, userColors) {
     address.innerHTML = wr.wrAddressType().outerHTML;
 
     const applied = document.getElementById("permits_tab_row_" + rowNumberText + "_applied");
-
-    console.log("dddd");
-    console.log(wr.permit);
     applied.innerText = formatDateNormal(formatDatePermitApplied(wr.permit.dateApplied));
 
     const status = document.getElementById("permit_status_dd_permits_tab_row_" + rowNumber + "_current");
@@ -5232,13 +5248,13 @@ function setPermitRowValues(wr, rowNumber, userColors) {
 
     }
 }
-function hideAllPermitRows() {
-    console.log("Entered - hideAllPermitRows()");
+function hideAllPermitRows(rowsOnPage) {
+    console.log("Entered - hideAllPermitRows(rowsOnPage)");
 
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 8; i++) { //*change* - value = numRowsOnPage
+    for (var i = 0; i < rowsOnPage; i++) { //*change* - value = numRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("permits_tab_row_" + rowNumberText);
@@ -5362,13 +5378,13 @@ function setAllWrRowValues(wr, rowNumber, userColors, toDoMasterList) {
     //pocs.innerText = wr.ownerName + " - " + wr.ownerNumber + "\n" + wr.ownerEmail;
 
 }
-function hideAllWrRows() {
-    console.log("Entered - hideAllWrRows()");
+function hideAllWrRows(rowsOnPage) {
+    console.log("Entered - hideAllWrRows(rowsOnPage)");
 
     let temp = [];
     let rowNumberText = "";
 
-    for (var i = 0; i < 8; i++) { //*change* - value = allRowsOnPage
+    for (var i = 0; i < rowsOnPage; i++) { //*change* - value = allRowsOnPage
         rowNumberText = convertNumText(i + 1);
         
         temp = document.getElementById("all_wr_tab_row_" + rowNumberText);
@@ -5441,7 +5457,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 8) {
+    while (count < 9) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -5720,8 +5736,8 @@ function parseComments(comments) {
 
         /* Check Functions */
     /* CRD/RCD Check/Error Functions */
-function crdRcdCheck(crd, rcd, tab, row) {
-    console.log("Entered - crdRcdCheck(crd = " + crd + ", rcd = " + rcd + ", " + tab + " tab - row " + row + ")");
+function crdRcdCheck(crd, rcd, tab, row, warningDays) {
+    console.log("Entered - crdRcdCheck(crd = " + crd + ", rcd = " + rcd + ", " + tab + " tab - row " + row + ", warningDays = " + warningDays + ")");
 
     const crdDate = new Date(crd);
     const rcdDate = new Date(rcd);
@@ -5732,8 +5748,8 @@ function crdRcdCheck(crd, rcd, tab, row) {
     console.log(crd == rcd);
 
     if (crd != "0001-01-01" && rcd != "0001-01-01") {
-        if (crd == rcd || difference <= 35) {
-            insertRcdError(tab, row); 
+        if (crd == rcd || difference <= warningDays) {
+            insertRcdError(tab, row, warningDays); 
         } else {
             removeRcdError(tab, row); 
         }
@@ -5789,11 +5805,11 @@ function calculateCrdRcdDifference(dateDifference) {
         }
     }
 }
-function insertRcdError(tab, row) {
+function insertRcdError(tab, row, warningDays) {
     console.log("Entered - insertRcdError(" + tab +" tab - row " + row + ")");
 
     const rcdError = document.createElement("rcdError");
-    rcdError.innerText = "* RCD is < 5 Weeks *";
+    rcdError.innerText = "* RCD is < " + warningDays + " days *";
     rcdError.style.color = "red";
     //rcdError.style.fontSize = "smaller";
     rcdError.id = tab + "_tab_row_" + row + "_rcd_error";
@@ -6605,6 +6621,7 @@ async function mainEvent() {
     const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
     const settingsPreferencesPromptDuration = document.querySelector("#settings_preferences_textfield_prompt_duration");
     const settingsPreferencesPermitExpirationWarning = document.querySelector("#settings_preferences_textfield_permit_expiration_warning");
+    const settingsPreferencesCrdRcdWarning = document.querySelector("#settings_preferences_textfield_crd_rcd_warning");
     const clear7010PopUpButtonNo = document.querySelector("#clear_7010_pop_up_button_no");
     const clear7010PopUpButtonYes = document.querySelector("#clear_7010_pop_up_button_yes");
     const clear7010PopUpXButton = document.querySelector("#clear_7010_pop_up_x_button");
@@ -6713,6 +6730,10 @@ async function mainEvent() {
     let rowsOnPage = systemPreferences.rowsOnPage;
     let linesPerPageToDo = systemPreferences.linesPerPageToDo;
     let promptDuration = systemPreferences.promptDuration;
+    let crdRcdWarning = systemPreferences.crdRcdWarning;
+
+    console.log("DDT");
+    console.log(systemPreferences.crdRcdWarning);
 
     let permitCommentCount = systemPreferences.permitCommentCount;
     let tempCommentsCount = systemPreferences.tempCommentsCount;
@@ -7351,6 +7372,9 @@ async function mainEvent() {
         settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
         settingsPreferencesPromptDuration.value = promptDuration;
         settingsPreferencesPermitExpirationWarning.value = permitExpirationWarning;
+        settingsPreferencesCrdRcdWarning.value = crdRcdWarning;
+        console.log("TESTQ")
+        console.log([crdRcdWarning]);
 
         /* Missing Info and Add To-Do Pop Ups */
         initializePopups();
@@ -8991,7 +9015,7 @@ async function mainEvent() {
                 
             }
         }
-        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
         missingInfoContainer.classList.add("hidden");
         assessGeneralStatusChange(i% rowsOnPage);
     })
@@ -10753,7 +10777,7 @@ async function mainEvent() {
 
             
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText, systemPreferences.crdRcdWarning);
             
         }
 
@@ -10854,7 +10878,7 @@ async function mainEvent() {
             document.getElementById("all_wr_tab_row_" + rowNumberText + "_rcd").style.backgroundColor = assessDateRCD(d, userColors);
             
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText);
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "all_wr", rowNumberText, systemPreferences.crdRcdWarning);
             
         }
 
@@ -11454,8 +11478,8 @@ async function mainEvent() {
 
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, systemPreferences.rowsOnPage);
 
             console.log("* Internal List Updated *");
         }
@@ -11734,8 +11758,8 @@ async function mainEvent() {
 
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, systemPreferences.rowsOnPage);
 
             console.log("* Internal List Updated *");
         }
@@ -11888,8 +11912,8 @@ async function mainEvent() {
 
             allWrList[curWrIndex] = currentWr;
 
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, systemPreferences.rowsOnPage);
 
             console.log("* Internal List Updated *");
         }
@@ -11950,7 +11974,7 @@ async function mainEvent() {
         console.log(curPageAllWr);
 
         curPageAllWr.innerHTML = currentPageAllWr + 1 + 1; // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1, userColors, toDoMasterList);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr + 1, userColors, toDoMasterList, systemPreferences.rowsOnPage);
         currentPageAllWr += 1;
 
         return;
@@ -11960,7 +11984,7 @@ async function mainEvent() {
         backButton.storePageState("all_wr");
 
         curPageAllWr.innerHTML = currentPageAllWr - 1 + 1;  // second + 1 for display
-        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors, toDoMasterList);
+        injectHTMLAllWrTabDisplay(filteredList, currentPageAllWr - 1, userColors, toDoMasterList, systemPreferences.rowsOnPage);
         currentPageAllWr -= 1;
 
         return; // Can remove?
@@ -14273,7 +14297,7 @@ async function mainEvent() {
             document.getElementById("permits_tab_row_" + rowNumberText + "_rcd_date").style.backgroundColor = assessDateRCD(d, userColors);
 
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText, systemPreferences.crdRcdWarning);
             
         }
 
@@ -14383,7 +14407,7 @@ async function mainEvent() {
             document.getElementById("permits_tab_row_" + rowNumberText + "_crd_date").style.backgroundColor = assessDateCRD(d, userColors);
 
             allWrList[curWrIndex] = currentWr;
-            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText);
+            crdRcdCheck(currentWr.crd, currentWr.rcd, "permits", rowNumberText, systemPreferences.crdRcdWarning);
         }
     }    
     permitsTabRowOneRcd.addEventListener("mouseout", (event) => {
@@ -14605,8 +14629,8 @@ async function mainEvent() {
             allWrList[curWrIndex] = currentWr;
 
             /* Updating Page (Display) */
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, systemPreferences.rowsOnPage);
 
             console.log("* Internal List Updated *");
         }
@@ -14947,7 +14971,7 @@ async function mainEvent() {
         backButton.storePageState("permit");
 
         curPagePermits.innerHTML = currentPagePermits + 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1, userColors);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits + 1, userColors, systemPreferences.rowsOnPage);
         currentPagePermits += 1;
 
             return;
@@ -14957,7 +14981,7 @@ async function mainEvent() {
         backButton.storePageState("permit");
 
         curPagePermits.innerHTML = currentPagePermits - 1 + 1; // second + 1 for display
-        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1, userColors);
+        injectHTMLPermitsTabDisplay(filteredList, currentPagePermits - 1, userColors, systemPreferences.rowsOnPage);
         currentPagePermits -= 1;
             
         return;
@@ -15039,8 +15063,8 @@ async function mainEvent() {
     
                             console.log("allWrList added to internal list");
     
-                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
-                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
@@ -15060,8 +15084,8 @@ async function mainEvent() {
                             tempAllWrList.innerHTML = allWrList;
                             console.log("allWrList added to internal list");
         
-                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+                            injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
+                            injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
                             document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                             document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                             
@@ -15140,8 +15164,8 @@ async function mainEvent() {
                         tempAllWrList.innerHTML = allWrList;
                         console.log("allWrList added to internal list");
         
-                        injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+                        injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
+                        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
                         document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                         document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
         
@@ -15198,8 +15222,8 @@ async function mainEvent() {
                     const tempAllWrList = document.getElementById("temp_all_wr_list");
                     tempAllWrList.innerHTML = allWrList;
                     console.log("allWrList added to internal list");   
-                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
     
@@ -15464,8 +15488,8 @@ async function mainEvent() {
 
                     console.log("allWrList added to internal list");
 
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
-                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 } else { // at least 1 wr exists
@@ -15475,8 +15499,8 @@ async function mainEvent() {
                     tempAllWrList.innerHTML = allWrList;
                     console.log("allWrList added to internal list");
 
-                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
-                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
+                    injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
+                    injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
@@ -15724,14 +15748,14 @@ async function mainEvent() {
 
         const tempRcd = document.getElementById("date_add_tab_wr_rcd").value;
         const tempCrd = document.getElementById("date_add_tab_wr_crd").value;
-        crdRcdCheck(tempCrd, tempRcd, "add", "one");
+        crdRcdCheck(tempCrd, tempRcd, "add", "one", systemPreferences.crdRcdWarning);
     }) 
     addTabWrRCD.addEventListener("mouseout", (event) => {
         console.log("Changed - addTabWrRCD");
 
         const tempRcd = document.getElementById("date_add_tab_wr_rcd").value;
         const tempCrd = document.getElementById("date_add_tab_wr_crd").value;
-        crdRcdCheck(tempCrd, tempRcd, "add", "one");
+        crdRcdCheck(tempCrd, tempRcd, "add", "one", systemPreferences.crdRcdWarning);
     })
         /* Update Permit */
     addTabPermitCRD.addEventListener("mouseout", (event) => {
@@ -15739,14 +15763,14 @@ async function mainEvent() {
 
         const tempRcd = document.getElementById("date_add_tab_permit_rcd").value;
         const tempCrd = document.getElementById("date_add_tab_permit_crd").value;
-        crdRcdCheck(tempCrd, tempRcd, "add", "two");
+        crdRcdCheck(tempCrd, tempRcd, "add", "two", systemPreferences.crdRcdWarning);
     }) 
     addTabPermitRCD.addEventListener("mouseout", (event) => {
         console.log("Changed - addTabPermitRCD");
 
         const tempRcd = document.getElementById("date_add_tab_permit_rcd").value;
         const tempCrd = document.getElementById("date_add_tab_permit_crd").value;
-        crdRcdCheck(tempCrd, tempRcd, "add", "two");
+        crdRcdCheck(tempCrd, tempRcd, "add", "two", systemPreferences.crdRcdWarning);
     })
 
             /* Dropdown Containers */
@@ -18295,8 +18319,8 @@ async function mainEvent() {
             }
     
             // Still inject empty list to hide rows
-            injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors);
+            injectHTMLAllWrTabDisplay(allWrListAssessed, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrListAssessed, 0, userColors, systemPreferences.rowsOnPage);
                 
             // Below hides whichever prev/next container shouldn't be visible
             if (allWrTab.classList.contains("hidden")) { // allWrTab is active
@@ -18361,8 +18385,8 @@ async function mainEvent() {
             }
 
             // Still inject empty list to hide rows
-            injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors, toDoMasterList);
-            injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors);
+            injectHTMLAllWrTabDisplay(allWrListFiltered, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+            injectHTMLPermitsTabDisplay(allWrListFiltered, 0, userColors, systemPreferences.rowsOnPage);
 
             // Below hides whichever prev/next container shouldn't be visible
             if (allWrTab.classList.contains("hidden")) { // allWrTab is active
@@ -19366,7 +19390,8 @@ async function mainEvent() {
             settingsPreferencesTextfieldNotesToDo.value == systemPreferences.tempNotesCount &&
             settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo &&
             settingsPreferencesPromptDuration.value == systemPreferences.promptDuration &&
-            settingsPreferencesPermitExpirationWarning.value == systemPreferences.permitExpirationWarning) {
+            settingsPreferencesPermitExpirationWarning.value == systemPreferences.permitExpirationWarning &&
+            settingsPreferencesCrdRcdWarning.value == systemPreferences.crdRcdWarning) {
                 return false;
         } else {
             return true;
@@ -19385,8 +19410,8 @@ async function mainEvent() {
         allWrList = temp;
         filteredList = temp;
 
-        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList);
-        injectHTMLPermitsTabDisplay(allWrList, 0, userColors);
+        injectHTMLAllWrTabDisplay(allWrList, 0, userColors, toDoMasterList, systemPreferences.rowsOnPage);
+        injectHTMLPermitsTabDisplay(allWrList, 0, userColors, systemPreferences.rowsOnPage);
             
         // Below hides whichever prev/next container shouldn't be visible
         if (allWrTab.classList.contains("hidden")) { // allWrTab is active
@@ -19490,9 +19515,13 @@ async function mainEvent() {
         /* System Preferences */
     settingsPreferencesTextfieldRowsPerPage.addEventListener("change", (event) => {
         console.log("Fired - Changed settingsPreferencesTextfieldRowsPerPage");
+        const e = new Error(promptDuration);
 
         if (event.target.value != null && event.target.value == 0) {
             event.target.value = 1; // prevents user from "hiding" list
+        } else if (event.target.value != null && event.target.value > 8) {      // WILL NEED TO CHANGE WHEN MORE ROWS ADDED
+            event.target.value = 8;
+            e.displayMaxRowsPerPage();
         }
 
         // Hides save button if user changes back to original setting
@@ -19672,6 +19701,29 @@ async function mainEvent() {
             event.target.select();
         }
     })
+    settingsPreferencesCrdRcdWarning.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesCrdRcdWarning");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsPreferencesCrdRcdWarning.addEventListener("click", (event) => {
+        console.log("Clicked - settingsPreferencesCrdRcdWarning");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
     
 
         /* Save Buttons */
@@ -19683,7 +19735,8 @@ async function mainEvent() {
         str += settingsPreferencesTextfieldRowsPerPage.value + "@" + settingsPreferencesTextfieldCommentsWr.value + "@" + 
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
                settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
-               settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@";
+               settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@" + 
+               settingsPreferencesCrdRcdWarning.value + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
@@ -19709,6 +19762,7 @@ async function mainEvent() {
         tempNotesCount = systemPreferences.tempNotesCount;
         promptDuration = systemPreferences.promptDuration;
         permitExpirationWarning = systemPreferences.permitExpirationWarning;
+        crdRcdWarning = systemPreferences.crdRcdWarning;
 
         /* Creating New Temp containers With Updated Sizes */
         tempToDoPageElement = new PaginatedToDoPageElement(linesPerPageToDo, toDoMasterList);
@@ -20162,7 +20216,7 @@ async function mainEvent() {
 
 
         if (allWrList.length > 0) {
-            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList);
+            injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, systemPreferences.rowsOnPage);
             console.log("List updated");
         } else {
             console.log("List not updated.");
@@ -20482,7 +20536,7 @@ async function mainEvent() {
             document.getElementById("footer_filter_container_all").style.backgroundColor = 'rgba(87, 245, 43, 0.627)';
         }
         if (allWrList.length > 0) {
-            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors);
+            injectHTMLPermitsTabDisplay(allWrList, currentPagePermits, userColors, systemPreferences.rowsOnPage);
             console.log("List updated");
         } else {
             console.log("List not updated.");

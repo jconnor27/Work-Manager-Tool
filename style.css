@@ -1742,6 +1742,16 @@ h5 {
     margin-top: -5px;
 }
 
+.errorMessageMaxRowsPerPage {
+    display: flex;
+    font-size: medium;
+    color: red;
+    width: 175px;
+    height: 27px;
+    margin-left: 10px;
+    margin-top: -11px;
+}
+
 .errorMessageEnterCountyCity {
     display: flex;
     font-size: medium;
@@ -2697,7 +2707,7 @@ h5 {
     justify-content: flex-end;
 }
 
-.settingsDisplayRowOnePreferences, .settingsDisplayRowFivePreferences {
+.settingsDisplayRowOnePreferences, .settingsDisplayRowSixPreferences {
     display: flex;
     flex-direction: row;
     margin-left: 50px;
@@ -2707,7 +2717,7 @@ h5 {
 .settingsPreferencesRowContainerLeft, .settingsPreferencesRowContainerRight {
     display: flex;
     flex-direction: column;
-    height: 290px;
+    height: 400px;
     margin-top: 50px;
 }
 
@@ -2716,8 +2726,8 @@ h5 {
     flex-direction: row;
 }
 
-.settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, 
-.settingsDisplayRowSixPreferences, .settingsDisplayRowSevenPreferences, .settingsDisplayRowEightPreferences {
+.settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, .settingsDisplayRowFivePreferences, 
+.settingsDisplayRowSevenPreferences, .settingsDisplayRowEightPreferences, .settingsDisplayRowNinePreferences {
     display: flex;
     flex-direction: row;
     margin-left: 50px;
