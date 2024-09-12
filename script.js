@@ -20157,6 +20157,8 @@ async function mainEvent() {
     })
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
+        console.log(event);
+        document.getElementById("test_save_textbox").innerHTML = "hiya" + event.type;
         console.log(systemPreferences);
 
         saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
@@ -20553,25 +20555,25 @@ async function mainEvent() {
     toolsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTab");
 
-        /* Deselecting all tabs 
+        /* Deselecting all tabs */
         deselectAllTabs();
 
-        /* Hiding inactive tab 
+        /* Hiding inactive tab */
         toolsTab.classList.add("hidden");
 
         toolsTabActive.classList.remove("hidden");
 
         document.getElementById("tools_tab_display_container").classList.remove("hidden");
-        */
+        
     })
     toolsTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTabActive");
 
-        /*
+        
         deselectAllTabs();
         toolsTabActive.classList.add("hidden");
         toolsTab.classList.remove("hidden");
-        */
+        
     })
 
                 /* Add Comment Tab */
