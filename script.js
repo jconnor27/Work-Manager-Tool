@@ -4927,6 +4927,15 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     console.log(dataStr);
 
     window.localStorage.setItem("data", dataStr);
+    
+    /*const aElement = document.createElement('a');
+    aElement.setAttribute('download', dataStr);
+    const href = URL.createObjectURL(dataBlob);
+    aElement.href = href;
+    aElement.setAttribute('target', '_blank');
+    aElement.click();
+    URL.revokeObjectURL(href);*/
+
 
     const newHandle = await window.showSaveFilePicker().then(results => {
         console.log("settings results.name =");
@@ -6776,16 +6785,51 @@ async function mainEvent() {
         tempRPC = RPC;
     })
 
+    function downloadFile(url, fileName) {
+        console.log("Entered - downloadFile");
+
+        /*fetch(url, {method: 'get', mode:'no-cors', referrerPolicy: 'no-referrer'})
+        .then(res => res.blob())
+        .then(res => {*/
+
+        const d = new Date();
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let hours = d.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        let minutes = d.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+    
+        const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
+        const dataBlob = new Blob(data);
+
+            const aElement = document.createElement('a');
+            aElement.setAttribute('download', fileName);
+            const href = URL.createObjectURL(dataBlob);
+            aElement.href = href;
+            aElement.setAttribute('target', '_blank');
+            aElement.click();
+            URL.revokeObjectURL(href);
+        //});
+    }
+
     testButton2.addEventListener("click", async (event) => {
         console.log("Fired - Clicked testButton2");
 
-        
+        downloadFile('https://drive.google.com/drive/folders/1ppiavUeOKRkUfR3sF3AuKhuuY5CtVr2x', 'vv.txt');
 
-        var curWindowDocument = window.open("https://www.zillow.com").document();
+        /*var curWindowDocument = window.open("https://www.zillow.com").document();
         console.log(curWindowDocument);
 
         const inputBox = curWindowDocument.getElementById("__c11n_p986");
-        console.log(inputBox);
+        console.log(inputBox);*/
     })
 
 
@@ -20157,9 +20201,9 @@ async function mainEvent() {
     })
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
-        console.log(event);
-        document.getElementById("test_save_textbox").innerHTML = "hiya" + event.type;
-        console.log(systemPreferences);
+        //console.log(event);
+        //document.getElementById("test_save_textbox").innerHTML = "hiya" + event.type;
+        //console.log(systemPreferences);
 
         saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
     })
