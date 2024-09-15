@@ -6828,23 +6828,6 @@ async function mainEvent() {
     testButton2.addEventListener("click", async (event) => {
         console.log("Fired - Clicked testButton2");
 
-        const d = new Date();
-        let day = d.getDate();
-        if (day < 10) {
-            day = "0" + day;
-        }
-        let hours = d.getHours();
-        if (hours < 10) {
-            hours = "0" + hours;
-        }
-        let minutes = d.getMinutes();
-        if (minutes < 10) {
-            minutes = "0" + minutes;
-        }
-        const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
-
-        downloadFile('Work Manager Tool Data - ' + now + '.txt');
-
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
         console.log(curWindowDocument);
 
@@ -20694,25 +20677,26 @@ async function mainEvent() {
     toolsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTab");
 
-        /* Deselecting all tabs */
+        /* Deselecting all tabs 
         deselectAllTabs();
 
-        /* Hiding inactive tab */
+        /* Hiding inactive tab 
         toolsTab.classList.add("hidden");
 
         toolsTabActive.classList.remove("hidden");
 
         document.getElementById("tools_tab_display_container").classList.remove("hidden");
+        */
         
     })
     toolsTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTabActive");
 
-        
+        /*
         deselectAllTabs();
         toolsTabActive.classList.add("hidden");
         toolsTab.classList.remove("hidden");
-        
+        */
     })
 
                 /* Add Comment Tab */
