@@ -7292,6 +7292,7 @@ async function mainEvent() {
             document.getElementById("all_wr_tab").click();
             backButton.removeLast();
             footerButtonLoad.classList.add("hidden");
+            footerButtonLoadiPad.classList.add("hidden");
 
 
         }
