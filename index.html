@@ -1936,6 +1936,19 @@
             </div>
         </div>
 
+        <!-- Import Data on iPad Pop Up -->
+        <div class="importDataPopUpContainer hidden" id="import_data_pop_up_container">
+            <div class="importDataPopUpBox">
+                <button type="button" class="imortDataPopUpXButton" id="import_data_pop_up_x_button">X</button>
+                <div class="importDataPopUpTextPrompt">Paste Data From User-Saved File And Click Go.</div>
+                <input type="text" class="importDataPopUpInputTextbox" id="import_data_pop_up_input_textbox">
+                <div class="import_data_pop_up_go_sync_container">
+                    <button type="button" class="importDataPopUpGoButton" id="import_data_pop_up_go_button" disabled>Go</button>
+                    <button type="button" class="importDataPopUpSyncButton hidden" id="import_data_pop_up_sync_button">Sync</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
       <!-- Footer Container -->
@@ -1994,8 +2007,10 @@
             <input type="time" id="data_from_value_time" name="data_from_value_time" value="16:04" />
             <label for="data_from_value_time" class="dataFromValueAllLabel" id="data_from_value_all_label">(Time of Last Save)</label>
             <button type="button" class="footerButton" id="footer_button_load">Load</button>
+            <button type="button" class="footerButtoniPad" id="footer_button_load_ipad">Load</button>
             <button type="button" class="footerButton hidden" id="footer_button_sync">Sync</button>
             <input type="file" class="hidden" value="Load" id="allWrListFile" accept="text/plain" onchange="readFile()" />
+            <button type="button" class="footerButtoniPad" id="footer_button_save_ipad">Save</button>
             <button type="button" class="footerButton" id="footer_button_save">Save</button>
         </div>
         

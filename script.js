@@ -1619,7 +1619,7 @@ class SystemPreferences {
             /* Checking File Name to make sure user enter valid file */
             const curFileName = window.localStorage.getItem("fileName");
 
-            if (curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
+            if (curFileName != null && curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
                 console.log("Bad File Name! Displaying Prompt");
                 document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
                 footerButtonSave.style.zIndex = '2';
@@ -4928,15 +4928,6 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
 
     window.localStorage.setItem("data", dataStr);
     
-    /*const aElement = document.createElement('a');
-    aElement.setAttribute('download', dataStr);
-    const href = URL.createObjectURL(dataBlob);
-    aElement.href = href;
-    aElement.setAttribute('target', '_blank');
-    aElement.click();
-    URL.revokeObjectURL(href);*/
-
-
     const newHandle = await window.showSaveFilePicker().then(results => {
         console.log("settings results.name =");
         console.log(results.name);
@@ -4972,6 +4963,45 @@ function readFile() {
         document.getElementById("footer_button_sync").classList.remove("hidden");
     });
     reader.readAsText(selected);
+}
+/* Used to save data on iPad */
+function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, allWrList) {
+    console.log("Entered - downloadFile");
+
+    const d = new Date();
+    let day = d.getDate();
+    if (day < 10) {
+        day = "0" + day;
+    }
+    let hours = d.getHours();
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    let minutes = d.getMinutes();
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+
+    const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
+    const dataBlob = new Blob(data);
+
+    const aElement = document.createElement('a');
+    aElement.setAttribute('download', fileName);
+    const href = URL.createObjectURL(dataBlob);
+    aElement.href = href;
+    aElement.setAttribute('target', '_blank');
+    aElement.click();
+    URL.revokeObjectURL(href);
+
+    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString();
+
+    window.localStorage.setItem("data", dataStr);
+
+}
+function importData() {
+    console.log("Entered - importData");
+
 }
 
     /* InjectHTML Functions */
@@ -6251,6 +6281,8 @@ async function mainEvent() {
     const footerButtonSave = document.querySelector("#footer_button_save");
     const footerButtonLoad = document.querySelector("#footer_button_load");
     const footerButtonSync = document.querySelector("#footer_button_sync");
+    const footerButtonSaveiPad = document.querySelector("#footer_button_save_ipad");
+    const footerButtonLoadiPad = document.querySelector("#footer_button_load_ipad");
 
     /* Permits Tab Display Dropdowns */
     const permitsTabRowOneStatusContainer = document.querySelector("#permits_tab_row_one_status");
@@ -6707,6 +6739,12 @@ async function mainEvent() {
     const addCommentPopUpButtonNo = document.querySelector("#add_comment_pop_up_button_no");
     const addCommentPopUpButtonYes = document.querySelector("#add_comment_pop_up_button_yes");
 
+    /* iPad Data Upload Variables*/
+    const importDataPopUpInputTextbox = document.querySelector("#import_data_pop_up_input_textbox");
+    const importDataPopUpXButton = document.querySelector("#import_data_pop_up_x_button");
+    const importDataPopUpGoButton = document.querySelector("#import_data_pop_up_go_button");
+    const importDataPopUpSyncButton = document.querySelector("#import_data_pop_up_sync_button");
+
     /* Test Button for SVC Calc */
     const testButton = document.querySelector("#test_button");
     const testButton2 = document.querySelector("#test_button_2");
@@ -6785,12 +6823,10 @@ async function mainEvent() {
         tempRPC = RPC;
     })
 
-    function downloadFile(url, fileName) {
-        console.log("Entered - downloadFile");
+    
 
-        /*fetch(url, {method: 'get', mode:'no-cors', referrerPolicy: 'no-referrer'})
-        .then(res => res.blob())
-        .then(res => {*/
+    testButton2.addEventListener("click", async (event) => {
+        console.log("Fired - Clicked testButton2");
 
         const d = new Date();
         let day = d.getDate();
@@ -6806,24 +6842,8 @@ async function mainEvent() {
             minutes = "0" + minutes;
         }
         const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
-    
-        const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
-        const dataBlob = new Blob(data);
 
-            const aElement = document.createElement('a');
-            aElement.setAttribute('download', fileName);
-            const href = URL.createObjectURL(dataBlob);
-            aElement.href = href;
-            aElement.setAttribute('target', '_blank');
-            aElement.click();
-            URL.revokeObjectURL(href);
-        //});
-    }
-
-    testButton2.addEventListener("click", async (event) => {
-        console.log("Fired - Clicked testButton2");
-
-        downloadFile('https://drive.google.com/drive/folders/1ppiavUeOKRkUfR3sF3AuKhuuY5CtVr2x', 'vv.txt');
+        downloadFile('Work Manager Tool Data - ' + now + '.txt');
 
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
         console.log(curWindowDocument);
@@ -7227,7 +7247,7 @@ async function mainEvent() {
             /* Checking File Name to make sure user enter valid file */
             const curFileName = window.localStorage.getItem("fileName");
 
-            if (curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
+            if (curFileName != null && curFileName.substring(curFileName.length - 4, curFileName.length) != ".txt") {
                 console.log("Bad File Name! Displaying Prompt");
                 document.getElementById("bad_file_name_pop_up_container").classList.remove("hidden");
                 footerButtonSave.style.zIndex = '2';
@@ -20201,11 +20221,85 @@ async function mainEvent() {
     })
     footerButtonSave.addEventListener("click", (event) => {
         console.log("Fired - Clicked footer_save_button");
-        //console.log(event);
-        //document.getElementById("test_save_textbox").innerHTML = "hiya" + event.type;
-        //console.log(systemPreferences);
 
         saveFile(allWrList, userColors, systemPreferences, toDoMasterList);
+    })
+    footerButtonSaveiPad.addEventListener("click", (event) => {
+        console.log("Fired - Clicked footerButtonSaveiPad");
+
+        const d = new Date();
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let hours = d.getHours();
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        let minutes = d.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+
+        downloadFile('Work Manager Tool Data - ' + now + '.txt', toDoMasterList, systemPreferences, userColors, allWrList);
+    })
+    footerButtonLoadiPad.addEventListener("click", (event) => {
+        console.log("Fired - Clicked footerButtonLoadiPad");
+
+        document.getElementById("import_data_pop_up_container").classList.remove("hidden");
+    })
+
+    /* Import Data Pop Ups */
+    importDataPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked importDataPopUpXButton");
+
+        document.getElementById("import_data_pop_up_container").classList.add("hidden");
+    })
+    importDataPopUpInputTextbox.addEventListener("click", (event) => {
+        console.log("Fired - Clicked importDataPopUpInputTextbox");
+
+        if (event.target.value != undefined && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+    importDataPopUpInputTextbox.addEventListener("change", (event) => {
+        if (event.target.value != undefined) {
+            const tempCheck = event.target.value.substring(event.target.value.length - 9);
+
+            if (tempCheck != undefined && tempCheck == "*ENDCHAR*") {
+                document.getElementById("import_data_pop_up_go_button").style.backgroundColor = 'rgb(14, 212, 14)';
+                document.getElementById("import_data_pop_up_go_button").disabled = false;
+            }
+            
+        }
+    })
+    importDataPopUpGoButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked importDataPopUpGoButton");
+
+        if (importDataPopUpGoButton.style.backgroundColor == 'rgb(14, 212, 14)') { // button is active
+            let toDoMasterListData = splitToDoMasterList(importDataPopUpInputTextbox.value);
+            let systemPreferencesData = splitSystemPreferences(toDoMasterListData[1]);
+            let colorPreferencesData = splitColorPreferences(systemPreferencesData[1]);
+            let toDoMasterListStr = toDoMasterListData[0];
+            let systemPreferencesStr = systemPreferencesData[0];
+            let colorPreferencesStr = colorPreferencesData[0];
+            let allWrList = parseWrString(colorPreferencesData[1]);
+            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterend", `<div class="hidden" id="temp_system_storage">${systemPreferencesStr}</div>`);
+            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
+            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
+            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_to_do_storage">${toDoMasterListStr}</div>`);
+            document.getElementById("footer_button_sync").classList.remove("hidden");
+
+            document.getElementById("import_data_pop_up_sync_button").classList.remove("hidden");
+            document.getElementById("import_data_pop_up_go_button").classList.add("hidden");
+        }
+    })
+    importDataPopUpSyncButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked importDataPopUpSyncButton");
+
+        footerButtonSync.click();
+        document.getElementById("import_data_pop_up_container").classList.add("hidden");
     })
 
             /* Tab Event Listeners */
