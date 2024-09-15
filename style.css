@@ -1052,6 +1052,7 @@ h5 {
     display: flex;
     padding-left: .5rem;
     padding-right: 1rem;
+    font-size: 12px;
 }
 
 /* Dropdown Menu - General */
