@@ -941,6 +941,8 @@ h5 {
 }
 
 .rearLotText, .UGFacilitiesText {
+    display: flex;
+    width: fit-content;
     font-size: 10px;
 }
 
