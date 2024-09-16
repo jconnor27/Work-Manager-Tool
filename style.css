@@ -662,6 +662,8 @@ h5 {
 }
 
 .customerContactedLabel {
+    display: flex;
+    width: fit-content;
     margin-right: -10px;
 }
 
@@ -924,8 +926,16 @@ h5 {
     margin-bottom: -5px;
 }
 
-.UGFacilitiesCheckboxLabel, .rearLotCheckboxLabel {
+.UGFacilitiesCheckboxLabel {
     font-size: large;
+    margin-left: 10px;
+    margin-bottom: -5px;
+}
+
+.rearLotCheckboxLabel {
+    display: flex;
+    font-size: 12px;
+    width: fit-content;
     margin-left: 10px;
     margin-bottom: -5px;
 }
