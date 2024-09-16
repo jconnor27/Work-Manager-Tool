@@ -1065,22 +1065,63 @@
                         <!-- Customer Contacted + Priority Number + Creation Date -->
                         <div class="customerContactedPriorityContainer" id="customer_contacted_priority_container">
                                 
-                            <!-- Customer Contacted -->
-                            <div class="customerContactedContainer" id="customer_contacted_container">
-                                <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
-                                <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
-                                    <label for="customer_contacted_checkbox_yes" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_yes_label">Y</label>
-                                    <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_yes" name="customer_contacted_checkbox_yes"/>
+                            <!-- Information From Mims -->
+                             <div class="informationFromMimsContainer">
+                                <label class="informationFromMimsHeader">Information From MIMS:</label>
+
+                                <div class="informationFromMimsRow">
+                                    <div class="informationFromMimsInputContainer">
+                                        <label class="informationFromMimsLabel">Grid ID:</label>
+                                        <input type="text" class="informationFromMimsTextbox" id="information_from_mims_grid_id">
+                                    </div>
+                                    <div class="informationFromMimsInputContainer">
+                                        <label class="informationFromMimsLabel">Feeder ID:</label>
+                                        <input type="text" class="informationFromMimsTextbox" id="information_from_mims_feeder_id">
+                                    </div>
                                 </div>
-                                <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_no">
-                                    <label for="customer_contacted_checkbox_no" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_no_label">N</label>
-                                    <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
+
+                                <div class="informationFromMimsRow">
+                                    <div class="informationFromMimsInputContainer">
+                                        <label class="informationFromMimsLabel">SubStation:</label>
+                                        <input type="text" class="informationFromMimsTextbox" id="information_from_mims_substation">
+                                    </div>
+                                    <div class="informationFromMimsInputContainerTRS">
+                                        <label class="informationFromMimsLabel">TRS:</label>
+                                        <input type="text" class="informationFromMimsTextbox" id="information_from_mims_trs">
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Priority Number -->
-                            <div class="addTabWrPriorityContainer" id="add_tab_wr_priority_container">
-                                <label for="add_tab_priority_box" class="addTabPriorityBoxLabel" id="add_tab_priority_box_label">Priority Number:</label>
-                                <input type="text" class="addTabPriorityBox" id="add_tab_priority_box" name="add_tab_priority_box" value="1">
+                             </div>
+                            <!-- Rear Lot -->
+                             <div class="rearLotContainer">
+                                <div class="aidQuestionMark" id="rear_lot_aid">?</div>
+                                <div class="rearLotTextContainer">
+                                    <label class="rearLotCheckboxLabel">Rear-Lot</label>
+                                    <div class="rearLotText">(Facilities Located on Private Property)</div>
+                                </div>
+                                <div class="rearLotCheckboxContainer">
+                                    <label class="rearLotCheckboxLabel">Y</label>
+                                    <input type="checkbox" class="rearLotCheckbox" id="rear_lot_checkbox_yes">
+                                </div>
+                                <div class="rearLotCheckboxContainer">
+                                    <label class="rearLotCheckboxLabel">N</label>
+                                    <input type="checkbox" class="rearLotCheckbox" id="rear_lot_checkbox_no">
+                                </div>
+                             </div>
+                            <!-- UG Facilities -->
+                            <div class="UGFacilitiesContainer">
+                                <div class="aidQuestionMark" id="ug_facilities_aid">?</div>
+                                <div class="UGFacilitiesTextContainer">
+                                    <label class="UGFacilitiesCheckboxLabel">Existing UG Facilities</label>
+                                    <div class="UGFacilitiesText">(Padmount TX, Pedestal, etc.)</div>
+                                </div>
+                                <div class="UGFacilitiesCheckboxContainer">
+                                    <label class="UGFacilitiesCheckboxLabel">Y</label>
+                                    <input type="checkbox" class="UGFacilitiesCheckbox" id="ug_facilities_checkbox_yes">
+                                </div>
+                                <div class="UGFacilitiesCheckboxContainer">
+                                    <label class="UGFacilitiesCheckboxLabel">N</label>
+                                    <input type="checkbox" class="UGFacilitiesCheckbox" id="ug_facilities_checkbox_no">
+                                </div>
                             </div>
 
                             <!-- Creation Date -->
@@ -1088,39 +1129,60 @@
                                 <label for="add_tab_wr_creation_date" class="addTabCreationBoxLabel" id="add_tab_wr_creation_date_label">Creation Date (1020):</label>
                                 <input type="date" class="date_add_tab_wr" id="add_tab_wr_creation_date" name="add_tab_wr_creation_date" value="0001-01-01">
                             </div>
-
-                            <!-- Rear Lot -->
-
-                            <!-- OH / UG -->
                         </div>
-
+                        <div class="addTabDisplayBottomMidRightContainer">
+                            
                             <!-- POC container -->
-                        <div class="pocContainer" id="poc_container">
-                            <div class="pocRowOneContainer" id="poc_row_one_container">
-                                <div class="pocRowOneLabelContainerBlank" id="poc_row_one_label_container_blank">BLANK</div>
-                                <div class="pocRowOneLabelContainer" id="poc_row_one_label_container_name"><b>Name:</b></div>
-                                <div class="pocRowOneLabelContainer" id="poc_row_one_label_container_number"><b>Number:</b></div>
-                                <div class="pocRowOneLabelContainerEmail" id="poc_row_one_label_container_email"><b>Email:</b></div>
+                            <div class="pocContainer" id="poc_container">
+                                <div class="pocRowOneContainer" id="poc_row_one_container">
+                                    <div class="pocColLabelRowOne" id="poc_row_one_label_container_blank">POC(s)</div>
+                                    <div class="pocRowOneLabelContainer" id="poc_row_one_label_container_name">Name:</div>
+                                    <div class="pocRowOneLabelContainerNumber" id="poc_row_one_label_container_number">Number:</div>
+                                    <div class="pocRowOneLabelContainerEmail" id="poc_row_one_label_container_email">Email:</div>
+                                </div>
+                                <div class="pocRowTwoContainer" id="poc_row_two_container">
+                                    <div class="pocColLabelRowTwo" id="poc_col_label_owner">Owner</div>
+                                    <input type="text" class="pocTextboxName" id="poc_textbox_owner_name" name="poc_textbox_name" value="N/A">
+                                    <input type="text" class="pocTextboxNumber" id="poc_textbox_owner_number" name="poc_textbox_number" value="N/A">
+                                    <input type="text" class="pocTextboxEmail" id="poc_textbox_owner_email" name="poc_textbox_email" value="N/A">
+                                </div>
+                                <div class="pocRowThreeContainer" id="poc_row_three_container">
+                                    <div class="pocColLabelRowThree" id="poc_col_label_owner">Builder</div>
+                                    <input type="text" class="pocTextboxName" id="poc_textbox_builder_name" name="poc_textbox_name" value="N/A">
+                                    <input type="text" class="pocTextboxNumber" id="poc_textbox_builder_number" name="poc_textbox_number" value="N/A">
+                                    <input type="text" class="pocTextboxEmail" id="poc_textbox_builder_email" name="poc_textbox_email" value="N/A">
+                                </div>
+                                <div class="pocRowFourContainer" id="poc_row_four_container">
+                                    <div class="pocColLabelRowFour" id="poc_col_label_owner">Other</div>
+                                    <input type="text" class="pocTextboxName" id="poc_textbox_other_name" name="poc_textbox_name" value="N/A">
+                                    <input type="text" class="pocTextboxNumber" id="poc_textbox_other_number" name="poc_textbox_number" value="N/A">
+                                    <input type="text" class="pocTextboxEmail" id="poc_textbox_other_email" name="poc_textbox_email" value="N/A">
+                                </div>
                             </div>
-                            <div class="pocRowTwoContainer" id="poc_row_two_container">
-                                <div class="pocColLabel" id="poc_col_label_owner">Owner</div>
-                                <input type="text" class="pocTextboxName" id="poc_textbox_owner_name" name="poc_textbox_name" value="N/A">
-                                <input type="text" class="pocTextboxNumber" id="poc_textbox_owner_number" name="poc_textbox_number" value="N/A">
-                                <input type="text" class="pocTextboxEmail" id="poc_textbox_owner_email" name="poc_textbox_email" value="N/A">
-                            </div>
-                            <div class="pocRowThreeContainer" id="poc_row_three_container">
-                                <div class="pocColLabelRowThree" id="poc_col_label_owner">Builder</div>
-                                <input type="text" class="pocTextboxName" id="poc_textbox_builder_name" name="poc_textbox_name" value="N/A">
-                                <input type="text" class="pocTextboxNumber" id="poc_textbox_builder_number" name="poc_textbox_number" value="N/A">
-                                <input type="text" class="pocTextboxEmail" id="poc_textbox_builder_email" name="poc_textbox_email" value="N/A">
-                            </div>
-                            <div class="pocRowFourContainer" id="poc_row_four_container">
-                                <div class="pocColLabelRowFour" id="poc_col_label_owner">Other</div>
-                                <input type="text" class="pocTextboxName" id="poc_textbox_other_name" name="poc_textbox_name" value="N/A">
-                                <input type="text" class="pocTextboxNumber" id="poc_textbox_other_number" name="poc_textbox_number" value="N/A">
-                                <input type="text" class="pocTextboxEmail" id="poc_textbox_other_email" name="poc_textbox_email" value="N/A">
+
+                            <div class="customerContactedPriorityNumberContainer">
+                                
+                                <!-- Customer Contacted -->
+                                <div class="customerContactedContainer" id="customer_contacted_container">
+                                    <label class="customerContactedLabel" id="customer_contacted_label">Customer Contacted:</label>
+                                    <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_yes">
+                                        <label for="customer_contacted_checkbox_yes" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_yes_label">Y</label>
+                                        <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_yes" name="customer_contacted_checkbox_yes"/>
+                                    </div>
+                                    <div class="customerContactedCheckboxContainer" id="customer_contacted_checkbox_container_no">
+                                        <label for="customer_contacted_checkbox_no" class="customerContactedCheckboxLabel" id="customer_contacted_checkbox_no_label">N</label>
+                                        <input type="checkbox" class="customerContactedCheckbox" id="customer_contacted_checkbox_no" name="customer_contacted_checkbox_no" checked/>
+                                    </div>
+                                </div>
+
+                                <!-- Priority Number -->
+                                <div class="addTabWrPriorityContainer" id="add_tab_wr_priority_container">
+                                    <label for="add_tab_priority_box" class="addTabPriorityBoxLabel" id="add_tab_priority_box_label">Priority Number:</label>
+                                    <input type="text" class="addTabPriorityBox" id="add_tab_priority_box" name="add_tab_priority_box" value="1">
+                                </div>
                             </div>
                         </div>
+                            
                     </div>
                 
                     <!-- Add Tab Display Bottom -->
@@ -1675,8 +1737,6 @@
             </div>
         </div>
 
-        
-
         <!-- Invisible cover to close DDs -->
         <div class="dropDownCover hidden" id="drop_down_cover"></div>
 
@@ -1949,6 +2009,31 @@
             </div>
         </div>
 
+        <!-- Rear Lot Check Pop Up -->
+         <div class="rearLotCheckPopUpContainer hidden" id="rear_lot_check_pop_up_container">
+            <div class="rearLotCheckPopUpBox">
+                <button type="button" class="rearLotCheckPopUpXButton" id="rear_lot_check_pop_up_x_button">X</button>
+                <div class="rearLotCheckPopUpTextPrompt">Does this project involve Rear-Lot facilities or facilities</div>
+                <div class="rearLotCheckPopUpTextPrompt">located on private property (Pedestal, Padmount TX, etc.)?</div>
+                <div class="rearLotCheckPopUpYesNoContainer">
+                    <button type="button" class="rearLotCheckPopUpButton" id="rear_lot_check_pop_up_no_button">No</button>
+                    <button type="button" class="rearLotCheckPopUpButton" id="rear_lot_check_pop_up_yes_button">Yes</button>
+                </div>
+            </div>
+         </div>
+
+        <!-- Existing UG Facilities Pop Up -->
+        <div class="existingUGFacilitiesPopUpContainer hidden" id="existing_ug_facilities_pop_up_container">
+            <div class="existingUGFacilitiesPopUpBox">
+                <button type="button" class="existingUGFacilitiesPopUpXButton" id="existing_ug_facilities_pop_up_x_button">X</button>
+                <div class="existingUGFacilitiesPopUpTextPrompt">Does this project involve existing UG facilities?</div>
+                <div class="existingUGFacilitiesPopUpTextPrompt">(Padmount TX, Pedestal, etc.)</div>
+                <div class="existingUGFacilitiesPopUpYesNoContainer">
+                    <button type="button" class="existingUGFacilitiesPopUpButton" id="existing_ug_facilities_pop_up_no_button">No</button>
+                    <button type="button" class="existingUGFacilitiesPopUpButton" id="existing_ug_facilities_pop_up_yes_button">Yes</button>
+                </div>
+            </div>
+        </div>
     </div>
 
       <!-- Footer Container -->
@@ -1970,7 +2055,7 @@
             </div>
 
             <!-- Name / Label -->
-            <div class="footerObject">JWOT - V1.0</div>
+            <div class="footerObject" style="font-size: 14px;">JWOT - V1.0</div>
         </div>
 
         

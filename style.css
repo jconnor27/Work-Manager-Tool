@@ -654,19 +654,22 @@ h5 {
     flex-direction: row;
     font-size: large;
     align-items: center;
+    border: 1px solid black;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .customerContactedLabel {
-    margin-right: 1.5rem;
-    margin-top: 2.3rem;
+    margin-right: -10px;
 }
 
 .customerContactedCheckboxContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-size: x-large;
     align-items: center;
-    margin-right: 1rem;
 }
 
 .customerContactedCheckbox {
@@ -676,6 +679,7 @@ h5 {
 
 .customerContactedCheckboxLabel {
     font-size: large;
+    margin-left: 20px;
 }
 
 .addTabWrPriorityContainer {
@@ -683,12 +687,16 @@ h5 {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border: 1px solid black;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
 }
 
 .addTabPriorityBox {
     border: 2px solid black;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     font-size: large;
     align-items: center;
     justify-content: center;
@@ -705,7 +713,8 @@ h5 {
 
 .addTabPriorityBoxLabel {
     font-size: large;
-    margin: 1rem;
+    margin-left: 5px;
+    margin-right: 10px;
 }
 
 .pocContainer{
@@ -713,33 +722,54 @@ h5 {
     flex-direction: column;
     border: 2px solid black;
     height:fit-content;
-    margin-bottom: 5px;
+    width: 388px;
 }
 
 .pocRowOneContainer {
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    /*gap: 8px;*/
 }
 
 .pocRowOneLabelContainer {
     display: flex;
     border: 2px solid black;
     font-size: large;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    min-width: 76px;
+    padding-top: 5px;
+    padding-bottom: .5px;
+    font-weight: bold;
+    height: 35px;
+    /*margin-left: -14px;*/
+    justify-content: center;
+    align-items: center;
+}
+
+.pocRowOneLabelContainerNumber {
+    display: flex;
+    border: 2px solid black;
+    font-size: large;
+    min-width: 96px;
+    padding-top: 5px;
+    padding-bottom: .5px;
+    font-weight: bold;
+    height: 35px;
+    /*margin-left: -14px;*/
+    justify-content: center;
+    align-items: center;
 }
 
 .pocRowOneLabelContainerEmail {
     display: flex;
     border: 2px solid black;
     font-size: large;
-    padding-left: 1rem;
-    padding-right: 4rem;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: 5px;
+    padding-bottom: .5px;
+    height: 35px;
+    font-weight: bold;
+    min-width: 120px;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Dummy Container for Table */
@@ -749,22 +779,17 @@ h5 {
     font-size: large;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     color: white;
 }
 
 .pocRowTwoContainer {
     display: flex;
     flex-direction: row;
-    margin-top: .75rem;
 }
 
 .pocColLabel {
     border: 2px solid black;
     font-size: large;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
     padding-left: 1rem;
     padding-right: 1rem;
 }
@@ -773,58 +798,66 @@ h5 {
     border: 2px solid black;
     width: 80px;
     height: 40px;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    margin-left: .75rem;
-    margin-right: 1rem;
+    
 }
 
 .pocTextboxNumber {
     border: 2px solid black;
     width: 100px;
     height: 40px;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    margin-left: .5rem;
-    margin-right: 1rem;
+    
 }
 
 .pocTextboxEmail {
     border: 2px solid black;
     width: 125px;
     height: 40px;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    margin-left: .5rem;
-    margin-right: .5rem;
+    
 }
 
 .pocRowThreeContainer {
     display: flex;
-    margin-top: .5rem;
 }
 
 .pocRowFourContainer {
     display: flex;
-    margin-top: .5rem;
+}
+
+.pocColLabelRowOne {
+    display: flex;
+    border: 2px solid black;
+    font-size: large;
+    min-width: 79px;
+    justify-content: center;
+    align-items: center;
+}
+
+.pocColLabelRowTwo {
+    display: flex;
+    border: 2px solid black;
+    font-size: large;
+    width: 80px;
+    justify-content: center;
+    align-items: center;
 }
 
 .pocColLabelRowThree {
+    display: flex;
     border: 2px solid black;
     font-size: large;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    padding-left: 1rem;
-    padding-right: .9rem;
+    width: 80px;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .pocColLabelRowFour {
+    display: flex;
     border: 2px solid black;
     font-size: large;
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-    padding-left: 1.35rem;
-    padding-right: 1.35rem;
+    width: 80px;
+    justify-content: center;
+    align-items: center;
 }
 
 .addTabDisplayBottom {
@@ -838,6 +871,104 @@ h5 {
 .addTabDisplayBottomLeftContainer {
     display: flex;
     flex-direction: column;
+}
+
+.informationFromMimsContainer {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.informationFromMimsHeader {
+    font-weight: bold;
+    align-self: center;
+}
+
+.informationFromMimsRow {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.informationFromMimsInputContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.informationFromMimsInputContainerTRS {
+    display: flex;
+    flex-direction: row;
+    margin-left: 11px;
+}
+
+.informationFromMimsLabel {
+    margin-right: 10px;
+}
+
+.informationFromMimsTextbox {
+    width: 75px;
+}
+
+.rearLotContainer, .UGFacilitiesContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.rearLotCheckboxLabel {
+    font-size: large;
+    margin-left: 25px;
+    margin-bottom: -5px;
+}
+
+.UGFacilitiesCheckboxLabel, .rearLotCheckboxLabel {
+    font-size: large;
+    margin-left: 10px;
+    margin-bottom: -5px;
+}
+
+.rearLotText, .UGFacilitiesText {
+    font-size: 10px;
+}
+
+.rearLotTextContainer, .UGFacilitiesTextContainer {
+    display: flex;
+    flex-direction: column;
+    width: 166px;
+}
+
+.aidQuestionMark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    padding: 5px;
+    height: 5px;
+    font-weight: bold;
+    color: blue;
+    border: 2px solid blue;
+    border-radius: 15px;
+    margin-right: 15px;
+}
+
+.addTabWrCreationContainer {
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+
+.rearLotCheckboxContainer, .UGFacilitiesCheckboxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.rearLotCheckbox, .UGFacilitiesCheckbox {
+    height: 20px;
+    width: 20px;
 }
 
 .date_add_tab_wr {
@@ -916,7 +1047,21 @@ h5 {
     flex-direction: column;
     border: 2px solid black;
     width: 620px;
-    height: 320px;
+    margin-top: 20px;
+    height: 300px;
+}
+
+.addTabDisplayBottomMidRightContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.customerContactedPriorityNumberContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-top: 20px;
+    gap: 20px;
 }
 
 .addTabBottomRightRowOne {
@@ -4027,9 +4172,7 @@ h5 {
         font-size: medium;
     }
 
-    .pocRowOneContainer, .pocRowTwoContainer, .pocRowThreeContainer, .pocRowFourContainer {
-        justify-content: space-between;
-    }
+    
 
     .pocTextboxEmail {
         margin-right: 0px;
@@ -4049,7 +4192,7 @@ h5 {
     }
 
     .addTabCommentsRemoveButton {
-        margin-left: 245px;
+        margin-left: 340px;
         border-radius: 4px;
     }
 
@@ -4127,7 +4270,7 @@ h5 {
         margin-left: 1rem;
     }
     
-    .importDataPopUpContainer {
+    .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer {
         display: flex;
         flex-direction: column;
         z-index: 3;
@@ -4181,6 +4324,53 @@ h5 {
 
     .importDataPopUpSyncButton {
         padding: 5px;
+    }
+
+    .rearLotCheckPopUpBox {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        width: 450px;
+        height: 200px;
+        margin-right: 100px;
+        align-items: center;
+        border: 1px solid black;
+    }
+
+    .rearLotCheckPopUpTextPrompt, .existingUGFacilitiesPopUpTextPrompt {
+        margin-bottom: 20px;
+        margin-top: -15px;
+    }
+    
+    .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton {
+        align-self: flex-start;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-bottom: 30px;
+    }
+
+    .rearLotCheckPopUpButton, .existingUGFacilitiesPopUpButton {
+        display: flex;
+        font-size: large;
+        padding: 5px;
+    }
+
+    .rearLotCheckPopUpYesNoContainer, .existingUGFacilitiesPopUpYesNoContainer {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        gap: 50px
+    }
+
+    .existingUGFacilitiesPopUpBox {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        width: 450px;
+        height: 200px;
+        margin-right: 100px;
+        align-items: center;
+        border: 1px solid black;
     }
 
     .hidden {

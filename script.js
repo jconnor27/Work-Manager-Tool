@@ -1639,7 +1639,7 @@ class SystemPreferences {
         } else { // No Previous Data Found - Default Values
             this.rowsOnPage = 8;
             this.permitCommentCount = 6;
-            this.tempCommentsCount = 7;
+            this.tempCommentsCount = 6;
             this.tempAllCommentCount = 14;
             this.tempNotesCount = 3;
             this.linesPerPageToDo = 19;
@@ -6745,6 +6745,16 @@ async function mainEvent() {
     const importDataPopUpGoButton = document.querySelector("#import_data_pop_up_go_button");
     const importDataPopUpSyncButton = document.querySelector("#import_data_pop_up_sync_button");
 
+    /* Rear Lot Check Pop Up */
+    const rearLotCheckPopUpXButton = document.querySelector("#rear_lot_check_pop_up_x_button");
+    const rearLotCheckPopUpNoButton = document.querySelector("#rear_lot_check_pop_up_no_button");
+    const rearLotCheckPopUpYesButton = document.querySelector("#rear_lot_check_pop_up_yes_button");
+
+    /* Existing UG Facilities Pop Up */
+    const existingUGFacilitiesPopUpXButton = document.querySelector("#existing_ug_facilities_pop_up_x_button");
+    const existingUGFacilitiesPopUpNoButton = document.querySelector("#existing_ug_facilities_pop_up_no_button");
+    const existingUGFacilitiesPopUpYesButton = document.querySelector("#existing_ug_facilities_pop_up_yes_button");
+
     /* Test Button for SVC Calc */
     const testButton = document.querySelector("#test_button");
     const testButton2 = document.querySelector("#test_button_2");
@@ -8582,6 +8592,33 @@ async function mainEvent() {
             permitsTab.click();
             backButton.removeLast();
         }
+    })
+
+    /* Existing UG Facilities Pop Up */
+    existingUGFacilitiesPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked existingUGFacilitiesXButton");
+
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.add("hidden");
+    })
+    existingUGFacilitiesPopUpNoButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked existingUGFacilitiesPopUpNoButton");
+
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.add("hidden");
+    })
+
+    /* Rear Lot Check Pop Up */
+    rearLotCheckPopUpXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotCheckPopUpXButton");
+
+        document.getElementById("rear_lot_check_pop_up_container").classList.add("hidden");
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
+    })
+
+    rearLotCheckPopUpNoButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotCheckPopUpNoButton");
+
+        document.getElementById("rear_lot_check_pop_up_container").classList.add("hidden");
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
     })
 
     /* "Invisible page cover that opens on DD open - when clicked, closes all dropdowns" */
@@ -15552,9 +15589,13 @@ async function mainEvent() {
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
-                h.displayWrAdded(wr.workRequestNumber);
+                /* Rear Lot and OH/UG Check */
+
+
+                //h.displayWrAdded(wr.workRequestNumber);
                 backButton.storeDataState("add_wr", wr);
                 resetDisplayWrAddUpdate();
+
             }
         } else if (filterCheckboxAddToDo.checked == true) {
 
