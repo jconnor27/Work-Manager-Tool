@@ -4040,7 +4040,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4127,6 +4127,7 @@ h5 {
     .addressLineTextfieldCoverHouseNumber {
         font-size: 12px;
         margin-top: 11px;
+        margin-left: -5px;
     }
 
     .addTabCommentsRemoveButton {
@@ -4208,7 +4209,7 @@ h5 {
     }
 
     .addressLineTextfieldCover { 
-        margin-left: 167px;
+        margin-left: 157px;
     }
 
     .addressLineTextfieldStreetName {
