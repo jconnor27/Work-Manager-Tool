@@ -916,6 +916,15 @@ h5 {
     width: 75px;
 }
 
+.informationFromMimsTextboxSubstation {
+    width: 90px;
+    margin-right: -15px;
+}
+
+.informationFromMimsTextboxTRS {
+    width: 70px;
+}
+
 .rearLotContainer, .UGFacilitiesContainer {
     display: flex;
     flex-direction: row;
@@ -4194,7 +4203,8 @@ h5 {
     }
 
     .addressLineTextfieldHouseNumber {
-        width: 130px;
+        width: 140px;
+        margin-left: 0px;
     }
 
     .addressLineTextfieldCover { 
@@ -4233,7 +4243,7 @@ h5 {
     }
 
     .addTabCommentsRemoveButton {
-        margin-left: 340px;
+        margin-left: 290px;
         border-radius: 4px;
     }
 
