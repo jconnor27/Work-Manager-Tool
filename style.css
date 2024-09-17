@@ -4027,7 +4027,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4175,7 +4175,7 @@ h5 {
         font-size: small;
     }
 
-    .addTabTextfieldLabel {
+    .addTabTextfieldLabel, .addTabTextfieldLabelBottomLeft {
         font-size: small;
     }
 
@@ -4388,10 +4388,11 @@ h5 {
         border: 1px solid black;
     }
 
-    .addressElementContainer {
-        display: flex;
-        flex-wrap: nowrap;
+    .addressLineLabel {
+        display: inline;
     }
+
+
 
     .hidden {
         display: none;
