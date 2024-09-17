@@ -646,7 +646,8 @@ h5 {
 .customerContactedPriorityContainer {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .customerContactedContainer {
@@ -918,25 +919,18 @@ h5 {
     flex-direction: row;
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-.rearLotCheckboxLabel {
-    font-size: large;
-    margin-left: 25px;
-    margin-bottom: -5px;
+    justify-content: space-between;
 }
 
 .UGFacilitiesCheckboxLabel {
-    font-size: large;
-    margin-left: 10px;
+    font-size: 14px;
     margin-bottom: -5px;
 }
 
 .rearLotCheckboxLabel {
     display: flex;
-    font-size: 12px;
+    font-size: 14px;
     width: fit-content;
-    margin-left: 10px;
     margin-bottom: -5px;
 }
 
@@ -949,7 +943,8 @@ h5 {
 .rearLotTextContainer, .UGFacilitiesTextContainer {
     display: flex;
     flex-direction: column;
-    width: 166px;
+    width: 175px;
+    align-items: center;
 }
 
 .aidQuestionMark {
@@ -4032,7 +4027,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4161,10 +4156,18 @@ h5 {
     }
 
     .customerContactedLabel {
+        display: flex;
         font-size: small;
+        min-width: 120px;
     }
 
     .addTabPriorityBoxLabel {
+        display: flex;
+        font-size: small;
+        min-width: 95px;
+    }
+
+    .addTabPriorityBox {
         font-size: small;
     }
 
@@ -4383,6 +4386,11 @@ h5 {
         margin-right: 100px;
         align-items: center;
         border: 1px solid black;
+    }
+
+    .addressElementContainer {
+        display: flex;
+        flex-wrap: nowrap;
     }
 
     .hidden {
