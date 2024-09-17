@@ -6755,6 +6755,17 @@ async function mainEvent() {
     const existingUGFacilitiesPopUpNoButton = document.querySelector("#existing_ug_facilities_pop_up_no_button");
     const existingUGFacilitiesPopUpYesButton = document.querySelector("#existing_ug_facilities_pop_up_yes_button");
 
+    /* Blue Question Mark Aids */
+    const rearLotAid = document.querySelector("#rear_lot_aid");
+    const UGFacilitiesAid = document.querySelector("#ug_facilities_aid");
+
+    /* Rear Lot Check and Existing UG Facilities Y/N */
+    const rearLotCheckboxYes = document.querySelector("#rear_lot_checkbox_yes");
+    const rearLotCheckboxNo = document.querySelector("#rear_lot_checkbox_no");
+    const UGFacilitiesCheckboxYes = document.querySelector("#ug_facilities_checkbox_yes");
+    const UGFacilitiesCheckboxNo = document.querySelector("#ug_facilities_checkbox_no");
+
+
     /* Test Button for SVC Calc */
     const testButton = document.querySelector("#test_button");
     const testButton2 = document.querySelector("#test_button_2");
@@ -8594,6 +8605,41 @@ async function mainEvent() {
         }
     })
 
+    /* Blue Question Mark Aids */
+    rearLotAid.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotAid");
+
+        document.getElementById("rear_lot_check_pop_up_container").classList.remove("hidden");
+    })
+
+    UGFacilitiesAid.addEventListener("click", (event) => {
+        console.log("Fired - Clicked UGFacilitiesAid");
+
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
+    })
+
+    /* Rear Lot and Existing UG Facilities Y/N */
+    rearLotCheckboxNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotCheckboxNo");
+
+        document.getElementById("rear_lot_checkbox_yes").checked = false;
+    })
+    rearLotCheckboxYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotCheckboxYes");
+
+        document.getElementById("rear_lot_checkbox_no").checked = false;
+    })
+    UGFacilitiesCheckboxNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked UGFacilitiesCheckboxNo");
+
+        document.getElementById("ug_facilities_checkbox_yes").checked = false;
+    })
+    UGFacilitiesCheckboxYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked UGFacilitiesCheckboxYes");
+
+        document.getElementById("ug_facilities_checkbox_no").checked = false;
+    })
+
     /* Existing UG Facilities Pop Up */
     existingUGFacilitiesPopUpXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked existingUGFacilitiesXButton");
@@ -8603,6 +8649,15 @@ async function mainEvent() {
     existingUGFacilitiesPopUpNoButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked existingUGFacilitiesPopUpNoButton");
 
+        document.getElementById("ug_facilities_checkbox_no").checked = true;
+        document.getElementById("ug_facilities_checkbox_yes").checked = false;
+        document.getElementById("existing_ug_facilities_pop_up_container").classList.add("hidden");
+    })
+    existingUGFacilitiesPopUpYesButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked existingUGFacilitiesPopUpYesButton");
+
+        document.getElementById("ug_facilities_checkbox_yes").checked = true;
+        document.getElementById("ug_facilities_checkbox_no").checked = false;
         document.getElementById("existing_ug_facilities_pop_up_container").classList.add("hidden");
     })
 
@@ -8611,14 +8666,20 @@ async function mainEvent() {
         console.log("Fired - Clicked rearLotCheckPopUpXButton");
 
         document.getElementById("rear_lot_check_pop_up_container").classList.add("hidden");
-        document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
     })
-
     rearLotCheckPopUpNoButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked rearLotCheckPopUpNoButton");
 
+        document.getElementById("rear_lot_checkbox_no").checked = true;
+        document.getElementById("rear_lot_checkbox_yes").checked = false;
         document.getElementById("rear_lot_check_pop_up_container").classList.add("hidden");
-        document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
+    })
+    rearLotCheckPopUpYesButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked rearLotCheckPopUpYesButton");
+        
+        document.getElementById("rear_lot_checkbox_yes").checked = true;
+        document.getElementById("rear_lot_checkbox_no").checked = false;
+        document.getElementById("rear_lot_check_pop_up_container").classList.add("hidden");
     })
 
     /* "Invisible page cover that opens on DD open - when clicked, closes all dropdowns" */
