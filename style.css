@@ -682,7 +682,7 @@ h5 {
 
 .customerContactedCheckboxLabel {
     font-size: large;
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
 .addTabWrPriorityContainer {
@@ -4157,13 +4157,13 @@ h5 {
 
     .customerContactedLabel {
         display: flex;
-        font-size: small;
+        font-size: 12px;
         min-width: 120px;
     }
 
     .addTabPriorityBoxLabel {
         display: flex;
-        font-size: small;
+        font-size: 12px;
         min-width: 95px;
     }
 
@@ -4177,6 +4177,18 @@ h5 {
 
     .addTabTextfieldLabel, .addTabTextfieldLabelBottomLeft {
         font-size: small;
+    }
+
+    .addressLineTextfieldHouseNumber {
+        width: 130px;
+    }
+
+    .addressLineTextfieldCover { 
+        margin-left: 167px;
+    }
+
+    .addressLineTextfieldStreetName {
+        width: 140px;
     }
 
     .addTabCommentsAddButtonLabel {
