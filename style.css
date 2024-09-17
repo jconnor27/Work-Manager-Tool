@@ -660,6 +660,7 @@ h5 {
     padding-bottom: 4px;
     padding-left: 5px;
     padding-right: 5px;
+    min-width: fit-content;
 }
 
 .customerContactedLabel {
@@ -908,6 +909,7 @@ h5 {
 
 .informationFromMimsLabel {
     margin-right: 10px;
+    font-size: 14px;
 }
 
 .informationFromMimsTextbox {
@@ -964,6 +966,8 @@ h5 {
 .addTabWrCreationContainer {
     margin-top: 10px;
     margin-bottom: -10px;
+    justify-content: center;
+    align-self: center;
 }
 
 .rearLotCheckboxContainer, .UGFacilitiesCheckboxContainer {
@@ -4027,7 +4031,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4103,7 +4107,17 @@ h5 {
     }
 
     .addressLineTextfieldCover {
-        font-size: small;
+        font-size: 12px;
+        margin-top: 11px;
+    }
+
+    .addressLineTextfield {
+        font-size: 12px;
+    }
+
+    .addressLineTextfieldCoverHouseNumber {
+        font-size: 12px;
+        margin-top: 11px;
     }
 
     .addTabCommentsRemoveButton {
