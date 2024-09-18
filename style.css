@@ -2614,7 +2614,7 @@ h5 {
     font-size: 10px;
 }
 
-.addTabCommentsRemoveButton {
+.addTabCommentsRemoveButton, .addTabCommentsCommentsRemoveButton {
     height: 20px;
     width: 20px;
     font-size: x-large;
@@ -4247,7 +4247,7 @@ h5 {
         font-size: small;
     }
 
-    .addTabCommentsRemoveButton {
+    .addTabCommentsCommentsRemoveButton {
         margin-left: 290px;
         border-radius: 4px;
     }
