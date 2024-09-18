@@ -4999,10 +4999,6 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
     window.localStorage.setItem("data", dataStr);
 
 }
-function importData() {
-    console.log("Entered - importData");
-
-}
 
     /* InjectHTML Functions */
 function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, rowsOnPage) {
