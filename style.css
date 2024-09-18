@@ -4040,7 +4040,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4218,9 +4218,10 @@ h5 {
 
     .addTabCommentsAddButtonLabel {
         display: flex;
-        font-size: medium;
+        font-size: 15px;
         font-weight: bold;
         min-width: 160px;
+        margin-right: 0px;
     }
 
     .pocRowOneLabelContainer {
