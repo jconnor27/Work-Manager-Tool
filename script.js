@@ -16501,7 +16501,7 @@ async function mainEvent() {
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
             addTabCommentsRemoveButton.disabled = false;
             tempComments.add(comment);
-            addTabCommentsTextfield.value = "Type Comment Here"; // reseting entery textfield
+            addTabCommentsTextfield.value = "Enter Comment Here"; // reseting entery textfield
             
     
     })
