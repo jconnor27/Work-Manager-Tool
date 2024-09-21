@@ -1052,7 +1052,7 @@
                             </div> 
                             <div class="addressElementContainer" id="address_element_container_county">
                                 <label for="address_line_textfield_county" class="addressLineLabel" id="address_line_textfield_county_label">County/City:&ensp;</label>
-                                <input type="text" class="addressLineTextfield" id="address_line_textfield_county" name="address_line_textfield_county" value="Enter County/City Name">
+                                <input type="text" class="addressLineTextfieldCounty" id="address_line_textfield_county" name="address_line_textfield_county" value="Enter County/City Name">
                             </div>
                             <div class="addressElementContainer" id="address_element_container_zip">
                                 <label for="address_line_textfield_zip" class="addressLineLabel" id="address_line_textfield_zip_label">Zip Code:&ensp;</label>
@@ -1225,8 +1225,10 @@
                                     <div class="currentPageBox" id="add_wr_tab_current_page_box">1</div>
                                     <button type="button" class="pageNextButton" id="add_tab_wr_page_next_button" disabled>Next</button>                      
                                 </div>
-                                <button type="button" class="addTabCommentsRemoveButton" id="add_tab_comments_remove_button" disabled>-</button>
-                                <button type="button" class="addTabCommentsAddButton" id="add_tab_comments_add_button" disabled>+</button>
+                                <div class="addRemoveButtonContainer">
+                                    <button type="button" class="removeCommentButton" id="add_tab_comments_remove_button" disabled>-</button>
+                                    <button type="button" class="addCommentButton" id="add_tab_comments_add_button" disabled>+</button>
+                                </div>
                             </div>
                             <div class="addTabBottomRightRowTwo" id="add_tab_bottom_right_row_two">
                                 <input type="text" class="addTabCommentsTextfield" id="add_tab_comments_textfield" name="add_tab_comments_textfield" value="Enter Comment Here"/>

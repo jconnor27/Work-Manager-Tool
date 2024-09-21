@@ -638,6 +638,13 @@ h5 {
     height: 25px;
 }
 
+.addressLineTextfieldCounty {
+    border: 2px solid black;
+    margin: .5rem;
+    height: 25px;
+    width: 120px;
+}
+
 .addressLineLabel {
     margin: .5rem;
     font-size: medium;
@@ -725,9 +732,10 @@ h5 {
 .pocContainer{
     display: flex;
     flex-direction: column;
-    border: 2px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
     height:fit-content;
-    width: 388px;
+    width: 386px;
 }
 
 .pocRowOneContainer {
@@ -738,9 +746,10 @@ h5 {
 
 .pocRowOneLabelContainer {
     display: flex;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     font-size: large;
-    min-width: 76px;
+    min-width: 79px;
     padding-top: 5px;
     padding-bottom: .5px;
     font-weight: bold;
@@ -752,9 +761,10 @@ h5 {
 
 .pocRowOneLabelContainerNumber {
     display: flex;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     font-size: large;
-    min-width: 96px;
+    min-width: 99px;
     padding-top: 5px;
     padding-bottom: .5px;
     font-weight: bold;
@@ -766,13 +776,14 @@ h5 {
 
 .pocRowOneLabelContainerEmail {
     display: flex;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     font-size: large;
     padding-top: 5px;
     padding-bottom: .5px;
     height: 35px;
     font-weight: bold;
-    min-width: 120px;
+    min-width: 124px;
     justify-content: center;
     align-items: center;
 }
@@ -780,7 +791,8 @@ h5 {
 /* Dummy Container for Table */
 .pocRowOneLabelContainerBlank {
     display: flex;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     font-size: large;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -793,28 +805,35 @@ h5 {
 }
 
 .pocColLabel {
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     font-size: large;
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
 .pocTextboxName {
-    border: 2px solid black;
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     width: 80px;
     height: 40px;
     
 }
 
 .pocTextboxNumber {
-    border: 2px solid black;
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     width: 100px;
     height: 40px;
     
 }
 
 .pocTextboxEmail {
-    border: 2px solid black;
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    
     width: 125px;
     height: 40px;
     
@@ -830,17 +849,18 @@ h5 {
 
 .pocColLabelRowOne {
     display: flex;
-    border: 2px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
     font-size: large;
-    min-width: 79px;
+    min-width: 80px;
     justify-content: center;
     align-items: center;
 }
 
 .pocColLabelRowTwo {
     display: flex;
-    border: 2px solid black;
-    font-size: large;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    font-size: large;
     width: 80px;
     justify-content: center;
     align-items: center;
@@ -848,8 +868,8 @@ h5 {
 
 .pocColLabelRowThree {
     display: flex;
-    border: 2px solid black;
-    font-size: large;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    font-size: large;
     width: 80px;
     justify-content: center;
     align-items: center;
@@ -858,8 +878,8 @@ h5 {
 
 .pocColLabelRowFour {
     display: flex;
-    border: 2px solid black;
-    font-size: large;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;    font-size: large;
     width: 80px;
     justify-content: center;
     align-items: center;
@@ -1026,7 +1046,7 @@ h5 {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 13px;
+    margin-left: 12px;
 }
 
 .addTabTextfield {
@@ -1088,8 +1108,10 @@ h5 {
 .addTabBottomRightRowOne {
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: space-between;
     border-bottom: 2px solid black;
+    height: 45px;
 }
 
 .addTabCommentsAddButton, .addTabPermitCommentsAddButton {
@@ -1105,9 +1127,6 @@ h5 {
 .addTabCommentsAddButtonLabel {
     display: flex;
     font-size: large;
-    margin-top: .75rem;
-    margin-left: 1rem;
-    margin-right: 20px;
     min-width: 160px;
 }
 
@@ -4103,7 +4122,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4183,7 +4202,7 @@ h5 {
         margin-top: 11px;
     }
 
-    .addressLineTextfield {
+    .addressLineTextfield, .addressLineTextfieldCounty {
         font-size: 12px;
     }
 
