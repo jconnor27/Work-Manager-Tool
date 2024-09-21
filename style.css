@@ -3056,16 +3056,16 @@ h5 {
     display: flex;
     flex-direction: row;
     width: 1115px;
-    margin-top: 50px;
-    align-items: baseline;
-
+    margin-top: 30px;
+    align-items: last baseline;
+    gap: 180px;
 }
 
 .addTabDisplayToDoRowTwo {
     display: flex;
     flex-direction: row;
     width: 1115px;
-    margin-top: 50px;
+    margin-top: 40px;
     align-items: center;
     justify-content: space-evenly;
 }
@@ -3087,9 +3087,16 @@ h5 {
 }
 
 .addTabDisplayDueDateLabel {
+    display: flex;
     font-size: large;
-    margin-right: 20px;
-    margin-left: -20px;
+    width: 40px;
+    justify-content: center;
+}
+
+.addTabDisplayDueDateLabelHeader {
+    display: flex;
+    width: 80px;
+    font-size: large;
 }
 
 .addTabDisplayToDoTypeDDLabel {
@@ -3100,16 +3107,23 @@ h5 {
 
 .addTabDisplayToDoDueDateContainer {
     display: flex;
-    flex-direction: row;
-    margin-left: 150px;
-    align-items: flex-end;
-    
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+    padding: 3px;
+    padding-right: 10px;
+}
+
+.addTabToDoDueDateOrContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .addTabDisplayDueDateInputContainer {
     display: flex;
     flex-direction: row;
-    width: 560px;
     justify-content: space-between;
     align-items: flex-end;
 }
@@ -3174,7 +3188,8 @@ h5 {
     border: 2px solid black;
     padding: 10px;
     height: 32px;
-    margin-left: 20px;
+    margin-left: 10px;
+    width: 125px;
 }
 
 .dayOfWeekPageObject {
@@ -3219,6 +3234,7 @@ h5 {
 .addTabDisplayToDoCreationDateBox {
     display: flex;
     border: 2px solid black;
+    width: 125px;
 }
 
 .addTabDisplayToDoCompleteContainer {
@@ -3241,7 +3257,7 @@ h5 {
     display: flex;
     flex-direction: row;
     width: 1115px;
-    margin-top: 50px;
+    margin-top: 40px;
     align-items: center;
     justify-content: center;
 }
@@ -4083,7 +4099,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4215,9 +4231,7 @@ h5 {
         width: 30px;
     }
 
-    .addTabDisplayDueDateInputContainer {
-        width: 520px;
-    }
+    
 
     .dataFromValueBox {
         width: 120px;
