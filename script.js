@@ -8160,7 +8160,7 @@ async function mainEvent() {
         }
 
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "Current \"To-Do\" ID#: ";
-        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '198px';
+        //document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '198px';
 
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
 
@@ -8208,7 +8208,7 @@ async function mainEvent() {
         document.getElementById("add_tab_display_to_do_current_page_box").innerHTML = "1";
         
         document.getElementById("add_tab_display_to_do_row_zero_numfield_label").innerHTML = "New \"To-Do\" ID#: ";
-        document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
+        //document.getElementById("add_tab_display_to_do_row_zero_numfield_label").style.marginLeft = '220px';
 
         /* Setting Notes Prompt */
         document.getElementById("add_tab_display_to_do_row_three_textfield").value = "Enter Note Here";

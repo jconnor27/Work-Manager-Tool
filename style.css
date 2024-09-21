@@ -1025,6 +1025,7 @@ h5 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 10px;
 }
 
 .addTabTextfield {
@@ -2251,6 +2252,7 @@ h5 {
     justify-content: space-between;
     align-items: center;
     border: 2px solid black;
+    border-top: none;
     width: 600px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -3211,7 +3213,7 @@ h5 {
 
 .addTabDisplayToDoCreationDateLabel {
     font-size: large;
-    margin-right: 30px;
+    margin-right: 10px;
     /*margin-left: 140px;*/
 }
 
@@ -3225,9 +3227,14 @@ h5 {
     flex-direction: row;
 }
 
+.addTabDisplayToDoCompletedBox {
+    height: 20px;
+    width: 20px;
+}
+
 .addTabDisplayToDoCompletedBoxLabel {
     font-size: large;
-    margin-right: 20px;
+    margin-right: 5px;
     /*margin-left: 170px;*/
 }
 
@@ -3269,7 +3276,7 @@ h5 {
 .addTabDisplayToDoRowThreeBoxTop {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -3300,12 +3307,15 @@ h5 {
 .addTabDisplayToDoRowZero {
     display: flex;
     flex-direction: row;
+    width: 1115px;
+    justify-content: center;
+    align-items: center;
 }
 
 .addTabDisplayToDoRowZeroNumfieldLabel {
     display: flex;
     font-size: large;
-    margin-left: 220px;
+    margin-left: -279px;
 }
 
 .addTabDisplayToDoRowZeroNumfield {
@@ -4074,7 +4084,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4469,6 +4479,11 @@ h5 {
 
     .addressLineLabel {
         display: inline;
+    }
+
+    .addTabDisplayAddComment {
+        margin-bottom: 10px;
+        margin-top: 20px;
     }
 
 
