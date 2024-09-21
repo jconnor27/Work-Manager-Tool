@@ -3139,6 +3139,14 @@ h5 {
     align-items: center;
 }
 
+.toDoTabOrContainer {
+    display: flex;
+    font-size: large;
+    justify-content: center;
+    width: 40px;
+    margin-left: 5px;
+}
+
 .addTabDisplayDueDateInputContainer {
     display: flex;
     flex-direction: row;
@@ -4122,7 +4130,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
