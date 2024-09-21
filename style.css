@@ -1056,7 +1056,6 @@ h5 {
 
 .addTabCommentTextfieldLabel {
     font-size: medium;
-    margin-left: 100px;
     margin-top: 10px;
     width: 110px;
     /*margin-right: -20px;*/
@@ -2155,6 +2154,17 @@ h5 {
 
 .addTabDisplayAddCommentRowOne {
     display: flex;
+    justify-content: space-between;
+    width: 910px;
+}
+
+.addRemoveButtonContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 20px;
+    width: 90px;
 }
 
 .addTabDisplayAddcommentRowThree {
@@ -2167,6 +2177,7 @@ h5 {
     padding-left: 20px;
     padding-top: 5px;
     font-size: large;
+    margin-right: 25px;
 }
 
 .addTabDisplayAddCommentRowFour {
@@ -2203,7 +2214,7 @@ h5 {
 
 .addCommentTabDD {
     display: flex;
-    
+    margin-left: -100px;
 }
 
 .dropdownMenuContentAddPermitStatus {
@@ -2612,6 +2623,25 @@ h5 {
 .wrAddressTypeWrType {
     display: flex;
     font-size: 10px;
+}
+
+.removeCommentButton {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    padding-top: 0px;
+    padding-bottom: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.addCommentButton {
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    padding-top: 2px;
+    width: 30px;
+    height: 30px;
 }
 
 .addTabCommentsRemoveButton, .addTabCommentsCommentsRemoveButton {
