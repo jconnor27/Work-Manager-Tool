@@ -1000,6 +1000,7 @@ h5 {
 .dateAddTabPermit {
     border: 2px solid black;
     padding: .5rem;
+    width: 125px;
 }
 
 .addTabTextfieldContainer {
@@ -1025,6 +1026,7 @@ h5 {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 5px;
 }
 
 .addTabTextfield {
@@ -3095,7 +3097,9 @@ h5 {
 
 .addTabDisplayDueDateLabelHeader {
     display: flex;
-    width: 80px;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
     font-size: large;
 }
 
@@ -3330,7 +3334,7 @@ h5 {
 .addTabDisplayToDoRowZeroNumfieldLabel {
     display: flex;
     font-size: large;
-    margin-left: -350px;
+    margin-left: -335px;
 }
 
 .addTabDisplayToDoRowZeroNumfield {
@@ -4099,7 +4103,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
