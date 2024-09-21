@@ -1025,7 +1025,6 @@ h5 {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 10px;
 }
 
 .addTabTextfield {
@@ -3315,7 +3314,7 @@ h5 {
 .addTabDisplayToDoRowZeroNumfieldLabel {
     display: flex;
     font-size: large;
-    margin-left: -279px;
+    margin-left: -350px;
 }
 
 .addTabDisplayToDoRowZeroNumfield {
@@ -4084,7 +4083,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
