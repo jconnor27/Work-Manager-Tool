@@ -1367,7 +1367,7 @@
                     <!-- Bottom Side -->
                     <div class="addTabDisplayAddPermitBottom">
                         <div class="addTabPermitBottomRowOne" id="add_tab_permit_bottom_row_one">
-                            <label for="add_tab_permit_comments_add_button" class="addTabPermitCommentsAddButtonLabel" id="add_tab_permit_comments_add_button_label" name="add_tab_permit_comments_add_button_label"><b>Comments To Add:</b></label>
+                            <label for="add_tab_permit_comments_add_button" class="addTabPermitCommentsAddButtonLabel" id="add_tab_permit_comments_add_button_label">Comments To Add:</label>
                             <div class="addTabPermitCommentsPrevNextContainer hidden" id="add_tab_permit_comments_prev_next_container">
                                 <button type="button" class="pagePrevButton" id="add_tab_permit_page_prev_button" disabled>Prev</button>
                                 <div class="currentPageBox" id="add_permit_tab_current_page_box">
@@ -1375,8 +1375,10 @@
                                 </div>
                                 <button type="button" class="pageNextButton" id="add_tab_permit_page_next_button" disabled>Next</button>                      
                             </div>
-                            <button type="button" class="addTabPermitCommentsRemoveButton" id="add_tab_permit_comments_remove_button" disabled>-</button>
-                            <button type="button" class="addTabPermitCommentsAddButton" id="add_tab_permit_comments_add_button" disabled>+</button>
+                            <div class="addRemoveButtonContainer">
+                                <button type="button" class="removeCommentButton" id="add_tab_permit_comments_remove_button" disabled>-</button>
+                                <button type="button" class="addCommentButton" id="add_tab_permit_comments_add_button" disabled>+</button>
+                            </div>
                         </div>
                         <div class="addTabPermitBottomRowTwo" id="add_tab_permit_bottom_row_two">
                             <input type="text" class="addTabCommentsTextfield" id="add_tab_permit_comments_textfield" name="add_tab_permit_comments_textfield" value="Enter Comment Here"/>
