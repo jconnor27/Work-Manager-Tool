@@ -2178,6 +2178,7 @@ h5 {
     padding-top: 5px;
     font-size: large;
     margin-right: 25px;
+    margin-left: 10px;
 }
 
 .addTabDisplayAddCommentRowFour {
@@ -2214,7 +2215,7 @@ h5 {
 
 .addCommentTabDD {
     display: flex;
-    margin-left: -100px;
+    margin-left: -90px;
 }
 
 .dropdownMenuContentAddPermitStatus {
@@ -4070,7 +4071,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4194,6 +4195,7 @@ h5 {
     }
 
     .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton, .toDoTabDDMenuButton, .toDoTypeDDMenuButton, .commentTypeDDMenuButton {
+        display: flex;
         font-size: small;
         align-items: center;
         justify-content: center;
@@ -4248,10 +4250,11 @@ h5 {
 
     .addTabCommentsAddButtonLabel {
         display: flex;
-        font-size: 15px;
+        font-size: large;
         font-weight: bold;
         min-width: 160px;
         margin-right: 0px;
+        margin-left: 30px;
     }
 
     .pocRowOneLabelContainer {
