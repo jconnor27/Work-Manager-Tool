@@ -735,7 +735,7 @@ h5 {
     border-left: 1px solid black;
     border-top: 1px solid black;
     height:fit-content;
-    width: 386px;
+    width: 391px;
 }
 
 .pocRowOneContainer {
@@ -752,9 +752,7 @@ h5 {
     min-width: 79px;
     padding-top: 5px;
     padding-bottom: .5px;
-    font-weight: bold;
     height: 35px;
-    /*margin-left: -14px;*/
     justify-content: center;
     align-items: center;
 }
@@ -767,9 +765,7 @@ h5 {
     min-width: 99px;
     padding-top: 5px;
     padding-bottom: .5px;
-    font-weight: bold;
     height: 35px;
-    /*margin-left: -14px;*/
     justify-content: center;
     align-items: center;
 }
@@ -782,7 +778,6 @@ h5 {
     padding-top: 5px;
     padding-bottom: .5px;
     height: 35px;
-    font-weight: bold;
     min-width: 124px;
     justify-content: center;
     align-items: center;
@@ -852,7 +847,7 @@ h5 {
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     font-size: large;
-    min-width: 80px;
+    min-width: 85px;
     justify-content: center;
     align-items: center;
 }
@@ -861,7 +856,7 @@ h5 {
     display: flex;
     border-bottom: 1px solid black;
     border-right: 1px solid black;    font-size: large;
-    width: 80px;
+    min-width: 85px;
     justify-content: center;
     align-items: center;
 }
@@ -870,7 +865,7 @@ h5 {
     display: flex;
     border-bottom: 1px solid black;
     border-right: 1px solid black;    font-size: large;
-    width: 80px;
+    min-width: 85px;
     justify-content: center;
     align-items: center;
 
@@ -880,7 +875,7 @@ h5 {
     display: flex;
     border-bottom: 1px solid black;
     border-right: 1px solid black;    font-size: large;
-    width: 80px;
+    min-width: 85px;
     justify-content: center;
     align-items: center;
 }
@@ -4111,6 +4106,11 @@ h5 {
 
 .addWrGeneralStatusDDMenuContentBox {
     width: 350px;
+}
+
+.bold {
+    display: flex;
+    font-weight: bold;
 }
 
 .hidden {
