@@ -5576,8 +5576,6 @@ function parseWrString(str) {
 
 
     let tempVersion = str.substring(str.length - 15);
-    console.log("tempVersion =");
-    console.log(tempVersion);
     let version = 0; // set to 0 by default - may need to change for debugging
 
     if (tempVersion.includes("VERSION")) { // Newer version
@@ -5593,11 +5591,6 @@ function parseWrString(str) {
     } else { // Base version - pre versioning
         version = 0;
     }
-
-    console.log("TTRR Test");
-    console.log("version =");
-    console.log(version);
-    console.log(str);
 
     while (str.length > 2) {
 
@@ -8516,7 +8509,7 @@ async function mainEvent() {
         console.log("Entered - resetDisplayCommentAddUpdate()");
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
-        addCommentTabTextfield.value = "Type Comment Here";
+        addCommentTabTextfield.value = "Enter Comment Here";
         addCommentTabExistingComments.innerHTML = "";
         document.getElementById("add_comment_tab_current_page_box").innerHTML = "1";
         disableAddCommentTabs();
@@ -15855,8 +15848,14 @@ async function mainEvent() {
                 }
                 /* Rear Lot and OH/UG Check */
 
+                if (rearLotCheckboxYes.checked) {
+                    // insert popup here - put haptix on
+                }
+                if (UGFacilitiesCheckboxYes.checked) {
+                    // insert popup here - put haptix on
+                }
 
-                //h.displayWrAdded(wr.workRequestNumber);
+                h.displayWrAdded(wr.workRequestNumber);
                 backButton.storeDataState("add_wr", wr);
                 resetDisplayWrAddUpdate();
 
@@ -17643,7 +17642,7 @@ async function mainEvent() {
             //injectHTMLAddTabPermitComment(comment, tempPermitComments.length - 1);
             addTabPermitCommentsRemoveButton.disabled = false;
             tempPermitComments.add(comment);
-            addTabPermitCommentsTextfield.value = "Type Comment Here";
+            addTabPermitCommentsTextfield.value = "Enter Comment Here";
             
             // Setting Last Updated
             const d2 = new Date();
@@ -17820,7 +17819,7 @@ async function mainEvent() {
                 addCommentTabExistingComments.innerHTML = "No Comments";
             }
 
-            addCommentTabTextfield.value = "Type Comment Here";
+            addCommentTabTextfield.value = "Enter Comment Here";
         }
     })
     addCommentsTabCommentsRemoveButton.addEventListener("click", (event) => {
