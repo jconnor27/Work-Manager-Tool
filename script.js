@@ -1007,7 +1007,8 @@ class Error {
 class workRequest {
     constructor(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, ownerEmail, 
         builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus, permitStatus,
-        easementRequestStatus, commentsGeneral, customerContacted, creationDate) {
+        easementRequestStatus, commentsGeneral, customerContacted, creationDate, gridID, substation, feederID, trs, rearLot, 
+        existingUGFacilities) {
             this.workRequestNumber = workRequestNumber;
             this.houseNumber = houseNumber;
             this.streetName = streetName;
@@ -1032,6 +1033,42 @@ class workRequest {
             this.commentsGeneral = new Comments(commentsGeneral);
             this.customerContacted = customerContacted;
             this.creationDate = creationDate;
+            
+            if (gridID == undefined) {
+                this.gridID == "Not Set"
+            } else {
+                this.gridID = gridID;
+            }
+
+            if (substation == undefined) {
+                this.substation == "Not set"
+            } else {
+                this.substation = substation;
+            }
+
+            if (feederID == undefined) {
+                this.feederID == "Not set"
+            } else {
+                this.feederID = feederID;
+            }
+
+            if (trs == undefined) {
+                this.trs == "Not set"
+            } else {
+                this.trs = trs;
+            }
+
+            if (rearLot == undefined) {
+                this.rearLot == "Not set"
+            } else {
+                this.rearLot = rearLot;
+            }
+
+            if (existingUGFacilities == undefined) {
+                this.existingUGFacilities == "Not set"
+            } else {
+                this.existingUGFacilities = existingUGFacilities;
+            }
         }
 
     wrAddressType() {
@@ -1095,7 +1132,9 @@ class workRequest {
             this.builderNumber == wr.builderNumber && this.builderEmail == wr.builderEmail && this.otherName == wr.otherName &&
             this.otherNumber == wr.otherNumber && this.otherEmail == wr.otherEmail && this.wrType == wr.wrType && this.crd == wr.crd && 
             this.rcd == wr.rcd && this.generalStatus == wr.generalStatus && this.permit.permitStatus == wr.permit.permitStatus &&
-            this.easementRequestStatus == wr.easementRequestStatus) {
+            this.easementRequestStatus == wr.easementRequestStatus && this.gridID == wr.gridID && this.substation == wr.substation &&
+            this.feederID == wr.feederID && this.trs == wr.trs && this.rearLot == wr.rearLot && 
+            this.existingUGFacilities == wr.existingUGFacilities) {
                 return 1;
             } else {
                 return 0;
@@ -1129,8 +1168,16 @@ class workRequest {
                 "easementRequestStatus:" + this.easementRequestStatus + "*ENDCHAR*" +
                 "commentsGeneral:" + this.commentsGeneral + "*ENDCHAR*" +
                 "customerContacted:" + this.customerContacted + "*ENDCHAR*" +
-                "creationDate:" + this.creationDate + "*ENDCHAR*"; /* 23 + 9 lines */
-        return wrSTR;
+                "creationDate:" + this.creationDate + "*ENDCHAR*" + /* 23 + 9 lines */
+                "gridID:" + this.gridID + "*ENDCHAR*" +
+                "substation:" + this.substation + "*ENDCHAR*" +
+                "feederID:" + this.feederID + "*ENDCHAR*" +
+                "trs:" + this.trs + "*ENDCHAR*" + 
+                "rearLot:" + this.rearLot + "*ENDCHAR*" +
+                "existingUGFacilities:" + this.existingUGFacilities + "*ENDCHAR*";
+                console.log("returning wrSTR =");
+                console.log(wrSTR);
+                return wrSTR;
     }
 
 }
@@ -4903,6 +4950,8 @@ async function writeFile(contents) {
 async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList) {
     console.log("Entered - saveFile()");
     console.log(systemPreferences);
+    console.log(allWrList);
+    console.log(allWrList.toString());
 
     const d = new Date();
     let day = d.getDate();
@@ -4922,7 +4971,7 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
     const dataBlob = new Blob(data);
 
-    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString();
+    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString() + "VERSION_1.0";
     console.log("data =");
     console.log(dataStr);
 
@@ -4994,7 +5043,7 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
     aElement.click();
     URL.revokeObjectURL(href);
 
-    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString();
+    const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString() + "VERSION_1.0";
 
     window.localStorage.setItem("data", dataStr);
 
@@ -5517,12 +5566,38 @@ function splitToDoMasterList(str) {
 
 function parseWrString(str) {
     console.log("Entered - parseWrString(str)");
+    console.log(str);
 
     let wrList = [];
     let curIndex = 0;
     let tempCount = 0;
     let tempStr = str;
     let date = null;
+
+
+    let tempVersion = str.substring(str.length - 15);
+    console.log("tempVersion =");
+    console.log(tempVersion);
+    let version = 0; // set to 0 by default - may need to change for debugging
+
+    if (tempVersion.includes("VERSION")) { // Newer version
+        
+        const leftIndex = tempVersion.indexOf("_");
+        const rightIndex = tempVersion.indexOf(";");
+
+        version = tempVersion.substring(leftIndex + 1);
+
+        // Removing VERSION_*.*
+        const versionIndex = str.lastIndexOf("VERSION");
+        str = str.substring(0, versionIndex);
+    } else { // Base version - pre versioning
+        version = 0;
+    }
+
+    console.log("TTRR Test");
+    console.log("version =");
+    console.log(version);
+    console.log(str);
 
     while (str.length > 2) {
 
@@ -5537,10 +5612,10 @@ function parseWrString(str) {
             console.log("Nothing to trim"); // for testing - could remove
         }
 
-        curIndex = parseSingleWrIndex(str);
+        curIndex = parseSingleWrIndex(str, version);
         tempStr = str.substring(0, curIndex);
 
-        const data = parseSingleWrString(tempStr);
+        const data = parseSingleWrString(tempStr, version);
         
         const newWr = data[0];
         newWr.permit = data[1];
@@ -5559,8 +5634,10 @@ function parseWrString(str) {
 }
 /* THIS IS WHERE YOU WILL ADD VERSIONING */
 /* Helper for parseWrString - returns a new wr object from str */
-function parseSingleWrString(str) {
-    console.log("Entered - parseSingleWrString(str)");
+function parseSingleWrString(str, version) {
+    console.log("Entered - parseSingleWrString(str, version = " + version + ")");
+
+    console.log(str);
 
     let colonIndex = 0;
     let commaIndex = 0;
@@ -5707,10 +5784,51 @@ function parseSingleWrString(str) {
     colonIndex = str.indexOf(":");
     commaIndex = str.indexOf("*ENDCHAR*");
     const creationDate = str.substring(colonIndex + 1, commaIndex);
+
+    let gridID;
+    let substation;
+    let feederID;
+    let trs;
+    let rearLot;
+    let existingUGFacilities;
+
+    if (version == 1.0 || version == "1.0") {
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        gridID = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        substation = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);  
+        
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        feederID = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        trs = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        rearLot = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        existingUGFacilities = str.substring(colonIndex + 1, commaIndex);
+    }
     
     const wr = new workRequest(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, 
         ownerEmail, builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus,
-        permitStatus, easementRequestStatus, commentsGeneralElem, customerContacted, creationDate);
+        permitStatus, easementRequestStatus, commentsGeneralElem, customerContacted, creationDate, gridID, substation, feederID, trs, 
+        rearLot, existingUGFacilities);
 
     const permit = new Permit(workRequestNumber, permitStatus, dateUpdated, dateApplied, priorityNumber, crd,
             rcd, permitStartDate, permitEndDate, creationDate);
@@ -5720,14 +5838,25 @@ function parseSingleWrString(str) {
     return data;
 }
 /* Helper for parseWrString - returns index of last comma of first wr in str */
-function parseSingleWrIndex(str) {
-    console.log("Entered - parseSingleWrIndex(str)");
+function parseSingleWrIndex(str, version) {
+    console.log("Entered - parseSingleWrIndex(str, version = " + version + ")");
+    console.log(str);
 
     let wrIndex = 0;
     let curIndex = 0;
     let count = 0;
+    let versionCount = 0; // used in while loop depending on how much data is stored
 
-    while (count < 28) { // will need to change for new format
+    if (version == 0) { // base version
+        versionCount = 28;
+    } else if (version == 1.0 || version == "1.0") {
+        versionCount = 34;
+    }
+
+    console.log("versionCount =");
+    console.log(versionCount);
+
+    while (count < versionCount) { // will need to change for new format
         curIndex = str.indexOf("*ENDCHAR*") + 9;
         str = str.substring(curIndex);
         wrIndex += curIndex;
@@ -6760,6 +6889,12 @@ async function mainEvent() {
     const rearLotCheckboxNo = document.querySelector("#rear_lot_checkbox_no");
     const UGFacilitiesCheckboxYes = document.querySelector("#ug_facilities_checkbox_yes");
     const UGFacilitiesCheckboxNo = document.querySelector("#ug_facilities_checkbox_no");
+
+    /* Information From MIMS */
+    const informationFromMIMSgridID = document.querySelector("#information_from_mims_grid_id");
+    const informationFromMIMSsubstation = document.querySelector("#information_from_mims_substation");
+    const informationFromMIMSfeederID = document.querySelector("#information_from_mims_feeder_id");
+    const informationFromMIMStrs = document.querySelector("#information_from_mims_trs");
 
 
     /* Test Button for SVC Calc */
@@ -8058,6 +8193,35 @@ async function mainEvent() {
 
         addTabRemoveButton.classList.remove("hidden");
         addTabRemoveButton.disabled = false;
+
+        /* Setting Information From MIMS */
+        if (wr.gridID != undefined) {
+            informationFromMIMSgridID.value = wr.gridID;
+        }
+        
+        if (wr.substation != undefined) {
+            informationFromMIMSsubstation.value = wr.substation;
+        }
+        
+        if (wr.feederID != undefined) {
+            informationFromMIMSfeederID.value = wr.feederID;
+        }
+        
+        if (wr.trs != undefined) {
+            informationFromMIMStrs.value = wr.trs;
+        }
+
+        if (wr.rearLot == "Yes") {
+            rearLotCheckboxYes.checked = true;
+        } else if (wr.rearLot == "No") {
+            rearLotCheckboxNo.checked = true;
+        }
+
+        if (wr.existingUGFacilities == "Yes") {
+            UGFacilitiesCheckboxYes.checked = true;
+        } else if (wr.existingUGFacilities == "No") {
+            UGFacilitiesCheckboxNo.checked = true;
+        }
     
     }
     function resetDisplayWrAddUpdate() {
@@ -8114,6 +8278,16 @@ async function mainEvent() {
         tempComments = new PaginatedComments(tempCommentsCount, "addWr"); // Emptying tempComments
         addTabRemoveButton.classList.add("hidden");
         addTabRemoveButton.disabled = true;
+
+        /* Reseting Information From MIMS */
+        informationFromMIMSgridID.value = "";
+        informationFromMIMSsubstation.value = "";
+        informationFromMIMSfeederID.value = "";
+        informationFromMIMStrs.value = "";
+        rearLotCheckboxNo.checked = false;
+        rearLotCheckboxYes.checked = false;
+        UGFacilitiesCheckboxNo.checked = false;
+        UGFacilitiesCheckboxYes.checked = false;
     }
 
             /* To-Do */
@@ -8859,8 +9033,8 @@ async function mainEvent() {
             currentWr.zipCode, currentWr.priorityNumber, currentWr.ownerName, currentWr.ownerNumber, currentWr.ownerEmail, 
             currentWr.builderName, currentWr.builderNumber, currentWr.builderEmail, currentWr.otherName, currentWr.otherNumber, 
             currentWr.otherEmail, currentWr.wrType, currentWr.crd, currentWr.rcd, currentWr.generalStatus, currentWr.permit.permitStatus, 
-            currentWr.easementRequestStatus, temp.comments, currentWr.customerContacted, 
-            currentWr.creationDate);
+            currentWr.easementRequestStatus, temp.comments, currentWr.customerContacted, currentWr.creationDate, currentWr.gridID,
+            currentWr.substation, currentWr.feederID, currentWr.trs, currentWr.rearLot, currentWr.existingUGFacilities);
         
         const curPermit = currentWr.permit;
 
@@ -15142,7 +15316,19 @@ async function mainEvent() {
         const easementStatusDDMenuCurrent = document.getElementById("easement_status_dd_add_tab_current").innerHTML;
         const permitsTabPermitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_2_current").innerHTML;
 
+        let rearLotValue = "Not Set";
+        if (rearLotCheckboxYes.checked) {
+            rearLotValue = "Yes"
+        } else if (rearLotCheckboxNo.checked) {
+            rearLotValue = "No";
+        }
 
+        let existingUGFacilitiesValue = "Not Set";
+        if (UGFacilitiesCheckboxYes.checked) {
+            existingUGFacilitiesValue = "Yes";
+        } else if (UGFacilitiesCheckboxYes.checked) {
+            existingUGFacilitiesValue = "No";
+        }
         
         if (filterCheckboxAddWr.checked == true) {
             const curWrData = getWr(addTabNewWorkRequestNumber.value, allWrList); 
@@ -15179,13 +15365,16 @@ async function mainEvent() {
                 for (var i = 0; i < tempComments.list.length; i++) {
                     curComments.push(tempComments.list[i]);
                 }
+
                 const newWr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                     addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
                     addTabPriorityBox.value, pocTextboxOwnerName.value, pocTextboxOwnerNumber.value, pocTextboxOwnerEmail.value, 
                     pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
                     pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
                     generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, curComments, 
-                    customerContactedCheckboxYes.checked, addTabWrCreationDate.value);
+                    customerContactedCheckboxYes.checked, addTabWrCreationDate.value, informationFromMIMSgridID.value, 
+                    informationFromMIMSsubstation.value, informationFromMIMSfeederID.value, informationFromMIMStrs.value, 
+                    rearLotValue, existingUGFacilitiesValue);
                 
                     if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
                         if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
@@ -15220,7 +15409,7 @@ async function mainEvent() {
                         if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
                             h.displayNoChanges(addTabNewWorkRequestNumber.value);
                         } else {
-                            backButton.storeDataState("update_wr", allWr[curWrIndex]);
+                            //backButton.storeDataState("update_wr", allWr[curWrIndex]);
                             allWrList[curWrIndex] = newWr;
                             const tempAllWrList = document.getElementById("temp_all_wr_list");
                             tempAllWrList.innerHTML = allWrList;
@@ -15289,7 +15478,8 @@ async function mainEvent() {
                         curWr.countyCity, curWr.zipCode, addTabPermitPriority.value, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
                         curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
                         addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
-                        curWr.customerContacted, curWr.creationDate);
+                        curWr.customerContacted, curWr.creationDate, curWr.gridID, curWr.substation, curWr.feederID, curWr.trs, 
+                        curWr.rearLot, curWr.existingUGFacilities);
                     const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
                     today, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                     addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
@@ -15343,7 +15533,8 @@ async function mainEvent() {
                     curWr.countyCity, curWr.zipCode, curWr.priorityNumber, curWr.ownerName, curWr.ownerNumber, curWr.ownerEmail, curWr.builderName,
                     curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, curWr.crd,
                     curWr.rcd, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, tempAllComments.list, 
-                    curWr.customerContacted, curWr.creationDate);
+                    curWr.customerContacted, curWr.creationDate, curWr.gridID, curWr.substation, curWr.feederID, curWr.trs, 
+                    curWr.rearLot, curWr.existingUGFacilities);
                 newWr.permit = curWr.permit;
                 
                 
@@ -15577,6 +15768,20 @@ async function mainEvent() {
         const permitStatusDDMenuCurrent = document.getElementById("permit_status_dd_add_tab_row_1_current").innerHTML;
         const easementStatusDDMenuCurrent = document.getElementById("easement_status_dd_add_tab_current").innerHTML;
 
+        let rearLotValue = "Not Set";
+        if (rearLotCheckboxYes.checked) {
+            rearLotValue = "Yes"
+        } else if (rearLotCheckboxNo.checked) {
+            rearLotValue = "No";
+        }
+
+        let existingUGFacilitiesValue = "Not Set";
+        if (UGFacilitiesCheckboxYes.checked) {
+            existingUGFacilitiesValue = "Yes";
+        } else if (UGFacilitiesCheckboxYes.checked) {
+            existingUGFacilitiesValue = "No";
+        }
+
         if (filterCheckboxAddWr.checked == true) {
             if (getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == true) { /* if wr exists */
                 console.log("getWr(" + addTabNewWorkRequestNumber.value + ") == -1");
@@ -15614,7 +15819,9 @@ async function mainEvent() {
                 pocTextboxBuilderName.value, pocTextboxBuilderNumber.value, pocTextboxBuilderEmail.value, pocTextboxOtherName.value,
                 pocTextboxOtherNumber.value, pocTextboxOtherEmail.value, wrTypeDDMenuCurrent, addTabWrCRD.value, addTabWrRCD.value, 
                 generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, tempComments.list, // tempComments is an array of
-                customerContactedCheckboxYes.checked, addTabWrCreationDate.value);                                // CommentItem Objects
+                customerContactedCheckboxYes.checked, addTabWrCreationDate.value, informationFromMIMSgridID.value, 
+                informationFromMIMSsubstation.value, informationFromMIMSfeederID.value, informationFromMIMStrs.value, rearLotValue, 
+                existingUGFacilitiesValue);                                // CommentItem Objects
                 
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
                     allWrList[0] = wr;
