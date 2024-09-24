@@ -1002,6 +1002,28 @@ class Error {
             temp.remove();
         }, this.promptDuration);
     }
+
+    displayNoRearLotSelection() {
+        console.log("Entered - displayNoRearLotSelection()");
+
+        const temp = document.getElementById("rear_lot_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoRearLotSelection" id="error_no_rear_lot_selection">Must select \"Y\" or \"N\" for Rear-Lot.`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_no_rear_lot_selection");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
+    displayNoExistingUGFacilitiesSelection() {
+        console.log("Entered - displayNoExistingUGFacilitiesSelection()");
+
+        const temp = document.getElementById("existing_ug_facilities_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoExistingUGFacilitiesSelection" id="error_no_existing_ug_facilities_selection">Must select \"Y\" or \"N\" for Existing UG Facilities.`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_no_existing_ug_facilities_selection");
+            temp.remove();
+        }, this.promptDuration);
+    }
 }
 
 class workRequest {
@@ -2091,7 +2113,7 @@ class ToDoMasterList {
                         return this.list[i].revisionsList[j].toDoId;
                     }
                 }
-        } 
+            } 
         }
         console.log("Returning False");
         return false;
@@ -6912,6 +6934,7 @@ async function mainEvent() {
     let tempFilteredToDoList = []; // used to store the filtered list of to-do's (for move incomplete button)
     let clickedMoveIncompleteButton = 0; // used by moveToDisplaySave to differentiate between save type 
     let clickedMoveIncompleteButtonAll = 0; // used by moveToDisplaySave to differentiate between save type 
+    let existingUgFacilitiesChecked = false; // used when adding new WR - if both popups need to appear, this holds true
 
     let backButton = new BackButtonMasterClass();
 
@@ -9510,22 +9533,50 @@ async function mainEvent() {
     addToDoPopUpXButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addtoDoPopUpXButton");
 
-        console.log("Code calling click");
-        allWrTab.click();
-        backButton.removeLast();
-        switchAddToDoPopUpButtons("");
-        addToDoPopUpTextfield.value = "Enter Note (Optional)"
-        addToDoPopUpContainer.classList.add("hidden");
+        if (addToDoPopUpHeader.innerHTML.includes("ROW")) {
+            if (existingUgFacilitiesChecked == true) {
+                let tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
+                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+                resetAddToDoPopUpDate();
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpTextfield.value = "Submit Investigative DDI";
+
+                existingUgFacilitiesChecked = false; // reseting
+            }
+        } else {
+            console.log("Code calling click");
+            allWrTab.click();
+            backButton.removeLast();
+            switchAddToDoPopUpButtons("");
+            addToDoPopUpTextfield.value = "Enter Note (Optional)"
+            addToDoPopUpContainer.classList.add("hidden");
+        }
     })
     addToDoPopUpButtonNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonNo");
 
-        console.log("Code calling click");
-        allWrTab.click();
-        backButton.removeLast();
-        switchAddToDoPopUpButtons("");
-        addToDoPopUpTextfield.value = "Enter Note (Optional)"
-        addToDoPopUpContainer.classList.add("hidden");
+        if (addToDoPopUpHeader.innerHTML.includes("ROW")) {
+            if (existingUgFacilitiesChecked == true) {
+                let tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
+                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+                resetAddToDoPopUpDate();
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpTextfield.value = "Submit Investigative DDI";
+
+                existingUgFacilitiesChecked = false; // reseting
+            }
+        } else {
+            console.log("Code calling click");
+            allWrTab.click();
+            backButton.removeLast();
+            switchAddToDoPopUpButtons("");
+            addToDoPopUpTextfield.value = "Enter Note (Optional)"
+            addToDoPopUpContainer.classList.add("hidden");
+        }        
     })
     addToDoPopUpButtonYes.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonYes");
@@ -9546,7 +9597,16 @@ async function mainEvent() {
         let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
         let str = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
+        /* The below conditional occurs when the user adds a To-Do via Pop Up from the Add Tab 
+           when adding a new work request. I put the WR # in addToDoPopUpTab instead of in 
+           addToDoPopUpHeader */
+        if (str == "div clas") {
+            tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
+            str = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+        }
+
         let tempWr = [];
+
         for (var i = 0; i < allWrList.length; i++) {
             if (allWrList[i].workRequestNumber == str) {
                 tempWr = allWrList[i];
@@ -9562,6 +9622,9 @@ async function mainEvent() {
         } else {
             addressStr = undefined;
         }
+
+        console.log("addressStr ==");
+        console.log(addressStr);
 
         let tab = "";
 
@@ -9627,7 +9690,26 @@ async function mainEvent() {
             const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, temp, str, addressStr);
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General (Waiting Tab)", str);
-        } 
+        } else if (addToDoPopUpHeader.innerHTML.includes("ROW")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, temp, str, addressStr);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("General - ROW Research Request", str);
+            if (existingUgFacilitiesChecked == true) {
+                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+
+                resetAddToDoPopUpDate();
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpTextfield.value = "Submit Investigative DDI";
+
+                existingUgFacilitiesChecked = false; // reseting
+                return; //returning to prevent reseting popup below
+            }
+        } else if (addToDoPopUpHeader.innerHTML.includes("DDI")) {
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, "General", today, 0, temp, str, addressStr);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp("General - Submit Investigative DDI", str);
+        }
 
         resetAddToDoPopUpDate();
         console.log("Calling Click with Code");
@@ -11393,7 +11475,7 @@ async function mainEvent() {
         } else if (tempCurrent.innerHTML == "SVC Calcs + Coding") {
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("svc_calc", currentWr.workRequestNumber)
 
-                /* Add To Do Prompt */
+                /* Add To Do Prompt */ //here
                 if (temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"SVC Calcs + Coding\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
@@ -15683,7 +15765,7 @@ async function mainEvent() {
 
         if (filterCheckboxAddWr.checked == true) {
             const curWrNum = addTabNewWorkRequestNumber.value;
-            backButton.storePageStateAddTab("get_wr", tempComments);
+            //backButton.storePageStateAddTab("get_wr", tempComments);
 
             let wr = getWr(curWrNum, allWrList); /* First index is true if wr is found or empty list, second index is wr object */
     
@@ -15703,7 +15785,7 @@ async function mainEvent() {
             if (permitExists(curWrNum, allWrList) == true) {
                 resetDisplayPermitAddUpdate();
                 displayPermitAddUpdate(wr[1]);
-                backButton.storePageStateAddTab("get_permit", tempPermitComments);
+                //backButton.storePageStateAddTab("get_permit", tempPermitComments);
                 addTabUpdateButton.disabled = false;
             } else {
                 e.displayPermitNotFoundAddUpdate(addTabNewWorkRequestNumber.value);
@@ -15718,7 +15800,7 @@ async function mainEvent() {
             if (wr[0] != false) {
                 resetDisplayCommentsAddUpdate();
                 displayCommentsAddUpdate(wr[1]);
-                backButton.storePageStateAddTab("get_comment", tempAllComments);
+                //backButton.storePageStateAddTab("get_comment", tempAllComments);
                 addTabUpdateButton.disabled = false;
                 enableAddCommentTabs();
             } else { 
@@ -15740,7 +15822,7 @@ async function mainEvent() {
                 if (curToDoData[0] != 0) { // to-do was found
                     resetDisplayToDoAddUpdate();
                     displayToDoAddUpdate(curToDoData[1]);
-                    backButton.storePageStateAddTab("get_to_do", tempNotes);
+                    //backButton.storePageStateAddTab("get_to_do", tempNotes);
 
                     addTabUpdateButton.disabled = false;
                     addTabAddButton.disabled = true;
@@ -15805,6 +15887,14 @@ async function mainEvent() {
                 console.log("Comment typed but not entered");
 
                 e.displayCommentTypedNotAdded();
+            } else if (!rearLotCheckboxYes.checked && !rearLotCheckboxNo.checked) {
+                console.log("No selection for Rear-Lot");
+
+                e.displayNoRearLotSelection();
+            } else if (!UGFacilitiesCheckboxYes.checked && !UGFacilitiesCheckboxNo.checked) {
+                console.log("No selection for Existing UG Facilities");
+
+                e.displayNoExistingUGFacilitiesSelection();
             } else if (filterCheckboxAddWr.checked && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] == false) {
                 const wr = new workRequest(addTabNewWorkRequestNumber.value, addressLineTextfieldHouseNumber.value, 
                 addressLineTextfieldStreetName.value, addressLineTextfieldCounty.value, addressLineTextfieldZip.value,
@@ -15846,13 +15936,21 @@ async function mainEvent() {
                     document.getElementById("all_wr_tab_prev_next_container").classList.add("hidden");
                     document.getElementById("permits_tab_prev_next_container").classList.add("hidden");
                 }
-                /* Rear Lot and OH/UG Check */
 
+                /* Rear Lot and OH/UG Check */
                 if (rearLotCheckboxYes.checked) {
-                    // insert popup here - put haptix on
-                }
-                if (UGFacilitiesCheckboxYes.checked) {
-                    // insert popup here - put haptix on
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit ROW Research Request\""}</div>`;
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + wr.workRequestNumber + "?"}</div>`;
+                    addToDoPopUpTextfield.value = "Submit ROW Research Request";
+                    if (UGFacilitiesCheckboxYes.checked) { // since display is reset below, this value temporarily holds true
+                        existingUgFacilitiesChecked = true;
+                    }
+                } else if (UGFacilitiesCheckboxYes.checked) { // have to do else if - handling this popup with rear lot popup logic
+                    document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
+                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + addTabNewWorkRequestNumber.value + "?"}</div>`;
+                    addToDoPopUpTextfield.value = "Submit Investigative DDI";
                 }
 
                 h.displayWrAdded(wr.workRequestNumber);
@@ -15914,7 +16012,7 @@ async function mainEvent() {
                 
                 toDoMasterList.add(toDo);
                 h.displayToDoAdded(toDo.toDoId);
-                backButton.storeDataState("add_to_do", toDo);
+                //backButton.storeDataState("add_to_do", toDo);
 
                 resetDisplayToDoAddUpdate();
                 const temp = toDoMasterList.getToDo(toDo.toDoId);
@@ -15928,16 +16026,16 @@ async function mainEvent() {
         console.log("Fired - Clicked addTabClearButton");
 
         if (filterCheckboxAddWr.checked == true) {
-            backButton.storePageStateAddTab("wr", tempComments);
+            //backButton.storePageStateAddTab("wr", tempComments);
             resetDisplayWrAddUpdate();
         } else if (filterCheckboxAddPermit.checked == true) {
-            backButton.storePageStateAddTab("permit", tempPermitComments);
+            //backButton.storePageStateAddTab("permit", tempPermitComments);
             resetDisplayPermitAddUpdate();
         } else if (filterCheckboxAddComment.checked == true) {
-            backButton.storePageStateAddTab("comment", tempAllComments);
+            //backButton.storePageStateAddTab("comment", tempAllComments);
             resetDisplayCommentsAddUpdate();
         } else if (filterCheckboxAddToDo.checked == true) {
-            backButton.storePageStateAddTab("to_do", tempNotes);
+            //backButton.storePageStateAddTab("to_do", tempNotes);
             resetDisplayToDoAddUpdate();
         }
     })
@@ -16534,7 +16632,7 @@ async function mainEvent() {
         addressLineTextfieldCoverHouseNumber.classList.contains("hidden") && addressLineTextfieldHouseNumber.value.length == 0) {
             addressLineTextfieldCoverHouseNumber.classList.remove("hidden");
 
-            backButton.storePageStateAddTab("wr", tempComments);
+            //backButton.storePageStateAddTab("wr", tempComments);
         }
     })
     addressLineTextfieldHouseNumber.addEventListener("click", (event) => {
@@ -16553,7 +16651,7 @@ async function mainEvent() {
     })
     addressLineTextfieldStreetName.addEventListener("change", (event) => {
         console.log("Changed - addressLineTextfieldStreetName");
-        backButton.storePageStateAddTab("wr", tempComments);
+        //backButton.storePageStateAddTab("wr", tempComments);
 
         let temp = addressLineTextfieldStreetName.value.charAt(0).toUpperCase();
         temp += addressLineTextfieldStreetName.value.substring(1);
@@ -16576,7 +16674,7 @@ async function mainEvent() {
     })
     addressLineTextfieldCounty.addEventListener("change", (event) => {
         console.log("Changed - addressLineTextfieldCounty");
-        backButton.storePageStateAddTab("wr", tempComments);
+        //backButton.storePageStateAddTab("wr", tempComments);
 
         let temp = addressLineTextfieldCounty.value.charAt(0).toUpperCase();
         temp += addressLineTextfieldCounty.value.substring(1);
@@ -16605,7 +16703,7 @@ async function mainEvent() {
         addressLineTextfieldCoverZip.classList.contains("hidden") && addressLineTextfieldZip.value.length == 0) {
             addressLineTextfieldCoverZip.classList.remove("hidden");
 
-            backButton.storePageStateAddTab("wr", tempComments);
+            //backButton.storePageStateAddTab("wr", tempComments);
         }
     })
     addressLineTextfieldZip.addEventListener("click", (event) => {
@@ -16691,7 +16789,7 @@ async function mainEvent() {
     })
     addTabCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_comments_add_button");
-            backButton.storePageStateAddTab("wr", tempComments);
+            //backButton.storePageStateAddTab("wr", tempComments);
 
             const d = new Date();
             let day = d.getDate();
@@ -16709,7 +16807,7 @@ async function mainEvent() {
     })
     addTabCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabCommentsRemoveButton");
-        backButton.storePageStateAddTab("wr", tempComments);
+        //backButton.storePageStateAddTab("wr", tempComments);
 
         removeSelectedComments(); 
 
@@ -17338,7 +17436,7 @@ async function mainEvent() {
     })
     addTabDisplayToDoRowThreeAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeAddButton");
-        backButton.storePageStateAddTab("to_do", tempNotes);
+        //backButton.storePageStateAddTab("to_do", tempNotes);
 
         const e = new Error(promptDuration);
 
@@ -17364,7 +17462,7 @@ async function mainEvent() {
     })
     addTabDisplayToDoRowThreeRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeRemoveButton");
-        backButton.storePageStateAddTab("to_do", tempNotes);
+        //backButton.storePageStateAddTab("to_do", tempNotes);
 
         removeSelectedNotes();
 
@@ -17628,7 +17726,7 @@ async function mainEvent() {
     })
     addTabPermitCommentsAddButton.addEventListener("click", (event) => {
             console.log("Fired - Clicked add_tab_permit_comments_add_button");
-            backButton.storePageStateAddTab("permit", tempPermitComments);
+            //backButton.storePageStateAddTab("permit", tempPermitComments);
 
             const d = new Date();
             let day = d.getDate();
@@ -17656,7 +17754,7 @@ async function mainEvent() {
     })
     addTabPermitCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabPermitCommentsRemoveButton");
-        backButton.storePageStateAddTab("permit", tempPermitComments);
+        //backButton.storePageStateAddTab("permit", tempPermitComments);
 
         removeSelectedPermitComments();
 
@@ -17787,7 +17885,7 @@ async function mainEvent() {
     addCommentsTabCommentsAddButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked - add_comments_tab_comments_add_button");
         const e = new Error(promptDuration);
-        backButton.storePageStateAddTab("comment", tempAllComments);
+        //backButton.storePageStateAddTab("comment", tempAllComments);
 
 
         if (document.getElementById("comment_type_dd_menu_current").innerHTML == "Not Set") {
@@ -17824,7 +17922,7 @@ async function mainEvent() {
     })
     addCommentsTabCommentsRemoveButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked addCommentsTabCommentsRemoveButton");
-        backButton.storePageStateAddTab("comment", tempAllComments);
+        //backButton.storePageStateAddTab("comment", tempAllComments);
 
         removeSelectedAllComments();
 
@@ -18635,13 +18733,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 
@@ -18700,13 +18798,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 
@@ -20604,13 +20702,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 
@@ -20786,13 +20884,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 
@@ -20870,13 +20968,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 
@@ -20928,13 +21026,13 @@ async function mainEvent() {
             backButton.storePageState("permit");
         } else if (addTab.classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_add_wr").checked) {
-                backButton.storePageStateAddTab("wr", tempComments);
+                //backButton.storePageStateAddTab("wr", tempComments);
             } else if (document.getElementById("filter_checkbox_add_to_do").checked) {
-                backButton.storePageStateAddTab("to_do", tempNotes);
+                //backButton.storePageStateAddTab("to_do", tempNotes);
             } else if (document.getElementById("filter_checkbox_add_permit").checked) {
-                backButton.storePageStateAddTab("permit", tempPermitComments);
+                //backButton.storePageStateAddTab("permit", tempPermitComments);
             } else if (document.getElementById("filter_checkbox_add_comment").checked) {
-                backButton.storePageStateAddTab("comment", tempAllComments);
+                //backButton.storePageStateAddTab("comment", tempAllComments);
             }
         }
 

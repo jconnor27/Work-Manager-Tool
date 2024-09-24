@@ -1937,6 +1937,24 @@ h5 {
     margin-top: -11px;
 }
 
+.errorMessageNoRearLotSelection {
+    display: flex;
+    font-size: small;
+    color: red;
+    margin-left: 60px;
+    margin-top: -13px;
+    margin-bottom: -13px;
+}
+
+.errorMessageNoExistingUGFacilitiesSelection {
+    display: flex;
+    font-size: small;
+    color: red;
+    margin-left: 30px;
+    margin-top: -15px;
+    margin-bottom: -13px;
+}
+
 .errorMessageEnterCountyCity {
     display: flex;
     font-size: medium;
@@ -3965,6 +3983,9 @@ h5 {
     display: flex;
     font-size: large;
     justify-self: center;
+    width: 500px;
+    justify-content: center;
+    align-items: center;
 }
 
 .addToDoPopUpTextSubAddTab {
@@ -4253,6 +4274,10 @@ h5 {
         margin-top: 8px;
     }
 
+    .toDoObjectContainer, .toDoNoteContainer {
+        width: 1050px;
+    }
+
     .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton, .toDoTabDDMenuButton, .toDoTypeDDMenuButton, .commentTypeDDMenuButton {
         display: flex;
         font-size: small;
@@ -4416,7 +4441,7 @@ h5 {
         margin-left: 1rem;
     }
     
-    .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer {
+    .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer, .addTabROWResearchPopUpContainer {
         display: flex;
         flex-direction: column;
         z-index: 3;
@@ -4510,7 +4535,7 @@ h5 {
         gap: 50px
     }
 
-    .existingUGFacilitiesPopUpBox {
+    .existingUGFacilitiesPopUpBox, .addTabROWResearchPopUpBox {
         display: flex;
         flex-direction: column;
         background-color: white;
