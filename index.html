@@ -664,6 +664,8 @@
                     <div class="toDoHeader activeTab hidden" id="to_do_return_to_office_tab_active" style="padding-left: 15px;">On Return<br/>To Office</div>
 
                     <div class="hideToDoTabs hidden" id="hide_to_do_tabs"></div>
+
+                    <button type="button" class="toDoDisplayAddNewToDo" id="to_do_display_add_new_to_do_button">+ New To-Do</button>
                 </div>
 
                 <!-- Row One -->
@@ -1522,12 +1524,17 @@
 
         <!-- Add To-Do Pop Up Container -->
         <div class="addToDoPopUpContainer hidden" id="add_to_do_pop_up_container">
-            <div class="addToDoPopUpBox">
+            <div class="addToDoPopUpDropDownCover" id="add_to_do_pop_up_drop_down_cover"></div>
+            <div class="addToDoPopUpBox" id="add_to_do_pop_up_box">
                 <button type="button" class="addToDoPopUpXButton" id="add_to_do_pop_up_x_button">X</button>
 
                 <!-- Row One -->
                 <div class="addToDoPopUpRowOne">
                     <div class="addToDoPopUpText" id="add_to_do_pop_up_header">Not Set</div>
+                </div>
+
+                <div class="addToDoPopUpTypeDDMenu hidden" id="add_to_do_pop_up_type_dd_menu_container">
+                    <!-- Adding DD in script.js -->
                 </div>
 
                 <!-- Row Two -->
@@ -1563,9 +1570,15 @@
 
                 </div>
 
+                <!-- Work Request Number Field -->
+                <div class="addToDoWorkRequestNumfieldContainer hidden" id="add_to_do_pop_up_work_request_numfield_container">
+                    <label class="addToDoWorkRequestNumfieldLabel">Work Request Number:</label>
+                    <input type="text" class="addToDoWorkRequestNumfield" id="add_to_do_pop_up_work_request_numfield" value="(Optional)">    
+                </div>
+
                 <!-- Note Textfield -->
                 <input type="text" class="addToDoPopUpNoteTextfield" id="add_to_do_pop_up_textfield" value="Enter Note (Optional)">
-
+                
                 <!-- Button Container -->
                 <div class="addToDoPopUpButtonContainer">
                     <button type="button" class="addToDoPopUpButton" id="add_to_do_pop_up_button_no">No</button>
@@ -1573,7 +1586,6 @@
                     <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_neither">Neither</button>
                     <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_move">Move</button>
                     <button type="button" class="addToDoPopUpButton hidden" id="add_to_do_pop_up_button_new">Create New To-Do</button>
-
                 </div>
             </div>
         </div>

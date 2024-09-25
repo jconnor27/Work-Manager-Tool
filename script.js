@@ -685,11 +685,21 @@ class Haptix {
         console.log("Entered - displayToDoAddedFromPopUp(type= " + type + " wrNum= " + wrNum + ")");
         
         const temp = document.getElementById("left_side_container");
-        temp.insertAdjacentHTML("beforeend", `<div class="toDoAddedFromPopUpPrompt" id="to_do_added_from_pop_up_prompt">"${type}" To-Do Added For Work Request # ${wrNum}</div>`);
-        setTimeout(() => {
-            const temp = document.getElementById("to_do_added_from_pop_up_prompt");
-            temp.remove();
-        }, this.promptDuration);
+
+        if (wrNum != undefined) {
+            temp.insertAdjacentHTML("beforeend", `<div class="toDoAddedFromPopUpPrompt" id="to_do_added_from_pop_up_prompt">"${type}" To-Do Added For Work Request # ${wrNum}</div>`);
+            setTimeout(() => {
+                const temp = document.getElementById("to_do_added_from_pop_up_prompt");
+                temp.remove();
+            }, this.promptDuration);
+        } else {
+            temp.insertAdjacentHTML("beforeend", `<div class="toDoAddedFromPopUpPrompt" id="to_do_added_from_pop_up_prompt">"${type}" To-Do Added</div>`);
+            setTimeout(() => {
+                const temp = document.getElementById("to_do_added_from_pop_up_prompt");
+                temp.remove();
+            }, this.promptDuration);
+        }
+        
     }
 
     displayToDoUpdatedFromPopUp(type, wrNum) {
@@ -974,7 +984,7 @@ class Error {
         console.log("Entered - displayInvalidMoveToDate()");
 
         const temp = document.getElementById("move_to_display_day_of_week_date");
-        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidMoveToDate" id="error_invalid_move_to_date">Invalid Date</li>`);
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidMoveToDate" id="error_invalid_move_to_date">Invalid Date</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_move_to_date");
             temp.remove();
@@ -985,7 +995,7 @@ class Error {
         console.log("Entered - displayInvalidDateToDoDisplay()");
 
         const temp = document.getElementById("to_do_display_day_of_week_date");
-        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidDateToDoDisplay" id="error_invalid_date_move_to_display">Invalid Date</li>`);
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageInvalidDateToDoDisplay" id="error_invalid_date_move_to_display">Invalid Date</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_invalid_date_move_to_display");
             temp.remove();
@@ -996,7 +1006,7 @@ class Error {
         console.log("Entered - displayMaxRowsPerPage()");
 
         const temp = document.getElementById("settings_preferences_textfield_rows_per_page");
-        temp.insertAdjacentHTML("afterend", `<div class="errorMessageMaxRowsPerPage" id="error_max_rows_per_page">The Maximum Number Of Rows On The Page Is 8.`);
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageMaxRowsPerPage" id="error_max_rows_per_page">The Maximum Number Of Rows On The Page Is 8.</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_max_rows_per_page");
             temp.remove();
@@ -1007,7 +1017,7 @@ class Error {
         console.log("Entered - displayNoRearLotSelection()");
 
         const temp = document.getElementById("rear_lot_container");
-        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoRearLotSelection" id="error_no_rear_lot_selection">Must select \"Y\" or \"N\" for Rear-Lot.`);
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoRearLotSelection" id="error_no_rear_lot_selection">Must select \"Y\" or \"N\" for Rear-Lot.</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_no_rear_lot_selection");
             temp.remove();
@@ -1018,9 +1028,53 @@ class Error {
         console.log("Entered - displayNoExistingUGFacilitiesSelection()");
 
         const temp = document.getElementById("existing_ug_facilities_container");
-        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoExistingUGFacilitiesSelection" id="error_no_existing_ug_facilities_selection">Must select \"Y\" or \"N\" for Existing UG Facilities.`);
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageNoExistingUGFacilitiesSelection" id="error_no_existing_ug_facilities_selection">Must select \"Y\" or \"N\" for Existing UG Facilities.</div>`);
         setTimeout(() => {
             const temp = document.getElementById("error_no_existing_ug_facilities_selection");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
+    displayMustEnterWorkRequestNumberAddToDoPopUp(type) {
+        console.log("Entered - displayMustEnterWorkRequestNumberAddToDoPopUp(type =" + type + ")");
+
+        const temp = document.getElementById("add_to_do_pop_up_work_request_numfield_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageMustEnterWorkRequestNumberAddToDoPopUp" id="error_must_enter_work_request_number_add_to_do_pop_up">Must Enter Work Request # for To-Do's of Type: ${type}.</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_must_enter_work_request_number_add_to_do_pop_up");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
+    displayMustEnterNoteAddToDoPopUp() {
+        console.log("Entered - displayMustEnterNoteAddToDoPopUp()");
+
+        const temp = document.getElementById("add_to_do_pop_up_textfield");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageMustEnterNoteAddToDoPopUp" id="error_must_enter_note_add_to_do_pop_up">Must Enter Note for "General" To-Do's.</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_must_enter_note_add_to_do_pop_up");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
+    displayInvalidWorkRequestNumberAddToDo(str) {
+        console.log("Entered - displayInvalidWorkRequestNumberAddToDoPopUp(str = " + str + ")");
+        
+        const temp = document.getElementById("add_to_do_pop_up_work_request_numfield_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageInvalidWorkRequestNumberAddToDoPopUp" id="error_invalid_work_request_number_add_to_do_pop_up">${str} is an Invalid Work Request Number.</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_invalid_work_request_number_add_to_do_pop_up");
+            temp.remove();
+        }, this.promptDuration);
+    }
+
+    displayWorkRequestNotFoundAddToDoPopUp(wrNum) {
+        console.log("Entered - displayWorkRequestNotFoundAddToDoPopUp(wrNum =" + wrNum + ")");
+
+        const temp = document.getElementById("add_to_do_pop_up_work_request_numfield_container");
+        temp.insertAdjacentHTML("afterend", `<div class="errorMessageWorkRequestNotFoundAddToDoPopUp" id="error_work_request_number_not_found_add_to_do_pop_up">Work Request Number ${wrNum} Not Found.</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_work_request_number_not_found_add_to_do_pop_up");
             temp.remove();
         }, this.promptDuration);
     }
@@ -6758,6 +6812,7 @@ async function mainEvent() {
 
     const settingsBackButton = document.querySelector("#settings_back_button");
     const dropdownCover = document.querySelector("#drop_down_cover");
+    const addToDoPopUpDropDownCover = document.querySelector("#add_to_do_pop_up_drop_down_cover");
 
 
         /* Settings Page Event Listeners */
@@ -6835,6 +6890,7 @@ async function mainEvent() {
     const addToDoPopUpButtonNeither = document.querySelector("#add_to_do_pop_up_button_neither");
     const addToDoPopUpButtonMove = document.querySelector("#add_to_do_pop_up_button_move");
     const addToDoPopUpButtonNew = document.querySelector("#add_to_do_pop_up_button_new");
+    const addToDoPopUpTypeDDMenuContainer = document.querySelector("#add_to_do_pop_up_type_dd_menu_container");
 
     /* Move Existing To-Do Pop Up */
     const moveExistingToDoPopUpHeader = document.querySelector("#move_existing_to_do_pop_up_header");
@@ -6910,6 +6966,11 @@ async function mainEvent() {
     const informationFromMIMSsubstation = document.querySelector("#information_from_mims_substation");
     const informationFromMIMSfeederID = document.querySelector("#information_from_mims_feeder_id");
     const informationFromMIMStrs = document.querySelector("#information_from_mims_trs");
+
+    /* To-Do Tab - Add New To-Do (from Pop Up) Button */
+    const toDoDisplayAddNewToDoButton = document.querySelector("#to_do_display_add_new_to_do_button");
+
+    const addToDoPopUpWorkRequestNumfield = document.querySelector("#add_to_do_pop_up_work_request_numfield");
 
 
     /* Test Button for SVC Calc */
@@ -7558,6 +7619,16 @@ async function mainEvent() {
         document.getElementById("move_existing_to_do_pop_up_day_of_week_date").value = year + "-" + month + "-" + day;
         setDay("move_existing_to_do_pop_up", today.getDay());
 
+        /* Initialize Add To Do Pop Up To-Do Type DD */
+        dd = new ToDoTypeDDMenu("addToDoPopUp");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+
+        ddRow = dd.makeRowElement();
+
+        addToDoPopUpTypeDDMenuContainer.innerHTML = "";
+        addToDoPopUpTypeDDMenuContainer.insertAdjacentHTML("beforeend", `<label class="addTabDisplayToDoTypeDDLabel">Type: </label>`);
+        addToDoPopUpTypeDDMenuContainer.insertAdjacentElement("beforeend", ddRow);
     }
 
     /* Adds all dropdowns */
@@ -8626,6 +8697,30 @@ async function mainEvent() {
         return d;
     }
 
+    /* Takes in an str (can be of anythin - even undefined) and returns true if it is made up of 8 numbers (0-9) */
+    function assessWorkRequestNumberStr(str) {
+        console.log("Entered - assessWorkRequestNumberStr(" + str + ")");
+
+        if (str == undefined) {
+            return false;
+        } else if (str.length != 8) {
+            console.log("returning false - str.length =");
+            console.log(str.length);
+            return false;
+        } else {
+            for (var i = 0; i < 8; i++) {
+                if (str.charAt(i) != '0' && str.charAt(i) != '1' && str.charAt(i) != '2' && str.charAt(i) != '3' & str.charAt(i) != '4' &&
+                str.charAt(i) != '5' && str.charAt(i) != '6' && str.charAt(i) != '7' && str.charAt(i) != '8' && str.charAt(i) != '9') {
+                    console.log("Returning false");
+                    console.log(str.charAt(i));
+                    return false
+                }
+            }
+            console.log("returning true");
+            return true;
+        }
+    }
+
     /* Not Implemented Yet */
     settingsBackButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsBackButton");
@@ -8791,6 +8886,71 @@ async function mainEvent() {
         }
     })
 
+    addToDoPopUpWorkRequestNumfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpWorkRequestNumfield");
+
+        if (event.target.value != undefined && event.target.value.length != 0) {
+            event.target.select();
+        }
+    })
+
+    toDoDisplayAddNewToDoButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked toDoDisplayAddNewToDoButton");
+
+        addToDoPopUpContainer.classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_type_dd_menu_container").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_work_request_numfield_container").classList.remove("hidden");
+        switchAddToDoPopUpButtons("New Full ToDo From Pop Up");
+
+        /* Settings Default */
+        document.getElementById("to_do_type_dd_addToDoPopUp_current").innerHTML = "General";
+        document.getElementById("add_to_do_pop_up_textfield").value = "Enter Note (REQUIRED)";
+
+        addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Confirm \"Type\", \"Date\", and \"Tab\" for new To-Do."}</div>`
+        document.getElementById("add_to_do_pop_up_box").classList.add("addtoDoPopUpBoxLarge");
+    })
+
+    /* Open "Click" function for addToDoPopUp To-Do Type DD Menu*/
+    function addToDoPopUpTypeDDMenuContainerClickFunction(event) {
+        console.log("Entered - addToDoPopUpTypeDDMenuContainerClickFunction()");
+
+        const tempContent = document.getElementById("to_do_type_dd_addToDoPopUp_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            tempContent.style.marginTop = '240px';
+            tempContent.classList.add("addToDoTypeDDMenuContentBox");
+            tempContent.style.height = '200px';
+            tempContent.style.paddingLeft = '20px';
+            tempContent.style.zIndex = 2;
+            document.getElementById("drop_down_cover").style.zIndex = 1;
+
+            //dropdownCover.classList.remove("hidden");
+            addToDoPopUpDropDownCover.classList.remove("hidden");
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("to_do_type_dd_addToDoPopUp_current");
+
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                if (tempCurrent.innerHTML == "General") {
+                    document.getElementById("add_to_do_pop_up_textfield").value = "Enter Note (Required)";
+                } else {
+                    document.getElementById("add_to_do_pop_up_textfield").value = "Enter Note (Optional)";
+                }
+
+                /* Hidding DDMenu Content */
+                tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
+            }
+        }
+    }
+
     /* Blue Question Mark Aids */
     rearLotAid.addEventListener("click", (event) => {
         console.log("Fired - Clicked rearLotAid");
@@ -8913,7 +9073,7 @@ async function mainEvent() {
             
         }
 
-            /* DropDowns */
+            /* DropDowns - Rows */
         for (var i = 1; i <= maxRows; i++) {
                 /* AllWr Tab */
             if (allWrTab.classList.contains("hidden") && document.getElementById("general_status_dd_" + i + "_content").style.display != 'none'){
@@ -8980,6 +9140,11 @@ async function mainEvent() {
         
 
         dropdownCover.classList.add("hidden");
+    })
+    addToDoPopUpDropDownCover.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addToDoPopUpDropDownCover");
+
+        document.getElementById("to_do_type_dd_addToDoPopUp_content").style.display = 'none';
     })
 
     /* Add Comment Pop Up */
@@ -9517,7 +9682,7 @@ async function mainEvent() {
 
             document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
-        } else if (event.target.innerHTML == "General") {
+        } else if (event.target.innerHTML == "General" && event.target.classList.contains("addToDoPopUpTab")) {
             clearAddToDoPopUpTabs();
 
             document.getElementById("add_to_do_pop_up_tab_general").classList.add("hidden");
@@ -9527,7 +9692,26 @@ async function mainEvent() {
 
             document.getElementById("add_to_do_pop_up_tab_mentor").classList.add("hidden");
             document.getElementById("add_to_do_pop_up_tab_mentor_active").classList.remove("hidden");
-        } 
+        } else if (event.target.innerHTML == "\\/") {
+            addToDoPopUpTypeDDMenuContainerClickFunction(event);
+        } else if (event.target.innerHTML == "Contact Customer" || event.target.innerHTML == "Site Visit" || 
+                event.target.innerHTML == "Service Calc + Coding" || event.target.innerHTML == "Design" || 
+                event.target.innerHTML == "Check/ Apply - NJUNS" || event.target.innerHTML == "Revisions" || 
+                event.target.innerHTML == "Check/ Apply - Permit" || event.target.innerHTML == "General" || 
+                event.target.innerHTML == "Check/ Apply - Easement") {
+            document.getElementById("to_do_type_dd_addToDoPopUp_current").innerHTML = event.target.innerHTML;
+            document.getElementById("to_do_type_dd_addToDoPopUp_content").style.display = 'none';
+
+            if (event.target.innerHTML == "General") {
+                document.getElementById("add_to_do_pop_up_textfield").value = "Enter Note (REQUIRED)";
+                document.getElementById("add_to_do_pop_up_work_request_numfield").value = "(Optional)";
+            } else {
+                document.getElementById("add_to_do_pop_up_textfield").value = "Enter Note (Optional)";
+                document.getElementById("add_to_do_pop_up_work_request_numfield").value = "(REQUIRED)";
+            }
+        } else if (document.getElementById("to_do_type_dd_addToDoPopUp_content").style.display != 'none' && !event.target.classList.contains("addToDoTypeDDMenuContentBox")){
+            document.getElementById("to_do_type_dd_addToDoPopUp_content").style.display = 'none';
+        }
     })
         /* Buttons */
     addToDoPopUpXButton.addEventListener("click", (event) => {
@@ -9724,12 +9908,109 @@ async function mainEvent() {
         addToDoPopUpTextfield.value = "Enter Note (Optional)"
         addToDoPopUpContainer.classList.add("hidden");
     })
+
     addToDoPopUpButtonNew.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonNew");
 
-        console.log("Clicking from code");
-        addToDoPopUpButtonYes.click();
-        backButton.removeLast(); // will need to hook up back button to pop up yes buttons
+        if (document.getElementById("add_to_do_pop_up_work_request_numfield_container").classList.contains("hidden")) {
+            console.log("Clicking from code");
+            addToDoPopUpButtonYes.click();
+            backButton.removeLast(); // will need to hook up back button to pop up yes buttons
+        } else { // adding new To-Do from addToDoPopUp
+            const h = new Haptix(promptDuration);
+            const e = new Error(promptDuration);
+            const d = new Date();
+
+            let year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const today = year + "-" + month + "-" + day;
+
+            let tab = "";
+
+            if (document.getElementById("add_to_do_pop_up_tab_coordinator").classList.contains("hidden")) {
+                tab = "Coordinator";
+            } else if (document.getElementById("add_to_do_pop_up_tab_waiting").classList.contains("hidden")) {
+                tab = "Waiting";
+            } else if (document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.contains("hidden")) {
+                tab = "On Return To Office";
+            } else if (document.getElementById("add_to_do_pop_up_tab_general").classList.contains("hidden")) {
+                tab = "General";
+            } else if (document.getElementById("add_to_do_pop_up_tab_mentor").classList.contains("hidden")) {
+                tab = "Mentor";
+            }
+
+
+            let notes = []
+            if (addToDoPopUpTextfield.value != "Enter Note (Optional)" && addToDoPopUpTextfield.value != "Enter Note (REQUIRED)") {
+                notes.push([`<li>${addToDoPopUpTextfield.value}</li>`, 0]);
+            }
+            let temp = notes;
+            
+            if (notes.length == 0) {
+                temp = [];
+            }
+            
+            let wrNum = undefined;
+            if (document.getElementById("add_to_do_pop_up_work_request_numfield").value == "(REQUIRED)") {
+                e.displayMustEnterWorkRequestNumberAddToDoPopUp(document.getElementById("to_do_type_dd_addToDoPopUp_current").innerHTML);
+                return;
+            } else if (document.getElementById("add_to_do_pop_up_textfield").value == "Enter Note (REQUIRED)") {
+                e.displayMustEnterNoteAddToDoPopUp();
+                return;
+            } else if (document.getElementById("add_to_do_pop_up_textfield").value == "Enter Note (Optional)" && !assessWorkRequestNumberStr(document.getElementById("add_to_do_pop_up_work_request_numfield").value)) {
+                e.displayInvalidWorkRequestNumberAddToDo(document.getElementById("add_to_do_pop_up_work_request_numfield").value);
+                return;
+            } else if (document.getElementById("add_to_do_pop_up_textfield").value == "Enter Note (Optional)" && getWr(document.getElementById("add_to_do_pop_up_work_request_numfield").value, allWrList)[0] == 0) {
+                // This check (above) ensure that the user adds the new To-Do to an existing WR (if applicable)
+                e.displayWorkRequestNotFoundAddToDoPopUp(document.getElementById("add_to_do_pop_up_work_request_numfield").value);
+                return;
+            } else if (document.getElementById("add_to_do_pop_up_work_request_numfield").value != "(Optional)") {
+                wrNum = document.getElementById("add_to_do_pop_up_work_request_numfield").value;
+            }
+
+            let tempWr = [];
+            let addressStr = undefined;
+
+            if (wrNum != undefined) {
+                for (var i = 0; i < allWrList.length; i++) {
+                    if (allWrList[i].workRequestNumber == wrNum) {
+                        tempWr = allWrList[i];
+                    }
+                }
+    
+                if (tempWr != []) {
+                    addressStr = tempWr.houseNumber + " " + tempWr.streetName + ", " + tempWr.countyCity + " " + tempWr.zipCode;
+                    if (wrNum != undefined) {
+                        addressStr += " - " + wrNum;
+                    }
+                } else {
+                    addressStr = undefined;
+                }
+            }
+            
+            const newToDo = new ToDoObject(toDoMasterList.getCount(), tab, addToDoPopUpDayOfWeekDate.value, document.getElementById("to_do_type_dd_addToDoPopUp_current").innerHTML, today, 0, temp, wrNum, addressStr);
+            toDoMasterList.add(newToDo);
+            h.displayToDoAddedFromPopUp(document.getElementById("to_do_type_dd_addToDoPopUp_current").innerHTML, wrNum);
+
+            // Need to reset addToDoPopUp
+            switchAddToDoPopUpButtons();
+            resetAddToDoPopUpDate();
+            document.getElementById("add_to_do_pop_up_work_request_numfield_container").classList.add("hidden");
+            addToDoPopUpDropDownCover.classList.add("hidden");
+            addToDoPopUpTypeDDMenuContainer.classList.add("hidden");
+            addToDoPopUpContainer.classList.remove("addToDoPopUpBoxLarge");
+            addToDoPopUpContainer.classList.add("hidden");
+            toDoTab.click();
+            
+        }
+        
     })
     addToDoPopUpButtonMove.addEventListener("click", (event) => {
         console.log("Fired - Clicked addToDoPopUpButtonMove");
@@ -11368,6 +11649,10 @@ async function mainEvent() {
             addToDoPopUpButtonNeither.classList.remove("hidden");
             addToDoPopUpButtonMove.classList.remove("hidden");
             addToDoPopUpButtonNew.classList.remove("hidden");
+        } else if (tab == "New Full ToDo From Pop Up") {
+            addToDoPopUpButtonNo.classList.add("hidden");
+            addToDoPopUpButtonYes.classList.add("hidden");
+            addToDoPopUpButtonNew.classList.remove("hidden");
         } else {
             addToDoPopUpButtonNo.classList.remove("hidden");
             addToDoPopUpButtonYes.classList.remove("hidden");
@@ -12253,7 +12538,6 @@ async function mainEvent() {
             tempStorage.insertAdjacentElement("beforeend", tempElem);
             const tempContent = document.getElementById("easement_status_dd_test_content");
             tempElem.remove();
-        
             
             if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
                 const tempCurrent = document.getElementById("easement_status_dd_" + rowNum + "_current");
@@ -15940,16 +16224,14 @@ async function mainEvent() {
                 /* Rear Lot and OH/UG Check */
                 if (rearLotCheckboxYes.checked) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit ROW Research Request\""}</div>`;
-                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + wr.workRequestNumber + "?"}</div>`;
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit ROW Research Request\" To-Do for Work Request # " + wr.workRequestNumber + "?"}</div>`;
                     addToDoPopUpTextfield.value = "Submit ROW Research Request";
                     if (UGFacilitiesCheckboxYes.checked) { // since display is reset below, this value temporarily holds true
                         existingUgFacilitiesChecked = true;
                     }
                 } else if (UGFacilitiesCheckboxYes.checked) { // have to do else if - handling this popup with rear lot popup logic
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
-                    addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + addTabNewWorkRequestNumber.value + "?"}</div>`;
+                    addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + addTabNewWorkRequestNumber.value + "?"}</div>`;
                     addToDoPopUpTextfield.value = "Submit Investigative DDI";
                 }
 

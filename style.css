@@ -1955,6 +1955,30 @@ h5 {
     margin-bottom: -13px;
 }
 
+.errorMessageMustEnterWorkRequestNumberAddToDoPopUp, .errorMessageInvalidWorkRequestNumberAddToDoPopUp, .errorMessageWorkRequestNotFoundAddToDoPopUp {
+    display: flex;
+    font-size: small;
+    color: red;
+    width: 370px;
+    justify-self: center;
+    align-self: center;
+    max-height: 24px;
+    margin-top: -10px;
+    margin-bottom: -9px;
+    margin-left: 50px;
+}
+
+.errorMessageMustEnterNoteAddToDoPopUp {
+    display: flex;
+    font-size: small;
+    color: red;
+    width: fit-content;
+    justify-self: center;
+    align-self: center;
+    max-height: 24px;
+    margin-bottom: -20px;
+}
+
 .errorMessageEnterCountyCity {
     display: flex;
     font-size: medium;
@@ -1970,7 +1994,7 @@ h5 {
 .noWrFound {
     display: flex;
     font-size: large;
-    margin-top: 30px;
+    margin-top: 20px;
     margin-left: 50px;
 }
 
@@ -2247,9 +2271,37 @@ h5 {
     justify-content: center;
 }
 
+.addToDoWorkRequestNumfield {
+    display: flex;
+    border: 1px solid black;
+    margin-left: 10px;
+    padding-left: 10px;
+    min-height: 24px;
+}
+
+.toDoDisplayAddNewToDo {
+    display: flex;
+    font-size: large;
+    height: 30px;
+    width: 130px;
+    border-radius: 5px;
+    margin-left: 100px;
+    margin-right: -100px;
+    margin-top: 30px;
+}
+
 .addCommentTabDD {
     display: flex;
     margin-left: -90px;
+}
+
+.addToDoWorkRequestNumfieldContainer {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    max-height: 24px;
 }
 
 .dropdownMenuContentAddPermitStatus {
@@ -3799,7 +3851,7 @@ h5 {
     margin-right: 10px;
 }
 
-.dropDownCover {
+.dropDownCover, .addToDoPopUpDropDownCover {
     display: flex;
     z-index: 1;
     position: absolute;
@@ -3867,6 +3919,11 @@ h5 {
     z-index: 2;
     background-color: white;
     border: 2px solid black;
+}
+
+.addToDoPopUpBoxLarge {
+    display: flex;
+    height: 600px;
 }
 
 .moveExistingToDoPopUpBox {
@@ -4124,9 +4181,17 @@ h5 {
     font-size: large;
     align-items: center;
     height: 35px;
-    margin-right: 100px;
-    margin-left: -160px;
+    margin-right: 70px;
+    margin-left: -130px;
     align-self: flex-end;
+}
+
+.addToDoPopUpTypeDDMenu {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .addToDoTypeDDMenuContentBox {
