@@ -9729,6 +9729,14 @@ async function mainEvent() {
 
                 existingUgFacilitiesChecked = false; // reseting
             }
+        } else if (addToDoPopUpHeader.innerHTML.includes("Confirm")) {
+            switchAddToDoPopUpButtons();
+            resetAddToDoPopUpDate();
+            document.getElementById("add_to_do_pop_up_work_request_numfield_container").classList.add("hidden");
+            addToDoPopUpDropDownCover.classList.add("hidden");
+            addToDoPopUpTypeDDMenuContainer.classList.add("hidden");
+            addToDoPopUpContainer.classList.remove("addToDoPopUpBoxLarge");
+            addToDoPopUpContainer.classList.add("hidden");
         } else {
             console.log("Code calling click");
             allWrTab.click();
