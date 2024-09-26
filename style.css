@@ -2283,7 +2283,7 @@ h5 {
     display: flex;
     font-size: large;
     height: 30px;
-    width: 130px;
+    width: 140px;
     border-radius: 5px;
     margin-left: 100px;
     margin-right: -100px;
@@ -3285,7 +3285,7 @@ h5 {
     padding: 10px;
     height: 32px;
     margin-left: 10px;
-    width: 125px;
+    width: fit-content;
 }
 
 .dayOfWeekPageObject {
@@ -4089,6 +4089,8 @@ h5 {
     padding: 5px;
     margin-left: 30px;
     margin-right: 30px;
+    align-items: center;
+    justify-content: center;
 }
 
 .missingInfoDayOfWeekDate, .addToDoPopUpDayOfWeekDate, .moveExistingToDoPopUpDayOfWeekDate {
@@ -4216,7 +4218,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4352,6 +4354,13 @@ h5 {
         width: 30px;
     }
 
+    .toDoTypeDDMenuButton {
+        display: flex;
+        height: fit-content;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
     
 
     .dataFromValueBox {
@@ -4450,7 +4459,7 @@ h5 {
     }
 
     .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
-        margin-left: none;
+        margin-left: -50px;
         font-size: small;
     }
 
@@ -4618,6 +4627,10 @@ h5 {
     .addTabDisplayAddComment {
         margin-bottom: 10px;
         margin-top: 20px;
+    }
+
+    .addToDoPopUpTab {
+        width: 95px;
     }
 
 
