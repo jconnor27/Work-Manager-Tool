@@ -9723,8 +9723,7 @@ async function mainEvent() {
                 let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
                 resetAddToDoPopUpDate();
-                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
-                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + curWrNum + "?"}</div>`;
                 addToDoPopUpTextfield.value = "Submit Investigative DDI";
 
                 existingUgFacilitiesChecked = false; // reseting

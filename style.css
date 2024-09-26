@@ -3196,6 +3196,7 @@ h5 {
     justify-content: center;
     align-items: center;
     font-size: large;
+    font-weight: bold;
     border-bottom: 2px solid black;
 }
 
@@ -3383,6 +3384,7 @@ h5 {
 .addTabDisplayToDoRowThreeTextfieldLabel {
     display: flex;
     font-size: large;
+    font-weight: bold;
     width: 210px;
 }
 
@@ -4233,7 +4235,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
