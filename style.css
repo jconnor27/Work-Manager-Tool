@@ -249,6 +249,7 @@ h5 {
 }
 
 .searchTextfieldGoButton {
+    display: flex;
     align-self: center;
     align-items: center;
     justify-content: center;
@@ -301,13 +302,19 @@ h5 {
 }
 
 .filterGoButtonLabel {
+    display: flex;
     font-size: x-large;
     margin-left: 1rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .filterGoButton {
+    display: flex;
     height: 30px;
     align-self: center;
+    justify-content: center;
+    align-items: center;
     margin-left: 7.5rem;
     font-size: x-large;
     padding-left: 1rem;
@@ -2847,9 +2854,12 @@ h5 {
 }
 
 .settingsXButton {
+    display: flex;
     font-size: 20px;
     margin-left: 15px;
     margin-right: 450px;
+    align-items: center;
+    justify-content: center;
 }
 
 .settingsDisplayContainerLabel {
@@ -3127,6 +3137,7 @@ h5 {
     width: 30px;
     height: 30px;
     justify-content: center;
+    align-items: center;
     margin-top: -10px;
     margin-left: -5px;
 }
@@ -3185,6 +3196,7 @@ h5 {
     justify-content: center;
     align-items: center;
     font-size: large;
+    border-bottom: 2px solid black;
 }
 
 .addTabDisplayToDoTypeDDLabel {
@@ -3285,7 +3297,7 @@ h5 {
     padding: 10px;
     height: 32px;
     margin-left: 10px;
-    width: fit-content;
+    min-width: 135px;
 }
 
 .dayOfWeekPageObject {
@@ -4034,6 +4046,8 @@ h5 {
     width: 30px;
     margin-right: 100px;
     margin-top: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .missingInfoText, .addToDoPopUpText, .statusWarningPopUpText, .moveExistingToDoPopUpText {
@@ -4218,7 +4232,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4238,7 +4252,10 @@ h5 {
     }
 
     .filterGoButton {
+        display: flex;
         margin-left: 6rem;
+        align-items: center;
+        justify-content: center;
     }
 
     .newWorkRequestNumberTextfieldLabel {
@@ -4253,7 +4270,6 @@ h5 {
 
     .dayOfWeekDate {
         font-size: small;
-        width: 130px;
     }
 
     .toDoMoveIncompleteButton {
@@ -4280,10 +4296,12 @@ h5 {
     }
 
     .searchTextfieldGoButton {
+        display: flex;
         padding-right: 2px;
         width: 50px;
         margin-right: 4px;
-
+        align-items: center;
+        justify-content: center;
     }
 
     .searchBySelectionTextfieldLabel {
@@ -4545,10 +4563,13 @@ h5 {
     }
 
     .imortDataPopUpXButton {
+        display: flex;
         align-self: flex-start;
         margin-top: 10px;
         margin-left: 10px;
         margin-bottom: 20px;
+        align-items: center;
+        justify-content: center;
     }
 
     .importDataPopUpTextPrompt {
@@ -4567,7 +4588,10 @@ h5 {
     }
 
     .importDataPopUpGoButton {
+        display: flex;
         padding: 5px;
+        align-items: center;
+        justify-content: center;
     }
 
     .importDataPopUpSyncButton {
@@ -4593,10 +4617,13 @@ h5 {
     }
     
     .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton {
+        display: flex;
         align-self: flex-start;
         margin-top: 10px;
         margin-left: 10px;
         margin-bottom: 30px;
+        align-items: center;
+        justify-content: center;
     }
 
     .rearLotCheckPopUpButton, .existingUGFacilitiesPopUpButton {
