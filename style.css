@@ -2283,7 +2283,7 @@ h5 {
     display: flex;
     font-size: large;
     height: 30px;
-    width: 140px;
+    width: 150px;
     border-radius: 5px;
     margin-left: 100px;
     margin-right: -100px;
@@ -4095,7 +4095,7 @@ h5 {
 
 .missingInfoDayOfWeekDate, .addToDoPopUpDayOfWeekDate, .moveExistingToDoPopUpDayOfWeekDate {
     display: flex;
-    width: 140px;
+    width: 130px;
     align-self: center;
     margin-bottom: 5px;
 }
@@ -4218,7 +4218,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4460,7 +4460,8 @@ h5 {
     }
 
     .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
-        margin-left: -50px;
+        margin-left: -20px;
+        margin-right: 20px;
         font-size: small;
     }
 
