@@ -3276,7 +3276,7 @@ h5 {
     display: flex;
     flex-direction: row;
     height: 33px;
-    margin-right: -75px;
+    margin-right: -60px;
 }
 
 .toDoDisplayDateButton {
@@ -4233,7 +4233,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4666,11 +4666,12 @@ h5 {
 
     .filterGoButtonLabel {
         font-size: large;
+        font-weight: bold;
     }
 
     .errorMessageEnterHouseNumber, .errorMessageEnterStreetName, .errorMessageEnterZip {
         font-size: small;
-        margin-bottom: -6px;
+        margin-bottom: -4px;
     }
 
     .hidden {
