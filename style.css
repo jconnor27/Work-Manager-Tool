@@ -4233,7 +4233,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: blue;
+        border-color: red;
     }
 
     .footerContainer {
@@ -4481,7 +4481,7 @@ h5 {
 
     .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
         margin-left: 0px;
-        margin-right: -30px;
+        margin-right: -150px;
         font-size: small;
     }
 
@@ -4670,6 +4670,7 @@ h5 {
 
     .errorMessageEnterHouseNumber, .errorMessageEnterStreetName, .errorMessageEnterZip {
         font-size: small;
+        margin-bottom: -6px;
     }
 
     .hidden {
