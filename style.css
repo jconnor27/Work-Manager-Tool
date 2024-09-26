@@ -4183,8 +4183,8 @@ h5 {
     font-size: large;
     align-items: center;
     height: 35px;
-    margin-right: 70px;
-    margin-left: -130px;
+    margin-right: 60px;
+    margin-left: -120px;
     align-self: flex-end;
 }
 
@@ -4218,7 +4218,7 @@ h5 {
 @media only screen and (max-width: 1370px) {
 
     .headerTabsContainer {
-        border-color: red;
+        border-color: blue;
     }
 
     .footerContainer {
@@ -4253,6 +4253,7 @@ h5 {
 
     .dayOfWeekDate {
         font-size: small;
+        width: 130px;
     }
 
     .toDoMoveIncompleteButton {
@@ -4460,8 +4461,8 @@ h5 {
     }
 
     .wrAddedPrompt, .wrRemovedPrompt, .toDoAddedPrompt, .toDoUpdatedPrompt, .toDoRemovedPrompt, .noChangesPrompt, .permitUpdatedPrompt {
-        margin-left: -20px;
-        margin-right: 20px;
+        margin-left: -15px;
+        margin-right: -15px;
         font-size: small;
     }
 
