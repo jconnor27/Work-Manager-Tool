@@ -5655,6 +5655,9 @@ function parseWrString(str) {
         const rightIndex = tempVersion.indexOf(";");
 
         version = tempVersion.substring(leftIndex + 1);
+        console.log("ghgh");
+        console.log("version =");
+        console.log(version);
 
         // Removing VERSION_*.*
         const versionIndex = str.lastIndexOf("VERSION");
@@ -20848,7 +20851,12 @@ async function mainEvent() {
         console.log("Fired - Clicked footerButtonSync");
 
         const tempStorage = document.getElementById("temp_storage").innerHTML;
+        console.log("tyty");
+        console.log(tempStorage);
         const tempList = parseWrString(tempStorage);
+
+        console.log("tempList =");
+        console.log(tempList);
 
         const tempColorPreferences = document.getElementById("temp_color_storage").innerHTML;
         userColors.load(tempColorPreferences);
@@ -20933,8 +20941,9 @@ async function mainEvent() {
     })
     importDataPopUpInputTextbox.addEventListener("change", (event) => {
         if (event.target.value != undefined) {
-            const tempCheck = event.target.value.substring(event.target.value.length - 9);
-
+            const tempVersion = event.target.value.indexOf("VERSION");
+            const tempCheck = event.target.value.substring(tempVersion - 9, tempVersion);
+        
             if (tempCheck != undefined && tempCheck == "*ENDCHAR*") {
                 document.getElementById("import_data_pop_up_go_button").style.backgroundColor = 'rgb(14, 212, 14)';
                 document.getElementById("import_data_pop_up_go_button").disabled = false;
@@ -20955,7 +20964,7 @@ async function mainEvent() {
             let allWrList = parseWrString(colorPreferencesData[1]);
             document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterend", `<div class="hidden" id="temp_system_storage">${systemPreferencesStr}</div>`);
             document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_color_storage">${colorPreferencesStr}</div>`);
-            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}</div>`);
+            document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_storage">${allWrList}${"VERSION_1.0"}</div>`);
             document.getElementById("load_save_buttons_container").insertAdjacentHTML("afterEnd", `<div class="hidden" id="temp_to_do_storage">${toDoMasterListStr}</div>`);
             document.getElementById("footer_button_sync").classList.remove("hidden");
 
