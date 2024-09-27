@@ -9719,8 +9719,8 @@ async function mainEvent() {
 
         if (addToDoPopUpHeader.innerHTML.includes("ROW")) {
             if (existingUgFacilitiesChecked == true) {
-                let tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
-                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+                let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
+                let curWrNum = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
                 resetAddToDoPopUpDate();
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + curWrNum + "?"}</div>`;
@@ -9750,12 +9750,11 @@ async function mainEvent() {
 
         if (addToDoPopUpHeader.innerHTML.includes("ROW")) {
             if (existingUgFacilitiesChecked == true) {
-                let tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
-                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+                let tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
+                let curWrNum = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
                 resetAddToDoPopUpDate();
-                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
-                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + curWrNum + "?"}</div>`;
                 addToDoPopUpTextfield.value = "Submit Investigative DDI";
 
                 existingUgFacilitiesChecked = false; // reseting
@@ -9792,8 +9791,8 @@ async function mainEvent() {
            when adding a new work request. I put the WR # in addToDoPopUpTab instead of in 
            addToDoPopUpHeader */
         if (str == "div clas") {
-            tempIndex = addToDoPopUpTab.innerHTML.indexOf("#");
-            str = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+            tempIndex = addToDoPopUpHeader.innerHTML.indexOf("#");
+            str = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
         }
 
         let tempWr = [];
@@ -9886,11 +9885,10 @@ async function mainEvent() {
             toDoMasterList.add(newToDo);
             h.displayToDoAddedFromPopUp("General - ROW Research Request", str);
             if (existingUgFacilitiesChecked == true) {
-                let curWrNum = addToDoPopUpTab.innerHTML.substring(tempIndex + 2, tempIndex + 10);
+                let curWrNum = addToDoPopUpHeader.innerHTML.substring(tempIndex + 2, tempIndex + 10);
 
                 resetAddToDoPopUpDate();
-                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\""}</div>`;
-                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">${"To-Do for Work Request # " + curWrNum + "?"}</div>`;
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + curWrNum + "?"}</div>`;
                 addToDoPopUpTextfield.value = "Submit Investigative DDI";
 
                 existingUgFacilitiesChecked = false; // reseting
