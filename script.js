@@ -5049,8 +5049,6 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     window.localStorage.setItem("data", dataStr);
     
     const newHandle = await window.showSaveFilePicker().then(results => {
-        console.log("settings results.name =");
-        console.log(results.name);
         window.localStorage.setItem("fileName", results.name);
 
         const writableStream = results.createWritable().then(writable => {
@@ -5637,7 +5635,6 @@ function splitToDoMasterList(str) {
 
 function parseWrString(str) {
     console.log("Entered - parseWrString(str)");
-    console.log(str);
 
     let wrList = [];
     let curIndex = 0;
@@ -5655,9 +5652,6 @@ function parseWrString(str) {
         const rightIndex = tempVersion.indexOf(";");
 
         version = tempVersion.substring(leftIndex + 1);
-        console.log("ghgh");
-        console.log("version =");
-        console.log(version);
 
         // Removing VERSION_*.*
         const versionIndex = str.lastIndexOf("VERSION");
@@ -5907,7 +5901,6 @@ function parseSingleWrString(str, version) {
 /* Helper for parseWrString - returns index of last comma of first wr in str */
 function parseSingleWrIndex(str, version) {
     console.log("Entered - parseSingleWrIndex(str, version = " + version + ")");
-    console.log(str);
 
     let wrIndex = 0;
     let curIndex = 0;
@@ -5919,9 +5912,6 @@ function parseSingleWrIndex(str, version) {
     } else if (version == 1.0 || version == "1.0") {
         versionCount = 34;
     }
-
-    console.log("versionCount =");
-    console.log(versionCount);
 
     while (count < versionCount) { // will need to change for new format
         curIndex = str.indexOf("*ENDCHAR*") + 9;
@@ -20851,12 +20841,7 @@ async function mainEvent() {
         console.log("Fired - Clicked footerButtonSync");
 
         const tempStorage = document.getElementById("temp_storage").innerHTML;
-        console.log("tyty");
-        console.log(tempStorage);
         const tempList = parseWrString(tempStorage);
-
-        console.log("tempList =");
-        console.log(tempList);
 
         const tempColorPreferences = document.getElementById("temp_color_storage").innerHTML;
         userColors.load(tempColorPreferences);
@@ -20888,6 +20873,7 @@ async function mainEvent() {
         }
 
         footerButtonLoad.classList.add("hidden");
+        footerButtonLoadiPad.classList.add("hidden");
 
     })
     footerButtonLoad.addEventListener("click", (event) => {
@@ -20919,6 +20905,7 @@ async function mainEvent() {
         const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
 
         downloadFile('Work Manager Tool Data - ' + now + '.txt', toDoMasterList, systemPreferences, userColors, allWrList);
+        footerButtonLoadiPad.classList.add("hidden");
     })
     footerButtonLoadiPad.addEventListener("click", (event) => {
         console.log("Fired - Clicked footerButtonLoadiPad");
