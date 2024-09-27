@@ -1084,7 +1084,7 @@ class workRequest {
     constructor(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, ownerEmail, 
         builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus, permitStatus,
         easementRequestStatus, commentsGeneral, customerContacted, creationDate, gridID, substation, feederID, trs, rearLot, 
-        existingUGFacilities) {
+        existingUGFacilities, taxMap) {
             this.workRequestNumber = workRequestNumber;
             this.houseNumber = houseNumber;
             this.streetName = streetName;
@@ -1111,39 +1111,45 @@ class workRequest {
             this.creationDate = creationDate;
             
             if (gridID == undefined) {
-                this.gridID == "Not Set"
+                this.gridID = "Not Set"
             } else {
                 this.gridID = gridID;
             }
 
             if (substation == undefined) {
-                this.substation == "Not set"
+                this.substation = "Not set"
             } else {
                 this.substation = substation;
             }
 
             if (feederID == undefined) {
-                this.feederID == "Not set"
+                this.feederID = "Not set"
             } else {
                 this.feederID = feederID;
             }
 
             if (trs == undefined) {
-                this.trs == "Not set"
+                this.trs = "Not set"
             } else {
                 this.trs = trs;
             }
 
             if (rearLot == undefined) {
-                this.rearLot == "Not set"
+                this.rearLot = "Not set"
             } else {
                 this.rearLot = rearLot;
             }
 
             if (existingUGFacilities == undefined) {
-                this.existingUGFacilities == "Not set"
+                this.existingUGFacilities = "Not set"
             } else {
                 this.existingUGFacilities = existingUGFacilities;
+            }
+
+            if (taxMap == undefined) {
+                this.taxMap = "Not set"
+            } else {
+                this.taxMap = taxMap;
             }
         }
 
@@ -1210,7 +1216,7 @@ class workRequest {
             this.rcd == wr.rcd && this.generalStatus == wr.generalStatus && this.permit.permitStatus == wr.permit.permitStatus &&
             this.easementRequestStatus == wr.easementRequestStatus && this.gridID == wr.gridID && this.substation == wr.substation &&
             this.feederID == wr.feederID && this.trs == wr.trs && this.rearLot == wr.rearLot && 
-            this.existingUGFacilities == wr.existingUGFacilities) {
+            this.existingUGFacilities == wr.existingUGFacilities && this.taxMap == wr.taxMap) {
                 return 1;
             } else {
                 return 0;
@@ -1250,7 +1256,8 @@ class workRequest {
                 "feederID:" + this.feederID + "*ENDCHAR*" +
                 "trs:" + this.trs + "*ENDCHAR*" + 
                 "rearLot:" + this.rearLot + "*ENDCHAR*" +
-                "existingUGFacilities:" + this.existingUGFacilities + "*ENDCHAR*";
+                "existingUGFacilities:" + this.existingUGFacilities + "*ENDCHAR*" +
+                "taxMap:" + this.taxMap + "*ENDCHAR*";
                 console.log("returning wrSTR =");
                 console.log(wrSTR);
                 return wrSTR;
@@ -5852,6 +5859,7 @@ function parseSingleWrString(str, version) {
     let trs;
     let rearLot;
     let existingUGFacilities;
+    let taxMap;
 
     if (version == 1.0 || version == "1.0") {
         str = str.substring(commaIndex + 9);
@@ -5884,12 +5892,17 @@ function parseSingleWrString(str, version) {
         colonIndex = str.indexOf(":");
         commaIndex = str.indexOf("*ENDCHAR*");
         existingUGFacilities = str.substring(colonIndex + 1, commaIndex);
+        str = str.substring(commaIndex + 9);
+
+        colonIndex = str.indexOf(":");
+        commaIndex = str.indexOf("*ENDCHAR*");
+        taxMap = str.substring(colonIndex + 1, commaIndex);
     }
     
     const wr = new workRequest(workRequestNumber, houseNumber, streetName, countyCity, zipCode, priorityNumber, ownerName, ownerNumber, 
         ownerEmail, builderName, builderNumber, builderEmail, otherName, otherNumber, otherEmail, wrType, crd, rcd, generalStatus,
         permitStatus, easementRequestStatus, commentsGeneralElem, customerContacted, creationDate, gridID, substation, feederID, trs, 
-        rearLot, existingUGFacilities);
+        rearLot, existingUGFacilities, taxMap);
 
     const permit = new Permit(workRequestNumber, permitStatus, dateUpdated, dateApplied, priorityNumber, crd,
             rcd, permitStartDate, permitEndDate, creationDate);
@@ -5910,7 +5923,7 @@ function parseSingleWrIndex(str, version) {
     if (version == 0) { // base version
         versionCount = 28;
     } else if (version == 1.0 || version == "1.0") {
-        versionCount = 34;
+        versionCount = 35;
     }
 
     while (count < versionCount) { // will need to change for new format
@@ -6954,6 +6967,9 @@ async function mainEvent() {
     const informationFromMIMSsubstation = document.querySelector("#information_from_mims_substation");
     const informationFromMIMSfeederID = document.querySelector("#information_from_mims_feeder_id");
     const informationFromMIMStrs = document.querySelector("#information_from_mims_trs");
+
+    /* TaxMap/GPIN/RPC # */
+    const taxMapTextfield = document.querySelector("#tax_map_textfield");
 
     /* To-Do Tab - Add New To-Do (from Pop Up) Button */
     const toDoDisplayAddNewToDoButton = document.querySelector("#to_do_display_add_new_to_do_button");
@@ -8297,6 +8313,10 @@ async function mainEvent() {
         } else if (wr.existingUGFacilities == "No") {
             UGFacilitiesCheckboxNo.checked = true;
         }
+
+        if (wr.taxMap != undefined) {
+            taxMapTextfield.value = wr.taxMap;
+        }
     
     }
     function resetDisplayWrAddUpdate() {
@@ -8359,10 +8379,15 @@ async function mainEvent() {
         informationFromMIMSsubstation.value = "";
         informationFromMIMSfeederID.value = "";
         informationFromMIMStrs.value = "";
+
+        /* Resetting Rear Lot and Existing UG Checkboxes */
         rearLotCheckboxNo.checked = false;
         rearLotCheckboxYes.checked = false;
         UGFacilitiesCheckboxNo.checked = false;
         UGFacilitiesCheckboxYes.checked = false;
+
+        /* Resetting TaxMap */
+        taxMapTextfield.value = "";
     }
 
             /* To-Do */
@@ -8952,6 +8977,15 @@ async function mainEvent() {
         document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
     })
 
+    /* TaxMap/GPIN/RPC */
+    taxMapTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked taxMapTextfield");
+
+        if (event.target.value != undefined && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
+
     /* Rear Lot and Existing UG Facilities Y/N */
     rearLotCheckboxNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked rearLotCheckboxNo");
@@ -9203,7 +9237,7 @@ async function mainEvent() {
             currentWr.builderName, currentWr.builderNumber, currentWr.builderEmail, currentWr.otherName, currentWr.otherNumber, 
             currentWr.otherEmail, currentWr.wrType, currentWr.crd, currentWr.rcd, currentWr.generalStatus, currentWr.permit.permitStatus, 
             currentWr.easementRequestStatus, temp.comments, currentWr.customerContacted, currentWr.creationDate, currentWr.gridID,
-            currentWr.substation, currentWr.feederID, currentWr.trs, currentWr.rearLot, currentWr.existingUGFacilities);
+            currentWr.substation, currentWr.feederID, currentWr.trs, currentWr.rearLot, currentWr.existingUGFacilities, currentWr.taxMap);
         
         const curPermit = currentWr.permit;
 
@@ -15726,7 +15760,7 @@ async function mainEvent() {
                     generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, curComments, 
                     customerContactedCheckboxYes.checked, addTabWrCreationDate.value, informationFromMIMSgridID.value, 
                     informationFromMIMSsubstation.value, informationFromMIMSfeederID.value, informationFromMIMStrs.value, 
-                    rearLotValue, existingUGFacilitiesValue);
+                    rearLotValue, existingUGFacilitiesValue, taxMapTextfield.value);
                 
                     if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
                         if (allWrList[curWrIndex].compare(newWr) == 1 && tempComments.list.length == 0) {
@@ -15831,7 +15865,7 @@ async function mainEvent() {
                         curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, addTabPermitCRD.value,
                         addTabPermitRCD.value, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, newComments, 
                         curWr.customerContacted, curWr.creationDate, curWr.gridID, curWr.substation, curWr.feederID, curWr.trs, 
-                        curWr.rearLot, curWr.existingUGFacilities);
+                        curWr.rearLot, curWr.existingUGFacilities, curWr.taxMap);
                     const permit = new Permit(addTabNewWorkRequestNumber.value, permitsTabPermitStatusDDMenuCurrent, 
                     today, addTabPermitDateApplied.value, addTabPermitPriority.value, addTabPermitCRD.value, 
                     addTabPermitRCD.value, addTabPermitStart.value, addTabPermitExpiration.value, tempDate);
@@ -15886,7 +15920,7 @@ async function mainEvent() {
                     curWr.builderNumber, curWr.builderEmail, curWr.otherName, curWr.otherNumber, curWr.otherEmail, curWr.wrType, curWr.crd,
                     curWr.rcd, curWr.generalStatus, curWr.permit.permitStatus, curWr.easementRequestStatus, tempAllComments.list, 
                     curWr.customerContacted, curWr.creationDate, curWr.gridID, curWr.substation, curWr.feederID, curWr.trs, 
-                    curWr.rearLot, curWr.existingUGFacilities);
+                    curWr.rearLot, curWr.existingUGFacilities, curWr.taxMap);
                 newWr.permit = curWr.permit;
                 
                 
@@ -16181,7 +16215,7 @@ async function mainEvent() {
                 generalStatusDDMenuCurrent, permitStatusDDMenuCurrent, easementStatusDDMenuCurrent, tempComments.list, // tempComments is an array of
                 customerContactedCheckboxYes.checked, addTabWrCreationDate.value, informationFromMIMSgridID.value, 
                 informationFromMIMSsubstation.value, informationFromMIMSfeederID.value, informationFromMIMStrs.value, rearLotValue, 
-                existingUGFacilitiesValue);                                // CommentItem Objects
+                existingUGFacilitiesValue, taxMapTextfield.value);                                // CommentItem Objects
                 
                 if (document.getElementById("temp_all_wr_list") == null) { // no wr's exists
                     allWrList[0] = wr;

@@ -994,11 +994,33 @@ h5 {
     margin-right: 15px;
 }
 
+.taxMapContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.taxMapLabel {
+    display: flex;
+    font-size: medium;
+    margin-right: 15px;
+    margin-left: 30px;
+}
+
+.taxMapTextfield {
+    display: flex;
+    border: 1px solid black;
+    width: 100px;
+}
+
 .addTabWrCreationContainer {
-    margin-top: 10px;
+    display: flex;
+    margin-top: -10px;
     margin-bottom: -10px;
+    margin-left: -110px;
+    gap: 30px;
+    width: 1075px;
     justify-content: center;
-    align-self: center;
+    align-items: center;
 }
 
 .rearLotCheckboxContainer, .UGFacilitiesCheckboxContainer {
@@ -1013,7 +1035,7 @@ h5 {
     width: 20px;
 }
 
-.date_add_tab_wr {
+.dateAddTabWr {
     border: 2px solid black;
     padding: 7px;
     width: 125px;

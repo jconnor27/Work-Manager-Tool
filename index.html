@@ -1036,6 +1036,12 @@
                 <!-- Add Tab Display Specific - WR -->
                 <div class="addTabDisplayAddWr hidden" id="add_tab_display_add_wr">
                     
+                    <!-- Creation Date -->
+                    <div class="addTabWrCreationContainer" id="add_tab_wr_creation_container">
+                        <label for="add_tab_wr_creation_date" class="addTabCreationBoxLabel" id="add_tab_wr_creation_date_label">Creation Date (1020):</label>
+                        <input type="date" class="dateAddTabWr" id="add_tab_wr_creation_date" name="add_tab_wr_creation_date" value="0001-01-01">
+                    </div>
+
                     <!-- Add Tab Display Bottom Mid -->
                     <div class="addTabDisplayBottomMid" id="add_tab_display_bottom_mid">
                         
@@ -1126,11 +1132,14 @@
                                 </div>
                             </div>
 
-                            <!-- Creation Date -->
-                            <div class="addTabWrCreationContainer" id="add_tab_wr_creation_container">
-                                <label for="add_tab_wr_creation_date" class="addTabCreationBoxLabel" id="add_tab_wr_creation_date_label">Creation Date (1020):</label>
-                                <input type="date" class="date_add_tab_wr" id="add_tab_wr_creation_date" name="add_tab_wr_creation_date" value="0001-01-01">
-                            </div>
+                            <!-- TaxMap/GPIN/RPC # -->
+                             <div class="taxMapContainer" id="tax_map_container">
+                                <div class="aidQuestionMark" id="tax_map_aid">?</div>
+                                <label class="taxMapLabel">TaxMap/ GPIN/ RPC #</label>
+                                <input type="text" class="taxMapTextfield" id="tax_map_textfield">
+                             </div>
+
+                            
                         </div>
                         <div class="addTabDisplayBottomMidRightContainer">
                             
@@ -1198,11 +1207,11 @@
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_crd">
                                 <label for="add_tab_textfield_crd" class="addTabTextfieldLabelBottomLeft" id="add_tab_wr_textfield_crd_label">Customer Ready Date (CRD):</label>
-                                <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_crd" name="date_add_tab_wr_crd" value="0001-01-01"/>
+                                <input type="date" class="dateAddTabWr" id="date_add_tab_wr_crd" name="date_add_tab_wr_crd" value="0001-01-01"/>
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_wr_textfield_container_rcd">
                                 <label for="add_tab_wr_textfield_rcd" class="addTabTextfieldLabelBottomLeft" id="add_tab_wr_textfield_rcd_label">Requested Completion Date (RCD):</label>
-                                <input type="date" class="date_add_tab_wr" id="date_add_tab_wr_rcd" name="date_add_tab_wr_rcd" value="0001-01-01"/>
+                                <input type="date" class="dateAddTabWr" id="date_add_tab_wr_rcd" name="date_add_tab_wr_rcd" value="0001-01-01"/>
                             </div>
                             <div class="addTabTextfieldContainer" id="add_tab_general_status_container">
                                 <label for="dropdown_menu_add_tab_wr_general_status" class="addTabTextfieldLabel" id="dropdown_menu_add_tab_wr_general_status_label">General Status:</label>
