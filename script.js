@@ -5025,9 +5025,6 @@ async function writeFile(contents) {
 }
 async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList) {
     console.log("Entered - saveFile()");
-    console.log(systemPreferences);
-    console.log(allWrList);
-    console.log(allWrList.toString());
 
     const d = new Date();
     let day = d.getDate();
@@ -5048,8 +5045,6 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     const dataBlob = new Blob(data);
 
     const dataStr = toDoMasterList.toString() + systemPreferences.toString() + userColors.toString() + now + allWrList.toString() + "VERSION_1.0";
-    console.log("data =");
-    console.log(dataStr);
 
     window.localStorage.setItem("data", dataStr);
     
@@ -5108,7 +5103,7 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
     }
     const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
 
-    const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
+    const data = [toDoMasterList, systemPreferences, userColors, now, allWrList, "VERSION_1.0"]; 
     const dataBlob = new Blob(data);
 
     const aElement = document.createElement('a');
