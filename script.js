@@ -5125,6 +5125,16 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
 
 }
 
+async function uploadWRData(data) {
+    console.log("Entered - uploadWRData(file)");
+    console.log(data)
+
+    const tempBox = document.getElementById("test_save_textbox");
+    tempBox.innerHTML = data;
+  
+}
+
+
     /* InjectHTML Functions */
 function injectHTMLAllWrTabDisplay(allWrList, currentPageAllWr, userColors, toDoMasterList, rowsOnPage) {
     console.log("Entered - injectHTMLAllWrTabDisplay(allWrList, " + currentPageAllWr + ", userColors, toDoMasterList, rowsOnPage = " + rowsOnPage + ")");
@@ -7060,6 +7070,11 @@ async function mainEvent() {
 
     testButton2.addEventListener("click", async (event) => {
         console.log("Fired - Clicked testButton2");
+
+        const testText = document.getElementById("test_text_input");
+
+        uploadWRData(testText.value);
+
 
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
         console.log(curWindowDocument);
