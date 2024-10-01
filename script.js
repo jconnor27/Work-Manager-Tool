@@ -6965,6 +6965,11 @@ async function mainEvent() {
     /* Blue Question Mark Aids */
     const rearLotAid = document.querySelector("#rear_lot_aid");
     const UGFacilitiesAid = document.querySelector("#ug_facilities_aid");
+    const taxMapAid = document.querySelector("#tax_map_aid");
+    
+    /* taxMapAid */
+    const taxMapAidXButton = document.querySelector("#tax_map_aid_pop_up_x_button");
+    const taxMapAidGetButton = document.querySelector("#tax_map_aid_pop_up_get_button");
 
     /* Rear Lot Check and Existing UG Facilities Y/N */
     const rearLotCheckboxYes = document.querySelector("#rear_lot_checkbox_yes");
@@ -7022,9 +7027,6 @@ async function mainEvent() {
     let promptDuration = systemPreferences.promptDuration;
     let crdRcdWarning = systemPreferences.crdRcdWarning;
 
-    console.log("DDT");
-    console.log(systemPreferences.crdRcdWarning);
-
     let permitCommentCount = systemPreferences.permitCommentCount;
     let tempCommentsCount = systemPreferences.tempCommentsCount;
     let tempAllCommentCount = systemPreferences.tempAllCommentCount;
@@ -7071,9 +7073,9 @@ async function mainEvent() {
     testButton2.addEventListener("click", async (event) => {
         console.log("Fired - Clicked testButton2");
 
-        const testText = document.getElementById("test_text_input");
+        //const testText = document.getElementById("test_text_input");
 
-        uploadWRData(testText.value);
+        //uploadWRData(testText.value);
 
 
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
@@ -8979,17 +8981,174 @@ async function mainEvent() {
         }
     }
 
+    /* Used to check the number of spaces in an address str */
+    function countSpaces(str) {
+        console.log("Entered - countSpaces(" + str + ")");
+
+        const temp = str.trim();
+
+        let count = 0;
+
+        for (var i = 0; i < temp.length; i++) {
+            if (temp.charAt(i) == " ") {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /* Looks at the user's input for address so far to assess if finding RPC is possible with current data */
+    function assessAddressInfoRPC() {
+        console.log("Entered - assessAddressInfoRPC()");
+
+        const curCounty = document.getElementById("address_line_textfield_county").value.toUpperCase();
+
+        if (curCounty == "ARLINGTON") {
+            const addressStr = assessAddressInfoRPCArlington();
+            if (addressStr != false) {
+                getRPCArlington(addressStr);
+            }
+        } else if (curCounty == "ALEXANDRIA") {
+
+        } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN") {
+
+        } else {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID COUNTY/CITY";
+        }
+    }
+
+    async function getRPCArlington(addressStr) {
+        console.log("Entered - getRPCArlington(" + addressStr + ")");
+
+        const data = await fetch("https://datahub-v2.arlingtonva.us/api/RealEstate/PropertyAddress?$filter=contains(propertyStreetNbrNameText, '" + addressStr + "')");
+
+        
+        const dataJson = await data.json();
+        console.log("dataJSON =");
+        console.log(dataJson);
+        const RPC = dataJson[0].realEstatePropertyCode;
+        console.log("i did it ");
+        console.log(RPC);
+
+    }
+    /* Returns formatted Address String */
+    function assessAddressInfoRPCArlington() {
+        console.log("Entered - assessAddressInfoRPCArlington()");
+
+        const streetTypeArray = ["ARC", "ARCADE", "AVE", "AV", "AVENUE", "BLVD", "BOULEVARD", "CIR", "CIRCLE", "CT", "COURT", 
+            "DR", "DRIVE", "HWY", "HIGHWAY", "LN", "LANE", "PIKE", "PK", "PKWY", "PARKWAY", "PL", "PLACE", "RD", "ROAD", 
+            "ST", "STREET", "TER", "TERRACE", "WAY"];
+
+        const curStreetName = document.getElementById("address_line_textfield_street_name").value;
+
+        if (countSpaces(curStreetName) != 2) {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME";
+            return false;
+        } else {
+            let parts = [];
+
+            let tempCurStreetName = curStreetName;
+    
+            let space = tempCurStreetName.indexOf(" ");
+            let temp = tempCurStreetName.substring(0, space);
+            parts.push(temp);
+            tempCurStreetName = tempCurStreetName.substring(space + 1);
+
+            space = tempCurStreetName.indexOf(" ");
+            temp = tempCurStreetName.substring(0, space);
+            parts.push(temp);
+            tempCurStreetName = tempCurStreetName.substring(space + 1);
+            
+            parts.push(tempCurStreetName);
+
+            let direction = undefined;
+
+            for (var i = 0; i < 3; i++) {
+                if (parts[i] != undefined && parts[i].toUpperCase() == "N" || 
+                    parts[i] != undefined && parts[i].toUpperCase() == "NORTH") {
+                    direction = "N";
+
+                    if (i == 0) {
+                        parts = [parts[1], parts[2]];
+                    } else if (i == 1) {
+                        parts = [parts[0], parts[2]];
+                    } else if (i == 2) {
+                        parts = [parts[0], parts[1]];
+                    }
+                } else if (parts[i] != undefined && parts[i].toUpperCase() == "S" || 
+                    parts[i] != undefined && parts[i].toUpperCase() == "SOUTH") {
+                    direction = "S";
+
+                    if (i == 0) {
+                        parts = [parts[1], parts[2]];
+                    } else if (i == 1) {
+                        parts = [parts[0], parts[2]];
+                    } else if (i == 2) {
+                        parts = [parts[0], parts[1]];
+                    }
+                }   
+            }
+
+            if (direction == undefined) { // did not have direction
+                document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME - NO DIRECTION";
+                return false;
+            } else {
+                console.log("parts =");
+                console.log(parts);
+
+                let streetType = undefined;
+
+                for (var i = 0; i < 2; i++) {
+                    if (parts[i] != undefined && streetTypeArray.includes(parts[i].toUpperCase())) {
+                        streetType = parts[i].toUpperCase();
+
+                        if (i ==0) {
+                            parts = parts[1];
+                        } else {
+                            parts = parts[0];
+                        }
+                    }
+                }
+
+                if (streetType == undefined) { // did not have street type
+                    document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME - NO STREET TYPE";
+                    return false;
+                } else {
+                    return document.getElementById("address_line_textfield_house_number").value + " " + direction + " " + parts + " " + streetType;
+                }
+            }
+        }
+        
+    }
+
     /* Blue Question Mark Aids */
     rearLotAid.addEventListener("click", (event) => {
         console.log("Fired - Clicked rearLotAid");
 
         document.getElementById("rear_lot_check_pop_up_container").classList.remove("hidden");
     })
-
     UGFacilitiesAid.addEventListener("click", (event) => {
         console.log("Fired - Clicked UGFacilitiesAid");
 
         document.getElementById("existing_ug_facilities_pop_up_container").classList.remove("hidden");
+    })
+    taxMapAid.addEventListener("click", (event) => {
+        console.log("Fired - Clicked taxMapAid");
+
+        document.getElementById("tax_map_aid_pop_up_container").classList.remove("hidden");
+
+        assessAddressInfoRPC();
+    })
+
+    /* taxMapAid Pop Up */
+    taxMapAidXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked taxMapAidXButton");
+
+        document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+    })
+    taxMapAidGetButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked taxMapAidGetButton");
+
     })
 
     /* TaxMap/GPIN/RPC */
@@ -21406,26 +21565,26 @@ async function mainEvent() {
     toolsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTab");
 
-        /* Deselecting all tabs */
+        /* Deselecting all tabs 
         deselectAllTabs();
 
-        /* Hiding inactive tab */
+        /* Hiding inactive tab 
         toolsTab.classList.add("hidden");
 
         toolsTabActive.classList.remove("hidden");
 
         document.getElementById("tools_tab_display_container").classList.remove("hidden");
-        
+        */
         
     })
     toolsTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTabActive");
 
-        
+        /*
         deselectAllTabs();
         toolsTabActive.classList.add("hidden");
         toolsTab.classList.remove("hidden");
-        
+        */
     })
 
                 /* Add Comment Tab */

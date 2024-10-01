@@ -4565,7 +4565,8 @@ h5 {
         margin-left: 1rem;
     }
     
-    .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer, .addTabROWResearchPopUpContainer {
+    .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer, .addTabROWResearchPopUpContainer, 
+        .taxMapAidPopUpContainer {
         display: flex;
         flex-direction: column;
         z-index: 3;
@@ -4640,12 +4641,12 @@ h5 {
         padding-right: 15px;
     }
 
-    .rearLotCheckPopUpTextPrompt, .existingUGFacilitiesPopUpTextPrompt {
+    .rearLotCheckPopUpTextPrompt, .existingUGFacilitiesPopUpTextPrompt, .taxMapAidPopUpTextPrompt {
         margin-bottom: 20px;
         margin-top: -15px;
     }
     
-    .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton {
+    .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton, .taxMapAidPopUpContainerXButton {
         display: flex;
         align-self: flex-start;
         margin-top: 10px;
@@ -4668,7 +4669,7 @@ h5 {
         gap: 50px
     }
 
-    .existingUGFacilitiesPopUpBox, .addTabROWResearchPopUpBox {
+    .existingUGFacilitiesPopUpBox, .addTabROWResearchPopUpBox, .taxMapAidPopUpBox {
         display: flex;
         flex-direction: column;
         background-color: white;
