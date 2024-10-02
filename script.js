@@ -4867,18 +4867,6 @@ function formatDatePermitApplied(date) {
 
 }
 
-/* Makes month 2 digits - for date format */
-function formatMonth(month) {
-    console.log("Entered - formatMonth(" + month +")");
-
-    if (month.length == 2) {
-        return month;
-    } else {
-        let str = "0";
-        str += month;
-        return str;    }
-}
-
 function convertNumText(row) {
     console.log("Entered - convertNumText(row)");
 
@@ -5034,6 +5022,10 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     console.log("Entered - saveFile()");
 
     const d = new Date();
+    let month = d.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month;
+    }
     let day = d.getDate();
     if (day < 10) {
         day = "0" + day;
@@ -5046,7 +5038,7 @@ async function saveFile(allWrList, userColors, systemPreferences, toDoMasterList
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+    const now = d.getFullYear() + "-" + month + "-" + day + "-" + hours + "-" + minutes;
 
     const data = [toDoMasterList, systemPreferences, userColors, now, allWrList]; 
     const dataBlob = new Blob(data);
@@ -5094,6 +5086,10 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
     console.log("Entered - downloadFile");
 
     const d = new Date();
+    let month = d.getMonth() + 1;
+    if (month < 10) {
+        month = "0" + month;
+    }
     let day = d.getDate();
     if (day < 10) {
         day = "0" + day;
@@ -5106,7 +5102,7 @@ function downloadFile(fileName, toDoMasterList, systemPreferences, userColors, a
     if (minutes < 10) {
         minutes = "0" + minutes;
     }
-    const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+    const now = d.getFullYear() + "-" + month + "-" + day + "-" + hours + "-" + minutes;
 
     const data = [toDoMasterList, systemPreferences, userColors, now, allWrList, "VERSION_1.0"]; 
     const dataBlob = new Blob(data);
@@ -8340,12 +8336,17 @@ async function mainEvent() {
         console.log("Entered - resetDisplayWrAddUpdate()");
 
         const d = new Date();
+
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
         
         let day = d.getDate();
         if (day < 10) {
             day = "0" + day;
         }
-        const str = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + day;
+        const str = d.getFullYear() + "-" + month + "-" + day;
 
         addTabNewWorkRequestNumber.value = "Enter Wr Number";
         addressLineTextfieldHouseNumber.value = "";
@@ -9006,7 +9007,10 @@ async function mainEvent() {
         if (curCounty == "ARLINGTON") {
             const addressStr = assessAddressInfoRPCArlington();
             if (addressStr != false) {
-                getRPCArlington(addressStr);
+                
+                if (getRPCArlington(addressStr) == false) {
+
+                }
             }
         } else if (curCounty == "ALEXANDRIA") {
 
@@ -9014,6 +9018,7 @@ async function mainEvent() {
 
         } else {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID COUNTY/CITY";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
         }
     }
 
@@ -9021,15 +9026,58 @@ async function mainEvent() {
         console.log("Entered - getRPCArlington(" + addressStr + ")");
 
         const data = await fetch("https://datahub-v2.arlingtonva.us/api/RealEstate/PropertyAddress?$filter=contains(propertyStreetNbrNameText, '" + addressStr + "')");
-
-        
         const dataJson = await data.json();
-        console.log("dataJSON =");
-        console.log(dataJson);
-        const RPC = dataJson[0].realEstatePropertyCode;
-        console.log("i did it ");
-        console.log(RPC);
+        if (dataJson[0] != undefined) {
+            const RPC = dataJson[0].realEstatePropertyCode;
+        
+            let tempRPC = RPC.substring(0, 2) + "-" + RPC.substring(2, 5) + "-" + RPC.substring(5);
+            document.getElementById("tax_map_textfield").value = tempRPC;
+            document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+        } else {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+        }
+        
 
+    }
+    /* Since I was forgiving in the streetTypeArray in assessAddressInfoRPCArlington(),
+       Takes in an str and makes sure it is in the correct format for Arlington County API */
+    function convertStreetTypeArlington(str) {
+        console.log("Entered - convertStreetTypeArlington(" + str + ")");
+
+        if (str == "ARC" || str == "ARCADE") {
+            return "ARC";
+        } else if (str == "AVE" || str == "AV" || str == "AVENUE") {
+            return "AVE";
+        } else if (str == "BLVD" || str == "BOULEVARD") {
+            return "BLVD";
+        } else if (str == "CIR" || str == "CIRCLE") {
+            return "CIR";
+        } else if (str == "CT" || str == "COURT") {
+            return "CT";
+        } else if (str == "DR" || str == "DRIVE") {
+            return "DR";
+        } else if (str == "HWY" || str == "HIGHWAY") {
+            return "HWY";
+        } else if (str == "LN" || str == "LANE") {
+            return "LN";
+        } else if (str == "PK" || str == "PIKE") {
+            return "PK";
+        } else if (str == "PKWY" || str == "PARKWAY") {
+            return "PKWY";
+        } else if (str == "PL" || str == "PLACE") {
+            return "PL";
+        } else if (str == "RD" || str == "ROAD") {
+            return "RD";
+        } else if (str == "ST" || str == "STREET") {
+            return "ST";
+        } else if (str == "TER" || str == "TERRACE") {
+            return "TER";
+        } else if (str == "WAY") {
+            return "WAY";
+        } else {
+            return "ERROR - No Match";
+        }
     }
     /* Returns formatted Address String */
     function assessAddressInfoRPCArlington() {
@@ -9043,7 +9091,53 @@ async function mainEvent() {
 
         if (countSpaces(curStreetName) != 2) {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
             return false;
+        } else if (curStreetName.includes("#")) {
+            console.log("has #");
+            let unitNum = undefined;
+
+            let tempIndex = curStreetName.indexOf("#");
+            let temp = curStreetName.substring(tempIndex + 1).trim();
+
+            if (temp == undefined || temp.length < 1) {
+                document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID UNIT NUMBER";
+                document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+                return false;
+            } else {
+                unitNum = temp;
+
+                let tempCurStreetName = curStreetName.substring(0, tempIndex);
+
+                let parts = [];
+
+                let space = tempCurStreetName.indexOf(" ");
+                temp = curStreetName.substring(0, space);
+                parts.push(temp);
+                tempCurStreetName = tempCurStreetName.substring(space + 1);
+
+                parts.push(tempCurStreetName.trim());
+
+                let streetType = undefined;
+
+                if (parts[0] != undefined && streetTypeArray.includes(parts[0].toUpperCase())) {
+                    streetType = parts[0].toUpperCase();
+                    parts = parts[1];
+                } else if (parts[1] != undefined && streetTypeArray.includes(parts[1].toUpperCase())) {
+                    streetType = parts[1].toUpperCase();
+                    parts = parts[0];
+                }
+
+                if (streetType == undefined) {
+                    document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET TYPE";
+                    document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+                    return false;
+                } else {
+                    return document.getElementById("address_line_textfield_house_number").value + " " + parts + " " + streetType + " " + unitNum;
+                }
+
+
+            }
         } else {
             let parts = [];
 
@@ -9091,6 +9185,7 @@ async function mainEvent() {
 
             if (direction == undefined) { // did not have direction
                 document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME - NO DIRECTION";
+                document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
                 return false;
             } else {
                 console.log("parts =");
@@ -9102,6 +9197,8 @@ async function mainEvent() {
                     if (parts[i] != undefined && streetTypeArray.includes(parts[i].toUpperCase())) {
                         streetType = parts[i].toUpperCase();
 
+                        streetType = convertStreetTypeArlington(streetType);
+
                         if (i ==0) {
                             parts = parts[1];
                         } else {
@@ -9112,9 +9209,10 @@ async function mainEvent() {
 
                 if (streetType == undefined) { // did not have street type
                     document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME - NO STREET TYPE";
+                    document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
                     return false;
                 } else {
-                    return document.getElementById("address_line_textfield_house_number").value + " " + direction + " " + parts + " " + streetType;
+                    return document.getElementById("address_line_textfield_house_number").value + " " + parts + " " + streetType + " " + direction;
                 }
             }
         }
@@ -9136,8 +9234,9 @@ async function mainEvent() {
         console.log("Fired - Clicked taxMapAid");
 
         document.getElementById("tax_map_aid_pop_up_container").classList.remove("hidden");
-
-        assessAddressInfoRPC();
+        document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.remove("hidden");
+        document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "TaxMap/GPIN/RPC # is used by ROW for easements and for permitting.";
+        document.getElementById("tax_map_aid_pop_up_text_prompt_2").innerHTML = "Click \"GET\" to look-up (Requires Valid Address).";
     })
 
     /* taxMapAid Pop Up */
@@ -9149,6 +9248,7 @@ async function mainEvent() {
     taxMapAidGetButton.addEventListener("click", (event) => {
         console.log("Fired - Clicked taxMapAidGetButton");
 
+        assessAddressInfoRPC();
     })
 
     /* TaxMap/GPIN/RPC */
@@ -15496,7 +15596,16 @@ async function mainEvent() {
 
             /* Updating List */
             const d = new Date();
-            const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d.getFullYear() + "-" + month + "-" + day;
             currentWr.permit.dateUpdated = tempDate;
 
             /* Saving old object */
@@ -15584,7 +15693,16 @@ async function mainEvent() {
             document.getElementById("permits_tab_row_" + rowNumberText + "_start_date").style.backgroundColor = assessPermitStartDate(d, d2, userColors);
             
             const d3 = new Date();
-            const tempDate = d3.getFullYear() + "-" + formatMonth((d3.getMonth() + 1)) + "-" + d3.getDate();
+            let month = d3.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let day = d3.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d3.getFullYear() + "-" + month + "-" + day;
             currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;            
         }
@@ -15657,7 +15775,16 @@ async function mainEvent() {
             const d = new Date(currentWr.permit.endDate);
             document.getElementById("permits_tab_row_" + rowNumberText + "_end_date").style.backgroundColor = assessDatePermitEnd(d, userColors);
             const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            let month = d2.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let day = d2.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d2.getFullYear() + "-" + month + "-" + day;
             currentWr.permit.dateUpdated = tempDate;
             allWrList[curWrIndex] = currentWr;            
         }
@@ -16633,7 +16760,16 @@ async function mainEvent() {
                     
             // Setting Last Updated
             const d2 = new Date();
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + d2.getDate();
+            let month = d2.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+
+            let day = d2.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            const tempDate = d2.getFullYear() + "-" + month + "-" + day;
             addTabPermitDateUpdated.value = tempDate;
         }
     })
@@ -16912,13 +17048,31 @@ async function mainEvent() {
 
                 if (event.target.innerHTML == "Applied" || event.target.innerHTML == "Extension Submitted") {
                     const d = new Date();
-                    const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+                    let month = d.getMonth() + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+
+                    let day = d.getDate();
+                    if (day < 10) {
+                        day = "0" + day;
+                    }
+                    const tempDate = d.getFullYear() + "-" + month + "-" + day;
                     addTabPermitDateApplied.value = tempDate;
                 }
 
                 // Setting Last Updated
                 const d = new Date();
-                const tempDate = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1)) + "-" + d.getDate();
+                let month = d.getMonth() + 1;
+                if (month < 10) {
+                    month = "0" + month;
+                }
+
+                let day = d.getDate();
+                if (day < 10) {
+                    day = "0" + day;
+                }
+                const tempDate = d.getFullYear() + "-" + month + "-" + day;
                 addTabPermitDateUpdated.value = tempDate;
 
                 /* Hiding DDMenu Content */
@@ -17279,7 +17433,11 @@ async function mainEvent() {
             if (day < 10) {
                 day = "0" + day;
             }
-            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let today = month + "-" + day + "-" + d.getFullYear();
     
             const comment = new CommentItem(addTabCommentsTextfieldInput, today, "General");
             addTabCommentsRemoveButton.disabled = false;
@@ -18216,7 +18374,11 @@ async function mainEvent() {
             if (day < 10) {
                 day = "0" + day;
             }
-            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let today = month + "-" + day + "-" + d.getFullYear();
     
             const comment = new CommentItem(addTabPermitCommentsTextfieldInput, today, "Permit");
             //tempPermitComments.push(comment); // updating internal list
@@ -18227,11 +18389,16 @@ async function mainEvent() {
             
             // Setting Last Updated
             const d2 = new Date();
+            let month2 = d2.getMonth() + 1;
+            if (month2 < 10) {
+                month2 = "0" + month2;
+            }
+
             let day2 = d2.getDate();
             if (day2 < 10) {
-                day2 = "0" + day;
+                day2 = "0" + day2;
             }
-            const tempDate = d2.getFullYear() + "-" + formatMonth((d2.getMonth() + 1)) + "-" + day2;
+            const tempDate = d2.getFullYear() + "-" + month2 + "-" + day2;
             addTabPermitDateUpdated.value = tempDate;
     
     })
@@ -18379,7 +18546,11 @@ async function mainEvent() {
             if (day < 10) {
                 day = "0" + day;
             }
-            let today = formatMonth((d.getMonth() + 1)) + "-" + day + "-" + d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let today = month + "-" + day + "-" + d.getFullYear();
 
             const type = document.getElementById("comment_type_dd_menu_current").innerHTML;
     
@@ -21098,6 +21269,10 @@ async function mainEvent() {
         console.log("Fired - Clicked footerButtonSaveiPad");
 
         const d = new Date();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
         let day = d.getDate();
         if (day < 10) {
             day = "0" + day;
@@ -21110,7 +21285,7 @@ async function mainEvent() {
         if (minutes < 10) {
             minutes = "0" + minutes;
         }
-        const now = d.getFullYear() + "-" + formatMonth((d.getMonth() + 1) + "-" + day + "-" + hours + "-" + minutes);
+        const now = d.getFullYear() + "-" + month + "-" + day + "-" + hours + "-" + minutes;
 
         downloadFile('Work Manager Tool Data - ' + now + '.txt', toDoMasterList, systemPreferences, userColors, allWrList);
         footerButtonLoadiPad.classList.add("hidden");
