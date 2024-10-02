@@ -9013,12 +9013,34 @@ async function mainEvent() {
                 }
             }
         } else if (curCounty == "ALEXANDRIA") {
-
+            getRPCAlexandria("412 N ALFRED ST UNIT:1");
         } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN") {
 
         } else {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID COUNTY/CITY";
             document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+        }
+    }
+
+    async function getRPCAlexandria(addressStr) {
+        console.log("Entered - getRPCAlexandria(" + addressStr + ")");
+
+        //const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=address_gis=114 N Alfred St&outFields=*&outSR=4326&f=json");
+        const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=1=1&outFields=*&f=json");
+        const dataJson = await data.json();
+        console.log("hiya");
+        console.log(dataJson);
+        findRPCAlexandria(dataJson, addressStr);
+    }
+
+    function findRPCAlexandria(dataJson, addressStr) {
+        console.log("Entered - findRPCAlexandria(dataJson, " + addressStr + ")");
+
+        for (var i = 0; i < dataJson.features.length; i++) {
+            if (dataJson.features[i].attributes.ADDRESS_GIS == addressStr) {
+                console.log("I FOUND IT");
+                console.log(dataJson.features[i].attributes.MAP + "-" + dataJson.features[i].attributes.BLOCK + "-" + dataJson.features[i].attributes.LOT_GIS);
+            }
         }
     }
 
