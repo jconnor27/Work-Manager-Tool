@@ -9009,11 +9009,13 @@ async function mainEvent() {
             if (addressStr != false) {
                 
                 if (getRPCArlington(addressStr) == false) {
-
+                    // put in error or display
                 }
             }
         } else if (curCounty == "ALEXANDRIA") {
             getRPCAlexandria("412 N ALFRED ST UNIT:1");
+            //getRPCAlexandria("114 N ALFRED ST");
+
         } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN") {
 
         } else {
@@ -9025,22 +9027,18 @@ async function mainEvent() {
     async function getRPCAlexandria(addressStr) {
         console.log("Entered - getRPCAlexandria(" + addressStr + ")");
 
-        //const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=address_gis=114 N Alfred St&outFields=*&outSR=4326&f=json");
-        const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=1=1&outFields=*&f=json");
+        const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=ADDRESS_GIS='" + addressStr + "'&outFields=*&f=json");
+
         const dataJson = await data.json();
-        console.log("hiya");
-        console.log(dataJson);
-        findRPCAlexandria(dataJson, addressStr);
-    }
-
-    function findRPCAlexandria(dataJson, addressStr) {
-        console.log("Entered - findRPCAlexandria(dataJson, " + addressStr + ")");
-
-        for (var i = 0; i < dataJson.features.length; i++) {
-            if (dataJson.features[i].attributes.ADDRESS_GIS == addressStr) {
-                console.log("I FOUND IT");
-                console.log(dataJson.features[i].attributes.MAP + "-" + dataJson.features[i].attributes.BLOCK + "-" + dataJson.features[i].attributes.LOT_GIS);
-            }
+        if (dataJson.features[0].attributes.PARCELTYPE == "3" || dataJson.features[0].attributes.PARCELTYPE == "4") { 
+            document.getElementById("tax_map_textfield").value = dataJson.features[0].attributes.PID_RE;
+            document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+        } else if (dataJson.features[0].attributes.PARCELTYPE == "1" || dataJson.features[0].attributes.PARCELTYPE == "2" || 
+                    dataJson.features[0].attributes.PARCELTYPE == "9") {
+            console.log("parceltype == 1");
+            const tempRPC = dataJson.features[0].attributes.MAP + "-" + dataJson.features[0].attributes.BLOCK + "-" + dataJson.features[0].attributes.LOT_GIS;
+            document.getElementById("tax_map_textfield").value = tempRPC;
+            document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
         }
     }
 
@@ -9239,6 +9237,12 @@ async function mainEvent() {
             }
         }
         
+    }
+
+    function assessAddressInfoRPCAlexandria() {
+        console.log("Entered - assessAddressInfoRPCAlexandria()");
+
+        // stopped here
     }
 
     /* Blue Question Mark Aids */
