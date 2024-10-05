@@ -9013,7 +9013,13 @@ async function mainEvent() {
                 }
             }
         } else if (curCounty == "ALEXANDRIA") {
-            getRPCAlexandria("412 N ALFRED ST UNIT:1");
+            const addressStr = assessAddressInfoRPCAlexandria();
+            if (addressStr != false) {
+                if (getRPCAlexandria(addressStr) == false) {
+                    // put in error or display
+                }
+            }
+            //getRPCAlexandria("412 N ALFRED ST UNIT:1");
             //getRPCAlexandria("114 N ALFRED ST");
 
         } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN") {
@@ -9099,7 +9105,7 @@ async function mainEvent() {
             return "ERROR - No Match";
         }
     }
-    /* Returns formatted Address String */
+    /* Returns formatted Address String for Arlington */
     function assessAddressInfoRPCArlington() {
         console.log("Entered - assessAddressInfoRPCArlington()");
 
@@ -9109,7 +9115,7 @@ async function mainEvent() {
 
         const curStreetName = document.getElementById("address_line_textfield_street_name").value;
 
-        if (countSpaces(curStreetName) != 2) {
+        if (countSpaces(curStreetName) < 2) {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID STREET NAME";
             document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
             return false;
@@ -9208,9 +9214,6 @@ async function mainEvent() {
                 document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
                 return false;
             } else {
-                console.log("parts =");
-                console.log(parts);
-
                 let streetType = undefined;
 
                 for (var i = 0; i < 2; i++) {
@@ -9239,10 +9242,134 @@ async function mainEvent() {
         
     }
 
+    /* Returns formatted Address String for Alexandria */
     function assessAddressInfoRPCAlexandria() {
         console.log("Entered - assessAddressInfoRPCAlexandria()");
 
-        // stopped here
+        const streetTypeArray = ["BLVD", "PZ", "MW", "BV", "HY", "WAY", "SQ", "PSGE", "QY", "WY", "RD", "WK", "TER", "LA", "PL", "AVE", "AV", 
+            "CT", "CR", "ST", "AL", "PY", "DR"
+        ]
+        const numArray = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        const unitArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]; // stopped at L bc NUM comes next (M)
+
+        let curStreetName = document.getElementById("address_line_textfield_street_name").value.toUpperCase();
+        let unitNum = undefined;
+        let direction = undefined;
+
+        if (curStreetName == "CLOVERWAY") {
+            return document.getElementById("address_line_textfield_house_number").value + " " + curStreetName;       
+        } 
+        
+        let left = "";
+        let right = "";
+        if (curStreetName.includes("N")) {
+            direction = "N";
+            let tempIndex = curStreetName.indexOf("N");
+
+            left = curStreetName.substring(0, tempIndex).trim();
+            right = curStreetName.substring(tempIndex + 1, curStreetName.length).trim();
+        } else if (curStreetName.includes("NORTH")) {
+            direction = "N";
+
+        } else if (curStreetName.includes("S")) {
+            direction = "S";
+
+        } else if (curStreetName.includes("SOUTH")) {
+            direction = "S";
+
+        } else if (curStreetName.includes("E")) {
+            direction = "E";
+
+        } else if (curStreetName.includes("EAST")) {
+            direction = "E";
+
+        } else if (curStreetName.includes("W")) {
+            direction = "W";
+
+        } else if (curStreetName.includes("WEST")) {
+            direction = "W";
+
+        }
+
+        /* Reassembling curStreetName */
+        if (left == "") {
+            curStreetName = right;
+        } else if (right == "") {
+            curStreetName = left;
+        } else {
+            curStreetName = left + " " + right;
+        }
+         
+        if (curStreetName.includes("UNIT")) {
+            let tempIndex = curStreetName.indexOf("UNIT") + 4; 
+            let localIndex = tempIndex - 4; // used to cut unit off at end
+            while (!numArray.includes(curStreetName.charAt(tempIndex)) && !unitArray.includes(curStreetName.charAt(tempIndex))) { // iterates through until numbers - if users does unit # - catches it
+                tempIndex++;
+            }
+            unitNum = curStreetName.substring(tempIndex).trim();
+            curStreetName = curStreetName.substring(0, localIndex) // cuts unit off
+        } else if (curStreetName.includes("#")) {
+            let tempIndex = curStreetName.indexOf("#") + 1; 
+            let localIndex = tempIndex - 1; //used to cut unit off at end
+            while (!numArray.includes(curStreetName.charAt(tempIndex)) && !unitArray.includes(curStreetName.charAt(tempIndex))) { // iterates through until numbers - if users does unit # - catches it
+                tempIndex++;
+            }
+            unitNum = curStreetName.substation(tempIndex).trim();
+            curStreetName = curStreetName.substring(0, localIndex); // cuts off unit
+        }
+
+        /* Street Type Check */
+        if (countSpaces(curStreetName) < 1) {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID SREET NAME - NO STREET TYPE";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+            return false;
+        } else {
+            let tempIndicies = [];
+            let tempCurStreetName = curStreetName;
+
+            for (var i = 0; i < curStreetName.length; i++) {
+                if (curStreetName.charAt(i) == " ") {
+                    tempIndicies.push(i);
+                }
+            }
+    
+            // tempIndicies should be at least 1 if I got here - 1 space
+            let parts = []; // Will store string broken up by spaces
+
+            for (var i = 0; i < tempIndicies.length; i++) {
+                parts.push(tempCurStreetName.substring(0, tempIndicies[i]));
+                tempCurStreetName = tempCurStreetName.substring(tempIndicies[i] + 1);
+            }
+            parts.push(tempCurStreetName); // above loop doesn't add last piece
+
+            let goodStreetType = false;
+            for (var i = 0; i < parts.length; i++) { // for each part of the string, if it is a valid street type, make the param true
+                if (streetTypeArray.includes(parts[i])) {
+                    goodStreetType = true;
+                }
+            }
+
+            if (goodStreetType == false) {
+                document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID SREET NAME - INVALID STREET TYPE";
+                document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+                return false;
+            }
+        }
+
+        let str = document.getElementById("address_line_textfield_house_number").value + " ";
+        if (direction != undefined) {
+            str += direction + " ";
+        }
+        str += curStreetName;
+        if (unitNum != undefined) {
+            if (numArray.includes(unitNum.charAt(0))) {
+                str += "UNIT:" + unitNum;
+            } else {
+                str += "UNIT " + unitNum;
+            }
+        }
+
+        return str;
     }
 
     /* Blue Question Mark Aids */
