@@ -9708,7 +9708,7 @@ async function mainEvent() {
         document.getElementById("tax_map_aid_pop_up_container").classList.remove("hidden");
         document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.remove("hidden");
         document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "TaxMap/GPIN/RPC # is used by ROW for easements and for permitting.";
-        document.getElementById("tax_map_aid_pop_up_text_prompt_2").innerHTML = "Click \"GET\" to look-up (Requires Valid Address).";
+        document.getElementById("tax_map_aid_pop_up_text_prompt_2").innerHTML = "Click \"GET\" to look-up (Requires Valid Address - Use \"Unit \" or \"# \" for Apartment/Unit Numbers).";
     })
 
     /* taxMapAid Pop Up */
