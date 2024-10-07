@@ -9013,14 +9013,15 @@ async function mainEvent() {
             if (addressStr != false) {
                 
                 if (getRPCArlington(addressStr) == false) {
-                    // put in error or display
-                }
+                    document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
+                    document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");                }
             }
         } else if (curCounty == "ALEXANDRIA") {
             const addressStr = assessAddressInfoRPCAlexandria();
             if (addressStr != false) {
                 if (getRPCAlexandria(addressStr) == false) {
-                    // put in error or display
+                    document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
+                    document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
                 }
             }
 
@@ -9029,10 +9030,9 @@ async function mainEvent() {
             if (addressStr != false) {
 
                 if (getRPCFairfax(addressStr) == false) {
-                    // put in error or display
-                }
+                    document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
+                    document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");                }
             }
-            //getRPCFairfax("617 HERNDON PKWY STE 53");
         } else {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID COUNTY/CITY";
             document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
@@ -9050,6 +9050,7 @@ async function mainEvent() {
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
             document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.OWN_ZIP.substring(0, 5);
             document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
+            return true;
         } else if (dataJson.features[0].attributes.PARCELTYPE == "1" || dataJson.features[0].attributes.PARCELTYPE == "2" || 
                     dataJson.features[0].attributes.PARCELTYPE == "9") {
             const tempRPC = dataJson.features[0].attributes.MAP + "-" + dataJson.features[0].attributes.BLOCK + "-" + dataJson.features[0].attributes.LOT_GIS;
@@ -9057,6 +9058,9 @@ async function mainEvent() {
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
             document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.OWN_ZIP.substring(0, 5);
             document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
+            return true;
+        } else {
+            return false;
         }
     }
     async function getRPCArlington(addressStr) {
@@ -9073,9 +9077,9 @@ async function mainEvent() {
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
             document.getElementById("address_line_textfield_zip").value = dataJson[0].ownerZipCode;
             document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
+            return true;
         } else {
-            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
-            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+            return false;
         }
         
 
@@ -9087,24 +9091,29 @@ async function mainEvent() {
         const dataJson = await data.json();
 
         let tempRPC = dataJson.features[0].attributes.PARCEL_PIN;
-        console.log(dataJson);
 
-        let parts = [];
-        let spaceIndex = tempRPC.indexOf(" ");
-        parts.push(tempRPC.substring(0, spaceIndex));
-        tempRPC = tempRPC.substring(spaceIndex + 1);
-
-        tempRPC = tempRPC.trim();
-        spaceIndex = tempRPC.indexOf(" ");
-        parts.push(tempRPC.substring(0, spaceIndex));
-        tempRPC = tempRPC.substring(spaceIndex + 1);
-
-        tempRPC = tempRPC.trim();
-
-        document.getElementById("tax_map_textfield").value = parts[0] + " " + parts[1] + " " + tempRPC;
-        document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
-        document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.ZIP;
-        document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
+        if (tempRPC != undefined) {
+            let parts = [];
+            let spaceIndex = tempRPC.indexOf(" ");
+            parts.push(tempRPC.substring(0, spaceIndex));
+            tempRPC = tempRPC.substring(spaceIndex + 1);
+    
+            tempRPC = tempRPC.trim();
+            spaceIndex = tempRPC.indexOf(" ");
+            parts.push(tempRPC.substring(0, spaceIndex));
+            tempRPC = tempRPC.substring(spaceIndex + 1);
+    
+            tempRPC = tempRPC.trim();
+    
+            document.getElementById("tax_map_textfield").value = parts[0] + " " + parts[1] + " " + tempRPC;
+            document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+            document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.ZIP;
+            document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
+            return true;
+        } else {
+            return false;
+        }
+        
     }
     /* Since I was forgiving in the streetTypeArray in assessAddressInfoRPCArlington(),
        Takes in an str and makes sure it is in the correct format for Arlington County API */
