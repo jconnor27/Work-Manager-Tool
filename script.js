@@ -7072,6 +7072,10 @@ async function mainEvent() {
         //const testText = document.getElementById("test_text_input");
 
         //uploadWRData(testText.value);
+        
+        const temp = await fetch("https://api.bridgedataoutput.com/api/v2/pub/parcels?access_token=1=1");
+        const data = temp.json();
+        console.log(data);
 
 
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
@@ -9019,11 +9023,16 @@ async function mainEvent() {
                     // put in error or display
                 }
             }
-            //getRPCAlexandria("412 N ALFRED ST UNIT:1");
-            //getRPCAlexandria("114 N ALFRED ST");
 
-        } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN") {
+        } else if (curCounty == "FALLS CHURCH" || curCounty == "MCLEAN" || "FAIRFAX") {
+            const addressStr = assessAddressInfoRPCFairfax();
+            if (addressStr != false) {
 
+                if (getRPCFairfax(addressStr) == false) {
+                    // put in error or display
+                }
+            }
+            //getRPCFairfax("617 HERNDON PKWY STE 53");
         } else {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID COUNTY/CITY";
             document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
@@ -9034,37 +9043,68 @@ async function mainEvent() {
         console.log("Entered - getRPCAlexandria(" + addressStr + ")");
 
         const data = await fetch("https://services2.arcgis.com/ChYV69FhfjwkvRmy/arcgis/rest/services/Alexandria_Parcels/FeatureServer/0/query?where=ADDRESS_GIS='" + addressStr + "'&outFields=*&f=json");
-
         const dataJson = await data.json();
+
         if (dataJson.features[0].attributes.PARCELTYPE == "3" || dataJson.features[0].attributes.PARCELTYPE == "4") { 
             document.getElementById("tax_map_textfield").value = dataJson.features[0].attributes.PID_RE;
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+            document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.OWN_ZIP.substring(0, 5);
+            document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
         } else if (dataJson.features[0].attributes.PARCELTYPE == "1" || dataJson.features[0].attributes.PARCELTYPE == "2" || 
                     dataJson.features[0].attributes.PARCELTYPE == "9") {
-            console.log("parceltype == 1");
             const tempRPC = dataJson.features[0].attributes.MAP + "-" + dataJson.features[0].attributes.BLOCK + "-" + dataJson.features[0].attributes.LOT_GIS;
             document.getElementById("tax_map_textfield").value = tempRPC;
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+            document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.OWN_ZIP.substring(0, 5);
+            document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
         }
     }
-
     async function getRPCArlington(addressStr) {
         console.log("Entered - getRPCArlington(" + addressStr + ")");
 
         const data = await fetch("https://datahub-v2.arlingtonva.us/api/RealEstate/PropertyAddress?$filter=contains(propertyStreetNbrNameText, '" + addressStr + "')");
         const dataJson = await data.json();
+
         if (dataJson[0] != undefined) {
             const RPC = dataJson[0].realEstatePropertyCode;
         
             let tempRPC = RPC.substring(0, 2) + "-" + RPC.substring(2, 5) + "-" + RPC.substring(5);
             document.getElementById("tax_map_textfield").value = tempRPC;
             document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+            document.getElementById("address_line_textfield_zip").value = dataJson[0].ownerZipCode;
+            document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
         } else {
             document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "RPC NOT FOUND - INVALID ADDRESS";
             document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
         }
         
 
+    }
+    async function getRPCFairfax(addressStr) {
+        console.log("Entered - getRPCFairfax(" + addressStr + ")");
+
+        const data = await fetch("https://services1.arcgis.com/ioennV6PpG5Xodq0/arcgis/rest/services/Address_Points/FeatureServer/0/query?where=ADDRESS_1='" + addressStr + "'&outFields=*&outSR=4326&f=json");
+        const dataJson = await data.json();
+
+        let tempRPC = dataJson.features[0].attributes.PARCEL_PIN;
+        console.log(dataJson);
+
+        let parts = [];
+        let spaceIndex = tempRPC.indexOf(" ");
+        parts.push(tempRPC.substring(0, spaceIndex));
+        tempRPC = tempRPC.substring(spaceIndex + 1);
+
+        tempRPC = tempRPC.trim();
+        spaceIndex = tempRPC.indexOf(" ");
+        parts.push(tempRPC.substring(0, spaceIndex));
+        tempRPC = tempRPC.substring(spaceIndex + 1);
+
+        tempRPC = tempRPC.trim();
+
+        document.getElementById("tax_map_textfield").value = parts[0] + " " + parts[1] + " " + tempRPC;
+        document.getElementById("tax_map_aid_pop_up_container").classList.add("hidden");
+        document.getElementById("address_line_textfield_zip").value = dataJson.features[0].attributes.ZIP;
+        document.getElementById("address_line_textfield_cover_zip").classList.add("hidden");
     }
     /* Since I was forgiving in the streetTypeArray in assessAddressInfoRPCArlington(),
        Takes in an str and makes sure it is in the correct format for Arlington County API */
@@ -9105,7 +9145,108 @@ async function mainEvent() {
             return "ERROR - No Match";
         }
     }
-    /* Returns formatted Address String for Arlington */
+    function convertStreetTypeFairfax(str) {
+        console.log("Entered - convertStreetTypeFairfax(" + str + ")");
+
+        if (str == "ALY" || str == "ALLEY") {
+            return "ALY";
+        } else if (str == "AV") {
+            return "AV";
+        } else if (str == "AVE" || str == "AVENUE") {
+            return "AVE";
+        } else if (str == "BLVD" || str == "BOULEVARD") {
+            return "BLVD";
+        } else if (str == "BV") {
+            return "BV";
+        } else if (str == "CIR" || str == "CIRCLE") {
+            return "CIR";
+        } else if (str == "CL" || str == "CLOSE") {
+            return "CL";
+        } else if (str == "CMNS" || str == "COMMONS") {
+            return "CMNS";
+        } else if (str == "CT" || str == "COURT") {
+            return "CT";
+        } else if (str == "CTR" || str == "CENTER") {
+            return "CTR";
+        } else if (str == "CV" || str == "COVE") {
+            return "CV";
+        } else if (str == "DR" || str == "DRIVE") {
+            return "DR";
+        } else if (str == "GRN" || str == "GREEN") {
+            return "GRN";
+        } else if (str == "GRV" || str == "GROVE") {
+            return "GRV";
+        } else if (str == "HTS" || str == "HEIGHTS") {
+            return "HTS";
+        } else if (str == "HWY" || str == "HIGHWAY") {
+            return "HWY";
+        } else if (str == "KNLS" || str == "KNOLLS") {
+            return "KNLS";
+        } else if (str == "LA" || str == "LANE") {
+            return "LA";
+        } else if (str == "LN") {
+            return "LN";
+        } else if (str == "LNDG" || str == "LANDING") {
+            return "LNDG";
+        } else if (str == "LP" || str == "LOOP") {
+            return "LP";
+        } else if (str == "PARK") {
+            return "PARK";
+        } else if (str == "PS" || str == "PASS") {
+            return "PASS";
+        } else if (str == "PATH") {
+            return "PATH";
+        } else if (str == "PIKE") {
+            return "PIKE";
+        } else if (str == "PK") {
+            return "PK";
+        } else if (str == "PKWY" || str == "PARKWAY") {
+            return "PKWY";
+        } else if (str == "PL" || str == "PLACE") {
+            return "PL";
+        } else if (str == "PLZ" || str == "PLAZA") {
+            return "PLZ";
+        } else if (str == "PW") {
+            return "PW";
+        } else if (str == "RD") {
+            return "RD";
+        } else if (str == "RDG" || str == "RIDGE") {
+            return "RDG";
+        } else if (str == "ROAD") {
+            return "ROAD";
+        } else if (str == "ROW" || str == "RIGHT OF WAY") {
+            return "ROW";
+        } else if (str == "RUN") {
+            return "RUN";
+        } else if (str == "SQ" || str == "SQUARE") {
+            return "SQ";
+        } else if (str == "ST" || str == "STREET") {
+            return "ST";
+        } else if (str == "TE") {
+            return "TE";
+        } else if (str == "TER" || str == "TERRACE") {
+            return "TER";
+        } else if (str == "TPKE" || str == "TURNPIKE") {
+            return "TPKE";
+        } else if (str == "TR" || str == "TRAIL") {
+            return "TR";
+        } else if (str == "TRCE" || str == "TRACE") {
+            return "TRCE";
+        } else if (str == "TRL" || str == "TRAIL") {
+            return "TRL";
+        } else if (str == "VW" || str == "VIEW") {
+            return "VW";
+        } else if (str == "WALK") {
+            return "WALK";
+        } else if (str == "WAY") {
+            return "WAY";
+        } else if (str == "WY") {
+            return "WY";
+        } else if (str == "XING" || str =="CROSSING") {
+            return "XING"
+        }
+    }
+    /* Returns formatted Address String for Arlington or false if invalid */
     function assessAddressInfoRPCArlington() {
         console.log("Entered - assessAddressInfoRPCArlington()");
 
@@ -9241,8 +9382,7 @@ async function mainEvent() {
         }
         
     }
-
-    /* Returns formatted Address String for Alexandria */
+    /* Returns formatted Address String for Alexandria or false if invalid */
     function assessAddressInfoRPCAlexandria() {
         console.log("Entered - assessAddressInfoRPCAlexandria()");
 
@@ -9299,24 +9439,65 @@ async function mainEvent() {
         } else {
             curStreetName = left + " " + right;
         }
-         
+
+        /* Checking/Getting + Cutting Unit Num */
         if (curStreetName.includes("UNIT")) {
-            let tempIndex = curStreetName.indexOf("UNIT") + 4; 
-            let localIndex = tempIndex - 4; // used to cut unit off at end
-            while (!numArray.includes(curStreetName.charAt(tempIndex)) && !unitArray.includes(curStreetName.charAt(tempIndex))) { // iterates through until numbers - if users does unit # - catches it
+            let tempIndex = curStreetName.indexOf("UNIT");
+            let tempUnitNum = curStreetName.substring(tempIndex + 4);
+
+            curStreetName = curStreetName.substring(0, tempIndex).trim();
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
                 tempIndex++;
             }
-            unitNum = curStreetName.substring(tempIndex).trim();
-            curStreetName = curStreetName.substring(0, localIndex) // cuts unit off
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } else if (curStreetName.includes("STE")) {
+            let tempIndex = curStreetName.indexOf("STE");
+            let tempUnitNum = curStreetName.substring(tempIndex + 3);
+
+            curStreetName = curStreetName.substring(0, tempIndex).trim();
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } else if (curStreetName.includes("SUITE")) {
+            let tempIndex = curStreetName.indexOf("SUITE");
+            let tempUnitNum = curStreetName.substring(tempIndex + 5);
+
+            curStreetName = curStreetName.substring(0, tempIndex).trim();
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
         } else if (curStreetName.includes("#")) {
-            let tempIndex = curStreetName.indexOf("#") + 1; 
-            let localIndex = tempIndex - 1; //used to cut unit off at end
-            while (!numArray.includes(curStreetName.charAt(tempIndex)) && !unitArray.includes(curStreetName.charAt(tempIndex))) { // iterates through until numbers - if users does unit # - catches it
+            let tempIndex = curStreetName.indexOf("#");
+            let tempUnitNum = curStreetName.substring(tempIndex + 1);
+
+            curStreetName = curStreetName.substring(0, tempIndex).trim();
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
                 tempIndex++;
             }
-            unitNum = curStreetName.substation(tempIndex).trim();
-            curStreetName = curStreetName.substring(0, localIndex); // cuts off unit
-        }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } 
 
         /* Street Type Check */
         if (countSpaces(curStreetName) < 1) {
@@ -9363,13 +9544,142 @@ async function mainEvent() {
         str += curStreetName;
         if (unitNum != undefined) {
             if (numArray.includes(unitNum.charAt(0))) {
-                str += "UNIT:" + unitNum;
+                str += " UNIT:" + unitNum;
             } else {
-                str += "UNIT " + unitNum;
+                str += " UNIT " + unitNum;
             }
         }
 
         return str;
+    }
+    /* Returns formatted Address String for Fairfax or false if invalid */
+    function assessAddressInfoRPCFairfax() {
+        console.log("Entered - assessAddressInfoRPCFairfax()");
+
+        const streetTypeArray = ["ALY", "ALLEY", "AV", "AVE", "BLVD", "BV", "BOULEVARD", "CIR", "CIRCLE", "CL", "CLOSE", "CMNS", 
+            "COMMONS", "CT", "COURT", "CTR", "CENTER", "CV", "COVE", "DR", "DRIVE", "GRN", "GREEN", "GRV", "GROVE", "HTS", "HEIGHTS", 
+            "HWY", "HIGHWAY", "KNLS", "KNOLLS", "LA", "LN", "LANE", "LNDG", "LANDING", "LP", "LOOP", "PARK", "PASS", "PS", "PATH", 
+            "PIKE", "PK", "PKWY", "PARKWAY", "PL", "PLACE", "PLZ", "PLAZA", "PW", "RD", "ROAD", "RDG", "RIDGE", "ROW", "RIGHT OF WAY",
+            "RUN", "SQ", "SQUARE", "ST", "STREET", "TE", "TER", "TERRACE", "TPKE", "TURNPIKE", "TR", "TRAIL", "TRCE", "TRACE", "TRL", 
+            "TRAIL", "VW", "VIEW", "WALK", "WAY", "WY", "XING", "CROSSING"];
+
+        let curStreetName = document.getElementById("address_line_textfield_street_name").value.toUpperCase();
+        let unitNum = undefined;
+        let streetType = undefined;
+
+        if (curStreetName.includes("UNIT")) {
+            let tempIndex = curStreetName.indexOf("UNIT");
+            let tempUnitNum = curStreetName.substring(tempIndex + 4);
+
+            curStreetName = curStreetName.substring(0, tempIndex);
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } else if (curStreetName.includes("STE")) {
+            let tempIndex = curStreetName.indexOf("STE");
+            let tempUnitNum = curStreetName.substring(tempIndex + 3);
+
+            curStreetName = curStreetName.substring(0, tempIndex);
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } else if (curStreetName.includes("SUITE")) {
+            let tempIndex = curStreetName.indexOf("SUITE");
+            let tempUnitNum = curStreetName.substring(tempIndex + 5);
+
+            curStreetName = curStreetName.substring(0, tempIndex);
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } else if (curStreetName.includes("#")) {
+            let tempIndex = curStreetName.indexOf("#");
+            let tempUnitNum = curStreetName.substring(tempIndex + 1);
+
+            curStreetName = curStreetName.substring(0, tempIndex);
+
+            /* Below while loops trims everything after unit until numbers or letters appear */
+            tempIndex = 0;
+            while (tempUnitNum.charAt(tempIndex) == ":" || tempUnitNum.charAt(tempIndex) == "#" || tempUnitNum.charAt(tempIndex) == " " || 
+                    tempUnitNum == "-") {
+                tempIndex++;
+            }
+
+            unitNum = tempUnitNum.substring(tempIndex).trim();
+        } 
+
+        /* Below splits remaining curStreetName (shoudl be street name and street type) by spaces */
+        let parts = [];
+        curStreetName = curStreetName.trim();
+
+        if (countSpaces(curStreetName) < 1) {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID SREET NAME - NO STREET TYPE";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+            return false;
+        }
+
+        const iMax = countSpaces(curStreetName);
+        for (var i = 0; i < iMax; i++) {
+            let spaceIndex = curStreetName.indexOf(" ");
+
+            parts.push(curStreetName.substring(0, spaceIndex));
+            curStreetName = curStreetName.substring(spaceIndex + 1);
+        }
+        parts.push(curStreetName.trim());
+
+        /* Looking for street type - starting at end */
+
+        for (var i = parts.length - 1; i > 0; i--) {
+            if (streetTypeArray.includes(parts[i])) {
+                streetType = parts[i];
+
+                let tempParts = [];
+                for (var j = 0; j < parts.length; j++) {
+                    if (j != i) {
+                        tempParts.push(parts[j]);
+                    }
+                }
+                parts = tempParts;
+                break;
+            }
+        }
+
+        if (streetType == undefined) {
+            document.getElementById("tax_map_aid_pop_up_text_prompt").innerHTML = "INVALID SREET NAME - INVALID STREET TYPE";
+            document.getElementById("tax_map_aid_pop_up_text_prompt_2").classList.add("hidden");
+            return false;
+        }
+
+        let str = document.getElementById("address_line_textfield_house_number").value + " ";
+        
+        for (var i = 0; i < parts.length; i++) {
+            str += parts[i] + " ";
+        }
+        str += convertStreetTypeFairfax(streetType);
+
+        if (unitNum != undefined) {
+            str += " STE " + unitNum; 
+        }
+
+        return str;
+
     }
 
     /* Blue Question Mark Aids */
