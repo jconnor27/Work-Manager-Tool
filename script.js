@@ -7072,8 +7072,13 @@ async function mainEvent() {
         //const testText = document.getElementById("test_text_input");
 
         //uploadWRData(testText.value);
+
+        const options = {
+            method: 'GET',
+            mode: 'no-cors'
+        };
         
-        const temp = await fetch("https://api.bridgedataoutput.com/api/v2/pub/parcels?access_token=1=1");
+        const temp = await fetch("https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.zillow.com/homedetails/114-Alfred-St-N-Alexandria-VA-22314/2082438607_zpid/&ved=2ahUKEwiz1JuV1_2IAxVCKFkFHatWBTAQFnoECB0QAQ&usg=AOvVaw2TO5lr9kgUaXqqNNwXlam-");
         const data = temp.json();
         console.log(data);
 
@@ -17710,12 +17715,13 @@ async function mainEvent() {
                 addTabGetButton.disabled = false;
                 addTabUpdateButton.disabled = true;
                 //ddButton.disabled = true;
-            } else if (event.target.value.length == 8) { // wr is not right length
+            } else if (event.target.value.length == 8) { // Wr is right length and doesn't exist
                 addTabAddButton.disabled = false;
                 addTabGetButton.disabled = true;
                 addTabUpdateButton.disabled = true;
             } else {
                 addTabUpdateButton.disabled = true;
+                addTabAddButton.disabled = true;
             } 
         } else { // to-do tab
             if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
