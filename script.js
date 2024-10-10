@@ -6830,6 +6830,8 @@ async function mainEvent() {
     const settingsDisplayTabColorsActive = document.querySelector("#settings_display_tab_colors_active");
     const settingsDisplayTabPreferences = document.querySelector("#settings_display_tab_preferences");
     const settingsDisplayTabPreferencesActive = document.querySelector("#settings_display_tab_preferences_active");
+    const settingsDisplayTabPopUps = document.querySelector("#settings_display_tab_pop_ups");
+    const settingsDisplayTabPopUpsActive = document.querySelector("#settings_display_tab_pop_ups_active");
     const settingsDisplayTabColorsCrd = document.querySelector("#settings_display_tab_colors_crd");
     const settingsDisplayTabColorsCrdActive = document.querySelector("#settings_display_tab_colors_crd_active");
     const settingsDisplayTabColorsRcd = document.querySelector("#settings_display_tab_colors_rcd");
@@ -6842,6 +6844,15 @@ async function mainEvent() {
     const settingsDisplayTabColorsPermitEndActive = document.querySelector("#settings_display_tab_colors_permit_end_active");
     const settingsDisplayTabColorsEasementStatus = document.querySelector("#settings_display_tab_colors_easement_status");
     const settingsDisplayTabColorsEasementStatusActive = document.querySelector("#settings_display_tab_colors_easement_status_active");
+    const settingsDisplayTabPopUpsToDoCheckboxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_to_do");
+    const settingsDisplayTabPopUpsToDoCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_to_do");
+    const settingsDisplayTabPopUpsCommentCheckboxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_comment");
+    const settingsDisplayTabPopUpsCommentCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_comment");
+    const settingsDisplayTabPopUpsCrdRcdCheckboxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_crd_rcd");
+    const settingsDisplayTabPopUpsCrdRcdCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_crd_rcd");
+    const settingsDisplayTabPopUpsExistingToDoCheckboxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_existing_to_do");
+    const settingsDisplayTabPopUpsExistingToDoCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_existing_to_do");
+    
     const settingsDisplayLowerDisplayContainerColorsLeft = document.querySelector("#settings_display_lower_display_container_colors_left");
     const settingsDisplayLowerDisplayContainerColorsRight = document.querySelector("#settings_display_lower_display_container_colors_right");
     const settingsDisplayContainerLabel = document.querySelector("#settings_display_container_label");
@@ -6852,6 +6863,7 @@ async function mainEvent() {
     const settingsDisplayInnerColorsTop= document.querySelector("#settings_display_inner_colors_top");
     const colorLocalSaveButton = document.querySelector("#color_local_save_button");
     const settingsDisplayLowerDisplayContainerPreferences = document.querySelector("#settings_display_lower_display_container_preferences");
+    const settingsDisplayLowerDisplayContainerPopUps = document.querySelector("#settings_display_lower_display_container_pop_ups");
     const settingsPreferencesTextfieldRowsPerPage = document.querySelector("#settings_preferences_textfield_rows_per_page");
     const settingsPreferencesTextfieldCommentsWr = document.querySelector("#settings_preferences_textfield_comments_wr");
     const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
@@ -18432,13 +18444,7 @@ async function mainEvent() {
 
         } else { // Going to today
 
-            let temp = [];
-
-            if (day < 10) {
-                temp = (year + "-" + month + "-0" + day);
-            } else {
-                temp = (year + "-" + month + "-" + day);
-            }
+            let temp = cur;//[];
 
             if (tab == "to_do_display") {
                 toDoDisplayDayOfWeekDate.value = (temp);
@@ -21441,6 +21447,8 @@ async function mainEvent() {
 
         if (settingsDisplayTabPreferences.classList.contains("hidden")) {
             settingsDisplayTabPreferencesActive.click();
+        } else if (settingsDisplayTabPopUps.classList.contains("hidden")) {
+            settingsDisplayTabPopUpsActive.click();
         }
 
         // Display
@@ -21472,6 +21480,8 @@ async function mainEvent() {
 
         if (settingsDisplayTabColors.classList.contains("hidden")) { // colors tab is active
             settingsDisplayTabColorsActive.click();
+        } else if (settingsDisplayTabPopUps.classList.contains("hidden")) {
+            settingsDisplayTabPopUpsActive.click();
         }
 
         // Display
@@ -21493,6 +21503,36 @@ async function mainEvent() {
         // Tabs
         settingsDisplayTabPreferences.classList.remove("hidden");
         settingsDisplayTabPreferencesActive.classList.add("hidden");
+
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings</b>`;
+    })
+    settingsDisplayTabPopUps.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUps");
+
+        if (settingsDisplayTabPreferences.classList.contains("hidden")) {
+            settingsDisplayTabPreferencesActive.click();
+        } else if (settingsDisplayTabColors.classList.contains("hidden")) {
+            settingsDisplayTabColorsActive.click();
+        }
+
+        settingsDisplayLowerDisplayContainerPopUps.classList.remove("hidden");
+
+        // Tabs
+        settingsDisplayTabPopUps.classList.add("hidden");
+        settingsDisplayTabPopUpsActive.classList.remove("hidden");
+
+        // Updating Header
+        settingsDisplayContainerLabel.innerHTML = `<b>Settings - Pop-Ups</b>`;
+    })
+    settingsDisplayTabPopUpsActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsActive");
+
+        settingsDisplayLowerDisplayContainerPopUps.classList.add("hidden");
+
+        // Tabs
+        settingsDisplayTabPopUps.classList.remove("hidden");
+        settingsDisplayTabPopUpsActive.classList.add("hidden");
 
         // Updating Header
         settingsDisplayContainerLabel.innerHTML = `<b>Settings</b>`;
@@ -21661,6 +21701,95 @@ async function mainEvent() {
         settingsDisplayTabColorsEasementStatus.classList.remove("hidden");
         settingsDisplayTabColorsEasementStatusActive.classList.add("hidden");
 
+    })
+
+    settingsDisplayTabPopUpsToDoCheckboxOn.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsToDoCheckboxOn");
+
+        if (settingsDisplayTabPopUpsToDoCheckboxOn.checked == false) {
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = true;
+        } else {
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsToDoCheckboxOff.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsToDoCheckboxOff");
+
+        if (settingsDisplayTabPopUpsToDoCheckboxOff.checked == false) {
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = false;
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = true;
+        } else {
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = true;
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsCommentCheckboxOn.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsCommentCheckboxOn");
+
+        if (settingsDisplayTabPopUpsCommentCheckboxOn.checked == false) {
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = true;
+        } else {
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsCommentCheckboxOff.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsCommentCheckboxOff");
+
+        if (settingsDisplayTabPopUpsCommentCheckboxOff.checked == false) {
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = false;
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = true;
+        } else {
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = true;
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsCrdRcdCheckboxOn.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsCrdRcdCheckboxOn");
+
+        if (settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked == false) {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = true;
+        } else {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsCrdRcdCheckboxOff.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsCrdRcdCheckboxOff");
+
+        if (settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked == false) {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = false;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = true;
+        } else {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = true;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsExistingToDoCheckboxOn.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsExistingToDoCheckboxOn");
+
+        if (settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked == false) {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = true;
+        } else {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = false;
+        }
+    })
+    settingsDisplayTabPopUpsExistingToDoCheckboxOff.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsExistingToDoCheckboxOff");
+
+        if (settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked == false) {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = false;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = true;
+        } else {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = true;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = false;
+        }
     })
 
 

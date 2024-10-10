@@ -1780,13 +1780,17 @@
                 <!-- Row Two -->
                 <div class="settingsDisplayRowTwo" id="settings_display_row_one">
 
-                    <!-- Color Tabs -->
+                    <!-- Colors Tab -->
                     <div class="settingsDisplayTab " id="settings_display_tab_colors">Colors</div>
                     <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_colors_active">Colors</div>
 
-                    <!-- Preference Tabs -->
+                    <!-- Preferences Tab -->
                     <div class="settingsDisplayTab " id="settings_display_tab_preferences">Preferences</div>
                     <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_preferences_active">Preferences</div>
+
+                    <!-- Pop Ups Tab -->
+                    <div class="settingsDisplayTab " id="settings_display_tab_pop_ups">Pop-Ups</div>
+                    <div class="settingsDisplayTab activeTab hidden" id="settings_display_tab_pop_ups_active">Pop-Ups</div>
                 </div>
 
                 <!-- Lower Display -->
@@ -1964,6 +1968,77 @@
                             
                             <!-- Clear Local Storage Button -->
                             <button type="button" class="settingsPreferencesClearLocalStorageButton" id="settings_preferences_clear_local_storage_button">Clear - Local Storage</button>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Pop-Ups Container -->
+                    <div class="settingsDisplayLowerDisplayContainerPopUps hidden" id="settings_display_lower_display_container_pop_ups">
+                        <!-- Save Button Container -->
+                        <div class="settingsPreferencesSaveContainer">
+                            <button type="button" class="settingsPreferencesSaveButton hidden" id="settings_pop_ups_save_button">Save</button>
+                        </div>
+
+                        <div class="settingsPopUpsContainer">
+                            <!-- Row One -->
+                            <div class="settingsPopUpsRowContainer">
+                                <label class="settingsPopUpsRowLabel">Status Change - Add To-Do</label>
+                                <div class="settingsPopUpsOnOffContainer">
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">On</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_on_to_do">
+                                    </div>
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">Off</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_off_to_do">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row Two -->
+                            <div class="settingsPopUpsRowContainer">
+                                <label class="settingsPopUpsRowLabel">Status Change - Add Comment</label>
+                                <div class="settingsPopUpsOnOffContainer">
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">On</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_on_comment">
+                                    </div>
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">Off</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_off_comment">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row Three -->
+                            <div class="settingsPopUpsRowContainer">
+                                <label class="settingsPopUpsRowLabel">Status Change - Add CRC/RCD</label>
+                                <div class="settingsPopUpsOnOffContainer">
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">On</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_on_crd_rcd">
+                                    </div>
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">Off</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_off_crd_rcd">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row Four -->
+                            <div class="settingsPopUpsRowContainer">
+                                <label class="settingsPopUpsRowLabel">Existing To-Do Found</label>
+                                <div class="settingsPopUpsOnOffContainer">
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">On</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_on_existing_to_do">
+                                    </div>
+                                    <div class="settingsPopUpsOnOffContainerInner">
+                                        <label class="settingsPopUpsOnOffContainerCheckboxLabel">Off</label>
+                                        <input type="checkbox" class="settingsPopUpsOnOffContainerCheckbox" id="settings_pop_ups_on_off_container_checkbox_off_existing_to_do">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>
