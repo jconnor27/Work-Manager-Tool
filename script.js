@@ -1739,6 +1739,10 @@ class SystemPreferences {
         this.promptDuration;
         this.permitExpirationWarning;
         this.crdRcdWarning;
+        this.popUpsToDo;
+        this.popUpsComment;
+        this.popUpsCrdRcd;
+        this.popUpsExistingToDo;
 
         const data = window.localStorage.getItem("data");
         console.log(data);
@@ -1776,6 +1780,10 @@ class SystemPreferences {
             this.promptDuration = 3;
             this.permitExpirationWarning = 35;
             this.crdRcdWarning = 35;
+            this.popUpsToDo = 1;
+            this.popUpsComment = 1;
+            this.popUpsCrdRcd = 1;
+            this.popUpsExistingToDo = 1;
         }
 
         
@@ -1789,7 +1797,7 @@ class SystemPreferences {
         let data = [];
         let count = 0;
 
-        while (count < 9) {
+        while (count < 13) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1806,6 +1814,10 @@ class SystemPreferences {
         this.promptDuration = data[6];
         this.permitExpirationWarning = data[7];
         this.crdRcdWarning = data[8];
+        this.popUpsToDo = data[9];
+        this.popUpsComment = data[10];
+        this.popUpsCrdRcd = data[11];
+        this.popUpsExistingToDo = data[12];
 
         console.log("linesPerPageToDo value = ");
         console.log(this.linesPerPageToDo);
@@ -1821,7 +1833,8 @@ class SystemPreferences {
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
         this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@" +
-        this.crdRcdWarning + "@";
+        this.crdRcdWarning + "@" + this.popUpsToDo + "@" + this.popUpsComment + "@" + this.popUpsCrdRcd + "@" + this.popUpsExistingToDo + 
+        "@";
 
         console.log("Returning str =");
         console.log(str);
@@ -5623,7 +5636,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 9) {
+    while (count < 13) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -5689,19 +5702,22 @@ function parseWrString(str) {
         curIndex = parseSingleWrIndex(str, version);
         tempStr = str.substring(0, curIndex);
 
-        const data = parseSingleWrString(tempStr, version);
+        if (tempStr != "") {
+            const data = parseSingleWrString(tempStr, version);
         
-        const newWr = data[0];
-        newWr.permit = data[1];
+            const newWr = data[0];
+            newWr.permit = data[1];
 
-        wrList[wrList.length] = newWr;
+            wrList[wrList.length] = newWr;
 
-        str = str.slice(curIndex + 1);
-        
-        if (tempStr == str) {
-            console.log("tempStr == str");
-            return wrList;
+            str = str.slice(curIndex + 1);
+            
+            if (tempStr == str) {
+                console.log("tempStr == str");
+                return wrList;
+            }
         }
+        
     }
     
     return wrList;
@@ -5711,7 +5727,8 @@ function parseWrString(str) {
 function parseSingleWrString(str, version) {
     console.log("Entered - parseSingleWrString(str, version = " + version + ")");
 
-    console.log(str);
+    console.log(typeof str);
+    console.log(str == "");
 
     let colonIndex = 0;
     let commaIndex = 0;
@@ -6874,6 +6891,7 @@ async function mainEvent() {
     const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
     const settingsPreferencesClearLocalStorageButton = document.querySelector("#settings_preferences_clear_local_storage_button");
     const settingsPreferencesSaveButton = document.querySelector("#settings_preferences_save_button");
+    const settingsPopUpsSaveButton = document.querySelector("#settings_pop_ups_save_button");
     const settingsPreferencesPromptDuration = document.querySelector("#settings_preferences_textfield_prompt_duration");
     const settingsPreferencesPermitExpirationWarning = document.querySelector("#settings_preferences_textfield_permit_expiration_warning");
     const settingsPreferencesCrdRcdWarning = document.querySelector("#settings_preferences_textfield_crd_rcd_warning");
@@ -20979,11 +20997,32 @@ async function mainEvent() {
             settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo &&
             settingsPreferencesPromptDuration.value == systemPreferences.promptDuration &&
             settingsPreferencesPermitExpirationWarning.value == systemPreferences.permitExpirationWarning &&
-            settingsPreferencesCrdRcdWarning.value == systemPreferences.crdRcdWarning) {
+            settingsPreferencesCrdRcdWarning.value == systemPreferences.crdRcdWarning && settingsPreferencesChangedPopUpsHelper()) {
                 return false;
         } else {
             return true;
         }
+    }
+    /* Checks Values on PopUps and returns true if all values match current stored user values */
+    function settingsPreferencesChangedPopUpsHelper() {
+        console.log("Entered - settingsPreferencesChangedPopUpsHelper()");
+
+        if (systemPreferences.popUpsToDo == 1 && settingsDisplayTabPopUpsToDoCheckboxOn.checked == false || 
+            systemPreferences.popUpsToDo == 0 && settingsDisplayTabPopUpsToDoCheckboxOff.checked == false) {
+                return false;
+        } else if (systemPreferences.popUpsComment == 1 && settingsDisplayTabPopUpsCommentCheckboxOn.checked == false || 
+            systemPreferences.popUpsComment == 0 && settingsDisplayTabPopUpsCommentCheckboxOff.checked == false) {
+                return false;
+        } else if (systemPreferences.popUpsCrdRcd == 1 && settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked == false || 
+            systemPreferences.popUpsCrdRcd == 0 && settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked == false) {
+                return false;
+        } else if (systemPreferences.popUpsExistingToDo == 1 && settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked == false || 
+            systemPreferences.popUpsExistingToDo == 0 && settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked == false) {
+                return false;
+        }
+
+        console.log("returning true gg");
+        return true;
     }
     function remove7010Jobs() {
         console.log("Entered - remove7010Jobs()");
@@ -21312,7 +21351,6 @@ async function mainEvent() {
             event.target.select();
         }
     })
-    
 
         /* Save Buttons */
     settingsPreferencesSaveButton.addEventListener("click", (event) => {
@@ -21324,7 +21362,8 @@ async function mainEvent() {
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
                settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
                settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@" + 
-               settingsPreferencesCrdRcdWarning.value + "@";
+               settingsPreferencesCrdRcdWarning.value + "@" + systemPreferences.popUpsToDo + "@" + systemPreferences.popUpsComment + "@" +
+               systemPreferences.popUpsCrdRcd + "@" + systemPreferences.popUpsExistingToDo + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
@@ -21391,6 +21430,42 @@ async function mainEvent() {
         /* Updating Display - could do this better/cleaner */
         allWrTab.click();
         backButton.removeLast();
+    })
+    settingsPopUpsSaveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPopUpsSaveButton");
+
+        let str = "";
+
+        str += systemPreferences.rowsOnPage + "@" + systemPreferences.tempCommentsCount + "@" + systemPreferences.permitCommentCount + "@" +
+                systemPreferences.tempAllCommentCount + "@" + systemPreferences.tempNotesCount + "@" + systemPreferences.linesPerPageToDo + "@" +
+                systemPreferences.promptDuration + "@" + systemPreferences.permitExpirationWarning + "@" + systemPreferences.crdRcdWarning + "@";
+
+        if (settingsDisplayTabPopUpsToDoCheckboxOn.checked == true) {
+            str += "1" + "@";
+        } else {
+            str += "0" + "@";
+        }
+
+        if (settingsDisplayTabPopUpsCommentCheckboxOn.checked == true) {
+            str += "1" + "@";
+        } else {
+            str += "0" + "@";
+        }
+
+        if (settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked == true) {
+            str += "1" + "@";
+        } else {
+            str += "0" + "@";
+        }
+
+        if (settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked == true) {
+            str += "1" + "@";
+        } else {
+            str += "0" + "@";
+        }
+
+        systemPreferences.load(str);
+
     })
 
         /* Options */
@@ -21517,6 +21592,39 @@ async function mainEvent() {
         }
 
         settingsDisplayLowerDisplayContainerPopUps.classList.remove("hidden");
+
+        // Populate Fields
+        if (systemPreferences.popUpsToDo == 1) {
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = false;
+        } else {
+            settingsDisplayTabPopUpsToDoCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsToDoCheckboxOff.checked = true;
+        }
+
+        if (systemPreferences.popUpsComment == 1) {
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = false;
+        } else {
+            settingsDisplayTabPopUpsCommentCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsCommentCheckboxOff.checked = true;
+        }
+
+        if (systemPreferences.popUpsCrdRcd == 1) {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = false;
+        } else {
+            settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = true;
+        }
+
+        if (systemPreferences.popUpsExistingToDo == 1) {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = true;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = false;
+        } else {
+            settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = false;
+            settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = true;
+        }
 
         // Tabs
         settingsDisplayTabPopUps.classList.add("hidden");
@@ -21703,6 +21811,7 @@ async function mainEvent() {
 
     })
 
+    /* Pop Ups */
     settingsDisplayTabPopUpsToDoCheckboxOn.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayTabPopUpsToDoCheckboxOn");
 
@@ -21712,6 +21821,12 @@ async function mainEvent() {
         } else {
             settingsDisplayTabPopUpsToDoCheckboxOn.checked = true;
             settingsDisplayTabPopUpsToDoCheckboxOff.checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
         }
     })
     settingsDisplayTabPopUpsToDoCheckboxOff.addEventListener("click", (event) => {
@@ -21724,6 +21839,12 @@ async function mainEvent() {
             settingsDisplayTabPopUpsToDoCheckboxOff.checked = true;
             settingsDisplayTabPopUpsToDoCheckboxOn.checked = false;
         }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
     })
     settingsDisplayTabPopUpsCommentCheckboxOn.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayTabPopUpsCommentCheckboxOn");
@@ -21734,6 +21855,12 @@ async function mainEvent() {
         } else {
             settingsDisplayTabPopUpsCommentCheckboxOn.checked = true;
             settingsDisplayTabPopUpsCommentCheckboxOff.checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
         }
     })
     settingsDisplayTabPopUpsCommentCheckboxOff.addEventListener("click", (event) => {
@@ -21746,6 +21873,12 @@ async function mainEvent() {
             settingsDisplayTabPopUpsCommentCheckboxOff.checked = true;
             settingsDisplayTabPopUpsCommentCheckboxOn.checked = false;
         }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
     })
     settingsDisplayTabPopUpsCrdRcdCheckboxOn.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayTabPopUpsCrdRcdCheckboxOn");
@@ -21756,6 +21889,12 @@ async function mainEvent() {
         } else {
             settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = true;
             settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
         }
     })
     settingsDisplayTabPopUpsCrdRcdCheckboxOff.addEventListener("click", (event) => {
@@ -21768,6 +21907,12 @@ async function mainEvent() {
             settingsDisplayTabPopUpsCrdRcdCheckboxOff.checked = true;
             settingsDisplayTabPopUpsCrdRcdCheckboxOn.checked = false;
         }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
     })
     settingsDisplayTabPopUpsExistingToDoCheckboxOn.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayTabPopUpsExistingToDoCheckboxOn");
@@ -21779,6 +21924,12 @@ async function mainEvent() {
             settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = true;
             settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = false;
         }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
     })
     settingsDisplayTabPopUpsExistingToDoCheckboxOff.addEventListener("click", (event) => {
         console.log("Fired - Clicked settingsDisplayTabPopUpsExistingToDoCheckboxOff");
@@ -21789,6 +21940,12 @@ async function mainEvent() {
         } else {
             settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = true;
             settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
         }
     })
 
