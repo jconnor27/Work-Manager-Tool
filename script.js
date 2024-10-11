@@ -3129,18 +3129,11 @@ class ToDoDayObject {
         /* General List */
         for (var i = 0; i < this.generalList.length; i++) {
             if (this.generalList[i].tab == tab) {
-                console.log("QQQ in this.generalList[i].tab == tab");
-                console.log(this.generalList[i]);
                 curList.push(this.generalList[i]);
             }
         }
-        console.log("WWW curList =");
-        console.log(curList);
         filteredList.generalList = curList;
         curList = [];
-
-        console.log("GGG filteredList =");
-        console.log(filteredList);
 
         return filteredList;
     }
@@ -22465,6 +22458,8 @@ async function mainEvent() {
         console.log("Fired - Clicked toDoTabActive");
 
         deselectAllToDoTab();
+        waitingTabActive.classList.add("hidden");
+        waitingTab.classList.remove("hidden");
     })
 
                     /* add Tab */
@@ -22586,30 +22581,46 @@ async function mainEvent() {
         deselectAllPermitsTab();
     })
 
+    waitingTab.addEventListener("click", (event) => {
+        console.log("Fired - Clicked waitingTab");
+
+        toDoTab.click();
+        toDoWaitingTab.click();
+        waitingTabActive.classList.remove("hidden");
+        waitingTab.classList.add("hidden");
+    })
+    waitingTabActive.addEventListener("click", (event) => {
+        console.log("Fired - Clicked waitingTabActive");
+
+        toDoTabActive.click()
+        waitingTabActive.classList.add("hidden");
+        waitingTab.classList.remove("hidden");
+    })
+
         /* Tools Tab */
     toolsTab.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTab");
 
-        /* Deselecting all tabs 
+        /* Deselecting all tabs */
         deselectAllTabs();
 
-        /* Hiding inactive tab 
+        /* Hiding inactive tab */
         toolsTab.classList.add("hidden");
 
         toolsTabActive.classList.remove("hidden");
 
         document.getElementById("tools_tab_display_container").classList.remove("hidden");
-        */
+        
         
     })
     toolsTabActive.addEventListener("click", (event) => {
         console.log("Fired - Clicked toolsTabActive");
 
-        /*
+        
         deselectAllTabs();
         toolsTabActive.classList.add("hidden");
         toolsTab.classList.remove("hidden");
-        */
+        
     })
 
                 /* Add Comment Tab */
