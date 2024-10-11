@@ -1743,6 +1743,7 @@ class SystemPreferences {
         this.popUpsComment;
         this.popUpsCrdRcd;
         this.popUpsExistingToDo;
+        this.popUpsNewWrToDo;
 
         const data = window.localStorage.getItem("data");
         console.log(data);
@@ -1784,6 +1785,7 @@ class SystemPreferences {
             this.popUpsComment = 1;
             this.popUpsCrdRcd = 1;
             this.popUpsExistingToDo = 1;
+            this.popUpsNewWrToDo = 1;
         }
 
         
@@ -1797,7 +1799,7 @@ class SystemPreferences {
         let data = [];
         let count = 0;
 
-        while (count < 13) {
+        while (count < 14) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1818,6 +1820,7 @@ class SystemPreferences {
         this.popUpsComment = data[10];
         this.popUpsCrdRcd = data[11];
         this.popUpsExistingToDo = data[12];
+        this.popUpsNewWrToDo = data[13];
 
         console.log("linesPerPageToDo value = ");
         console.log(this.linesPerPageToDo);
@@ -1833,8 +1836,8 @@ class SystemPreferences {
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
         this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@" +
-        this.crdRcdWarning + "@" + this.popUpsToDo + "@" + this.popUpsComment + "@" + this.popUpsCrdRcd + "@" + this.popUpsExistingToDo + 
-        "@";
+        this.crdRcdWarning + "@" + this.popUpsToDo + "@" + this.popUpsComment + "@" + this.popUpsCrdRcd + "@" + 
+        this.popUpsExistingToDo + "@" + this.popUpsNewWrToDo + "@";
 
         console.log("Returning str =");
         console.log(str);
@@ -5636,7 +5639,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 13) {
+    while (count < 14) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -6869,7 +6872,9 @@ async function mainEvent() {
     const settingsDisplayTabPopUpsCrdRcdCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_crd_rcd");
     const settingsDisplayTabPopUpsExistingToDoCheckboxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_existing_to_do");
     const settingsDisplayTabPopUpsExistingToDoCheckboxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_existing_to_do");
-    
+    const settingsDisplayTabPopUpsNewWrToDoCheckBoxOn = document.querySelector("#settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do");
+    const settingsDisplayTabPopUpsNewWrToDoCheckBoxOff = document.querySelector("#settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do");
+
     const settingsDisplayLowerDisplayContainerColorsLeft = document.querySelector("#settings_display_lower_display_container_colors_left");
     const settingsDisplayLowerDisplayContainerColorsRight = document.querySelector("#settings_display_lower_display_container_colors_right");
     const settingsDisplayContainerLabel = document.querySelector("#settings_display_container_label");
@@ -12508,11 +12513,11 @@ async function mainEvent() {
         let currentWr = allWrList[curWrIndex];
 
         if (tempCurrent.innerHTML == "Need to Visit") {
-            if (currentWr.crd == "0001-01-01") {
+            if (systemPreferences.popUpsCrdRcd == 1 && currentWr.crd == "0001-01-01") {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set CRD?"}</div>`;
-            } else if (currentWr.rcd == "0001-01-01") {
+            } else if (systemPreferences.popUpsCrdRcd == 1 && currentWr.rcd == "0001-01-01") {
                 document.getElementById("missing_info_container").classList.remove("hidden");
                 missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                 missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
@@ -12520,7 +12525,7 @@ async function mainEvent() {
                 
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("site_visit", currentWr.workRequestNumber)
 
-                if (temp != false) {
+                if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Site Visit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                     addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12529,22 +12534,25 @@ async function mainEvent() {
                     addToDoPopUpTab.style.flexDirection = 'column';
                     addToDoPopUpTab.style.alignItems = 'center';
                     switchAddToDoPopUpButtons("Existing")
-                } else {
+                } else if (systemPreferences.popUpsToDo == 1) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
 
-                /* Add Comment Prompt */
-                addCommentPopUpContainer.classList.remove("hidden");
-                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Required Documents\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
-                addCommentPopUpHeader.style.display = 'flex';
-                addCommentPopUpHeader.style.flexDirection = 'column';
-                addCommentPopUpHeader.style.alignItems = 'center';
+                if (systemPreferences.popUpsComment == 1) {
+                    /* Add Comment Prompt */
+                    addCommentPopUpContainer.classList.remove("hidden");
+                    addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Required Documents\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addCommentPopUpHeader.style.display = 'flex';
+                    addCommentPopUpHeader.style.flexDirection = 'column';
+                    addCommentPopUpHeader.style.alignItems = 'center';
+                }
+                
             }
         } else if (tempCurrent.innerHTML == "Need to Flag") {
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("site_visit", currentWr.workRequestNumber)
 
-                if (temp != false) {
+                if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Site Visit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                     addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpText">Do you want to move the existing To-Do (ID:${temp}) or add another</div>` + `<div class="addToDoPopUpText">\"Site Visit\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
@@ -12553,23 +12561,26 @@ async function mainEvent() {
                     addToDoPopUpTab.style.alignItems = 'center';
                     addToDoPopUpHeader.style.marginTop = '-10px';
                     switchAddToDoPopUpButtons("Existing")
-                } else {
+                } else if (systemPreferences.popUpsToDo == 1) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
 
-                /* Add Comment Prompt */
-                addCommentPopUpContainer.classList.remove("hidden");
-                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Electrical Inspection</div><div class="addToDoPopUpText">and/or Customer Site Ready pics\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
-                addCommentPopUpHeader.style.display = 'flex';
-                addCommentPopUpHeader.style.flexDirection = 'column';
-                addCommentPopUpHeader.style.alignItems = 'center';
-                addCommentPopUpHeader.style.marginTop = '-10px';
+                if (systemPreferences.popUpsComment == 1) {
+                    /* Add Comment Prompt */
+                    addCommentPopUpContainer.classList.remove("hidden");
+                    addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Received Electrical Inspection</div><div class="addToDoPopUpText">and/or Customer Site Ready pics\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addCommentPopUpHeader.style.display = 'flex';
+                    addCommentPopUpHeader.style.flexDirection = 'column';
+                    addCommentPopUpHeader.style.alignItems = 'center';
+                    addCommentPopUpHeader.style.marginTop = '-10px';
+                }
+                
         } else if (tempCurrent.innerHTML == "SVC Calcs + Coding") {
                 let temp = toDoMasterList.toDoTypeExistsForWorkRequest("svc_calc", currentWr.workRequestNumber)
 
                 /* Add To Do Prompt */ //here
-                if (temp != false) {
+                if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"SVC Calcs + Coding\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                     addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12578,21 +12589,24 @@ async function mainEvent() {
                     addToDoPopUpTab.style.flexDirection = 'column';
                     addToDoPopUpTab.style.alignItems = 'center';
                     switchAddToDoPopUpButtons("Existing")
-                } else {
+                } else if (systemPreferences.popUpsToDo == 1) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"SVC Calcs + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                 }
 
-                /* Add Comment Prompt */
-                addCommentPopUpContainer.classList.remove("hidden");
-                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Conducted Site Visit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
-                addCommentPopUpHeader.style.display = 'flex';
-                addCommentPopUpHeader.style.flexDirection = 'column';
-                addCommentPopUpHeader.style.alignItems = 'center';
+                if (systemPreferences.popUpsComment == 1) {
+                    /* Add Comment Prompt */
+                    addCommentPopUpContainer.classList.remove("hidden");
+                    addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Conducted Site Visit\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                    addCommentPopUpHeader.style.display = 'flex';
+                    addCommentPopUpHeader.style.flexDirection = 'column';
+                    addCommentPopUpHeader.style.alignItems = 'center';
+                }
+                
             } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS") {
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_njuns", currentWr.workRequestNumber)
 
-            if (temp != false) {
+            if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - NJUNS\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                 addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12601,14 +12615,14 @@ async function mainEvent() {
                 addToDoPopUpTab.style.flexDirection = 'column';
                 addToDoPopUpTab.style.alignItems = 'center';
                 switchAddToDoPopUpButtons("Existing")
-            } else {
+            } else if (systemPreferences.popUpsToDo == 1) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
         } else if (tempCurrent.innerHTML == "Check/ Apply For Permit") {
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_permit", currentWr.workRequestNumber)
 
-            if (temp != false) {
+            if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - Permit\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                 addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12617,14 +12631,14 @@ async function mainEvent() {
                 addToDoPopUpTab.style.flexDirection = 'column';
                 addToDoPopUpTab.style.alignItems = 'center';
                 switchAddToDoPopUpButtons("Existing")
-            } else {
+            } else if (systemPreferences.popUpsToDo == 1) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
         } else if (tempCurrent.innerHTML == "Check/ Apply For Easement") {
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("check_easement", currentWr.workRequestNumber)
 
-            if (temp != false) {
+            if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Check/ Apply - Easement\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                 addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12633,7 +12647,7 @@ async function mainEvent() {
                 addToDoPopUpTab.style.flexDirection = 'column';
                 addToDoPopUpTab.style.alignItems = 'center';
                 switchAddToDoPopUpButtons("Existing")
-            } else {
+            } else if (systemPreferences.popUpsToDo == 1) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
@@ -12642,7 +12656,7 @@ async function mainEvent() {
 
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("design", currentWr.workRequestNumber)
 
-            if (temp != false) {
+            if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Design\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                 addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12651,14 +12665,14 @@ async function mainEvent() {
                 addToDoPopUpTab.style.flexDirection = 'column';
                 addToDoPopUpTab.style.alignItems = 'center';
                 switchAddToDoPopUpButtons("Existing")
-            } else {
+            } else if (systemPreferences.popUpsToDo == 1) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
         } else if (tempCurrent.innerHTML == "Revisions") {
             let temp = toDoMasterList.toDoTypeExistsForWorkRequest("revisions", currentWr.workRequestNumber)
 
-            if (temp != false) {
+            if (systemPreferences.popUpsExistingToDo == 1 && temp != false) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Existing \"Revisions\" To-Do Found for Work Request # ${currentWr.workRequestNumber}.</div>`;
                 addToDoPopUpHeader.style.marginTop = '-10px';
@@ -12667,63 +12681,82 @@ async function mainEvent() {
                 addToDoPopUpTab.style.flexDirection = 'column';
                 addToDoPopUpTab.style.alignItems = 'center';
                 switchAddToDoPopUpButtons("Existing")
-            } else {
+            } else if (systemPreferences.popUpsToDo == 1) {
                 document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                 addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
             }
         } else if (tempCurrent.innerHTML.includes("Waiting - LL")) { // Waiting on LL/SP/Etc.
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">"Do you want to add a \"General\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
-            addToDoPopUpTab.style.display = 'flex';
-            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: LL/SP/Etc. by Default)</div>`;
-            addToDoPopUpTextfield.value = "Waiting on Load Letter/ Site Plan/ Etc.";
-            document.getElementById("add_to_do_pop_up_row_two").style.alignSelf = 'center';
-            clearAddToDoPopUpTabs();
-            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
-            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
-
-             /* Add Comment Prompt */
-             addCommentPopUpContainer.classList.remove("hidden");
-             addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Customer contacted.\"</div><div class="addToDoPopUpText">Comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
-             addCommentPopUpHeader.style.display = 'flex';
-             addCommentPopUpHeader.style.flexDirection = 'column';
-             addCommentPopUpHeader.style.alignItems = 'center';
-             addCommentPopUpHeader.style.marginTop = '-10px';
+            
+            if (systemPreferences.popUpsToDo == 1) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">"Do you want to add a \"General\" To-Do for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: LL/SP/Etc. by Default)</div>`;
+                addToDoPopUpTextfield.value = "Waiting on Load Letter/ Site Plan/ Etc.";
+                document.getElementById("add_to_do_pop_up_row_two").style.alignSelf = 'center';
+                clearAddToDoPopUpTabs();
+                document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+                document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+            }
+            
+            if (systemPreferences.popUpsComment == 1) {
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Customer contacted.\"</div><div class="addToDoPopUpText">Comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+                addCommentPopUpHeader.style.marginTop = '-10px';
+            }
+             
         } else if (tempCurrent.innerHTML.includes("Waiting") && tempCurrent.innerHTML.includes("Not")) { // Waiting on Cust Not Approve 
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
-            addToDoPopUpTextfield.value = "Waiting on Customer";
-            clearAddToDoPopUpTabs();
-            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
-            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+            
+            if (systemPreferences.popUpsToDo == 1) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
+                addToDoPopUpTextfield.value = "Waiting on Customer";
+                clearAddToDoPopUpTabs();
+                document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+                document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+            }
 
         } else if (tempCurrent.innerHTML.includes("Waiting")) { // Waiting on Cust Approved by default
-            document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
-            addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-            addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
-            addToDoPopUpTab.style.display = 'flex';
-            addToDoPopUpTab.style.width = 'fit-content';
-            addToDoPopUpTab.style.alignSelf = 'center';
-            addToDoPopUpTextfield.value = "Waiting on Customer";
-            clearAddToDoPopUpTabs();
-            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
-            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
-
-            /* Add Comment Prompt */
-            addCommentPopUpContainer.classList.remove("hidden");
-            addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"4010'd\" comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
-            addCommentPopUpHeader.style.display = 'flex';
-            addCommentPopUpHeader.style.flexDirection = 'column';
-            addCommentPopUpHeader.style.alignItems = 'center';
-            addCommentPopUpHeader.style.marginBottom = '-10px';
+            
+            if (systemPreferences.popUpsToDo == 1) {
+                document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
+                addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
+                addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSub">(On "Waiting" Tab + Note: Customer by Default)</div>`;
+                addToDoPopUpTab.style.display = 'flex';
+                addToDoPopUpTab.style.width = 'fit-content';
+                addToDoPopUpTab.style.alignSelf = 'center';
+                addToDoPopUpTextfield.value = "Waiting on Customer";
+                clearAddToDoPopUpTabs();
+                document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+                document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+            }
+            
+            if (systemPreferences.popUpsComment == 1) {
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"4010'd\" comment for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+                addCommentPopUpHeader.style.marginBottom = '-10px';
+            }
+            
         } else if (tempCurrent.innerHTML.includes("7010'd")) {
-            /* Add Comment Prompt */
-            addCommentPopUpContainer.classList.remove("hidden");
-            addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Released To Construction\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
-            addCommentPopUpHeader.style.display = 'flex';
-            addCommentPopUpHeader.style.flexDirection = 'column';
-            addCommentPopUpHeader.style.alignItems = 'center';
+            
+            if (systemPreferences.popUpsComment == 1) {
+                /* Add Comment Prompt */
+                addCommentPopUpContainer.classList.remove("hidden");
+                addCommentPopUpHeader.innerHTML = `<div class="addToDoPopUpText">Do you want to add a \"Released To Construction\" Comment</div><div class="addToDoPopUpText">for Work Request # ${currentWr.workRequestNumber}?</div>`;
+                addCommentPopUpHeader.style.display = 'flex';
+                addCommentPopUpHeader.style.flexDirection = 'column';
+                addCommentPopUpHeader.style.alignItems = 'center';
+            }
+            
         }
     }
     function assessGeneralStatusPriorToChange(oldStatus, rowNum) {
@@ -17057,14 +17090,14 @@ async function mainEvent() {
                 }
 
                 /* Rear Lot and OH/UG Check */
-                if (rearLotCheckboxYes.checked) {
+                if (systemPreferences.popUpsNewWrToDo == 1 && rearLotCheckboxYes.checked) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit ROW Research Request\" To-Do for Work Request # " + wr.workRequestNumber + "?"}</div>`;
                     addToDoPopUpTextfield.value = "Submit ROW Research Request";
                     if (UGFacilitiesCheckboxYes.checked) { // since display is reset below, this value temporarily holds true
                         existingUgFacilitiesChecked = true;
                     }
-                } else if (UGFacilitiesCheckboxYes.checked) { // have to do else if - handling this popup with rear lot popup logic
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && UGFacilitiesCheckboxYes.checked) { // have to do else if - handling this popup with rear lot popup logic
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General - Submit Investigative DDI\" To-Do for Work Request # " + addTabNewWorkRequestNumber.value + "?"}</div>`;
                     addToDoPopUpTextfield.value = "Submit Investigative DDI";
@@ -17374,41 +17407,41 @@ async function mainEvent() {
                 tempCurrent.innerHTML = event.target.innerHTML;
 
                 if (tempCurrent.innerHTML == "Need to Visit" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
-                    if (currentWr.crd == "0001-01-01") {
+                    if (systemPreferences.popUpsCrdRcd == 1 && currentWr.crd == "0001-01-01") {
                         document.getElementById("missing_info_container").classList.remove("hidden");
                         missingInfoHeader.innerHTML = `<div class="missingInfoText">${"CRD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                         missingInfoType.innerHTML = `<div class="missingInfoText">${"Set CRD?"}</div>`;
-                    } else if (currentWr.rcd == "0001-01-01") {
+                    } else if (systemPreferences.popUpsCrdRcd == 1 && currentWr.rcd == "0001-01-01") {
                         document.getElementById("missing_info_container").classList.remove("hidden");
                         missingInfoHeader.innerHTML = `<div class="missingInfoText">${"RCD for WR#" + currentWr.workRequestNumber + " Not Set"}</div>`;
                         missingInfoType.innerHTML = `<div class="missingInfoText">${"Set RCD?"}</div>`;
-                    } else { // Asking User if they want to add to-do
+                    } else if (systemPreferences.popUpsNewWrToDo == 1) { // Asking User if they want to add to-do
                         document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                         addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                     }
-                } else if (tempCurrent.innerHTML == "Need to Flag" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Need to Flag" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Site Visit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "SVC Calcs + Coding" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "SVC Calcs + Coding" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Svc Calc + Coding\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "Check/ Apply NJUNS" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Check/ Apply NJUNS" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - NJUNS\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "Check/ Apply For Permit" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Check/ Apply For Permit" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Permit\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "Check/ Apply For Easement" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Check/ Apply For Easement" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Check/ Apply - Easement\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "Design" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Design" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     runAtDesignStatusCheck(currentWr);
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Design\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML == "Revisions" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML == "Revisions" && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"Revisions\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
-                } else if (tempCurrent.innerHTML.includes("Waiting") && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
+                } else if (systemPreferences.popUpsNewWrToDo == 1 && tempCurrent.innerHTML.includes("Waiting") && addTabNewWorkRequestNumber.value != "" && getWr(addTabNewWorkRequestNumber.value, allWrList)) {
                     document.getElementById("add_to_do_pop_up_container").classList.remove("hidden");
                     addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Do you want to add a \"General\" To-Do for Work Request # " + currentWr.workRequestNumber + "?"}</div>`;
                     addToDoPopUpTab.innerHTML = `<div class="addToDoPopUpTextSubAddTab">(On "Waiting" Tab by Default)</div>`;
@@ -19156,8 +19189,6 @@ async function mainEvent() {
     function assessSpecificStatus() {
         console.log("Entered - assessSpecificStatus(allWrList)");
         let tempList = [];
-
-        console.log("GRGRG");
     
         if (document.getElementById("all_wr_tab").classList.contains("hidden")) {
             if (document.getElementById("filter_checkbox_waiting_ll").checked == true) {
@@ -21019,7 +21050,10 @@ async function mainEvent() {
         } else if (systemPreferences.popUpsExistingToDo == 1 && settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked == false || 
             systemPreferences.popUpsExistingToDo == 0 && settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked == false) {
                 return false;
-        }
+        } else if (systemPreferences.popUpsNewWrToDo == 1 && settingsDisplayTabPopUpsNewWrToDoCheckBoxOn.checked == false ||
+            systemPreferences.popUpsNewWrToDo == 0 && settingsDisplayTabPopUpsNewWrToDoCheckBoxOff.checked == false) {
+                return false;
+            }
 
         console.log("returning true gg");
         return true;
@@ -21363,7 +21397,7 @@ async function mainEvent() {
                settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
                settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@" + 
                settingsPreferencesCrdRcdWarning.value + "@" + systemPreferences.popUpsToDo + "@" + systemPreferences.popUpsComment + "@" +
-               systemPreferences.popUpsCrdRcd + "@" + systemPreferences.popUpsExistingToDo + "@";
+               systemPreferences.popUpsCrdRcd + "@" + systemPreferences.popUpsExistingToDo + "@" + systemPreferences.popUpsNewWrToDo + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
@@ -21464,7 +21498,15 @@ async function mainEvent() {
             str += "0" + "@";
         }
 
+        if (settingsDisplayTabPopUpsNewWrToDoCheckBoxOn.checked == true) {
+            str += "1" + "@";
+        } else {
+            str += "0" + "@";
+        }
+
         systemPreferences.load(str);
+
+        settingsPopUpsSaveButton.classList.add("hidden");
 
     })
 
@@ -21624,6 +21666,14 @@ async function mainEvent() {
         } else {
             settingsDisplayTabPopUpsExistingToDoCheckboxOn.checked = false;
             settingsDisplayTabPopUpsExistingToDoCheckboxOff.checked = true;
+        }
+
+        if (systemPreferences.popUpsNewWrToDo == 1) {
+            settingsDisplayTabPopUpsNewWrToDoCheckBoxOn.checked = true;
+            settingsDisplayTabPopUpsNewWrToDoCheckBoxOff.checked = false;
+        } else {
+            settingsDisplayTabPopUpsNewWrToDoCheckBoxOn.checked = false;
+            settingsDisplayTabPopUpsNewWrToDoCheckBoxOff.checked = true;
         }
 
         // Tabs
@@ -21948,6 +21998,40 @@ async function mainEvent() {
             settingsPopUpsSaveButton.classList.remove("hidden");
         }
     })
+    settingsDisplayTabPopUpsNewWrToDoCheckBoxOn.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsNewWrToDoCheckboxOn");
+
+        if (document.getElementById("settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do").checked == false) {
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do").checked = false;
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do").checked = true;
+        } else {
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do").checked = true;
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do").checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
+    })
+    settingsDisplayTabPopUpsNewWrToDoCheckBoxOff.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsDisplayTabPopUpsNewWrToDoCheckboxOff");
+
+        if (document.getElementById("settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do").checked == false) {
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do").checked = false;
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do").checked = true;
+        } else {
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_off_new_wr_to_do").checked = true;
+            document.getElementById("settings_pop_ups_on_off_container_checkbox_on_new_wr_to_do").checked = false;
+        }
+
+        if (!systemPreferencesChanged()) {
+            settingsPopUpsSaveButton.classList.add("hidden");
+        } else {
+            settingsPopUpsSaveButton.classList.remove("hidden");
+        }
+    })
 
 
     // Add clear 7010 button or option
@@ -21971,6 +22055,8 @@ async function mainEvent() {
             settingsDisplayInnerColorsBottom.classList.add("hidden");
             currentColorAssignedBox.innerHTML = "Not Set";
             currentColorAssignedBox.style.backgroundColor = "white";
+        } else if (settingsDisplayTabPopUps.classList.contains("hidden")) {
+            settingsDisplayTabPopUpsActive.click();
         } else if (settingsDisplayTabPreferences.classList.contains("hidden")) {
             settingsDisplayTabPreferencesActive.click();
         }
