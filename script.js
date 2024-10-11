@@ -7097,18 +7097,19 @@ async function mainEvent() {
     testButton2.addEventListener("click", async (event) => {
         console.log("Fired - Clicked testButton2");
 
-        //const testText = document.getElementById("test_text_input");
+        const testText = document.getElementById("test_text_input");
+        console.log(testText);
 
         //uploadWRData(testText.value);
 
-        const options = {
+        /*const options = {
             method: 'GET',
             mode: 'no-cors'
         };
         
         const temp = await fetch("https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.zillow.com/homedetails/114-Alfred-St-N-Alexandria-VA-22314/2082438607_zpid/&ved=2ahUKEwiz1JuV1_2IAxVCKFkFHatWBTAQFnoECB0QAQ&usg=AOvVaw2TO5lr9kgUaXqqNNwXlam-");
         const data = temp.json();
-        console.log(data);
+        console.log(data);*/
 
 
         /*var curWindowDocument = window.open("https://www.zillow.com").document();
