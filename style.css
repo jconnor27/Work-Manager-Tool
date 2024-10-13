@@ -3510,7 +3510,7 @@ h5 {
    
 }
 
-.addTabDisplayToDoRowZero {
+.addTabDisplayToDoRowZero, .addTabDisplayAddReminderRowZero {
     display: flex;
     flex-direction: row;
     width: 1115px;
@@ -3518,13 +3518,13 @@ h5 {
     align-items: center;
 }
 
-.addTabDisplayToDoRowZeroNumfieldLabel {
+.addTabDisplayToDoRowZeroNumfieldLabel, .addTabDisplayAddReminderRowZeroNumfieldLabel {
     display: flex;
     font-size: large;
     margin-left: -325px;
 }
 
-.addTabDisplayToDoRowZeroNumfield {
+.addTabDisplayToDoRowZeroNumfield, .addTabDisplayAddReminderRowZeroNumfield {
     display: flex;
     border: 2px solid black;
     margin-left: 43px;

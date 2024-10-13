@@ -6490,6 +6490,7 @@ async function mainEvent() {
     const addTabDisplayAddPermit = document.querySelector("#add_tab_display_add_permit");
     const addTabDisplayAddComment = document.querySelector("#add_tab_display_add_comment");
     const addTabDisplayAddToDo = document.querySelector("#add_tab_display_to_do");
+    const addTabDisplayAddReminder = document.querySelector("#add_tab_display_add_reminder");
 
     /* Load and Save Buttons */
     const footerButtonSave = document.querySelector("#footer_button_save");
@@ -7123,7 +7124,8 @@ async function mainEvent() {
     function testFunction() {
         console.log("** TEST FUNCTION **");
 
-        //addTab.click();
+        addTab.click();
+        filterCheckboxAddReminder.click();
 
         //Testing To-Do's tab
         //toDoTab.click();
@@ -8694,6 +8696,7 @@ async function mainEvent() {
         addTabDisplayAddPermit.classList.add("hidden");
         addTabDisplayAddComment.classList.add("hidden");
         addTabDisplayAddToDo.classList.add("hidden");
+        addTabDisplayAddReminder.classList.add("hidden");
 
         /* Hiding Top Left Remove Button */
         addTabRemoveButton.classList.add("hidden");
@@ -20374,7 +20377,7 @@ async function mainEvent() {
 
         clearAddTabDisplays();
         addTabDisplayHeaderLabel.innerHTML = "\"To-Do\"";
-        addTabDisplayWorkRequestNumberLabel.innerHTML = "New To-Do Work Request Number";
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "New \"To-Do\" Work Request Number:";
         addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
 
         /* Revealing add button */
@@ -20450,6 +20453,24 @@ async function mainEvent() {
         if (addTabNewWorkRequestNumber.value != undefined && getWr(addTabNewWorkRequestNumber.value, allWrList)[0] != false) {
             addTabGetButton.disabled = false;
         }
+    })
+    filterCheckboxAddReminder.addEventListener("change", (event) => {
+        console.log("Fired - Clicked filterCheckboxAddReminder");
+
+
+        clearAddTabCheckboxes();
+        filterCheckboxAddReminder.checked = true;
+
+        clearAddTabDisplays();
+        addTabDisplayAddReminder.classList.remove("hidden");
+
+        /* Settings Header Label */
+        addTabDisplayHeaderLabel.innerHTML = "\"Reminder\"";
+
+        /* Settings WR Num Label */
+        addTabDisplayWorkRequestNumberLabel.innerHTML = "New \"Reminder\" Work Request Number:";
+        addTabDisplayWorkRequestNumberLabel.classList.add("newWorkRequestNumberTextfieldLabelBig");
+
     })
 
         /* AllWr Tab*/

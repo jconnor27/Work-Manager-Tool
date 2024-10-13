@@ -337,7 +337,7 @@
                     <label for="filter_checkbox_add_comment" class="filterCheckboxLabel" id="filter_checkbox_add_comment_label">Comment</label>
                 </div>
                 <div class="filterContainer" id="filter_container_add_reminder">
-                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_reminder" name="filter_checkbox_add_reminder" disabled/>
+                    <input type="checkbox" class="filterCheckbox" id="filter_checkbox_add_reminder" name="filter_checkbox_add_reminder"/>
                     <label for="filter_checkbox_add_reminder" class="filterCheckboxLabel" id="filter_checkbox_add_reminder_label">Reminder</label>
                 </div>
             </div>
@@ -1457,6 +1457,43 @@
                         
                     </div>
                 </div>
+
+                <!-- Add Tab Display Specific - Reminder -->
+                 <div class="addTabDisplayAddReminder hidden" id="add_tab_display_add_reminder">
+
+                    <!-- Row Zero -->
+                    <div class="addTabDisplayAddReminderRowZero">
+                        <label class="addTabDisplayAddReminderRowZeroNumfieldLabel" id="add_tab_display_add_reminder_row_zero_numfield_label">New "Reminder" ID#:</label>
+                        <input type="number" class="addTabDisplayAddReminderRowZeroNumfield" id="add_tab_display_add_reminder_row_zero_numfield">
+                    </div>
+
+                    <!-- Middle Section -->
+                    <!-- Middle - Left -->
+                    <div class="addTabDisplayAddReminderMiddleLeft" id="add_tab_display_add_reminder_middle_left">
+                        
+                        <!-- Type DD -->
+                        <div class="addTabDisplayAddReminderMiddleLeftRowElementContainer">
+                            <label class="addTabDisplayAddReminderTypeLabel">Reminder Type:</label>
+                            <div class="addTabDisplayAddReminderTypeDDContainer">
+
+                            </div>
+                        </div>
+
+                        <!-- Date to Remind -->
+                        <div class="addTabDisplayAddReminderMiddleLeftRowElementContainer">
+                            <div class="addTabDisplayAddReminderDueDateContainer">
+                                <label class="addTabDisplayDueDateLabelHeader">Due Date:</label>
+                                <div class="addTabDisplayDueDateInputContainer">
+                                    <div class="addTabDisplayDayOfWeekContainer" id="add_tab_display_add_reminder_day_of_week_container">
+                                        <!-- Inserting Object in JS -->
+                                    </div>
+                                        <label class="addTabDisplayDueDateLabel">or</label>
+                                    <input type="date" class="addTabDisplayDayOfWeekDate" id="add_tab_display_add_reminder_day_of_week_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
             </div>
 
             <!-- Confirm Remove Popup Container -->
