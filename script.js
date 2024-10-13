@@ -8984,6 +8984,58 @@ async function mainEvent() {
 
         addToDoPopUpHeader.innerHTML = `<div class="addToDoPopUpText">${"Confirm \"Type\", \"Date\", and \"Tab\" for new To-Do."}</div>`
         document.getElementById("add_to_do_pop_up_box").classList.add("addtoDoPopUpBoxLarge");
+
+
+        /* Clearing tabs */
+        document.getElementById("add_to_do_pop_up_tab_coordinator").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_general").classList.remove("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting").classList.remove("hidden");
+
+        document.getElementById("add_to_do_pop_up_tab_coordinator_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_on_return_to_office_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_general_active").classList.add("hidden");
+        document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.add("hidden");
+
+
+        /* Setting Tab to Current */
+        if (toDoGeneralTab.classList.contains("hidden")) {
+            document.getElementById("add_to_do_pop_up_tab_general_active").classList.remove("hidden");
+            document.getElementById("add_to_do_pop_up_tab_general").classList.add("hidden");
+        } else if (toDoMentorTab.classList.contains("hidden")) {
+            document.getElementById("add_to_do_pop_up_tab_mentor_active").classList.remove("hidden");
+            document.getElementById("add_to_do_pop_up_tab_mentor").classList.add("hidden");
+        } else if (toDoCoordinatorTab.classList.contains("hidden")) {
+            document.getElementById("add_to_do_pop_up_tab_coordinator_active").classList.remove("hidden");
+            document.getElementById("add_to_do_pop_up_tab_coordinator").classList.add("hidden");
+        } else if (toDoWaitingTab.classList.contains("hidden")) {
+            document.getElementById("add_to_do_pop_up_tab_waiting_active").classList.remove("hidden");
+            document.getElementById("add_to_do_pop_up_tab_waiting").classList.add("hidden");
+        } else if (toDoOnReturnToOfficeTab.classList.contains("hidden")) {
+            document.getElementById("add_to_do_pop_up_tab_on_return_to_office_active").classList.remove("hidden");
+            document.getElementById("add_to_do_pop_up_tab_on_return_to_office").classList.add("hidden");
+        } 
+
+        /* Settings Date */
+        document.getElementById("add_to_do_pop_up_day_of_week_date").value = document.getElementById("to_do_display_day_of_week_date").value;
+
+        const temp = addToDoPopUpDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("add_to_do_pop_up", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("add_to_do_pop_up", tempStr);
     })
 
     /* Open "Click" function for addToDoPopUp To-Do Type DD Menu*/
