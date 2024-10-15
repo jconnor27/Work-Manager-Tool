@@ -14,6 +14,58 @@ class WorkRequestSaveData {
     }
 }
 
+class ReminderTypeDDMenu {
+    constructor(location) {
+        this.curOption = "Not Set";
+        this.location = location;
+        this.height = null;
+        this.width = null;
+    }
+
+    setHeight(height) {
+        console.log("Entered - ReminderTypeDDMenu - setHeight(" + height + ")");
+
+        this.height = height;
+    }
+
+    setWidth(width) {
+        console.log("Entered - ReminderTypeDDMenu - setWidth(" + width + ")");
+
+        this.width = width;
+    }
+
+    makeRowElement() {
+        console.log("Entered - ReminderTypeDDMenu - makeRowElement");
+
+        let rowElement = document.createElement("ReminderTypeDDMenu");
+        rowElement.classList.add("reminderTypeRowElement");
+
+        let str = document.createElement("reminderTypeDDMenuContentBox");
+
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Internal"}</div>`);
+        str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"External"}</div>`);
+
+        str.style.display = 'none';
+        str.style.position = 'absolute';
+        str.style.marginTop = '45px';
+        str.style.backgroundColor = "white";
+        str.style.zIndex = 1;
+        str.id = "reminder_type_dd_" + this.location + "_content";
+
+        rowElement.innerHTML = `<div class="reminderTypeDDMenuBox" id="reminder_type_dd_menu_${this.location}_current">${this.curOption}</div>` + 
+        `<button type="button" class="reminderTypeDDMenuButton" id="reminder_type_dd_menu_${this.location}_current_button">\\/</button>` + str.outerHTML;
+
+        if (this.width != undefined) {
+            rowElement.style.width = this.width;
+        }
+        if (this.height != undefined) {
+            rowElement.height = this.height;
+        }
+
+        return rowElement;
+    }
+}
+
 class CommentTypeDDMenu {
     constructor() {
         this.curOption = "Not Set";
@@ -6793,6 +6845,10 @@ async function mainEvent() {
     const addTabDisplayToDoNextButton = document.querySelector("#add_tab_display_to_do_next_button");
     const addTabDisplayToDoRemoveButton = document.querySelector("#add_tab_display_to_do_remove_button");
 
+        /* Add Reminder */
+    const addTabDisplayAddReminderTypeDDContainer = document.querySelector("#add_tab_display_add_reminder_type_dd_container");
+    const addTabDisplayAddReminderDayOfWeekContainer = document.querySelector("#add_tab_display_add_reminder_day_of_week_container");
+
     /* To-Do's Tab */
     const toDoDisplayContainer = document.querySelector("#to_do_display_container");
     const toDoDisplayRowElementContainer = document.querySelector("#to_do_display_row_element_container");
@@ -7454,6 +7510,34 @@ async function mainEvent() {
         let pageObjectRow = pageObject.makeRowElement();
         addTabDisplayDayOfWeekContainer.innerHTML = "";    // was insertAdjacentHTML but I think it was a type
         addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
+
+            /* Add Tab Reminder - Reminder Type DD Menu */
+        dd = new ReminderTypeDDMenu("0");
+        dd.setHeight("50px");
+        dd.setWidth("115px");
+        ddRow = dd.makeRowElement();
+
+        addTabDisplayAddReminderTypeDDContainer.innerHTML = "";
+        addTabDisplayAddReminderTypeDDContainer.insertAdjacentElement("beforeend", ddRow);
+
+            /* Add Tab Reminder - DayOfWeekPageObject */
+        today = new Date();
+        year = today.getFullYear();
+        month = today.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        day = today.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        tempFromDate = subtractDays(year, month, day, today.getDay());
+        tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
+        pageObject = new DayOfWeekPageObject("add_reminder", tempFromDate, tempToDate);
+        pageObjectRow = pageObject.makeRowElement();
+        addTabDisplayAddReminderDayOfWeekContainer.innerHTML = "";    // was insertAdjacentHTML but I think it was a type
+        addTabDisplayAddReminderDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
+        
         
         
         resetDisplayToDoAddUpdate(); // Initializing display values for today
