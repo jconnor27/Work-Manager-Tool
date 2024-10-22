@@ -1484,7 +1484,7 @@
                     </div>
 
                     <!-- Row Two -->
-                     <div class="addTabDisplayAddReminderRowTwo">
+                    <div class="addTabDisplayAddReminderRowTwo">
 
                         <!-- Creation Date -->
                         <div class="addTabDisplayAddRowTwoRowElementContainer">
@@ -1505,25 +1505,38 @@
                             <label class="addTabDisplayAddReminderTimeToRemindLabel">Time To Remind:</label>
                             <input type="time" class="addTabDisplayAddReminderTimeToRemindBox" id="add_tab_display_add_reminder_time_to_remind_box">
                         </div>
-                     </div>
-                    <!-- Middle Section -->
-                    <div class="addTabDisplayAddReminderMiddleSection">
-                            <!-- Middle - Left -->
-                        <div class="addTabDisplayAddReminderMiddleLeft" id="add_tab_display_add_reminder_middle_left">
-                            
-                            
-
-                            
-                        </div>
-
-                        <!-- Middle - Right -->
-                        <div class="addTabDisplayAddReminderMiddleRight" id="add_tab_display_add_reminder_middle_right">
-                            
-                            
-
-                        </div>
-
                     </div>
+
+                    <!-- Bottom -->
+                    <div class="addTabDisplayAddReminderBottom">
+                        <div class="addTabDisplayAddReminderBottomBox">
+                            <div class="addTabDisplayAddReminderBottomRowOne" id="add_tab_display_add_reminder_bottom_row_one">
+                                <label for="add_tab_display_add_reminder_comments_add_button" class="addTabDisplayAddReminderCommentsAddButtonLabel" id="add_tab_display_add_reminder_comments_add_button_label">Comments To Add:</label>
+                                <div class="addTabDisplayAddReminderCommentsPrevNextContainer hidden" id="add_tab_display_add_reminder_comments_prev_next_container">
+                                    <button type="button" class="pagePrevButton" id="add_tab_display_add_reminder_page_prev_button" disabled>Prev</button>
+                                    <div class="currentPageBox" id="add_reminder_tab_current_page_box">
+                                        1
+                                    </div>
+                                    <button type="button" class="pageNextButton" id="add_tab_reminder_page_next_button" disabled>Next</button>                      
+                                </div>
+                                <div class="addRemoveButtonContainer">
+                                    <button type="button" class="removeCommentButton" id="add_tab_reminder_comments_remove_button" disabled>-</button>
+                                    <button type="button" class="addCommentButton" id="add_tab_reminder_comments_add_button" disabled>+</button>
+                                </div>
+                            </div>
+                            <div class="addTabReminderBottomRowTwo" id="add_tab_reminder_bottom_row_two">
+                                <input type="text" class="addTabCommentsTextfield" id="add_tab_reminder_comments_textfield" name="add_tab_reminder_comments_textfield" value="Enter Comment Here"/>
+                            </div>
+                            <div class="addTabReminderBottomRowThree" is="add_tab_reminder_bottom_row_three">
+                                
+                                <!-- Empty List -->
+                                <div class="addTabReminderCommentsToAddList hidden" id="add_tab_reminder_comments_to_add"></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    
                 </div>
                     
             </div>

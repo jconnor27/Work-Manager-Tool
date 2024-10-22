@@ -1200,7 +1200,7 @@ h5 {
     padding: .5rem;
 }
 
-.addTabPermitCommentsToAddList {
+.addTabPermitCommentsToAddList, .addTabReminderCommentsToAddList {
     border: 2px solid black;
     display: flex;
     flex-direction: column;
@@ -1725,7 +1725,7 @@ h5 {
     margin-right: 200px;
 }
 
-.addTabPermitCommentsPrevNextContainer {
+.addTabPermitCommentsPrevNextContainer, .addTabDisplayAddReminderCommentsPrevNextContainer {
     display: flex;
     flex-direction: row;
     margin-left: 70px;
@@ -2376,13 +2376,27 @@ h5 {
     padding-bottom: 10px;
 }
 
-.addTabPermitBottomRowTwo {
+.addTabDisplayAddReminderBottomRowOne {
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    border: 2px solid black;
+    border-top: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: none;
+}
+
+.addTabPermitBottomRowTwo, .addTabReminderBottomRowTwo {
     display: flex;
     width: 600px;
     margin-bottom: 10px;
 }
 
-.addTabPermitBottomRowThree {
+.addTabPermitBottomRowThree, .addTabReminderBottomRowThree {
     display: flex;
     width: 600px;
     padding-left: 2rem;
@@ -2398,7 +2412,7 @@ h5 {
     justify-content: center;
 }
 
-.addTabPermitCommentsAddButtonLabel {
+.addTabPermitCommentsAddButtonLabel, .addTabDisplayAddReminderCommentsAddButtonLabel {
     display: flex;
     font-size: large;
     margin-left: 20px;
@@ -3567,6 +3581,24 @@ h5 {
     margin-top: 40px;
 }
 
+.addTabDisplayAddReminderBottom {
+    display: flex;
+    flex-direction: column;
+    min-width: 1050px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.addTabDisplayAddReminderBottomBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    min-width: fit-content;
+    min-height: 200px;
+}
+
 .addTabDisplayAddRowTwoRowElementContainer {
     display: flex;
     flex-direction: row;
@@ -4568,7 +4600,7 @@ h5 {
         border-radius: 4px;
     }
 
-    .addTabPermitCommentsAddButtonLabel {
+    .addTabPermitCommentsAddButtonLabel, .addTabDisplayAddReminderBottomRowOne {
         font-size: small;
     }
 
