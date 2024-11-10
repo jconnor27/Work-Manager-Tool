@@ -6848,6 +6848,8 @@ async function mainEvent() {
         /* Add Reminder */
     const addTabDisplayAddReminderTypeDDContainer = document.querySelector("#add_tab_display_add_reminder_type_dd_container");
     const addTabDisplayAddReminderDayOfWeekContainer = document.querySelector("#add_tab_display_add_reminder_day_of_week_container");
+    const addTabDisplayAddReminderDayOfWeekDate = document.querySelector("#add_tab_display_add_reminder_day_of_week_date");
+    const addTabDisplayAddReminderCreationDate = document.querySelector("#add_tab_display_add_reminder_creation_date_box");
 
     /* To-Do's Tab */
     const toDoDisplayContainer = document.querySelector("#to_do_display_container");
@@ -7531,6 +7533,9 @@ async function mainEvent() {
         if (day < 10) {
             day = "0" + day;
         }
+
+        //addTabWrCreationDate.value = (year + "-" + month + "-" + day);
+
         tempFromDate = subtractDays(year, month, day, today.getDay());
         tempToDate = addDays(year, month, day, (7 - today.getDay() - 1));
         pageObject = new DayOfWeekPageObject("add_reminder", tempFromDate, tempToDate);
@@ -7540,7 +7545,8 @@ async function mainEvent() {
         
         
         
-        resetDisplayToDoAddUpdate(); // Initializing display values for today
+        resetDisplayToDoAddUpdate(); // Initializing display values for today for "Add To-Do" tab
+        resetDisplayReminderAddUpdate(); // Initializing display values for today for "Add Reminder" tab
     }
     function initializeToDoTab() {
         console.log("Entered - initializeToDoTab()");
@@ -8638,6 +8644,27 @@ async function mainEvent() {
 
 
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
+    }
+    function resetDisplayReminderAddUpdate() {
+        console.log("Entered - resetDisplayReminderAddUpdate()");
+
+        const d = new Date();
+        const year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        addTabDisplayAddReminderDayOfWeekDate.value = (year + "-" + month + "-" + day);
+        setDay("add_reminder", d.getDay());
+
+        addTabDisplayAddReminderCreationDate.value = (year + "-" + month + "-" + day);
+
+        /* Will need to add more */
     }
     function resetToDoMoveToDisplay() {
         console.log("Entered - resetToDoMoveToDisplay()");
@@ -10017,6 +10044,11 @@ async function mainEvent() {
             if (filterCheckboxAddComment.checked) {
                 /* Add/Update Comment */
                 document.getElementById("comment_type_dd_content").style.display = 'none';
+            }
+
+            if (filterCheckboxAddReminder.checked) {
+                /* Add/Update Reminder */
+                document.getElementById("reminder_type_dd_0_content").style.display = 'none';
             }
             
         }
@@ -17876,6 +17908,43 @@ async function mainEvent() {
         }
     })
 
+    /* Add Reminder Tab */
+    addTabDisplayAddReminderTypeDDContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderTypeDDContainer");
+
+        const tempContent = document.getElementById("reminder_type_dd_0_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            tempContent.style.marginTop = '120px';
+            //tempContent.style.width = '230px';
+            tempContent.classList.add("addToDoTypeDDMenuContentBox");
+            tempContent.style.height = '80px';
+            tempContent.style.width = '80px';
+            tempContent.style.display = 'flex';
+            tempContent.style.alignItems = 'center';
+            tempContent.style.justifyContent = 'center';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("reminder_type_dd_menu_0_current");
+
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
+            }
+        }
+    })
+
         /* Customer Contacted Check Box Event Listeners */
     customerContactedCheckboxNo.addEventListener("click", (event) => {
         console.log("Fired - Clicked customer_contacted_checkbox_no");
@@ -18313,7 +18382,10 @@ async function mainEvent() {
         } else if (tab == "move_existing_to_do_pop_up") {
             document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
             document.getElementById("move_existing_to_do_pop_up_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
-        } 
+        } else if (tab == "add_reminder") {
+            document.getElementById("add_reminder_tab_day_of_week_from_date").innerHTML = "From: " + tempFromDate;
+            document.getElementById("add_reminder_tab_day_of_week_to_date").innerHTML = "To: " + tempToDate;
+        }
     }
     function addDays(curYear, curMonth, curDay, daysToAdd) {
         console.log("Entered - addDays(curYear = " + curYear + " curMonth = " + curMonth + " curDay = " + curDay + " daysToAdd = " + daysToAdd + ")");  
@@ -18556,7 +18628,17 @@ async function mainEvent() {
             const year = temp.substring(0,4);
             const month = temp.substring(5, 7);
             d = new Date(year + "-" + month + "-" + tempNewDay);
-        } 
+        } else if (tab == "add_reminder") {
+            let temp = addTabDisplayAddReminderDayOfWeekDate.value;
+            let tempDay = temp.substring(8);
+            let tempNewDay = new Number(tempDay);
+            if (tempNewDay < 10) {
+                tempNewDay = "0" + tempNewDay;
+            }
+            const year = temp.substring(0,4);
+            const month = temp.substring(5, 7);
+            d = new Date(year + "-" + month + "-" + tempNewDay);
+        }
 
         const year = d.getFullYear();
         let month = d.getMonth() + 1;
@@ -18593,14 +18675,17 @@ async function mainEvent() {
                 setFromToDates("add_to_do_pop_up", temp);
             } else if (tab == "permit_status_warning_pop_up") {
                 permitStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("permit_status_warning_pop_up");
+                setFromToDates("permit_status_warning_pop_up", temp);
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("easement_status_warning_pop_up");
+                setFromToDates("easement_status_warning_pop_up", temp);
             } else if (tab == "move_existing_to_do_pop_up") {
                 moveExistingToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("move_existing_to_do_pop_up", temp);
-            } 
+            } else if (tab == "add_reminder") {
+                addTabDisplayAddReminderDayOfWeekDate.value = (temp);
+                setFromToDates("add_reminder", temp); 
+            }
 
         } else if (newDay > curDay) { // Going forwards
             const difference = newDay - curDay;
@@ -18624,14 +18709,17 @@ async function mainEvent() {
                 setFromToDates("add_to_do_pop_up", temp);
             } else if (tab == "permit_status_warning_pop_up") {
                 permitStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("permit_status_warning_pop_up");
+                setFromToDates("permit_status_warning_pop_up", temp);
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("easement_status_warning_pop_up");
+                setFromToDates("easement_status_warning_pop_up", temp);
             } else if (tab == "move_existing_to_do_pop_up") {
                 moveExistingToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("move_existing_to_do_pop_up", temp);
-            } 
+            } else if (tab == "add_reminder") {
+                addTabDisplayAddReminderDayOfWeekDate.value = (temp);
+                setFromToDates("add_reminder", temp); 
+            }
 
         } else { // Going to today
 
@@ -18655,14 +18743,17 @@ async function mainEvent() {
                 setFromToDates("add_to_do_pop_up", temp);
             } else if (tab == "permit_status_warning_pop_up") {
                 permitStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("permit_status_warning_pop_up");
+                setFromToDates("permit_status_warning_pop_up", temp);
             } else if (tab == "easement_status_warning_pop_up") {
                 easementStatusWarningPopUpDayOfWeekDate.value = (temp);
-                setFromToDates("easement_status_warning_pop_up");
+                setFromToDates("easement_status_warning_pop_up", temp);
             } else if (tab == "move_existing_to_do_pop_up") {
                 moveExistingToDoPopUpDayOfWeekDate.value = (temp);
                 setFromToDates("move_existing_to_do_pop_up", temp);
-            } 
+            } else if (tab == "add_reminder") {
+                addTabDisplayAddReminderDayOfWeekDate.value = (temp);
+                setFromToDates("add_reminder", temp); 
+            }
         }
 
         if (tab != "move_to") {
@@ -18885,7 +18976,7 @@ async function mainEvent() {
 
     })
 
-        /* Add Tab Day of week page object */
+        /* Add To Do Tab Day of week page object */
     addTabDisplayDayOfWeekContainer.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayDayOfWeekContainer");
 
@@ -18965,8 +19056,8 @@ async function mainEvent() {
                 day = "0" + day;
             }
             addTabDisplayDayOfWeekDate.value = year + "-" + month + "-" + day;
-            setFromToDates("move_to", addTabDisplayDayOfWeekDate.value);
-            setDay("move_to", d.getDay());
+            setFromToDates("add", addTabDisplayDayOfWeekDate.value);
+            setDay("add", d.getDay());
             
         }
     })
@@ -18988,6 +19079,111 @@ async function mainEvent() {
         
         const tempStr = year + "-" + month + "-" + day;
         setFromToDates("add", tempStr);
+    })
+
+         /* Add Reminder Tab Day of week page object */
+    addTabDisplayAddReminderDayOfWeekContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderDayOfWeekContainer");
+
+        const tempLeftArrow = document.createElement("tempLeftArrow");
+        tempLeftArrow.innerHTML = "&#8592";
+        const tempRightArrow = document.createElement("tempRightArrow");
+        tempRightArrow.innerHTML = "&#8594";
+        const tempResetArrow = document.createElement("tempResetArrow");
+        tempResetArrow.innerHTML = "&#8634";
+        
+        if (event.target.innerHTML == "Su" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_sunday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_sunday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 0);
+        } else if (event.target.innerHTML == "M" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_monday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_monday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 1);
+        } else if (event.target.innerHTML == "Tu" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_tuesday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_tuesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 2);
+        } else if (event.target.innerHTML == "W" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_wednesday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_wednesday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 3);
+        } else if (event.target.innerHTML == "Th" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_thursday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_thursday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 4);
+        } else if (event.target.innerHTML == "F" && !event.target.classList.contains("activeTab")) {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_friday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_friday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 5);
+        } else if (event.target.innerHTML == "Sa") {
+            clearDays("add_reminder");
+
+            document.getElementById("add_reminder_tab_day_of_week_box_saturday").classList.add("hidden");
+            document.getElementById("add_reminder_tab_day_of_week_box_saturday_active").classList.remove("hidden");
+            assessDayOfWeekChange("add_reminder", 6);
+        } else if (event.target.innerHTML == tempLeftArrow.innerHTML) { // left arrow
+            let curDate = addTabDisplayAddReminderDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addTabDisplayAddReminderDayOfWeekDate.value = subtractDays(year, month, day, 7);
+            setFromToDates("add_reminder", addTabDisplayAddReminderDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempRightArrow.innerHTML) { // right arrow
+            let curDate = addTabDisplayAddReminderDayOfWeekDate.value;
+            const year = curDate.substring(0, 4);
+            const month = curDate.substring(5, 7);
+            const day = curDate.substring(8, 10);
+            addTabDisplayAddReminderDayOfWeekDate.value = addDays(year, month, day, 7);
+            setFromToDates("add_reminder", addTabDisplayAddReminderDayOfWeekDate.value);
+        } else if (event.target.innerHTML == tempResetArrow.innerHTML) { // reset arrow
+            console.log("clicked reset arrow");
+            const d = new Date();
+            const year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+            addTabDisplayAddReminderDayOfWeekDate.value = year + "-" + month + "-" + day;
+            setFromToDates("add_reminder", addTabDisplayAddReminderDayOfWeekDate.value);
+            setDay("add_reminder", d.getDay());
+            
+        }
+    })
+    addTabDisplayAddReminderDayOfWeekDate.addEventListener("mouseout", (event) => {
+        console.log("Mousedout - addTabDisplayAddReminderDayOfWeekDate");
+
+        const temp = addTabDisplayAddReminderDayOfWeekDate.value;
+        const year = temp.substring(0, 4);
+        const month = temp.substring(5, 7);
+        const day = temp.substring(8, 10);
+        const d = new Date();
+
+        d.setFullYear(year);
+        d.setMonth(month - 1);
+        d.setDate(day);
+
+        const curDay = d.getDay();
+        setDay("add_reminder", curDay);
+        
+        const tempStr = year + "-" + month + "-" + day;
+        setFromToDates("add_reminder", tempStr);
     })
     
         /* Add Tab Permit */
