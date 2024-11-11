@@ -940,6 +940,17 @@ class Error {
             temp.remove();
         }, this.promptDuration)
     }
+    
+    displayReminderNoNoteEntered() {
+        console.log("Entered - displayReminderNoNoteEntered()");
+
+        const temp = document.getElementById("add_tab_display_add_reminder_note_buttons_container");
+        temp.insertAdjacentHTML("beforebegin", `<div class="errorMessageNoNoteEntered" id="error_message">No Note Entered</div>`);
+        setTimeout(() => {
+            const temp = document.getElementById("error_message");
+            temp.remove();
+        }, this.promptDuration)
+    }
 
     displayMustAddWorkRequestNumberUnlessGeneral() {
         console.log("Entered - displayMustAddWorkRequestNumberUnlessGeneral()");
@@ -1422,9 +1433,34 @@ class PaginatedComments {
             document.getElementById("add_tab_display_to_do_row_three_box_top_buttons_container").style.marginLeft = '35px';
             document.getElementById("add_tab_display_to_do_next_button").disabled = false;
         }
+    }
 
+    addReminderNote(note, completed) {
+        console.log("Entered - PaginatedComments - addReminderNote(note =" + note + " completed = " + completed + ")");
+
+        this.list.push([note, completed]);
+
+        console.log("test this cc");
+        console.log(this);
         
+        let temp = [];
+        let count = 0;
 
+        for (var i = this.list.length - 1; i >= 0; i--) {
+            if (count < this.pageSize) {
+                temp.push(this.list[i]);
+                count++;
+            }
+        }
+
+        updateComments(temp, "addReminder");
+
+        if (this.list.length > this.pageSize) { 
+            document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").classList.remove("hidden");
+            //document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").style.marginLeft = '410px';
+            //document.getElementById("add_tab_display_add_reminder_note_buttons_container").style.marginLeft = '35px';
+            document.getElementById("add_tab_display_add_reminder_page_next_button").disabled = false;
+        }
     }
 
     add(comment) {
@@ -1787,6 +1823,7 @@ class SystemPreferences {
         this.tempCommentsCount;
         this.tempAllCommentCount;
         this.tempNotesCount;
+        this.tempReminderNotesCount;
         this.linesPerPageToDo;
         this.promptDuration;
         this.permitExpirationWarning;
@@ -1798,7 +1835,6 @@ class SystemPreferences {
         this.popUpsNewWrToDo;
 
         const data = window.localStorage.getItem("data");
-        console.log(data);
 
         if (data != undefined) { // Settings Values From Saved Data
             console.log("Getting Data From Local Storage");
@@ -1829,6 +1865,7 @@ class SystemPreferences {
             this.tempCommentsCount = 6;
             this.tempAllCommentCount = 14;
             this.tempNotesCount = 3;
+            this.tempReminderNotesCount = 6; 
             this.linesPerPageToDo = 19;
             this.promptDuration = 3;
             this.permitExpirationWarning = 35;
@@ -1846,12 +1883,10 @@ class SystemPreferences {
     load(str) {
         console.log("Entered - SystemPreferences - load(str)");
 
-        console.log(str);
-
         let data = [];
         let count = 0;
 
-        while (count < 14) {
+        while (count < 15) {
             const index = str.indexOf('@');
             const temp = str.substring(0, index);
             data.push(temp);
@@ -1864,18 +1899,17 @@ class SystemPreferences {
         this.tempCommentsCount = data[2];
         this.tempAllCommentCount = data[3];
         this.tempNotesCount = data[4];
-        this.linesPerPageToDo = data[5];
-        this.promptDuration = data[6];
-        this.permitExpirationWarning = data[7];
-        this.crdRcdWarning = data[8];
-        this.popUpsToDo = data[9];
-        this.popUpsComment = data[10];
-        this.popUpsCrdRcd = data[11];
-        this.popUpsExistingToDo = data[12];
-        this.popUpsNewWrToDo = data[13];
+        this.tempReminderNotesCount = data[5];
+        this.linesPerPageToDo = data[6];
+        this.promptDuration = data[7];
+        this.permitExpirationWarning = data[8];
+        this.crdRcdWarning = data[9];
+        this.popUpsToDo = data[10];
+        this.popUpsComment = data[11];
+        this.popUpsCrdRcd = data[12];
+        this.popUpsExistingToDo = data[13];
+        this.popUpsNewWrToDo = data[14];
 
-        console.log("linesPerPageToDo value = ");
-        console.log(this.linesPerPageToDo);
     }
 
     toString() {
@@ -1887,12 +1921,9 @@ class SystemPreferences {
         let str = "";
 
         str += this.rowsOnPage + "@" + this.permitCommentCount + "@" + this.tempCommentsCount + "@" + this.tempAllCommentCount + "@" +
-        this.tempNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + this.permitExpirationWarning + "@" +
-        this.crdRcdWarning + "@" + this.popUpsToDo + "@" + this.popUpsComment + "@" + this.popUpsCrdRcd + "@" + 
-        this.popUpsExistingToDo + "@" + this.popUpsNewWrToDo + "@";
-
-        console.log("Returning str =");
-        console.log(str);
+        this.tempNotesCount + "@" + this.tempReminderNotesCount + "@" + this.linesPerPageToDo + "@" + this.promptDuration + "@" + 
+        this.permitExpirationWarning + "@" + this.crdRcdWarning + "@" + this.popUpsToDo + "@" + this.popUpsComment + "@" + 
+        this.popUpsCrdRcd + "@" + this.popUpsExistingToDo + "@" + this.popUpsNewWrToDo + "@";
 
         return str;
     }
@@ -4847,6 +4878,7 @@ class DisplayState {
     Used in PaginatedComments but could also be used elsewhere */
 function updateComments(comments, tab) {
     console.log("Entered - updateComments(" + comments + ", " + tab + ")");
+    console.log(comments);
 
     if (tab == "addWr") {
         document.getElementById("add_tab_wr_comments_to_add").innerHTML = "";
@@ -4856,6 +4888,8 @@ function updateComments(comments, tab) {
         document.getElementById("add_comment_tab_existing_comments").innerHTML = "";
     } else if (tab == "addToDo") {
         document.getElementById("add_tab_display_to_do_row_three_notes_to_add").innerHTML = "";
+    } else if (tab == "addReminder") {
+        document.getElementById("add_tab_reminder_notes_to_add").innerHTML = "";
     }
 
     for (var i = 0; i < comments.length; i++) {
@@ -4867,6 +4901,10 @@ function updateComments(comments, tab) {
             injectHTMLAddCommentTabComment(comments[i], i);
         } else if (tab == "addToDo") {
             injectHTMLAddToDoNote(comments[i], i);
+        } else if (tab == "addReminder") {
+            console.log("calling inject number");
+            console.log(i);
+            injectHTMLAddReminderNote(comments[i], i);
         }
     }
 }
@@ -5384,8 +5422,6 @@ function injectHTMLAddCommentTabComment(comment, index) {
 }
 function injectHTMLAddToDoNote(note, index) {
     console.log("Entered - injectHTMLAddToDoNote(" + note + ", " + index + ")");
-    console.log("note =");
-    console.log(note);
 
     const notesToAdd = document.getElementById("add_tab_display_to_do_row_three_notes_to_add");
     const elem = document.createElement("noteItem");
@@ -5396,13 +5432,34 @@ function injectHTMLAddToDoNote(note, index) {
         elem.innerHTML = `<strike>${`<li class="addTabDisplayToDoNoteItem">${note[0]}</li>`}</strike>`;
         elem.innerText = '\u2022' + " " + note[0];
         elem.style.textDecoration = 'line-through'; // used in one conditional elsewhere
-
-
+        
     } else {
         elem.innerHTML = `<li class="addTabDisplayToDoNoteItem">${note[0]}</li>`;
         elem.innerText = '\u2022' + " " + note[0];
     }
 
+    notesToAdd.insertAdjacentElement("beforeend", elem);
+}
+function injectHTMLAddReminderNote(note, index) {
+    console.log("Entered - injectHTMLAddReminderNote(" + note + ", " + index + ")");
+
+    const notesToAdd = document.getElementById("add_tab_reminder_notes_to_add");
+    const elem = document.createElement("noteItem");
+    elem.id = "add_tab_display_add_reminder_note_item_" + index;
+
+    if (note[1] == 1) {
+        console.log("note[1] == 1");
+        elem.innerHTML = `<strike>${`<li class="addTabDisplayAddReminderNoteItem">${note[0]}</li>`}</strike>`;
+        elem.innerText = '\u2022' + " " + note[0];
+        elem.style.textDecoration = 'line-through'; // used in one conditional elsewhere
+        
+    } else {
+        elem.innerHTML = `<li class="addTabDisplayAddReminderNoteItem">${note[0]}</li>`;
+        elem.innerText = '\u2022' + " " + note[0];
+    }
+
+    console.log("inserting elem =");
+    console.log(elem);
     notesToAdd.insertAdjacentElement("beforeend", elem);
 }
 
@@ -5684,7 +5741,7 @@ function splitSystemPreferences(str) {
     let temp = str;
     let index = 0;
 
-    while (count < 14) {
+    while (count < 15) {
         const tempIndex = temp.indexOf('@');
         index += tempIndex + 1;
         temp = temp.substring(tempIndex + 1);
@@ -6850,6 +6907,14 @@ async function mainEvent() {
     const addTabDisplayAddReminderDayOfWeekContainer = document.querySelector("#add_tab_display_add_reminder_day_of_week_container");
     const addTabDisplayAddReminderDayOfWeekDate = document.querySelector("#add_tab_display_add_reminder_day_of_week_date");
     const addTabDisplayAddReminderCreationDate = document.querySelector("#add_tab_display_add_reminder_creation_date_box");
+    const addTabDisplayAddReminderNotesAddButton = document.querySelector("#add_tab_reminder_notes_add_button");
+    const addTabDisplayAddReminderNotesRemoveButton = document.querySelector("#add_tab_reminder_notes_remove_button");
+    const addTabDisplayAddReminderNotesTextfield = document.querySelector("#add_tab_reminder_notes_textfield");
+    const addTabDisplayAddReminderNotesToAdd = document.querySelector("#add_tab_reminder_notes_to_add");
+    const addTabDisplayAddReminderNotesNextButton = document.querySelector("#add_tab_display_add_reminder_page_next_button");
+    const addTabDisplayAddReminderNotesPrevButton = document.querySelector("#add_tab_display_add_reminder_page_prev_button");
+
+
 
     /* To-Do's Tab */
     const toDoDisplayContainer = document.querySelector("#to_do_display_container");
@@ -6943,6 +7008,7 @@ async function mainEvent() {
     const settingsPreferencesTextfieldCommentsPermit = document.querySelector("#settings_preferences_textfield_comments_permit");
     const settingsPreferencesTextfieldCommentsComment = document.querySelector("#settings_preferences_textfield_comments_comment");
     const settingsPreferencesTextfieldNotesToDo = document.querySelector("#settings_preferences_textfield_notes_to_do");
+    const settingsPreferencesTextfieldNotesReminder = document.querySelector("#settings_preferences_textfield_line_per_page_reminder");
     const settingsPreferencesTextfieldLinesPerPageToDo = document.querySelector("#settings_preferences_textfield_line_per_page_to_do");
     const settingsPreferencesClear7010Button = document.querySelector("#settings_preferences_clear_7010_button");
     const settingsPreferencesClearCompleteToDosButton = document.querySelector("#settings_preferences_clear_complete_to_dos_button");
@@ -7086,6 +7152,7 @@ async function mainEvent() {
     let addTabPermitCommentsTextfieldInput = [];
     let addCommentTabTextfieldInput = [];
     let addTabDisplayToDoRowThreeTextfieldInput = [];
+    let addTabDisplayAddReminderTextfieldInput = [];
     let allWrList = [];
     let filteredList = [];
     let currentPageAllWr = 0;
@@ -7114,6 +7181,10 @@ async function mainEvent() {
     let tempCommentsCount = systemPreferences.tempCommentsCount;
     let tempAllCommentCount = systemPreferences.tempAllCommentCount;
     let tempNotesCount = systemPreferences.tempNotesCount;
+    let tempReminderNotesCount = systemPreferences.tempReminderNotesCount;
+
+    console.log("4rt"); 
+    console.log(systemPreferences.tempReminderNotesCount);
 
     let tempCurrentDate = []; // used by back button
     let tempExistingToDoIds = [];
@@ -7125,6 +7196,9 @@ async function mainEvent() {
     let tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
     let tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
     let tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
+    let tempReminderNotes = new PaginatedComments(tempReminderNotesCount, "addReminder");
+    console.log("3rt")
+    console.log(tempReminderNotesCount);
     let tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
 
     let tempRPC = "";
@@ -7803,12 +7877,11 @@ async function mainEvent() {
         settingsPreferencesTextfieldCommentsPermit.value = permitCommentCount;
         settingsPreferencesTextfieldCommentsComment.value = tempAllCommentCount;
         settingsPreferencesTextfieldNotesToDo.value = tempNotesCount;
+        settingsPreferencesTextfieldNotesReminder.value = tempReminderNotesCount;
         settingsPreferencesTextfieldLinesPerPageToDo.value = linesPerPageToDo;
         settingsPreferencesPromptDuration.value = promptDuration;
         settingsPreferencesPermitExpirationWarning.value = permitExpirationWarning;
         settingsPreferencesCrdRcdWarning.value = crdRcdWarning;
-        console.log("TESTQ")
-        console.log([crdRcdWarning]);
 
         /* Missing Info and Add To-Do Pop Ups */
         initializePopups();
@@ -18794,8 +18867,8 @@ async function mainEvent() {
         }
         
     }
-    function clearTempNotesSelections() {
-        console.log("Entered - clearTempNotesSelections");
+    function clearTempNotesSelectionsToDo() {
+        console.log("Entered - clearTempNotesSelectionsToDo");
 
         for (var i = 0; i < tempNotesCount; i++) {
             if (document.getElementById("add_tab_display_to_do_note_item_" + i) != undefined) {
@@ -18803,8 +18876,17 @@ async function mainEvent() {
             }
         }
     }
-    function removeSelectedNotes() {
-        console.log("Entered - removeSelectedNotes()");
+    function clearTempNotesSelectionsReminder() {
+        console.log("Entered - clearTempNotesSelectionsReminder()");
+
+        for (var i = 0; i < tempNotesCount; i++) {
+            if (document.getElementById("add_tab_display_add_reminder_note_item_" + i) != undefined) {
+                document.getElementById("add_tab_display_add_reminder_note_item_" + i).classList.remove("selectedComment");
+            }
+        }
+    }
+    function removeSelectedNotesToDo() {
+        console.log("Entered - removeSelectedNotesToDo()");
 
         for (var i = 0; i < tempNotesCount; i++) {
             const cur = document.getElementById("add_tab_display_to_do_note_item_" + i);
@@ -18827,15 +18909,40 @@ async function mainEvent() {
             }
         }
     }
+    function removeSelectedNotesReminder() {
+        console.log("Entered - removeSelectedNotesReminder()");
 
-        /* Notes to add */
+        for (var i = 0; i < tempReminderNotesCount; i++) {
+            const cur = document.getElementById("add_tab_display_add_reminder_note_item_" + i);
+            const curPageNum = document.getElementById("add_reminder_tab_current_page_box").innerHTML;
+
+            if (cur != null && cur.classList.contains("selectedComment")) {
+                document.getElementById("add_tab_display_add_reminder_note_item_" + i).remove();
+                const secondHalf = tempReminderNotes.list.slice(tempReminderNotes.list.length - 1 - i + 1);
+                const firstHalf = tempReminderNotes.list.slice(0, tempReminderNotes.list.length - 1 - i);
+                tempReminderNotes.list = firstHalf.concat(secondHalf);
+
+                let newPage = [];
+
+                for (var j = tempReminderNotes.list.length - 1 - ((curPageNum - 1) * tempReminderNotesCount); j > tempReminderNotes.list.length - 1 - ((curPageNum - 1) * tempReminderNotesCount) - tempReminderNotesCount; j--) {
+                    if (tempReminderNotes.list[j] != undefined) {
+                        newPage.push(tempReminderNotes.list[j]);
+                    }
+                }
+            
+                updateComments(newPage, "addReminder");
+            }
+        }
+    }
+
+        /* To-Do Notes to add */
     addTabDisplayToDoRowThreeNotesToAdd.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeNotesToAdd");
 
         console.log(event.target);
 
         if (event.target.id.includes("add_tab_display_to_do_note_item") && event.target.classList.contains("selectedComment") != true) {
-            clearTempNotesSelections();
+            clearTempNotesSelectionsToDo();
             event.target.classList.add("selectedComment");
         } else {
             event.target.classList.remove("selectedComment");
@@ -18871,8 +18978,9 @@ async function mainEvent() {
         console.log("Fired - Clicked addTabDisplayToDoRowThreeRemoveButton");
         //backButton.storePageStateAddTab("to_do", tempNotes);
 
-        removeSelectedNotes();
+        removeSelectedNotesToDo();
 
+        
         if (tempNotes.list.length == 0) {
             addTabDisplayToDoRowThreeRemoveButton.disabled = true;
         }
@@ -18904,7 +19012,7 @@ async function mainEvent() {
         } else {
             addTabCommentsAddButton.disabled = true;
         }
-})
+    })
     addTabDisplayToDoRowZeroNumfield.addEventListener("click", (event) => {
         console.log("Fired - Clicked addTabDisplayToDoRowZeroNumfield");
 
@@ -19185,7 +19293,139 @@ async function mainEvent() {
         const tempStr = year + "-" + month + "-" + day;
         setFromToDates("add_reminder", tempStr);
     })
-    
+    addTabDisplayAddReminderNotesToAdd.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesToAdd");
+
+        console.log(event.target);
+
+        if (event.target.id.includes("add_tab_display_add_reminder_note_item") && event.target.classList.contains("selectedComment") != true) {
+            clearTempNotesSelectionsReminder();
+            event.target.classList.add("selectedComment");
+        } else {
+            event.target.classList.remove("selectedComment");
+        }
+    })
+    addTabDisplayAddReminderNotesAddButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesAddButton");
+
+        const e = new Error(promptDuration);
+
+        if (addTabDisplayAddReminderNotesTextfield.value != null && addTabDisplayAddReminderNotesTextfield.value.length > 0) {
+            const d = new Date();
+            let month = d.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let day = d.getDate();
+            if (day < 10) {
+                day = "0" + day;
+            }
+
+            const note = new NoteItem(addTabDisplayAddReminderTextfieldInput);
+            addTabDisplayAddReminderNotesRemoveButton.disabled = false;
+            tempReminderNotes.addReminderNote(note, 0);
+
+            document.getElementById("add_tab_reminder_notes_to_add").classList.remove("hidden");
+
+            addTabDisplayAddReminderNotesTextfield.value = "Enter Note Here";
+        } else {
+            e.displayReminderNoNoteEntered();
+        }
+    })
+    addTabDisplayAddReminderNotesRemoveButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesRemoveButton");
+        //backButton.storePageStateAddTab("to_do", tempNotes);
+
+        console.log("tempReminderNotes before =");
+        console.log(tempReminderNotes);
+        removeSelectedNotesReminder();
+        console.log("tempREminderNtoes aftere = ");
+        console.log(tempReminderNotes);
+
+        if (tempReminderNotes.list.length == 0) {
+            addTabDisplayAddReminderNotesRemoveButton.disabled = true;
+            addTabDisplayAddReminderNotesToAdd.classList.add("hidden");
+        }
+        if (tempReminderNotes.list.length < tempReminderNotesCount + 1) {
+            document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").classList.add("hidden");
+            //document.getElementById("add_tab_display_add_reminder_note_buttons_container").style.marginLeft = '700px'
+
+        }
+        if (addTabDisplayAddReminderNotesToAdd.innerHTML != undefined && addTabDisplayAddReminderNotesToAdd.innerHTML == "" && 
+            document.getElementById("add_tab_display_add_reminder_current_page_box") != undefined &&
+            document.getElementById("add_tab_display_add_reminder_current_page_box").innerHTML.trim() != "1") {
+
+            addTabDisplayAddReminderNotesPrevButton.click();
+            backButton.removeLast();
+        }
+    })
+    addTabDisplayAddReminderNotesTextfield.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesTextfield");
+
+        if (addTabDisplayAddReminderNotesTextfield.value != null && addTabDisplayAddReminderNotesTextfield.value.length > 0) {
+            addTabDisplayAddReminderNotesTextfield.select();
+        }
+    })
+    addTabDisplayAddReminderNotesTextfield.addEventListener("input", (event) => {
+        console.log("Input - addTabDisplayAddReminderNotesTextfield - " + event.target.value);
+
+        addTabDisplayAddReminderTextfieldInput = event.target.value;
+        
+        if (event.target.value != "Enter Note Here" && event.target.value.length > 0) {
+            addTabDisplayAddReminderNotesAddButton.disabled = false;
+        } else {
+            addTabDisplayAddReminderNotesAddButton.disabled = true;
+        }
+    })
+    addTabDisplayAddReminderNotesNextButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesNextButton");
+
+        const index = document.getElementById("add_reminder_tab_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempReminderNotes.list.length - 1 - (tempReminderNotesCount * (index + 1)); i >= 0; i--) {
+            if (count < tempReminderNotesCount) {
+                temp.push(tempReminderNotes.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addReminder");
+        document.getElementById("add_reminder_tab_current_page_box").innerHTML = index + 2;
+        addTabDisplayAddReminderNotesPrevButton.disabled = false;
+
+        if (((index + 2) * tempReminderNotesCount) >= tempReminderNotes.list.length) {
+            addTabDisplayAddReminderNotesNextButton.disabled = true;
+        }
+
+        addTabDisplayAddReminderNotesRemoveButton.disabled = true; // bug when trying to remove from past page 1
+    })
+    addTabDisplayAddReminderNotesPrevButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderNotesPrevButton");
+
+        const index = document.getElementById("add_reminder_tab_current_page_box").innerHTML - 1;
+        let temp = [];
+        let count = 0;
+
+        for (var i = tempReminderNotes.list.length - 1 - (tempReminderNotesCount * (index - 1)); i >=0; i--) {
+            if (count < tempReminderNotesCount) {
+                temp.push(tempReminderNotes.list[i]);
+                count++;
+            }
+        }
+        updateComments(temp, "addReminder");
+        document.getElementById("add_reminder_tab_current_page_box").innerHTML = index;
+        addTabDisplayAddReminderNotesNextButton.disabled = false;
+
+        if ((index - 1) == 0) {
+            addTabDisplayAddReminderNotesPrevButton.disabled = true;
+        }
+        if (document.getElementById("add_reminder_tab_current_page_box").innerHTML == "1") {
+            addTabDisplayAddReminderNotesRemoveButton.disabled = false;
+        }
+
+    })
+
         /* Add Tab Permit */
     function removeSelectedPermitComments () {
         console.log("Entered - removeSelectedPermitComments()");
@@ -21379,6 +21619,7 @@ async function mainEvent() {
             settingsPreferencesTextfieldCommentsPermit.value == systemPreferences.permitCommentCount &&
             settingsPreferencesTextfieldCommentsComment.value == systemPreferences.tempAllCommentCount &&
             settingsPreferencesTextfieldNotesToDo.value == systemPreferences.tempNotesCount &&
+            settingsPreferencesTextfieldNotesReminder.value == systemPreferences.tempReminderNotesCount &&
             settingsPreferencesTextfieldLinesPerPageToDo.value == systemPreferences.linesPerPageToDo &&
             settingsPreferencesPromptDuration.value == systemPreferences.promptDuration &&
             settingsPreferencesPermitExpirationWarning.value == systemPreferences.permitExpirationWarning &&
@@ -21647,6 +21888,28 @@ async function mainEvent() {
             event.target.select();
         }
     })
+    settingsPreferencesTextfieldNotesReminder.addEventListener("change", (event) => {
+        console.log("Fired - Changed settingsPreferencesTextfieldNotesReminder");
+
+        if (event.target.value != null && event.target.value == 0) {
+            event.target.value = 1; // prevents user from "hiding" list
+        }
+        // Hides save button if user changes back to original setting
+        if (!systemPreferencesChanged()) {
+            settingsPreferencesSaveButton.classList.add("hidden");
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+        } else {
+            document.getElementById("settings_display_row_one_preferences").style.marginTop = '45px';
+            settingsPreferencesSaveButton.classList.remove("hidden");
+        }
+    })    
+    settingsPreferencesTextfieldNotesReminder.addEventListener("click", (event) => {
+        console.log("Fired - Clicked settingsPreferencesTextfieldNotesReminder");
+
+        if (event.target.value != null && event.target.value.length > 0) {
+            event.target.select();
+        }
+    })
     settingsPreferencesTextfieldLinesPerPageToDo.addEventListener("change", (event) => {
         console.log("Fired - Clicked settingsPreferencesTextfieldLinesPerPageToDo");
 
@@ -21748,10 +22011,11 @@ async function mainEvent() {
 
         str += settingsPreferencesTextfieldRowsPerPage.value + "@" + settingsPreferencesTextfieldCommentsWr.value + "@" + 
                settingsPreferencesTextfieldCommentsPermit.value + "@" + settingsPreferencesTextfieldCommentsComment.value + "@" +
-               settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + 
-               settingsPreferencesPromptDuration.value + "@" + settingsPreferencesPermitExpirationWarning.value + "@" + 
-               settingsPreferencesCrdRcdWarning.value + "@" + systemPreferences.popUpsToDo + "@" + systemPreferences.popUpsComment + "@" +
-               systemPreferences.popUpsCrdRcd + "@" + systemPreferences.popUpsExistingToDo + "@" + systemPreferences.popUpsNewWrToDo + "@";
+               settingsPreferencesTextfieldNotesToDo.value + "@" + settingsPreferencesTextfieldNotesReminder + "@" + 
+               settingsPreferencesTextfieldLinesPerPageToDo.value + "@" + settingsPreferencesPromptDuration.value + "@" + 
+               settingsPreferencesPermitExpirationWarning.value + "@" + settingsPreferencesCrdRcdWarning.value + "@" + 
+               systemPreferences.popUpsToDo + "@" + systemPreferences.popUpsComment + "@" + systemPreferences.popUpsCrdRcd + "@" + 
+               systemPreferences.popUpsExistingToDo + "@" + systemPreferences.popUpsNewWrToDo + "@";
 
         /* Setting New System Preference Values */
         systemPreferences.load(str);
@@ -21775,6 +22039,7 @@ async function mainEvent() {
         tempCommentsCount = systemPreferences.tempCommentsCount;
         tempAllCommentCount = systemPreferences.tempAllCommentCount;
         tempNotesCount = systemPreferences.tempNotesCount;
+        tempReminderNotesCount = systemPreferences.tempReminderNotesCount;
         promptDuration = systemPreferences.promptDuration;
         permitExpirationWarning = systemPreferences.permitExpirationWarning;
         crdRcdWarning = systemPreferences.crdRcdWarning;
@@ -21785,6 +22050,7 @@ async function mainEvent() {
         tempPermitComments = new PaginatedComments(permitCommentCount, "addPermit");
         tempAllComments = new PaginatedComments(tempAllCommentCount, "addComment");
         tempNotes = new PaginatedComments(tempNotesCount, "addToDo");
+        tempReminderNotes = new PaginatedComments(tempReminderNotesCount, "addReminder");
         tempToDoMasterList = new ToDoMasterList(linesPerPageToDo);
 
         /* Setting All Display Pages To 0 */
@@ -21824,9 +22090,11 @@ async function mainEvent() {
 
         let str = "";
 
-        str += systemPreferences.rowsOnPage + "@" + systemPreferences.tempCommentsCount + "@" + systemPreferences.permitCommentCount + "@" +
-                systemPreferences.tempAllCommentCount + "@" + systemPreferences.tempNotesCount + "@" + systemPreferences.linesPerPageToDo + "@" +
-                systemPreferences.promptDuration + "@" + systemPreferences.permitExpirationWarning + "@" + systemPreferences.crdRcdWarning + "@";
+        str += systemPreferences.rowsOnPage + "@" + systemPreferences.tempCommentsCount + "@" + 
+                systemPreferences.permitCommentCount + "@" + systemPreferences.tempAllCommentCount + "@" + 
+                systemPreferences.tempNotesCount + "@" + systemPreferences.tempReminderNotesCount + "@" + 
+                systemPreferences.linesPerPageToDo + "@" + systemPreferences.promptDuration + "@" + 
+                systemPreferences.permitExpirationWarning + "@" + systemPreferences.crdRcdWarning + "@";
 
         if (settingsDisplayTabPopUpsToDoCheckboxOn.checked == true) {
             str += "1" + "@";

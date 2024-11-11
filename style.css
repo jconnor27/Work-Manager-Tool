@@ -2399,6 +2399,8 @@ h5 {
 .addTabPermitBottomRowThree, .addTabReminderBottomRowThree {
     display: flex;
     width: 600px;
+    height: 170px;
+    padding-bottom: 15px;
     padding-left: 2rem;
 }
 
@@ -3122,7 +3124,7 @@ h5 {
 }
 
 .settingsDisplayRowTwoPreferences, .settingsDisplayRowThreePreferences, .settingsDisplayRowFourPreferences, .settingsDisplayRowFivePreferences, 
-.settingsDisplayRowSevenPreferences, .settingsDisplayRowEightPreferences, .settingsDisplayRowNinePreferences {
+.settingsDisplayRowSevenPreferences, .settingsDisplayRowEightPreferences, .settingsDisplayRowNinePreferences, .settingsDisplayRowTenPreferences {
     display: flex;
     flex-direction: row;
     margin-left: 50px;

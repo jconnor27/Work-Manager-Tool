@@ -1517,20 +1517,20 @@
                                     <div class="currentPageBox" id="add_reminder_tab_current_page_box">
                                         1
                                     </div>
-                                    <button type="button" class="pageNextButton" id="add_tab_reminder_page_next_button" disabled>Next</button>                      
+                                    <button type="button" class="pageNextButton" id="add_tab_display_add_reminder_page_next_button" disabled>Next</button>                      
                                 </div>
-                                <div class="addRemoveButtonContainer">
-                                    <button type="button" class="removeCommentButton" id="add_tab_reminder_comments_remove_button" disabled>-</button>
-                                    <button type="button" class="addCommentButton" id="add_tab_reminder_comments_add_button" disabled>+</button>
+                                <div class="addRemoveButtonContainer" id="add_tab_display_add_reminder_note_buttons_container">
+                                    <button type="button" class="removeCommentButton" id="add_tab_reminder_notes_remove_button" disabled>-</button>
+                                    <button type="button" class="addCommentButton" id="add_tab_reminder_notes_add_button" disabled>+</button>
                                 </div>
                             </div>
                             <div class="addTabReminderBottomRowTwo" id="add_tab_reminder_bottom_row_two">
-                                <input type="text" class="addTabCommentsTextfield" id="add_tab_reminder_comments_textfield" name="add_tab_reminder_comments_textfield" value="Enter Note Here"/>
+                                <input type="text" class="addTabCommentsTextfield" id="add_tab_reminder_notes_textfield" name="add_tab_reminder_comments_textfield" value="Enter Note Here"/>
                             </div>
                             <div class="addTabReminderBottomRowThree" is="add_tab_reminder_bottom_row_three">
                                 
                                 <!-- Empty List -->
-                                <div class="addTabReminderCommentsToAddList hidden" id="add_tab_reminder_comments_to_add"></div>
+                                <div class="addTabReminderCommentsToAddList hidden" id="add_tab_reminder_notes_to_add"></div>
                             </div>
                         </div>
                         
@@ -1979,6 +1979,7 @@
 
                         <div class="settingsPreferencesRowContainer">
 
+                            <!-- Left Side -->
                             <div class="settingsPreferencesRowContainerLeft">
 
                                 <!-- Row One -->
@@ -2012,6 +2013,7 @@
                                  </div>
                             </div>
 
+                            <!-- Right Side -->
                             <div class="settingsPreferencesRowContainerRight">
 
                                 <!-- Row Six -->
@@ -2022,18 +2024,24 @@
 
                                 <!-- Row Seven -->
                                 <div class="settingsDisplayRowSevenPreferences">
-                                    <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
-                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
+                                    <div class="settingsPreferencesText"># of Notes - Add/Update Reminder:</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_reminder">
                                 </div>
 
                                 <!-- Row Eight -->
                                 <div class="settingsDisplayRowEightPreferences">
-                                    <div class="settingsPreferencesText">Durration of Prompts (In Seconds)</div>
-                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_prompt_duration">
+                                    <div class="settingsPreferencesText"># of Lines Per Page (To-Do)</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_line_per_page_to_do">
                                 </div>
 
                                 <!-- Row Nine -->
                                 <div class="settingsDisplayRowNinePreferences">
+                                    <div class="settingsPreferencesText">Durration of Prompts (In Seconds)</div>
+                                    <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_prompt_duration">
+                                </div>
+
+                                <!-- Row Ten -->
+                                <div class="settingsDisplayRowTenPreferences">
                                     <div class="settingsPreferencesText">Alert When Permit Expires In</div>
                                     <input type="number" class="settingsPreferencesNumfield" id="settings_preferences_textfield_permit_expiration_warning">
                                     <div class="settingsPreferencesText" style="margin-left: 10px">Days</div>
