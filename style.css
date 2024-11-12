@@ -3577,12 +3577,34 @@ h5 {
    
 }
 
-.addTabDisplayToDoRowZero, .addTabDisplayAddReminderRowZero {
+.addTabDisplayToDoRowZero {
     display: flex;
     flex-direction: row;
     width: 1115px;
     justify-content: center;
     align-items: center;
+}
+
+.addTabDisplayAddReminderRowZero {
+    display: flex;
+    flex-direction: column;
+}
+
+.addTabDisplayAddReminderRowZeroContainer {
+    display: flex;
+    flex-direction: row;
+    width: 1115px;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.addTabDisplayAddReminderTimesPushedBox {
+    display: flex;
+    height: 25px;
+    width: 25px;
+    border: 2px solid black;
+    margin-left: 10px;
 }
 
 .addTabDisplayToDoRowZeroNumfieldLabel, .addTabDisplayAddReminderRowZeroNumfieldLabel {
@@ -3636,7 +3658,7 @@ h5 {
     display: flex;
     min-width: 1050px;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 .addTabDisplayAddReminderBottom {
@@ -3645,7 +3667,7 @@ h5 {
     min-width: 1050px;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .addTabDisplayAddReminderBottomBox {

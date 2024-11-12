@@ -8764,6 +8764,7 @@ async function mainEvent() {
         document.getElementById("add_reminder_tab_current_page_box").innerHTML = "1";
         document.getElementById("add_tab_display_add_reminder_row_zero_numfield_label").innerHTML = "New \"Reminder\" ID#: ";
         document.getElementById("add_tab_display_work_request_number_label").innerHTML = "New \"Reminder\" Work Request Number: ";
+        document.getElementById("add_tab_display_add_reminder_times_pushed_box").value = "";
         document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").classList.add("hidden");
         document.getElementById("add_tab_reminder_notes_to_add").classList.add("hidden");
 
