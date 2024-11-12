@@ -14,7 +14,7 @@ class WorkRequestSaveData {
     }
 }
 
-class ReminderTypeDDMenu {
+class ReminderLocationDDMenu {
     constructor(location) {
         this.curOption = "Not Set";
         this.location = location;
@@ -23,24 +23,24 @@ class ReminderTypeDDMenu {
     }
 
     setHeight(height) {
-        console.log("Entered - ReminderTypeDDMenu - setHeight(" + height + ")");
+        console.log("Entered - ReminderLocationDDMenu - setHeight(" + height + ")");
 
         this.height = height;
     }
 
     setWidth(width) {
-        console.log("Entered - ReminderTypeDDMenu - setWidth(" + width + ")");
+        console.log("Entered - ReminderLocationDDMenu - setWidth(" + width + ")");
 
         this.width = width;
     }
 
     makeRowElement() {
-        console.log("Entered - ReminderTypeDDMenu - makeRowElement");
+        console.log("Entered - ReminderLocationDDMenu - makeRowElement");
 
-        let rowElement = document.createElement("ReminderTypeDDMenu");
+        let rowElement = document.createElement("ReminderLocationDDMenu");
         rowElement.classList.add("reminderTypeRowElement");
 
-        let str = document.createElement("reminderTypeDDMenuContentBox");
+        let str = document.createElement("ReminderLocationDDMenu");
 
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"Internal"}</div>`);
         str.insertAdjacentHTML("beforeend", `<div class="ddMenuSpecificContentItem">${"External"}</div>`);
@@ -52,8 +52,8 @@ class ReminderTypeDDMenu {
         str.style.zIndex = 1;
         str.id = "reminder_type_dd_" + this.location + "_content";
 
-        rowElement.innerHTML = `<div class="reminderTypeDDMenuBox" id="reminder_type_dd_menu_${this.location}_current">${this.curOption}</div>` + 
-        `<button type="button" class="reminderTypeDDMenuButton" id="reminder_type_dd_menu_${this.location}_current_button">\\/</button>` + str.outerHTML;
+        rowElement.innerHTML = `<div class="reminderLocationDDMenuBox" id="reminder_type_dd_menu_${this.location}_current">${this.curOption}</div>` + 
+        `<button type="button" class="reminderLocationDDMenuButton" id="reminder_type_dd_menu_${this.location}_current_button">\\/</button>` + str.outerHTML;
 
         if (this.width != undefined) {
             rowElement.style.width = this.width;
@@ -1865,7 +1865,7 @@ class SystemPreferences {
             this.tempCommentsCount = 6;
             this.tempAllCommentCount = 14;
             this.tempNotesCount = 3;
-            this.tempReminderNotesCount = 6; 
+            this.tempReminderNotesCount = 5; 
             this.linesPerPageToDo = 19;
             this.promptDuration = 3;
             this.permitExpirationWarning = 35;
@@ -6903,6 +6903,7 @@ async function mainEvent() {
     const addTabDisplayToDoRemoveButton = document.querySelector("#add_tab_display_to_do_remove_button");
 
         /* Add Reminder */
+    const addTabDisplayAddReminderLocationDDContainer = document.querySelector("#add_tab_display_add_reminder_location_dd_container");
     const addTabDisplayAddReminderTypeDDContainer = document.querySelector("#add_tab_display_add_reminder_type_dd_container");
     const addTabDisplayAddReminderDayOfWeekContainer = document.querySelector("#add_tab_display_add_reminder_day_of_week_container");
     const addTabDisplayAddReminderDayOfWeekDate = document.querySelector("#add_tab_display_add_reminder_day_of_week_date");
@@ -6913,7 +6914,8 @@ async function mainEvent() {
     const addTabDisplayAddReminderNotesToAdd = document.querySelector("#add_tab_reminder_notes_to_add");
     const addTabDisplayAddReminderNotesNextButton = document.querySelector("#add_tab_display_add_reminder_page_next_button");
     const addTabDisplayAddReminderNotesPrevButton = document.querySelector("#add_tab_display_add_reminder_page_prev_button");
-
+    const addTabDisplayAddReminderOccurencesCheckboxOneTime = document.querySelector("#add_tab_display_add_reminder_occurences_checkbox_one_time");
+    const addTabDisplayAddReminderOccurencesCheckboxOnceEvery = document.querySelector("#add_tab_display_add_reminder_occurences_checkbox_once_every");
 
 
     /* To-Do's Tab */
@@ -7587,10 +7589,20 @@ async function mainEvent() {
         addTabDisplayDayOfWeekContainer.innerHTML = "";    // was insertAdjacentHTML but I think it was a type
         addTabDisplayDayOfWeekContainer.insertAdjacentElement("beforeend", pageObjectRow);
 
-            /* Add Tab Reminder - Reminder Type DD Menu */
-        dd = new ReminderTypeDDMenu("0");
+            /* Add Tab Reminder - Reminder Location DD Menu */
+        dd = new ReminderLocationDDMenu("0");
         dd.setHeight("50px");
         dd.setWidth("115px");
+        ddRow = dd.makeRowElement();
+
+        addTabDisplayAddReminderLocationDDContainer.innerHTML = "";
+        addTabDisplayAddReminderLocationDDContainer.insertAdjacentElement("beforeend", ddRow);
+
+            /* Add Tab Reminder - Reminder Type DDMenu */
+        dd = new ToDoTypeDDMenu("addReminder");
+        dd.setHeight("50px");
+        dd.setWidth("200px");
+
         ddRow = dd.makeRowElement();
 
         addTabDisplayAddReminderTypeDDContainer.innerHTML = "";
@@ -8736,8 +8748,28 @@ async function mainEvent() {
         setDay("add_reminder", d.getDay());
 
         addTabDisplayAddReminderCreationDate.value = (year + "-" + month + "-" + day);
+        document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = true;
+        document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = false;
+        document.getElementById("to_do_type_dd_addReminder_current").innerHTML = "General";
+        document.getElementById("reminder_type_dd_menu_0_current").innerHTML = "External";
+        addTabNewWorkRequestNumber.value = "";
+        addTabNewWorkRequestNumber.style.color = 'black';
+
+        /* Clearing Notes */
+        document.getElementById("add_tab_display_add_reminder_comments_add_button_label").innerHTML = "Notes To Add: (REQUIRED)";
+        addTabDisplayAddReminderNotesTextfield.value = "Enter Note Here"
+        addTabDisplayAddReminderNotesToAdd.innerHTML = ""
+
+        /* Resetting Notes Page Num */
+        document.getElementById("add_reminder_tab_current_page_box").innerHTML = "1";
+        document.getElementById("add_tab_display_add_reminder_row_zero_numfield_label").innerHTML = "New \"Reminder\" ID#: ";
+        document.getElementById("add_tab_display_work_request_number_label").innerHTML = "New \"Reminder\" Work Request Number: ";
+        document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").classList.add("hidden");
+        document.getElementById("add_tab_reminder_notes_to_add").classList.add("hidden");
+
 
         /* Will need to add more */
+        // will need to set new reminder ID to something once I make class
     }
     function resetToDoMoveToDisplay() {
         console.log("Entered - resetToDoMoveToDisplay()");
@@ -10122,6 +10154,7 @@ async function mainEvent() {
             if (filterCheckboxAddReminder.checked) {
                 /* Add/Update Reminder */
                 document.getElementById("reminder_type_dd_0_content").style.display = 'none';
+                document.getElementById("to_do_type_dd_addReminder_content").style.display = 'none';
             }
             
         }
@@ -17432,6 +17465,8 @@ async function mainEvent() {
         } else if (filterCheckboxAddToDo.checked == true) {
             //backButton.storePageStateAddTab("to_do", tempNotes);
             resetDisplayToDoAddUpdate();
+        } else if (filterCheckboxAddReminder.checked == true) {
+            resetDisplayReminderAddUpdate();
         }
     })
     addTabClearButton.addEventListener('keydown', (event) => {
@@ -17982,8 +18017,8 @@ async function mainEvent() {
     })
 
     /* Add Reminder Tab */
-    addTabDisplayAddReminderTypeDDContainer.addEventListener("click", (event) => {
-        console.log("Fired - Clicked addTabDisplayAddReminderTypeDDContainer");
+    addTabDisplayAddReminderLocationDDContainer.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderLocationDDContainer");
 
         const tempContent = document.getElementById("reminder_type_dd_0_content");
 
@@ -18010,6 +18045,51 @@ async function mainEvent() {
                 const tempCurrent = document.getElementById("reminder_type_dd_menu_0_current");
 
                 tempCurrent.innerHTML = event.target.innerHTML;
+
+                /* Hiding DDMenu Content */
+                tempContent.style.display = 'none';
+                dropdownCover.classList.add("hidden");
+            }
+        }
+    })
+    addTabDisplayAddReminderTypeDDContainer.addEventListener("click", (event) => { 
+        console.log("Fired - Clicked addTabDisplayAddReminderTypeDDContainer");
+
+        const tempContent = document.getElementById("to_do_type_dd_addReminder_content");
+
+        if (tempContent.style.display == 'none') {
+            tempContent.style.display = 'flex';
+            tempContent.style.flexDirection = 'column';
+            tempContent.style.border = '1px solid black';
+
+            tempContent.style.marginTop = '240px';
+            //tempContent.style.width = '230px';
+            tempContent.classList.add("addToDoTypeDDMenuContentBox");
+            tempContent.style.height = '200px';
+            tempContent.style.paddingLeft = '20px';
+            tempContent.style.zIndex = 2;
+
+            dropdownCover.classList.remove("hidden");
+        } else if (tempContent.style.display == 'flex' && event.target.innerHTML == "\\/") {
+            tempContent.style.display = 'none';
+        } else {
+            if (event.target.innerHTML != "\\/" && tempContent.innerHTML.includes(event.target.innerHTML)) {
+                const tempCurrent = document.getElementById("to_do_type_dd_addReminder_current");
+
+                tempCurrent.innerHTML = event.target.innerHTML;
+
+                if (tempCurrent.innerHTML != "General") {
+                    //document.getElementById("new_work_request_number_textfield").insertAdjacentHTML("afterend", `<div class="reminderRequiredLabel">REQUIRED</div>`);
+                    document.getElementById("new_work_request_number_textfield").value = "REQUIRED";    
+                    document.getElementById("new_work_request_number_textfield").style.color = 'red'; 
+                    
+                    document.getElementById("add_tab_display_add_reminder_comments_add_button_label").innerHTML = "Notes To Add:";
+                } else {
+                    document.getElementById("new_work_request_number_textfield").value = "";    
+                    document.getElementById("new_work_request_number_textfield").style.color = 'black'; 
+                    
+                    document.getElementById("add_tab_display_add_reminder_comments_add_button_label").innerHTML = "Notes To Add: (REQUIRED)";
+                }
 
                 /* Hiding DDMenu Content */
                 tempContent.style.display = 'none';
@@ -18054,6 +18134,8 @@ async function mainEvent() {
     })
     addTabNewWorkRequestNumber.addEventListener("change", (event) => {
         console.log("Entered - addTabNewWorkRequestNumberEventListener - listening to add get/add button");
+
+        addTabNewWorkRequestNumber.style.color = 'black';
 
         if (filterCheckboxAddToDo.checked == false) { // For all tabs except addToDo
             if (event.target.value.length == 8 && getWr(event.target.value, allWrList)[0] != false) { // The entered Wr exists
@@ -19424,6 +19506,28 @@ async function mainEvent() {
             addTabDisplayAddReminderNotesRemoveButton.disabled = false;
         }
 
+    })
+    addTabDisplayAddReminderOccurencesCheckboxOnceEvery.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderOccurencesCheckboxOnceEvery");
+
+        if (document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked == true) {
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = false;
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = true;
+        } else {
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = true;
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = false;
+        }
+    })
+    addTabDisplayAddReminderOccurencesCheckboxOneTime.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderOccurencesCheckboxOneTime");
+
+        if (document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked == true) {
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = true;
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = false;
+        } else {
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = false;
+            document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = true;
+        }
     })
 
         /* Add Tab Permit */

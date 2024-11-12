@@ -1485,7 +1485,7 @@ h5 {
     font-size: small;
 }
 
-.commentTypeDDMenuBox, .reminderTypeDDMenuBox {
+.commentTypeDDMenuBox, .reminderLocationDDMenuBox {
     display: flex;
     border: 2px solid black;
     padding: 10px;
@@ -1617,7 +1617,7 @@ h5 {
     font-size: large;
 }
 
-.commentTypeDDMenuButton, .reminderTypeDDMenuButton {
+.commentTypeDDMenuButton, .reminderLocationDDMenuButton {
     width: 30px;
     height: 34px;
     font-size: large;
@@ -2396,12 +2396,59 @@ h5 {
     margin-bottom: 10px;
 }
 
-.addTabPermitBottomRowThree, .addTabReminderBottomRowThree {
+.addTabPermitBottomRowThree {
     display: flex;
     width: 600px;
     height: 170px;
     padding-bottom: 15px;
     padding-left: 2rem;
+}
+
+.addTabReminderBottomRowThree {
+    display: flex;
+    width: 600px;
+    height: 140px;
+    padding-bottom: 10px;
+    padding-left: 2rem;
+}
+
+.addTabDisplayAddReminderOccurencesBox {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid black;
+    align-items: baseline;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.addTabDisplayAddReminderOccurencesLabel {
+    font-size: medium;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-right: 10px;
+}
+
+.addTabDisplayAddReminderOccurencesOptionContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+    border: 2px solid black;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.addTabDisplayAddReminderOccurencesOptionLabel {
+    font-size: medium;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.addTabDisplayAddReminderOccurencesCheckbox {
+    width: 20px;
+    height: 20px;
 }
 
 .addTabPermitCommentsAddButton {
@@ -3570,9 +3617,18 @@ h5 {
 .addTabDisplayAddReminderRowTwo {
     display: flex;
     flex-direction: row;
+    width: 1050;
+    margin-top: 20px;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+
+.addTabDisplayAddReminderRowThree {
+    display: flex;
+    flex-direction: row;
     width: 1050px;
     justify-content: space-evenly;
-    margin-top: 40px;
+    margin-top: 10px;
     align-items: baseline;
 }
 
@@ -3605,6 +3661,21 @@ h5 {
     display: flex;
     flex-direction: row;
     align-items: baseline;
+}
+
+.addTabDisplayAddRowThreeRowElementContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.reminderRequiredLabel {
+    display: flex;
+    font-size: large;
+    margin-right: -82px;
+    margin-top: 4px;
+    color: red;
+    font-weight: bold;
 }
 
 .addTabDisplayAddReminderMiddleLeft {
@@ -4514,7 +4585,7 @@ h5 {
         width: 1050px;
     }
 
-    .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton, .toDoTabDDMenuButton, .toDoTypeDDMenuButton, .commentTypeDDMenuButton, .reminderTypeDDMenuButton {
+    .wrTypeDDMenuButton, .generalStatusDDMenuButton, .permitStatusDDMenuButton, .easementStatusDDMenuButton, .toDoTabDDMenuButton, .toDoTypeDDMenuButton, .commentTypeDDMenuButton, .reminderLocationDDMenuButton {
         display: flex;
         font-size: small;
         align-items: center;
@@ -4623,7 +4694,7 @@ h5 {
         width: 130px;
     }
 
-    .commentTypeDDMenuBox, .reminderTypeDDMenuBox {
+    .commentTypeDDMenuBox, .reminderLocationDDMenuBox {
         width: 80px;
         font-size: small;
     }
