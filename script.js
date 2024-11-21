@@ -14,6 +14,256 @@ class WorkRequestSaveData {
     }
 }
 
+class ReminderMasterList {
+    constructor() {
+        this.internalList = [];
+        this.externalList = [];
+    }
+
+    add(reminder) {
+        console.log("Entered - ReminderMasterList - add(reminder)");
+
+        if (reminder.location == "Internal") {
+            this.internalList.push(reminder);
+        } else {
+            this.externalList.push(reminder);
+        }
+    }
+
+    removeById(reminderID) {
+        console.log("Entered - ReminderMasterList - removeByID(reminderID = " + reminderID + ")");
+        
+        let tempInternalList = [];
+        for (var i = 0; i < this.internalList.length; i++) {
+            if (this.internalList[i].reminderID != reminderID) {
+                tempInternalList.push(this.internalList[i]);
+            }
+        }
+        this.internalList = tempInternalList;
+
+        let tempExternalList = [];
+        for (var i = 0; i < this.externalList.length; i++) {
+            if (this.externalList[i].reminderID != reminderID) {
+                tempExternalList.push(this.externalList[i]);
+            }
+        }
+        this.externalList = tempExternalList;
+    }
+
+    getReminderByID(reminderID) {
+        console.log("Entered - ReminderMasterList - getReminderByID(reminderID = " + reminderID + ")");
+        
+        for (var i = 0; i < this.internalList.length; i++) {
+            if (this.internalList[i].reminderID == reminderID) {
+                return this.internalList[i];
+            }
+        }
+        for (var i = 0; i < this.externalList.length; i++) {
+            if (this.externalList[i].reminderID == reminderID) {
+                return this.externalList[i];
+            }
+        }
+
+        /* No reminder found with provided ID */
+        return 0;
+    }
+
+    getCount() {
+        console.log("Entered - ReminderMasterList - getCount()");
+
+        return this.internalList.length + this.externalList.length;
+    }
+
+    load(str) {
+        console.log("Entered - ReminderMasterList - load(str)");
+
+        while (str.length > 1) {
+            let index = str.indexOf("@ER@");
+
+            let curStr = str.substring(0, index); // cuts to str representing one ReminderObject
+
+            this.parseReminderObject(curStr);
+
+            str = str.substring(index + 4);
+        }
+    }
+
+    parseReminderObject(str) {
+        console.log("Entered - parseReminderObject(str = " + str + ")");
+
+        let data = [];
+
+        let tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+        
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("^EN^");
+        let tempNotesStr = str.substring(0, tempIndex);
+        let tempNotes = this.parseReminderObjectNotes(tempNotesStr);
+        data.push(tempNotes);
+        str = str.substring(tempIndex + 4);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        tempIndex = str.indexOf("*");
+        data.push(str.substring(0, tempIndex));
+        str = str.substring(tempIndex + 1);
+
+        /* Should be the last piece - no '*' to find */
+        data.push(str);
+
+        /* Checking/converting stored values to code-usable values */
+        if (data[6] == "No Time To Remind") {
+            data[6] = undefined;
+        }
+        if (data[9] == "No Wr#") {
+            data[9] = undefined;
+        }
+
+        /* Adding parsed ReminderObject to masterList */
+        const reminder = new ReminderObject(data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10])
+    }
+
+    parseReminderObjectNotes(str) {
+        console.log("Entered - ReminderMasterList - parseReminderObjectNotes(str = " + str + ")");
+
+        let notes = [];
+
+        while (str.length > 1) {
+            let noteIndex = str.indexOf("*");
+
+            let curNote = str.substring(0, noteIndex); // trim to just one note
+            notes.push(curNote);
+            str = str.substring(noteIndex + 1);
+        }
+
+        return notes;
+    }
+
+    toString() {
+        console.log("Entered - ReminderMasterList - toString()");
+
+        str = "";
+
+        for (var i = 0; i < this.internalList.length; i++) {
+            str += this.internalList[i];
+        }
+
+        for (var i = 0; i < this.externalList.length; i++) {
+            str += this.externalList[i];
+        }
+
+        return str;
+    }
+}
+
+class ReminderObject {
+    constructor(reminderID, dateToRemind, occurence, location, creationDate, type, timeToRemind, notes, timesPushed, workRequestNumber, popUp) {
+        this.reminderID = reminderID;
+        this.dateToRemind = dateToRemind;
+        this.occurence = occurence;
+        this.location = location;
+        this.creationDate = creationDate;
+        this.type = type;
+        this.timeToRemind = timeToRemind; // may be undefined at times
+        this.notes = notes;
+        this.timesPushed = timesPushed;
+        this.workRequestNumber = workRequestNumber; // may be undefined at times
+        this.popUp = popUp
+    }
+
+    compare(reminder) {
+        console.log("Entered - ReminderObject - compare(reminder)");
+
+        /* Checking WR number - may be undefined at times */
+        if (this.workRequestNumber != undefined && reminder.workRequest != undefined && this.workRequestNumber == reminder.workRequestNumber ||
+            this.workRequestNumber == undefined && reminder.workRequestNumber == undefined) {
+                        
+                /* Checking timeToRemind - may be undefined at times */
+                if (this.timeToRemind != undefined && reminder.timeToRemind != undefined && this.timeToRemind == reminder.timeToRemind ||
+                    this.timeToRemind == undefined && reminder.timeToRemind == undefined) {
+
+                        /* Checking Rest - except Notes */
+                        if (this.reminderID == reminder.reminderID && this.dateToRemind == reminder.dateToRemind && 
+                            this.occurence == reminder.occurence && this.location == reminder.location && 
+                            this.creationDate == reminder.creationDate && this.type == reminder.type &&
+                            this.timesPushed == reminder.timesPushed && this.popUp == reminder.popUp) {
+
+                                /* Checking Notes now */
+                            for (var i = 0; i < this.notes.length; i++) {
+                                if (this.notes[i] != reminder.notes[i]) {
+                                    return 0;
+                                }
+                            }
+
+                            /* Will only get here if every note for "this" is the same as for "reminder" (index sensitive) */
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    } else {
+                        return 0;
+                    }
+                 
+            } else {
+                return 0;
+            }
+    }
+
+    toString() {
+        console.log("Entered - ReminderObject - toString()");
+
+        let tempWorkRequestNumber = this.workRequestNumber;
+        if (tempWorkRequestNumber == undefined) {
+            tempWorkRequestNumber = "No Wr#";
+        }
+
+        let tempTimeToRemind = this.timeToRemind;
+        if (tempTimeToRemind == undefined) {
+            tempTimeToRemind = "No Time To Remind"
+        }
+
+        let str = "";
+
+        str += this.reminderID + "*" + this.dateToRemind + "*" + this.occurence + "*" + this.location + "*" + this.creationDate + "*" + 
+            this.type + "*" + tempTimeToRemind + "*";
+
+        for (var i = 0; i < this.notes.length; i++) {
+            str += this.notes[i] + "*";
+        }
+
+        str += "^EN^" + this.timesPushed + "*" + tempWorkRequestNumber + "*" + this.popUp + "@ER@";
+
+        return str;
+    }
+}
+
 class ReminderLocationDDMenu {
     constructor(location) {
         this.curOption = "Not Set";
@@ -6916,6 +7166,8 @@ async function mainEvent() {
     const addTabDisplayAddReminderNotesPrevButton = document.querySelector("#add_tab_display_add_reminder_page_prev_button");
     const addTabDisplayAddReminderOccurencesCheckboxOneTime = document.querySelector("#add_tab_display_add_reminder_occurences_checkbox_one_time");
     const addTabDisplayAddReminderOccurencesCheckboxOnceEvery = document.querySelector("#add_tab_display_add_reminder_occurences_checkbox_once_every");
+    const addTabDisplayAddReminderRowZeroCheckboxYes = document.querySelector("#add_tab_display_add_reminder_row_zero_checkbox_yes");
+    const addTabDisplayAddReminderRowZeroCheckboxNo = document.querySelector("#add_tab_display_add_reminder_row_zero_checkbox_no");
 
 
     /* To-Do's Tab */
@@ -7117,10 +7369,17 @@ async function mainEvent() {
     const rearLotAid = document.querySelector("#rear_lot_aid");
     const UGFacilitiesAid = document.querySelector("#ug_facilities_aid");
     const taxMapAid = document.querySelector("#tax_map_aid");
-    
+    const addReminderPopUpAid = document.querySelector("#add_reminder_pop_up_aid");
+
     /* taxMapAid */
     const taxMapAidXButton = document.querySelector("#tax_map_aid_pop_up_x_button");
     const taxMapAidGetButton = document.querySelector("#tax_map_aid_pop_up_get_button");
+
+    /* Add Reminder Aid */
+    const addReminderPopUpAidXButton = document.querySelector("#add_reminder_pop_up_aid_x_button");
+    const addReminderPopUpAidButtonYes = document.querySelector("#add_reminder_pop_up_aid_button_yes");
+    const addReminderPopUpAidButtonNo = document.querySelector("#add_reminder_pop_up_aid_button_no");
+
 
     /* Rear Lot Check and Existing UG Facilities Y/N */
     const rearLotCheckboxYes = document.querySelector("#rear_lot_checkbox_yes");
@@ -8767,6 +9026,8 @@ async function mainEvent() {
         document.getElementById("add_tab_display_add_reminder_times_pushed_box").value = "";
         document.getElementById("add_tab_display_add_reminder_comments_prev_next_container").classList.add("hidden");
         document.getElementById("add_tab_reminder_notes_to_add").classList.add("hidden");
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = true;
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = false;
 
 
         /* Will need to add more */
@@ -10034,6 +10295,34 @@ async function mainEvent() {
         console.log("Fired - Clicked taxMapAidGetButton");
 
         assessAddressInfoRPC();
+    })
+
+    /* Add Reminder - Pop-Up Aid */
+    addReminderPopUpAid.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addReminderPopUpAid");
+
+        document.getElementById("add_reminder_pop_up_aid_container").classList.remove("hidden");
+    })
+    addReminderPopUpAidXButton.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addReminderPopUpAidXButton");
+
+        document.getElementById("add_reminder_pop_up_aid_container").classList.add("hidden");
+    })
+    addReminderPopUpAidButtonYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addReminderPopUpAidButtonYes");
+
+        document.getElementById("add_reminder_pop_up_aid_container").classList.add("hidden");
+
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = true;
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = false;
+    })
+    addReminderPopUpAidButtonNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addReminderPopUpAidButtonNo");
+
+        document.getElementById("add_reminder_pop_up_aid_container").classList.add("hidden");
+
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = true;
+        document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = false;
     })
 
     /* TaxMap/GPIN/RPC */
@@ -19528,6 +19817,28 @@ async function mainEvent() {
         } else {
             document.getElementById("add_tab_display_add_reminder_occurences_checkbox_one_time").checked = false;
             document.getElementById("add_tab_display_add_reminder_occurences_checkbox_once_every").checked = true;
+        }
+    })
+    addTabDisplayAddReminderRowZeroCheckboxYes.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderRowZeroCheckboxYes");
+
+        if (document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked == false) {
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = true;
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = false;
+        } else {
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = false;
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = true;
+        }
+    })
+    addTabDisplayAddReminderRowZeroCheckboxNo.addEventListener("click", (event) => {
+        console.log("Fired - Clicked addTabDisplayAddReminderRowZeroCheckboxNo");
+
+        if (document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked == false) {
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = true;
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = false;
+        } else {
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_yes").checked = false;
+            document.getElementById("add_tab_display_add_reminder_row_zero_checkbox_no").checked = true;
         }
     })
 

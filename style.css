@@ -3588,15 +3588,41 @@ h5 {
 .addTabDisplayAddReminderRowZero {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .addTabDisplayAddReminderRowZeroContainer {
     display: flex;
     flex-direction: row;
-    width: 1115px;
+    width: 250px;
     justify-content: center;
     align-items: center;
     
+}
+
+.addTabDisplayAddReminderRowZeroBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.addTabDisplayAddReminderRowZeroBoxInputContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.addTabDisplayAddReminderRowZeroBoxInputContainerLabel {
+    font-size: large;
+}
+
+.addTabDisplayAddReminderRowZeroBoxInputCheckbox {
+    display: flex;
+    width: 25px;
+    height: 25px;
+    border: 2px solid black;
 }
 
 .addTabDisplayAddReminderTimesPushedBox {
@@ -3611,6 +3637,16 @@ h5 {
     display: flex;
     font-size: large;
     margin-left: -325px;
+}
+
+.addTabDisplayAddReminderRowZeroNumfieldLabelPopUp {
+    display: flex;
+    font-size: large;
+}
+
+.addTabDisplayAddReminderRowZeroNumfieldLabelTimesPushed {
+    display: flex;
+    font-size: large;
 }
 
 .addTabDisplayToDoRowZeroNumfield, .addTabDisplayAddReminderRowZeroNumfield {
@@ -4780,7 +4816,7 @@ h5 {
     }
     
     .importDataPopUpContainer, .rearLotCheckPopUpContainer, .existingUGFacilitiesPopUpContainer, .addTabROWResearchPopUpContainer, 
-        .taxMapAidPopUpContainer {
+        .taxMapAidPopUpContainer, .addReminderPopUpAidContainer {
         display: flex;
         flex-direction: column;
         z-index: 3;
@@ -4855,12 +4891,12 @@ h5 {
         padding-right: 15px;
     }
 
-    .rearLotCheckPopUpTextPrompt, .existingUGFacilitiesPopUpTextPrompt, .taxMapAidPopUpTextPrompt {
+    .rearLotCheckPopUpTextPrompt, .existingUGFacilitiesPopUpTextPrompt, .taxMapAidPopUpTextPrompt, .addReminderPopUpAidTextPrompt {
         margin-bottom: 20px;
         margin-top: -15px;
     }
     
-    .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton, .taxMapAidPopUpContainerXButton {
+    .rearLotCheckPopUpXButton, .existingUGFacilitiesPopUpXButton, .taxMapAidPopUpContainerXButton, .addReminderPopUpAidContainerXButton {
         display: flex;
         align-self: flex-start;
         margin-top: 10px;
@@ -4870,7 +4906,7 @@ h5 {
         justify-content: center;
     }
 
-    .rearLotCheckPopUpButton, .existingUGFacilitiesPopUpButton {
+    .rearLotCheckPopUpButton, .existingUGFacilitiesPopUpButton, .addReminderPopUpAidButton {
         display: flex;
         font-size: large;
         padding: 5px;
@@ -4883,12 +4919,29 @@ h5 {
         gap: 50px
     }
 
+    .addReminderPopUpAidYesNoContainer {
+        display: flex;
+        flex-direction: row;
+        gap: 50px
+    }
+
     .existingUGFacilitiesPopUpBox, .addTabROWResearchPopUpBox, .taxMapAidPopUpBox {
         display: flex;
         flex-direction: column;
         background-color: white;
         width: 450px;
         height: 200px;
+        margin-right: 100px;
+        align-items: center;
+        border: 1px solid black;
+    }
+
+    .addReminderPopUpAidBox {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        width: 400px;
+        height: 175px;
         margin-right: 100px;
         align-items: center;
         border: 1px solid black;

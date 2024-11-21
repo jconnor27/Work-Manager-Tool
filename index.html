@@ -1470,11 +1470,35 @@
                             <input type="number" class="addTabDisplayAddReminderRowZeroNumfield" id="add_tab_display_add_reminder_row_zero_numfield">
                         </div>
 
-                        <!-- Times Pushed -->
-                        <div class="addTabDisplayAddReminderRowZeroContainer" style="margin-top: 10px;">
-                            <label class="addTabDisplayAddReminderRowZeroNumfieldLabel">Number Of Times "Pushed"</label>
-                            <input type="number" class="addTabDisplayAddReminderTimesPushedBox" id="add_tab_display_add_reminder_times_pushed_box" disabled>
+                        <div class="addTabDisplayAddReminderRowZeroBox">
+                            
+                            <!-- Times Pushed -->
+                            <div class="addTabDisplayAddReminderRowZeroContainer" style="margin-top: 10px;">
+                                <label class="addTabDisplayAddReminderRowZeroNumfieldLabelTimesPushed">Number Of Times "Pushed"</label>
+                                <input type="number" class="addTabDisplayAddReminderTimesPushedBox" id="add_tab_display_add_reminder_times_pushed_box" disabled>
+                            </div>
+
+                            <!-- PopUp Box -->
+                            <div class="addTabDisplayAddReminderRowZeroContainer">
+                                <label class="addTabDisplayAddReminderRowZeroNumfieldLabelPopUp">Pop-Up?</label>
+                                
+                                <!-- Yes Container -->
+                                <div class="addTabDisplayAddReminderRowZeroBoxInputContainer">
+                                    <label class="addTabDisplayAddReminderRowZeroBoxInputContainerLabel">Y</label>
+                                    <input type="checkbox" class="addTabDisplayAddReminderRowZeroBoxInputCheckbox" id="add_tab_display_add_reminder_row_zero_checkbox_yes">
+                                </div>
+
+                                <!-- No Container -->
+                                <div class="addTabDisplayAddReminderRowZeroBoxInputContainer">
+                                    <label class="addTabDisplayAddReminderRowZeroBoxInputContainerLabel">N</label>
+                                    <input type="checkbox" class="addTabDisplayAddReminderRowZeroBoxInputCheckbox" id="add_tab_display_add_reminder_row_zero_checkbox_no">
+                                </div>
+
+                                <!-- Aid Checkmark -->
+                                <div class="aidQuestionMark" style="margin-left: 10px;" id="add_reminder_pop_up_aid">?</div>
+                            </div>
                         </div>
+                        
                         
                     </div>
 
@@ -2290,6 +2314,19 @@
                 <button type="button" class="taxMapAidPopUpGetButton" id="tax_map_aid_pop_up_get_button">GET</button>
             </div>
          </div>
+
+        <!-- Add Reminder Pop-Up Aid (Blue Questionmarl) -->
+        <div class="addReminderPopUpAidContainer " id="add_reminder_pop_up_aid_container">
+            <div class="addReminderPopUpAidBox">
+                <button type="button" class="addReminderPopUpAidContainerXButton" id="add_reminder_pop_up_aid_x_button">X</button>
+                <div class="addReminderPopUpAidTextPrompt">Do you want the reminder to</div>
+                <div class="addReminderPopUpAidTextPrompt">"Pop-Up" on its "Date To Remind"?</div>
+                <div class="addReminderPopUpAidYesNoContainer">
+                    <button type="button" class="addReminderPopUpAidButton" id="add_reminder_pop_up_aid_button_yes">Yes</button>
+                    <button type="button" class="addReminderPopUpAidButton" id="add_reminder_pop_up_aid_button_no">No</button>
+                </div>
+            </div>
+        </div>
 
     </div>
 
